@@ -6,7 +6,6 @@ export const products = [
     name: "Flax Hull Lignan (Single Jar)",
     description:
       "Original MCP-processed flax hull lignans (no chemical extraction). One jar lasts ~30 days (30 servings). Supports brain, prostate, digestive, and breast tissue; very high in antioxidants (ORAC 19,600). ~8% oil (≈55% ALA); ~110mg ALA per 2.5g serving; ~2.1g fiber and ~1.4g protein per scoop.",
-    // TODO: confirm price if different
     price: 39.00,
     image: "/images/flaxlignan-single-2025.jpg",
     stripePaymentLink: "https://buy.stripe.com/test_8x200j2r8aAugaM3iK7EQ01"
@@ -99,7 +98,7 @@ General Notes & FAQ (condensed):
 • Store brewed tea refrigerated; brew fresh every ~2 weeks.
 • We include dosing/brewing instructions with orders. Return policy: unopened within 30 days; damaged items replaced—contact customer service for RMA.`.trim(),
     price: 40.50,
-    image: "/images/Essiac3.png",
+    image: "/images/ESSIAC3.png",
     stripePaymentLink: "https://buy.stripe.com/REPLACE_essiac_tea"
   }
 ];
