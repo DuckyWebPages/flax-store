@@ -1,0 +1,21 @@
+---
+interface Props {
+  href?: string;
+  stripePaymentLink?: string;
+  label?: string;
+  class?: string;
+}
+const { href, stripePaymentLink, label = 'Buy Now', class: className = '' } = Astro.props;
+const link = href ?? stripePaymentLink ?? '';
+---
+{link ? (
+  <a href={link} rel="noopener noreferrer" class={className} style="
+    display:inline-block; text-decoration:none; border:1px solid #111827; padding:.6rem .9rem; border-radius:10px;">
+    {label}
+  </a>
+) : (
+  <button type="button" disabled class={className} style="
+    display:inline-block; border:1px solid #9ca3af; padding:.6rem .9rem; border-radius:10px; opacity:.6;">
+    {label}
+  </button>
+)}

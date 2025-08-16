@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import AddToCart from "../components/AddToCart";
+import AddToCart from "../components/AddToCart.astro";
+<AddToCart {...item} />
+
+
 import { products } from "../data/products";
 
 const title = "Flax Lignan Health — Shop";
