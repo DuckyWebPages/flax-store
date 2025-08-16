@@ -1,0 +1,40 @@
+---
+/** Minimal cart button for the header.
+ * Reads item count from localStorage KEY "flax_cart_v1" (matches your cart.ts).
+ * Usage: <CartButton /> or <CartButton href="/cart" />
+ */
+interface Props { href?: string; class?: string }
+const { href = "/cart", class: className = "" } = Astro.props;
+---
+
+<a href={href} class={`cart ${className}`} aria-label="View cart">
+  <!-- Simple cart icon -->
+  <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1 1 0 0 0 9 18h10v-2H9.42l.93-1.67h6.65a1 1 0 0 0 .9-.55L21 7H6.21L5.27 5H2V3h4a1 1 0 0 1 .9.55L8.24 6H21v2H8.53" fill="currentColor"/>
+  </svg>
+  <span class="badge" data-cart-count>0</span>
+</a>
+
+<style>
+  .cart { position: relative; display:inline-flex; align-items:center; gap:.4rem; color:#0f172a; text-decoration:none; }
+  .badge {
+    position: absolute; top:-6px; right:-8px;
+    min-width: 18px; height: 18px; padding:0 5px;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 12px; line-height: 1; color: #fff; background:#0f172a; border-radius: 999px;
+  }
+  .cart svg { display:block; }
+</style>
+
+<script>
+(function () {
+  try {
+    const KEY = "flax_cart_v1";
+    const el = document.querySelector('[data-cart-count]');
+    if (!el) return;
+    const items = JSON.parse(localStorage.getItem(KEY) || "[]");
+    const qty = Array.isArray(items) ? items.reduce((n, it) => n + (it?.qty || 0), 0) : 0;
+    el.textContent = String(qty);
+  } catch {}
+})();
+</script>
