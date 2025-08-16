@@ -1,0 +1,8 @@
+﻿---
+/** No-op provider so BaseLayout can wrap pages. */
+interface Props { class?: string }
+const { class: className = "" } = Astro.props;
+---
+<div class={className}>
+  <slot />
+</div>
