@@ -1,8 +1,9 @@
----
-import { CartProvider } from "../components/CartProvider";
-import CartButton from "../components/CartButton.astro";
 
-import CartDrawer from "../components/CartDrawer";
+---
+import CartProvider from "../components/CartProvider.astro";
+import CartButton from "../components/CartButton.astro";
+import CartDrawer from "../components/CartDrawer.astro";
+
 ---
 
 <html lang="en">
@@ -21,25 +22,26 @@ import CartDrawer from "../components/CartDrawer";
     </style>
   </head>
   <body>
-    <CartProvider client:load>
-      <header>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/#products">Products</a>
-        </nav>
-        <CartButton />
-      </header>
+   <CartProvider>
+  <header>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/products">Products</a>
+    </nav>
+    <CartButton />
+  </header>
 
-      <main>
-        <slot />
-      </main>
+  <main>
+    <slot />
+  </main>
 
-      <footer>
-        © {new Date().getFullYear()} Flax Lignan Health
-      </footer>
+  <footer>
+    © {new Date().getFullYear()} Flax Lignan Health
+  </footer>
 
-      <!-- Drawer is global, once per page -->
-      <CartDrawer />
-    </CartProvider>
+  <!-- Drawer is global, once per page -->
+  <CartDrawer />
+</CartProvider>
+
   </body>
 </html>
