@@ -1,0 +1,12 @@
+﻿---
+/** No-op cart drawer; replace with real UI later */
+interface Props { class?: string }
+const { class: className = "" } = Astro.props;
+---
+<aside class={className} aria-hidden="true" hidden>
+  <!-- Cart drawer placeholder -->
+</aside>
+
+<style>
+  aside { position: fixed; inset: 0; pointer-events: none; }
+</style>
