@@ -1,12 +1,57 @@
-﻿---
-/** No-op cart drawer; replace with real UI later */
-interface Props { class?: string }
-const { class: className = "" } = Astro.props;
----
-<aside class={className} aria-hidden="true" hidden>
-  <!-- Cart drawer placeholder -->
-</aside>
+﻿import React from "react";
+import { useCart } from "./CartProvider";
 
-<style>
-  aside { position: fixed; inset: 0; pointer-events: none; }
-</style>
+export default function CartDrawer() {
+  const { items, totalCents, setQty, remove, clear, open, setOpen } = useCart();
+
+  const checkout = () => {
+    alert("Checkout coming next. For now, the cart is client-side only.");
+  };
+
+  return (
+    <div style={{...overlay, pointerEvents: open ? "auto" : "none", opacity: open ? 1 : 0}}>
+      <div style={panel}>
+        <div style={hdr}>
+          <strong>Cart</strong>
+          <button onClick={() => setOpen(false)} style={xBtn}>✕</button>
+        </div>
+
+        {items.length === 0 ? (
+          <p>Your cart is empty.</p>
+        ) : (
+          <ul style={{ listStyle:"none", padding:0, margin:0 }}>
+            {items.map(i => (
+              <li key={i.id} style={row}>
+                {i.image ? <img src={i.image} alt={i.name} style={{ width:56, height:56, objectFit:"cover", borderRadius:8 }} /> : null}
+                <div style={{ flex:1, marginLeft:12 }}>
+                  <div style={{ fontWeight:600 }}>{i.name}</div>
+                  <div>${(i.unitCents/100).toFixed(2)}</div>
+                  <div style={{ marginTop:6 }}>
+                    <button onClick={() => setQty(i.id, Math.max(0, i.qty - 1))}>-</button>
+                    <span style={{ margin: "0 8px" }}>{i.qty}</span>
+                    <button onClick={() => setQty(i.id, i.qty + 1)}>+</button>
+                    <button onClick={() => remove(i.id)} style={{ marginLeft:12 }}>Remove</button>
+                  </div>
+                </div>
+                <div style={{ fontWeight:600 }}>${((i.unitCents*i.qty)/100).toFixed(2)}</div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div style={foot}>
+          <button onClick={clear} disabled={!items.length}>Clear</button>
+          <div style={{ marginLeft:"auto", fontWeight:700 }}>Total: ${ (totalCents/100).toFixed(2) }</div>
+          <button onClick={checkout} disabled={!items.length} style={checkoutBtn}>Checkout</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+const overlay: React.CSSProperties = { position:"fixed", inset:0, background:"rgba(0,0,0,.3)", transition:"opacity .2s ease", zIndex:1000 };
+const panel: React.CSSProperties = { position:"absolute", right:0, top:0, height:"100%", width:"360px", background:"#fff", padding:16, boxShadow:"-8px 0 24px rgba(0,0,0,.15)", display:"flex", flexDirection:"column" };
+const hdr: React.CSSProperties = { display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:8 };
+const xBtn: React.CSSProperties = { border:"none", background:"transparent", fontSize:20, cursor:"pointer" };
+const row: React.CSSProperties = { display:"flex", alignItems:"center", padding:"10px 0", borderBottom:"1px solid #eee" };
+const foot: React.CSSProperties = { display:"flex", alignItems:"center", gap:8, marginTop:"auto" };
+const checkoutBtn: React.CSSProperties = { marginLeft:12, padding: "8px 12px", background:"#111", color:"#fff", border:"none", borderRadius:8, cursor:"pointer" };

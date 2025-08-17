@@ -1,8 +1,49 @@
-﻿---
-/** No-op provider so BaseLayout can wrap pages. */
-interface Props { class?: string }
-const { class: className = "" } = Astro.props;
----
-<div class={className}>
-  <slot />
-</div>
+﻿import React, { createContext, useContext, useEffect, useState } from "react";
+import { Cart, type CartItem } from "../lib/cart";
+
+type Stored = ReturnType<typeof Cart.all>[number];
+type Ctx = {
+  items: Stored[];
+  count: number;
+  totalCents: number;
+  add: (item: CartItem, qty?: number) => void;
+  setQty: (id: string, qty: number) => void;
+  remove: (id: string) => void;
+  clear: () => void;
+  open: boolean;
+  setOpen: (v: boolean) => void;
+};
+const CartCtx = createContext<Ctx | null>(null);
+
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const [items, setItems] = useState<Stored[]>([]);
+  const [open, setOpen] = useState(false);
+
+  const sync = () => setItems(Cart.all());
+
+  useEffect(() => {
+    sync();
+    const h = () => sync();
+    window.addEventListener("cart:updated", h as EventListener);
+    return () => window.removeEventListener("cart:updated", h as EventListener);
+  }, []);
+
+  const value: Ctx = {
+    items,
+    count: items.reduce((n, i) => n + i.qty, 0),
+    totalCents: items.reduce((n, i) => n + i.qty * i.unitCents, 0),
+    add: (item, qty) => Cart.add(item, qty),
+    setQty: (id, qty) => Cart.setQty(id, qty),
+    remove: (id) => Cart.remove(id),
+    clear: () => Cart.clear(),
+    open,
+    setOpen,
+  };
+  return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
+}
+
+export const useCart = () => {
+  const ctx = useContext(CartCtx);
+  if (!ctx) throw new Error("useCart must be used inside <CartProvider>");
+  return ctx;
+};

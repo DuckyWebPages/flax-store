@@ -1,57 +1,12 @@
----
-/** Black "Buy Now" button component (Astro).
- * Props:
- * - href?: string
- * - stripePaymentLink?: string
- * - label?: string (default: "Buy Now")
- * - class?: string (optional extra classes)
- */
-interface Props {
-  href?: string;
-  stripePaymentLink?: string;
-  label?: string;
-  class?: string;
+import React from "react";
+import { useCart } from "./CartProvider";
+import type { CartItem } from "../lib/cart";
+
+export default function AddToCart(props: CartItem & { qty?: number }) {
+  const { add, setOpen } = useCart();
+  return (
+    <button onClick={() => { add(props, props.qty ?? 1); setOpen(true); }}>
+      Add to Cart
+    </button>
+  );
 }
-
-const { href, stripePaymentLink, label = "Buy Now", class: className = "" } = Astro.props;
-const link = href ?? stripePaymentLink ?? "";
-const isDisabled = !link;
----
-
-{!isDisabled ? (
-  <a
-    href={link}
-    rel="noopener noreferrer"
-    class={className}
-    style="
-      display:inline-block;
-      text-decoration:none;
-      background:#0f172a;       /* black */
-      color:#ffffff;            /* white text */
-      border:1px solid #0f172a; /* match bg */
-      padding:.65rem 1rem;
-      border-radius:10px;
-      font-weight:600;
-    "
-  >
-    {label}
-  </a>
-) : (
-  <button
-    type="button"
-    disabled
-    class={className}
-    style="
-      display:inline-block;
-      background:#9ca3af;
-      color:#ffffff;
-      border:1px solid #9ca3af;
-      padding:.65rem 1rem;
-      border-radius:10px;
-      opacity:.8;
-      font-weight:600;
-    "
-  >
-    {label}
-  </button>
-)}
