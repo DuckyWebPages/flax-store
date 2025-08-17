@@ -1,0 +1,13 @@
+import React from "react";
+import { useCart } from "./CartProvider";
+import type { CartItem } from "../lib/cart";
+
+export default function AddToCart(props: CartItem & { qty?: number }) {
+  const { add, setOpen } = useCart();
+  return (
+    <button onClick={() => { add(props, props.qty ?? 1); setOpen(true); }}>
+      Add to Cart
+    </button>
+  );
+}
+
