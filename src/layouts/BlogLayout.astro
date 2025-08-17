@@ -1,0 +1,49 @@
+---
+const { title, date, cover } = Astro.props;
+const pageTitle = title ? `${title} | Flax Lignan Health` : "Blog | Flax Lignan Health";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{pageTitle}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Fonts + global styles -->
+    <link rel="preload" href="/fonts/GENUINE.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="/global.css">
+  </head>
+
+  <body class="min-h-screen">
+    <!-- HEADER (same as other pages) -->
+    <header style="max-width:1100px;margin:1rem auto;padding:0 1rem;">
+      <div style="display:flex;align-items:center;gap:24px;justify-content:flex-start;">
+        <a href="/" class="logo-link" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
+          <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
+          <span class="logo-text">Flax Lignan Health</span>
+        </a>
+
+        <nav style="display:flex;gap:16px;">
+          <a href="/products">Products</a>
+          <a href="/blog">Blog</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- POST BODY -->
+    <main style="max-width:800px;margin:2rem auto;padding:0 1rem;">
+      {cover && (
+        <img src={cover} alt={title} style="width:100%;height:auto;border-radius:12px;display:block;margin-bottom:1rem;" />
+      )}
+      {title && <h1 class="products-title" style="margin-bottom:.25rem">{title}</h1>}
+      {date && (
+        <p style="margin:0 0 1.25rem 0;opacity:.7;">
+          {new Date(date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'2-digit' })}
+        </p>
+      )}
+
+      <article class="blog-content">
+        <slot />
+      </article>
+    </main>
+  </body>
+</html>
