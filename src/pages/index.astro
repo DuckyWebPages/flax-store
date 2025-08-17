@@ -3,6 +3,8 @@ const title = "Flax Lignan Health — Home";
 ---
 <html lang="en">
   <head>
+	<link rel="preload" href="/fonts/GENUINE.ttf" as="font" type="font/ttf" crossorigin>
+
     <meta charset="utf-8" />
     <title>{title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,7 +42,8 @@ const title = "Flax Lignan Health — Home";
   <div class="hero-overlay"></div>
 
   <div class="hero-content">
-    <h1>Flax Lignan Health</h1>
+    <h1 class="site-title">Flax Lignan Health</h1>
+
     <p>Your research-driven source for natural products promoting health, vitality and immune system support.</p>
 <p>Order online or call <a href="tel:+18177106918">817-710-6918</a> to speak to customer service.</p>
 
@@ -59,7 +62,40 @@ const title = "Flax Lignan Health — Home";
   @media (min-width: 900px) {
     .hero-content { text-align: left; }
   }
+<style>
+  @font-face {
+    font-family: 'Genuine';
+    src: url('/fonts/GENUINE.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Hero title */
+  h1.site-title {
+    font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  /* Nav links */
+  nav a {
+    font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-size: 1.05rem;         /* slightly larger for clarity */
+    font-weight: 400;           /* Genuine is bold enough by default */
+    letter-spacing: 0.02em;     /* opens up spacing for readability */
+    text-transform: uppercase;  /* optional: gives a clean, branded look */
+  }
+
+  nav a:hover {
+    opacity: 0.85;              /* subtle hover effect */
+  }
 </style>
+
+
+
 <!-- /HERO -->
 
 
