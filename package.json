@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "astro": "^5.13.2",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
     "stripe": "^18.4.0"
   },
   "devDependencies": {
     "@astrojs/react": "^4.3.0",
-    "@astrojs/vercel": "^8.2.6"
+    "@astrojs/vercel": "^8.2.6",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
