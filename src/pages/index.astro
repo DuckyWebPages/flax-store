@@ -1,26 +1,19 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import CartIsland from "../components/CartIsland";
-import { products } from "../data/products";
-
-const title = "Flax Lignan Health — Shop";
+const title = "Flax Lignan Health — Home";
 ---
-<BaseLayout>
-  <main>
-    <style>
-      :root { color-scheme: light; }
-      body { background:#f8fafc; color:#0f172a; }
-      main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 56px; }
-      .muted { font-size:12px; color:#64748b; }
-      h1 { margin: 0 0 8px; }
-    </style>
-
-    <h1>Flax Lignan Health</h1>
-    <p class="muted">Fast, static shop. Payments handled by Stripe.</p>
-
-    <h2 id="products">Products</h2>
-
-    <!-- One React island renders the whole grid + buttons so context is present -->
-    <CartIsland client:load products={products} />
-  </main>
-</BaseLayout>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body class="min-h-screen">
+    <main style="max-width:1100px;margin:2rem auto;padding:0 1rem;">
+      <h1 style="font-size:2rem;margin-bottom:0.5rem;">Flax Lignan Health</h1>
+      <p style="font-size:1.05rem;line-height:1.5;margin:0 0 1.25rem 0;">
+        Your research-driven source for products promoting health, vitality and immune system support. Order online or call 817-710-6918 to speak to customer service.
+      </p>
+      <p><a href="/products">Browse all products →</a></p>
+    </main>
+  </body>
+</html>
