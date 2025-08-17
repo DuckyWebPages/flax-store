@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CartIsland from "../components/CartIsland";
-import AddToCart from "../components/AddToCart";
 import { products } from "../data/products";
 
 const title = "Flax Lignan Health — Shop";
@@ -14,15 +13,6 @@ const title = "Flax Lignan Health — Shop";
       main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 56px; }
       .muted { font-size:12px; color:#64748b; }
       h1 { margin: 0 0 8px; }
-      .grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 16px; }
-      .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); display:flex; flex-direction:column; }
-      .img { width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px; background:#f1f5f9; }
-      .title { font-weight:700; margin:10px 0 4px; }
-      .desc { font-size:14px; color:#475569; }
-      .row { display:flex; align-items:center; justify-content:space-between; margin-top:10px; gap:10px; flex-wrap:wrap; }
-      .price { font-weight:800; }
-      .btns { display:flex; gap:8px; align-items:center; }
-      .buy { background:#000; color:#fff; padding:8px 12px; border-radius:8px; font-size:14px; text-decoration:none; }
     </style>
 
     <h1>Flax Lignan Health</h1>
@@ -30,31 +20,7 @@ const title = "Flax Lignan Health — Shop";
 
     <h2 id="products">Products</h2>
 
-    <!-- One React island providing cart context to all buttons below -->
-    <CartIsland client:load>
-      <div class="grid">
-        {products.map((p) => {
-          const unitCents = Math.round((p.price ?? 0) * 100);
-          const item = { id: p.id, name: p.name, unitCents, image: p.image };
-          return (
-            <article class="card">
-              <img class="img" src={p.image} alt={p.name} loading="lazy" />
-              <div class="title">{p.name}</div>
-              <div class="desc">{p.description}</div>
-              <div class="row">
-                <div class="price">${(p.price ?? 0).toFixed(2)}</div>
-                <div class="btns">
-                  <AddToCart {...item} />
-                  {p.stripePaymentLink
-                    ? <a class="buy" href={p.stripePaymentLink} rel="noopener noreferrer">Buy</a>
-                    : <span class="muted">Coming soon</span>}
-                </div>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </CartIsland>
+    <!-- One React island renders the whole grid + buttons so context is present -->
+    <CartIsland client:load products={products} />
   </main>
 </BaseLayout>
-
