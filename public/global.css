@@ -47,5 +47,14 @@ nav a:hover { opacity: 0.85; }
     margin-left: 0.25rem;   /* tiny space from the logo image */
   }
 }
+/* Products page main header */
+.products-title {
+  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+}
+
 
 
