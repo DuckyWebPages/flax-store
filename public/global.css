@@ -1,4 +1,8 @@
-@font-face {
+/* 1) Load Inter (thin/clean body font) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+/* 2) Brand headline font (Genuine) */
+@font-face { 
   font-family: 'Genuine';
   src: url('/fonts/GENUINE.ttf') format('truetype');
   font-weight: 400;
@@ -6,7 +10,21 @@
   font-display: swap;
 }
 
-/* Hero title */
+/* ---------- Site-wide body defaults ---------- */
+html, body {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 400;
+}
+p, li { line-height: 1.6; }
+
+/* Smaller / subtle text */
+small, .subtle, .muted, .fineprint {
+  font-size: 0.9rem;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+/* ---------- Home hero ---------- */
 h1.site-title {
   font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: clamp(2.2rem, 4.2vw, 3.2rem);
@@ -14,8 +32,12 @@ h1.site-title {
   letter-spacing: -0.01em;
   line-height: 1.1;
 }
+.hero p {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 300;
+}
 
-/* Logo text beside the image */
+/* ---------- Header / Nav ---------- */
 .logo-text {
   font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 1.2rem;
@@ -24,8 +46,6 @@ h1.site-title {
   color: inherit;
   display: inline-block;
 }
-
-/* Nav links */
 nav a {
   font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 1.05rem;
@@ -36,18 +56,17 @@ nav a {
   color: inherit;
 }
 nav a:hover { opacity: 0.85; }
-/* Hide logo text on small screens */
-.logo-text {
-  display: none;   /* default: hidden */
-}
 
+/* Hide logo text on small screens */
+.logo-text { display: none; }
 @media (min-width: 768px) {
   .logo-text {
-    display: inline-block;  /* show starting at tablet size */
-    margin-left: 0.25rem;   /* tiny space from the logo image */
+    display: inline-block;
+    margin-left: 0.25rem;
   }
 }
-/* Products page main header */
+
+/* ---------- Products page header ---------- */
 .products-title {
   font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 2rem;
@@ -56,5 +75,76 @@ nav a:hover { opacity: 0.85; }
   margin-bottom: 1rem;
 }
 
+/* ---------- Products grid body copy (inside React island) ---------- */
+/* Wrap your <ShopApp /> with <div class="shop-app-root"> ... </div> (see step 2) */
+.shop-app-root p,
+.shop-app-root li,
+.shop-app-root small,
+.shop-app-root .desc,
+.shop-app-root .fineprint,
+.shop-app-root .muted {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+  font-weight: 300;
+  line-height: 1.6;
+}
+/* Front-page BLOG UPDATE link uses Genuine */
+.blog-update {
+  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
 
+.blog-update:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+.blog-update {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+.blog-update:hover { text-decoration: underline; opacity: .95; }
+.blog-icon { width: 20px; height: 20px; display: inline-block; }
 
+/* Center the whole unit on the page */
+.blog-update-wrap {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* Bigger text and exact vertical centering to the icon */
+.blog-update {
+  display: inline-flex;
+  align-items: center;         /* centers text on flower vertically */
+  gap: 12px;
+  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-size: clamp(1.3rem, 2.8vw, 1.8rem);  /* bigger */
+  line-height: 1;                           /* tidy vertical alignment */
+  text-decoration: none;
+}
+.blog-update:hover { text-decoration: underline; opacity: .95; }
+
+/* Icon scales with the text and sits dead-center */
+.blog-icon {
+  width: 1.6em; 
+  height: 1.6em;
+  flex: 0 0 auto;
+  transform: translateY(0.02em); /* micro-adjust for optical centering */
+}
+
+/* Stacked version: flower on top, text centered under it */
+.blog-update--stacked {
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+.blog-update--stacked .blog-icon {
+  width: 2.2em;
+  height: 2.2em;
+}

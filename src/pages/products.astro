@@ -32,11 +32,12 @@ import ShopApp from "../components/ShopApp.tsx";
     </header>
 
     <main style="max-width:1100px;margin:2rem auto;padding:0 1rem;">
-      <h1 class="products-title">Products</h1>
+  <h1 class="products-title">Products</h1>
 
+  <div class="shop-app-root">
+    <ShopApp client:load products={products} />
+  </div>
+</main>
 
-      <!-- ONE React island that wraps grid with CartProvider -->
-      <ShopApp client:load products={products} />
-    </main>
   </body>
 </html>

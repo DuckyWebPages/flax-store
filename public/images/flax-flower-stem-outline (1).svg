@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72" role="img" aria-label="Flax flower">
+  <g fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- stem -->
+    <path d="M36 44 C 34 56, 28 62, 22 68" />
+    <!-- leaf left -->
+    <path d="M28 54 C 24 52, 20 54, 18 58 C 22 58, 26 56, 28 54 Z" />
+    <!-- leaf right -->
+    <path d="M34 50 C 38 48, 42 50, 44 54 C 40 54, 36 52, 34 50 Z" />
+    <!-- petals -->
+    <ellipse cx="36" cy="24" rx="10" ry="13" transform="rotate(0 36 30)"/>
+    <ellipse cx="36" cy="24" rx="10" ry="13" transform="rotate(72 36 30)"/>
+    <ellipse cx="36" cy="24" rx="10" ry="13" transform="rotate(144 36 30)"/>
+    <ellipse cx="36" cy="24" rx="10" ry="13" transform="rotate(216 36 30)"/>
+    <ellipse cx="36" cy="24" rx="10" ry="13" transform="rotate(288 36 30)"/>
+    <!-- center + stamen rays -->
+    <circle cx="36" cy="30" r="4" />
+    <g>
+      <line x1="36" y1="30" x2="36" y2="18"/>
+      <line x1="36" y1="30" x2="26" y2="24"/>
+      <line x1="36" y1="30" x2="46" y2="24"/>
+      <line x1="36" y1="30" x2="30" y2="39"/>
+      <line x1="36" y1="30" x2="42" y2="39"/>
+    </g>
+  </g>
+</svg>
