@@ -13,8 +13,25 @@ const fmt = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
     <title>Products | Flax Lignan Health</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
-  <body class="min-h-screen">
+    <body class="min-h-screen">
+
+    <!-- HEADER (logo + nav) -->
+    <header style="max-width:1100px;margin:1rem auto;padding:0 1rem;">
+      <div style="display:flex;align-items:center;gap:24px;justify-content:flex-start;">
+        <a href="/" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
+          <!-- Change to /images/logo.svg if you have an SVG -->
+          <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
+        </a>
+        <nav style="display:flex;gap:16px;font-weight:700;">
+          <a href="/">Home</a>
+          <a href="/products">Products</a>
+        </nav>
+      </div>
+    </header>
+    <!-- /HEADER -->
+
     <main style="max-width:1100px;margin:2rem auto;padding:0 1rem;">
+
       <h1 style="font-size:2rem;margin-bottom:1rem;">Products</h1>
 
       <div style="

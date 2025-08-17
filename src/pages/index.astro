@@ -6,12 +6,67 @@ const title = "Flax Lignan Health — Home";
     <meta charset="utf-8" />
     <title>{title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Flax Lignan Health: clean, research-driven lignans and detox support. Order online or call 817-710-6918." />
+
   </head>
   <body class="min-h-screen">
+   <header style="max-width:1100px;margin:1rem auto;padding:0 1rem;">
+  <div style="display:flex;align-items:center;gap:24px;justify-content:flex-start;">
+
+    <a href="/" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
+      <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
+    </a>
+    <nav style="display:flex;gap:16px;font-weight:700;">
+      <a href="/">Home</a>
+      <a href="/products">Products</a>
+    </nav>
+  </div>
+</header>
+
+
+
+
+<!-- HERO -->
+<section class="hero" aria-label="Flax Lignan Health">
+  <!-- Background image -->
+  <img
+    class="hero-bg"
+    src="/images/hero-1600.jpg"
+    alt=""
+    decoding="async"
+    fetchpriority="high"
+  />
+  <!-- Dark overlay for text contrast -->
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <h1>Flax Lignan Health</h1>
+    <p>Your research-driven source for products promoting health, vitality and immune system support.</p>
+<p>Order online or call <a href="tel:+18177106918">817-710-6918</a> to speak to customer service.</p>
+
+    <a class="hero-cta" href="/products">Shop Products</a>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; min-height: clamp(420px, 60vh, 680px); overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.4)); }
+  .hero-content { position: relative; z-index: 1; color: #fff; max-width: 1100px; margin: 0 auto; padding: 64px 16px; text-align: center; }
+  .hero h1 { margin: 0 0 .5rem 0; font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.01em; }
+  .hero p { margin: 0 0 1.25rem 0; font-size: clamp(1rem, 2.2vw, 1.2rem); opacity: .95; }
+  .hero-cta { display: inline-block; padding: .75rem 1.1rem; border-radius: 10px; text-decoration: none; font-weight: 700; background: #0f172a; color: #fff; border: 1px solid #0f172a; }
+  @media (min-width: 900px) {
+    .hero-content { text-align: left; }
+  }
+</style>
+<!-- /HERO -->
+
+
     <main style="max-width:1100px;margin:2rem auto;padding:0 1rem;">
-      <h1 style="font-size:2rem;margin-bottom:0.5rem;">Flax Lignan Health</h1>
+      <h2 style="font-size:2rem;margin-bottom:0.5rem;"></h2>
       <p style="font-size:1.05rem;line-height:1.5;margin:0 0 1.25rem 0;">
-        Your research-driven source for products promoting health, vitality and immune system support. Order online or call 817-710-6918 to speak to customer service.
+        
       </p>
       <p><a href="/products">Browse all products →</a></p>
     </main>
