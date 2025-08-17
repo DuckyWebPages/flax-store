@@ -148,3 +148,7 @@ nav a:hover { opacity: 0.85; }
   width: 2.2em;
   height: 2.2em;
 }
+/* Improve blog readability */
+.blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
+.blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
+.blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
