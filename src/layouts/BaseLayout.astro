@@ -1,31 +1,35 @@
 ---
-import { CartProvider } from "../components/CartProvider";
-import CartButton from "../components/CartButton";
-import CartDrawer from "../components/CartDrawer";
+/* NOTE: No React provider here anymore */
 ---
-
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title><slot name="title" />Flax Lignan Health</title>
+    <style>
+      body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#f8fafc; color:#0f172a; }
+      header, main, footer { max-width: 1100px; margin: 0 auto; }
+      header { padding: 12px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e5e7eb; }
+      nav a { color:#0f172a; text-decoration:none; margin-right:14px; font-weight:600; }
+      main { padding: 24px 16px 56px; }
+      footer { padding: 16px; color:#64748b; }
+    </style>
   </head>
   <body>
-    <CartProvider client:load>
-      <header style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #ddd;">
-        <nav>
-          <a href="/">Home</a>
-          <a href="/#products">Products</a>
-        </nav>
-        <CartButton />
-      </header>
+    <header>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/#products">Products</a>
+      </nav>
+      <!-- Cart button will come from CartIsland inside pages -->
+    </header>
 
-      <main>
-        <slot />
-      </main>
+    <main>
+      <slot />
+    </main>
 
-      <CartDrawer />
-    </CartProvider>
+    <footer>
+      © {new Date().getFullYear()} Flax Lignan Health
+    </footer>
   </body>
 </html>
-
