@@ -33,20 +33,16 @@ export const products = [
     stripePaymentLink: "https://buy.stripe.com/test_dRm28r4zg4c64s4bPg7EQ02",
   },
 
-  // === NEW PRODUCT INSERTED HERE ===
-    {
+  // --- Flax Subscription ---
+  {
     id: "flax-subscription",
     name: "Flax Hull Lignan Monthly Subscription",
     description:
       "Want to have an automatic supply of Flax Hull Lignans? Subscribe to receive your order monthly automatically.",
--   price: 37.00,
--   image: "/images/public/images/12jars0001.jpg",
-+   price: 37.0,
-+   image: "/images/12jars0001.jpg",
-    stripePaymentLink: "https://buy.stripe.com/test_8x2cN50j07oie2E3iK7EQ04"
+    price: 37.0,
+    image: "/images/12jars0001.jpg",
+    stripePaymentLink: "https://buy.stripe.com/test_8x2cN50j07oie2E3iK7EQ04",
   },
-
-  // === END NEW PRODUCT ===
 
   // --- Ancient Seeds & Grains Certified Line ---
   {
@@ -65,7 +61,6 @@ export const products = [
       "Save when you purchase three jars (save $1 per jar). Ancient Seeds & Grains Certified (no GMOs). Manufacturer avoids GMO sources for commercial lignans too, but only this line is explicitly purchased as Non-GMO.",
     price: 132.0,
     image: "/images/ancientseeds-3jars-2025.jpg",
-    // Use a separate Payment Link for the bundle:
     stripePaymentLink: "https://buy.stripe.com/test_28EfZhe9QcIC4s4bPg7EQ05",
   },
 
@@ -100,7 +95,7 @@ export const products = [
     stripePaymentLink: "https://buy.stripe.com/test_7sY14n4zg8sm3o08D47EQ08",
   },
 
-  // --- Essiac Tea (with optional longDescription) ---
+  // --- Essiac Tea ---
   {
     id: "essiac",
     name: "Essiac Tea (Eight-Herb, True Recipe)",
@@ -133,7 +128,7 @@ General Notes & FAQ (condensed):
 • Store brewed tea refrigerated; brew fresh every ~2 weeks.
 • We include dosing/brewing instructions with orders. Return policy: unopened within 30 days; damaged items replaced—contact customer service for RMA.`.trim(),
     price: 40.5,
-    image: "/images/ESSIAC3.png", // make sure this file exists in /public/images (case-sensitive)
+    image: "/images/ESSIAC3.png", // case-sensitive
     stripePaymentLink: "https://buy.stripe.com/test_6oU3cv5DkcICgaM06y7EQ09",
   },
 ];
