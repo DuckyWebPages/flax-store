@@ -7,6 +7,9 @@ import ShopApp from "../components/ShopApp.tsx";
 
 <html lang="en">
   <head>
+    <link rel="preload" href="/fonts/GENUINE.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/global.css">
+
     <meta charset="utf-8" />
     <title>Products | Flax Lignan Health</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,10 +19,13 @@ import ShopApp from "../components/ShopApp.tsx";
     <!-- HEADER (logo + nav) -->
     <header style="max-width:1100px;margin:1rem auto;padding:0 1rem;">
       <div style="display:flex;align-items:center;gap:24px;justify-content:flex-start;">
-        <a href="/" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
-          <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
-        </a>
-        <nav style="display:flex;gap:16px;font-weight:700;">
+        <a href="/" class="logo-link" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
+  <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
+  <span class="logo-text">Flax Lignan Health</span>
+</a>
+
+       <nav style="display:flex;gap:16px;">
+
           <a href="/">Home</a>
           <a href="/products">Products</a>
         </nav>
