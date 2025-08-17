@@ -32,21 +32,42 @@ const fmt = (n: number) => n.toLocaleString("en-US", { style: "currency", curren
                 {p.description}
               </p>
 
-              {
-                p.stripePaymentLink ? (
-                  <a href={p.stripePaymentLink} rel="noopener noreferrer" style="
-                    display:inline-block;
-                    text-decoration:none;
-                    border:1px solid #111827;
-                    padding:.6rem .9rem;
-                    border-radius:10px;
-                  ">
-                    Buy Now
-                  </a>
-                ) : (
-                  <span style="opacity:.7;">Coming soon</span>
-                )
-              }
+             {
+  p.stripePaymentLink?.startsWith("https://buy.stripe.com/")
+    ? (
+      <a
+        href={p.stripePaymentLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        style="
+          display:inline-block;
+          text-decoration:none;
+          border:1px solid #111827;
+          padding:.6rem .9rem;
+          border-radius:10px;
+        "
+      >
+        Buy Now
+      </a>
+    )
+    : (
+      <button
+        disabled
+        title="Checkout link missing or invalid"
+        style="
+          opacity:.6;
+          cursor:not-allowed;
+          border:1px solid #cbd5e1;
+          padding:.6rem .9rem;
+          border-radius:10px;
+          background:#f1f5f9;
+        "
+      >
+        Coming soon
+      </button>
+    )
+}
+
             </div>
           </article>
         ))}

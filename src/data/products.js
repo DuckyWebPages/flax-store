@@ -1,73 +1,108 @@
 // src/data/products.js
 
+/** @typedef {{
+ *   id: string;
+ *   name: string;
+ *   description: string;
+ *   longDescription?: string;
+ *   price: number;              // display only; Stripe handles the real price
+ *   image: string;              // must exist under /public/images (case-sensitive on Vercel)
+ *   stripePaymentLink?: string; // https://buy.stripe.com/test_xxx (test) or https://buy.stripe.com/xxx (live)
+ * }} Product */
+
+/** @type {Product[]} */
 export const products = [
   // --- Flax Hull Lignans (Standard) ---
   {
+    id: "flax-single",
     name: "Flax Hull Lignan (Single Jar)",
     description:
       "Original MCP-processed flax hull lignans (no chemical extraction). One jar lasts ~30 days (30 servings). Supports brain, prostate, digestive, and breast tissue; very high in antioxidants (ORAC 19,600). ~8% oil (≈55% ALA); ~110mg ALA per 2.5g serving; ~2.1g fiber and ~1.4g protein per scoop.",
-    price: 39.00,
+    price: 39.0,
     image: "/images/flaxlignan-single-2025.jpg",
-    stripePaymentLink: "https://buy.stripe.com/test_8x200j2r8aAugaM3iK7EQ01"
+    stripePaymentLink: "https://buy.stripe.com/test_8x200j2r8aAugaM3iK7EQ01",
   },
 
   {
+    id: "flax-3pack",
     name: "Flax Hull Lignan (3 jar bundle)",
     description:
       "Save with 3 jars at $37.50 each. One jar lasts ~30 days (30 servings). Extracted via the MCP Process (no chemicals). Supports brain, prostate, digestive and breast tissue; very high in antioxidants (ORAC 19,600). ~8% oil (≈55% ALA); ~110mg ALA per 2.5g serving; ~2.1g fiber and ~1.4g protein per scoop.",
-    price: 112.50,
+    price: 112.5,
     image: "/images/flaxlignans-3jars-2025.jpg",
-    stripePaymentLink: "https://buy.stripe.com/REPLACE_fhl_3jar_bundle"
+    stripePaymentLink: "https://buy.stripe.com/test_dRm28r4zg4c64s4bPg7EQ02",
   },
+
+  // === NEW PRODUCT INSERTED HERE ===
+    {
+    id: "flax-subscription",
+    name: "Flax Hull Lignan Monthly Subscription",
+    description:
+      "Want to have an automatic supply of Flax Hull Lignans? Subscribe to receive your order monthly automatically.",
+-   price: 37.00,
+-   image: "/images/public/images/12jars0001.jpg",
++   price: 37.0,
++   image: "/images/12jars0001.jpg",
+    stripePaymentLink: "https://buy.stripe.com/test_8x2cN50j07oie2E3iK7EQ04"
+  },
+
+  // === END NEW PRODUCT ===
 
   // --- Ancient Seeds & Grains Certified Line ---
   {
+    id: "ancient-single",
     name: "FHL Flax Hull Lignans (Ancient Seeds & Grains Certified)",
     description:
       "MCP-processed, highest-grade lignans from Ancient Seeds & Grains Certified flax (no GMO flax). A stricter standard than typical organic (which can allow up to 8% GMO cross-pollination).",
-    price: 45.00,
+    price: 45.0,
     image: "/images/ancientseeds-sideshot-1jar-2025.jpg",
-    stripePaymentLink: "https://buy.stripe.com/REPLACE_fhl_ancient_single"
+    stripePaymentLink: "https://buy.stripe.com/test_eVqcN56Ho9wq8Ikg5w7EQ03",
   },
   {
+    id: "ancient-3pack",
     name: "FHL Flax Hull Lignans (Ancient Seeds & Grains Certified) — 3 Jar Bundle",
     description:
       "Save when you purchase three jars (save $1 per jar). Ancient Seeds & Grains Certified (no GMOs). Manufacturer avoids GMO sources for commercial lignans too, but only this line is explicitly purchased as Non-GMO.",
-    price: 132.00,
+    price: 132.0,
     image: "/images/ancientseeds-3jars-2025.jpg",
-    stripePaymentLink: "https://buy.stripe.com/REPLACE_fhl_ancient_3jar"
+    // Use a separate Payment Link for the bundle:
+    stripePaymentLink: "https://buy.stripe.com/test_28EfZhe9QcIC4s4bPg7EQ05",
   },
 
   // --- Aftershot Zeolite ---
   {
+    id: "aftershot-single",
     name: "Aftershot Micronized Zeolite — Natural Chelation & Detoxifier",
     description:
       "Micronized, cleansed zeolite paired with humic/fulvic acids for systemic detox support. Negatively charged, cage-like structure binds positively charged toxins (mercury first, then lead, etc.) and escorts them out via urine. Also captures free radicals within the cage.",
     price: 19.99,
     image: "/images/aftershot-single-2025.jpg",
-    stripePaymentLink: "https://buy.stripe.com/REPLACE_aftershot_single"
+    stripePaymentLink: "https://buy.stripe.com/test_eVq14n3vc5ga2jW9H87EQ06",
   },
   {
+    id: "aftershot-3pack",
     name: "Aftershot 3-Pack — Natural Chelation & Detoxifier",
     description:
       "Three-bottle value bundle. Same micronized zeolite + humic/fulvic pairing designed for circulation (not just the gut). Binds toxic metals and residues; captures free radicals for safe elimination.",
     price: 49.99,
-    image: "/images/Aftershot3.png",
-    stripePaymentLink: "https://buy.stripe.com/REPLACE_aftershot_3pack"
+    image: "/images/Aftershot3.png", // case-sensitive; file exists as 'Aftershot3.png'
+    stripePaymentLink: "https://buy.stripe.com/test_aFa8wP2r8dMG1fS9H87EQ07",
   },
 
   // --- Ocean Cleanse ---
   {
+    id: "ocean-cleanse",
     name: "Ocean Cleanse — Detoxification & Radiation Removal (90 capsules)",
     description:
       "Concentrated brown seaweed extract (originally developed to help Chernobyl victims). May support immune function, thyroid health (organic iodine), healthy blood sugar and weight (fucoxanthin 10 mg/cap), cardiovascular health (laminarin), and binding of heavy metals/radioactive elements (alginate).",
     price: 34.95,
     image: "/images/ocean-cleanse-single-2025.jpg",
-    stripePaymentLink: "https://buy.stripe.com/REPLACE_ocean_cleanse"
+    stripePaymentLink: "https://buy.stripe.com/test_7sY14n4zg8sm3o08D47EQ08",
   },
 
-  // --- Essiac Tea (with expandable longDescription) ---
+  // --- Essiac Tea (with optional longDescription) ---
   {
+    id: "essiac",
     name: "Essiac Tea (Eight-Herb, True Recipe)",
     description:
       "The eight-herb recipe endorsed through Dr. Charles Brusch’s lineage (not the common four-herb version). Powdered organic herbs for a more potent brew.",
@@ -97,8 +132,8 @@ General Notes & FAQ (condensed):
 • Use organic powdered herbs to maximize surface area/potency; do NOT strain.
 • Store brewed tea refrigerated; brew fresh every ~2 weeks.
 • We include dosing/brewing instructions with orders. Return policy: unopened within 30 days; damaged items replaced—contact customer service for RMA.`.trim(),
-    price: 40.50,
-    image: "/images/ESSIAC3.png",
-    stripePaymentLink: "https://buy.stripe.com/REPLACE_essiac_tea"
-  }
+    price: 40.5,
+    image: "/images/ESSIAC3.png", // make sure this file exists in /public/images (case-sensitive)
+    stripePaymentLink: "https://buy.stripe.com/test_6oU3cv5DkcICgaM06y7EQ09",
+  },
 ];
