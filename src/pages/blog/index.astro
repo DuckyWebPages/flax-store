@@ -1,21 +1,15 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "Flax Lignan Health — Home";
 ---
 
 <BaseLayout>
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-bg" role="img" aria-label="Healthy flax and natural products background"></div>
-
-    <!-- Left vertical quick-action buttons -->
-    <nav class="quick-actions" aria-label="Quick actions">
-      <a href="/products" class="qa-btn">Shop</a>
-      <a href="https://wa.me/18177106918" class="qa-btn" target="_blank" rel="noopener">Whatsapp</a>
-      <a href="/blog" class="qa-btn">Blog</a>
-    </nav>
+  <section class="hero" aria-label="Flax Lignan Health hero">
+    <!-- Background image -->
+    <img class="hero-bg" src="/images/hero-1600.jpg?v=13" alt="" />
 
     <div class="hero-inner">
+      <!-- Tagline card -->
       <div class="hero-card">
         <h1 class="site-title">Flax Lignan Health</h1>
         <p>
@@ -23,139 +17,143 @@ const title = "Flax Lignan Health — Home";
           <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
         </p>
       </div>
+
+      <!-- Buttons: these will render directly UNDER the card -->
+      <nav class="hero-actions" aria-label="Quick actions">
+        <a href="/products" class="btn-hero">Shop</a>
+        <a href="https://wa.me/18177106918" class="btn-hero" target="_blank" rel="noopener">Whatsapp</a>
+        <a href="/blog" class="btn-hero">Blog</a>
+      </nav>
     </div>
   </section>
 
-  <!-- Blog Update (with flax flower image) -->
+  <!-- Optional promo below hero -->
   <div class="blog-update-wrap">
     <a href="/blog" class="blog-update">
-      <img class="blog-icon" src="/images/flax-flower.png" alt="Flax flower" />
+      <img class="blog-icon" src="/images/flax-flower.png" alt="" />
       <span>Read our latest blog update</span>
     </a>
   </div>
 
   <style>
-    /* ===== HERO ===== */
-    .hero {
-      position: relative;
-      isolation: isolate;
-      min-height: clamp(380px, 60vh, 620px);
-      display: grid;
-      align-items: start;                /* move content higher */
-      padding: 64px 16px 48px;
+    /* ===== KILL any layout that might re-center the hero ===== */
+    .hero { 
+      display: block !important;        /* ensure no grid/flex centering from elsewhere */
+      position: relative; isolation: isolate;
+      min-height: clamp(420px, 62vh, 680px);
+      padding: 56px 16px 56px;          /* normal bottom padding (not pinned anymore) */
       border-bottom: 1px solid #e5e7eb;
-    }
-    .hero::before { content: none !important; } /* kill any old overlay */
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      /* remove dark gradient overlay; cache-bust image */
-      background-image: url('/images/hero-1600.jpg?v=8');
-      background-size: cover;
-      background-position: center;
-      z-index: -1;
-    }
-    .hero-inner {
-      max-width: 1100px;
-      width: 100%;
-      margin: 0 auto;
-    }
-    .hero-card {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.6);
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      border-radius: 12px;
-      padding: 14px 18px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.1);
+      overflow: hidden;
     }
 
-    /* ===== single source of truth for hero text (beats global.css) ===== */
-    .hero h1.site-title {
-      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    .hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Stack the card THEN the buttons */
+    .hero-inner {
+      position: relative;
+      max-width: 1100px; margin: 0 auto;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;  /* left align */
+      gap: 12px !important;                /* space between card and buttons */
+      z-index: 1;
+    }
+
+    .hero-card {
+      display: inline-block;
+      max-width: 760px;
+      background: rgba(255,255,255,0.62);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.10);
+    }
+
+    .hero .site-title {
+      font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       font-size: clamp(2.2rem, 4.2vw, 3.2rem);
       font-weight: 700;
       letter-spacing: -0.01em;
       line-height: 1.1;
       color: #000;
       text-shadow: none;
+      margin: 0 0 .25rem 0;
     }
     .hero .hero-card p {
-      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 300;
-      line-height: 1.6;
+      font-family: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-weight: 300; line-height: 1.6;
       font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem);
-      color: #000;
-      max-width: 720px;
-      margin-top: .6rem;
-      text-shadow: none;
+      color: #000; margin: .5rem 0 0 0; max-width: 720px;
     }
     .hero .hero-card p a { color: inherit; text-decoration: underline; }
 
-    /* ===== Left vertical buttons — black pill style ===== */
-    .quick-actions {
-      position: absolute;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 5;
-    }
-    .qa-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 16px;
-      border-radius: 999px;            /* pill */
-      background: #111827;             /* black */
-      color: #fff;
-      border: 1px solid #111827;
-      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 600;
-      line-height: 1;
-      text-decoration: none;
-      box-shadow: 0 4px 14px rgba(0,0,0,.08);
-      transition: transform .08s ease, opacity .15s ease, background-color .15s ease, border-color .15s ease;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      white-space: nowrap;
-    }
-    .qa-btn:hover { opacity: .9; }
-    .qa-btn:active { transform: translateY(1px); }
+    /* ===== BUTTONS — flow under the card (NOT absolute) ===== */
+    .hero-actions {
+      position: static !important;    /* stop overlaying */
+      left: auto !important;
+      bottom: auto !important;
+      transform: none !important;
 
+      display: flex; gap: 12px; flex-wrap: wrap;
+      justify-content: flex-start;    /* left align with the card */
+      width: auto; 
+      margin-top: 4px;
+      z-index: 1;
+    }
+
+    /* Button look + hard size overrides (stay small) */
+    .hero .hero-actions a,
+    .hero .hero-actions .btn-hero {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      width: auto !important;
+      min-width: 120px !important;
+      height: auto !important;
+
+      padding: 10px 16px !important;
+      margin: 0 !important;
+      font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      text-decoration: none !important;
+
+      color: #fff !important;
+      background: #111827 !important;
+      border: 0 !important;
+      border-radius: 9999px !important;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18) !important;
+      user-select: none; -webkit-tap-highlight-color: transparent; white-space: nowrap;
+    }
+    .hero .hero-actions a:hover { opacity: .92 !important; transform: translateY(-1px); }
+
+    /* ===== MOBILE ===== */
     @media (max-width: 768px) {
-      .quick-actions { display: none; }
-      .hero { padding: 36px 16px; }
-      .hero-card { padding: 12px 14px; border-radius: 10px; }
+      .hero { padding: 36px 16px 48px !important; }
+      .hero-card { padding: 12px 14px; border-radius: 12px; }
+      .hero .hero-actions { flex-direction: column; }
+      .hero .hero-actions a { width: 100% !important; padding: 12px 16px !important; }
     }
 
     /* ===== BLOG UPDATE ===== */
     .blog-update-wrap { text-align: center; margin: 2rem 0; }
     .blog-update {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      font-size: clamp(1.3rem, 2.8vw, 1.8rem);
-      line-height: 1;
-      text-decoration: none;
-      color: inherit;
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-weight: 600; letter-spacing: 0.02em;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      line-height: 1; color: inherit; text-decoration: none;
     }
     .blog-update:hover { text-decoration: underline; opacity: .95; }
-    .blog-icon {
-      width: 1.6em;
-      height: 1.6em;
-      display: inline-block;
-      flex: 0 0 auto;
-      object-fit: contain;
-      transform: translateY(0.02em);
-    }
+    .blog-icon { width: 1.6em; height: 1.6em; object-fit: contain; transform: translateY(0.02em); }
 
-    /* remove any accidental Products heading on this page */
-    .products-title { display: none !important; }
+    /* Safety: if any old hero overlays exist elsewhere, neutralize them */
+    .hero::before { content: none !important; }
+    .hero-cta, .quick-actions { display: none !important; } /* hide old/duplicate button rows if present */
   </style>
 </BaseLayout>
