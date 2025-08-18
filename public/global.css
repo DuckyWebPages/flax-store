@@ -1,111 +1,72 @@
-/* ---------- Site-wide typography ---------- */
-html, body {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 400;
+/* ===========================
+   HERO LAYOUT
+   =========================== */
+.hero { position: relative; min-height: 520px; overflow: hidden; }
+.hero-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
 }
-p, li { line-height: 1.6; }
-
-small, .subtle, .muted, .fineprint {
-  font-size: 0.9rem;
-  font-weight: 300;
-  opacity: 0.9;
+.hero-inner {
+  position: relative;
+  max-width: 1100px; margin: 0 auto;
+  padding: 56px 16px 112px; /* room so the card never collides with actions */
+  z-index: 1; /* sits above the image */
 }
-
-/* Headings use Source Sans 3 (fonts are linked in BaseLayout) */
-h1, h2, h3, h4, .products-title, .site-title, .brand-title {
-  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-}
-h1, .site-title { font-weight: 700; }
-h2, .products-title { font-weight: 700; }
-h3, h4 { font-weight: 600; }
-
-/* ---------- Header / Nav ---------- */
-nav a {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: inherit;
-}
-nav a:hover { opacity: 0.85; }
-
-/* Optional logo text */
-.logo-text {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  color: black;
-  display: inline-block;
-}
-.logo-text { display: none; } /* keep hidden by default */
-@media (min-width: 768px) {
-  .logo-text { display: inline-block; margin-left: 0.25rem; }
+.hero-card {
+  max-width: 760px;
+  background: rgba(255,255,255,0.82);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-radius: 16px;
+  padding: 24px;
 }
 
-/* ---------- Products section heading (shared) ---------- */
-.products-title {
-  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 1rem;
+/* ===========================
+   BUTTON STRIP AT BOTTOM OF HERO
+   =========================== */
+.hero-actions {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: 24px;
+  display: flex; gap: 12px; flex-wrap: wrap;
+  justify-content: center;
+  width: calc(100% - 32px); /* keeps padding off the edges on mobile */
+  z-index: 2;
 }
 
-/* ---------- React shop island body copy ---------- */
-.shop-app-root p,
-.shop-app-root li,
-.shop-app-root small,
-.shop-app-root .desc,
-.shop-app-root .fineprint,
-.shop-app-root .muted {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
-  font-weight: 300;
-  line-height: 1.6;
-}
-
-/* ---------- Blog update link ---------- */
-.blog-update {
+/* HERO BUTTONS (scoped + overrides any global .btn rules) */
+.btn-hero {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+  justify-content: center;
+
+  /* Size — force smaller pills even if a global .btn sets big sizes */
+  width: auto !important;
+  min-width: 120px;
+  padding: 10px 16px !important;
+  font-size: 16px !important;
+  font-weight: 700;
   line-height: 1;
-  text-decoration: none;
-  color: inherit;
+  text-decoration: none !important;
+
+  /* Look */
+  color: #fff !important;
+  background: #121212;
+  border-radius: 9999px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  transition: transform .05s ease, opacity .15s ease;
+  border: 0;
 }
-.blog-update:hover { text-decoration: underline; opacity: .95; }
-.blog-icon { width: 1.6em; height: 1.6em; display: inline-block; }
+.btn-hero:hover { opacity: .92; transform: translateY(-1px); }
 
-/* Center the unit on the page */
-.blog-update-wrap { text-align: center; margin: 1rem 0; }
+/* Make sure no global rules make these full-width blocks */
+.hero-actions .btn-hero { flex: 0 0 auto; }
 
-/* Blog content readability */
-.blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
-.blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
-.blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
-
-/* ---------- Final safeguards ---------- */
-/* Ensure no legacy overlay appears over the hero */
-.hero::before { content: none !important; }
-
-/* Force Inter on nav no matter load order */
-header nav a,
-header .nav a,
-.site-header nav a,
-nav.primary a,
-nav a {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: inherit;
+/* ===========================
+   MOBILE
+   =========================== */
+@media (max-width: 640px) {
+  .hero { min-height: 500px; }
+  .hero-actions { bottom: 16px; flex-direction: column; }
+  .btn-hero { width: 100% !important; padding: 12px 16px !important; }
 }
