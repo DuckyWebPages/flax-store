@@ -1,10 +1,6 @@
-// astro.config.mjs
-import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
-import vercel from '@astrojs/vercel/serverless'; // needed for /api/checkout
-
+import vercel from "@astrojs/vercel";
 export default defineConfig({
-  output: 'server',      // API routes require server output
-  adapter: vercel(),
-  integrations: [react()],
+  output: "server",
+  adapter: vercel({ runtime: "nodejs18.x" }), // or simply vercel()
 });
+
