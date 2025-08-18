@@ -304,5 +304,46 @@ const title = "Flax Lignan Health — Home";
 
     /* Hide any stray Products heading on this page */
     .products-title { display: none !important; }
+    /* force buttons UNDER the text */
+.hero .hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.hero .quick-actions {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  margin-top: 14px;
+  z-index: auto !important;
+}
+
+/* make sure buttons aren’t constrained like icons */
+.qa-btn { width: auto !important; height: auto !important; }
+
+/* remove the old CTA row if it still exists */
+.hero-cta { display: none !important; }
+
+/* make the hero text black and readable */
+.hero h1.site-title,
+.hero .hero-card p { color: #000 !important; text-shadow: none !important; }
+
+/* ensure the blurred panel shows (if your markup has .hero-card) */
+.hero-card {
+  background: rgba(255,255,255,0.6) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* remove any dark overlay/gradient on the hero image */
+.hero-bg {
+  background-image: url('/images/hero-1600.jpg?v=11') !important;
+}
+
+/* hide stray Products heading on this page */
+.products-title { display: none !important; }
+
   </style>
 </BaseLayout>
