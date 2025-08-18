@@ -1,0 +1,49 @@
+---
+const links = [
+  { href: '/',        label: 'Home',       active: Astro.url.pathname === '/' },
+  { href: '/products',label: 'Products',   active: Astro.url.pathname.startsWith('/products') },
+  { href: '/blog/',   label: 'Blog',       active: Astro.url.pathname.startsWith('/blog') },
+  { href: '/contact', label: 'Contact Us', active: Astro.url.pathname === '/contact' },
+];
+---
+
+<header class="safe-header" role="banner">
+  <div class="container">
+    <a href="/" class="logo">Flax Lignan Health</a>
+
+    <nav class="main-nav" aria-label="Main">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class={'nav-link' + (l.active ? ' is-active' : '')}
+          aria-current={l.active ? 'page' : undefined}
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <style>
+    .safe-header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 2147483647; /* sit above EVERYTHING */
+      background: #fff; border-bottom: 1px solid #e5e7eb;
+    }
+    .container {
+      max-width: 1100px; margin: 0 auto;
+      padding: 10px 16px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-family: 'Source Sans 3', Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; font-weight: 800; color: #0f172a; text-decoration: none; }
+    .main-nav { display: flex; gap: 16px; align-items: center; }
+    .nav-link {
+      position: relative; z-index: 1; /* ensure link itself is clickable */
+      pointer-events: auto;
+      color: #0f172a; text-decoration: none; font-weight: 600; letter-spacing: .02em;
+      padding: 6px 8px; border-radius: 8px;
+    }
+    .nav-link:hover { background: #f3f4f6; }
+    .nav-link.is-active { text-decoration: underline; }
+  </style>
+</header>
+

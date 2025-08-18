@@ -1,5 +1,5 @@
 ---
-/* Base layout (no React provider) */
+import SafeHeader from '@/components/SafeHeader.astro';
 ---
 
 <html lang="en">
@@ -7,7 +7,6 @@
     <meta charset="utf-8" />
     <title><slot name="title" />Flax Lignan Health</title>
 
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -16,86 +15,35 @@
         --font-head: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         --ink: #0f172a; --ink-muted: #64748b; --bg: #f8fafc;
       }
-
       body { margin: 0; font-family: var(--font-body); background: var(--bg); color: var(--ink); }
-      .site-header, main, footer { max-width: 1100px; margin: 0 auto; }
-      /* --- Make header sit above any hero overlays and be clickable --- */
-.site-header { position: sticky; top: 0; z-index: 9999; background: #fff; }
 
-/* Background layers must NOT eat clicks */
-.hero-bg, .hero::before, .hero::after { pointer-events: none !important; }
-
-/* Kill old hero button overlays anywhere they might still exist */
-.hero-actions, .hero-cta, .quick-actions { display: none !important; }
-
-/* Blog teaser link should also sit above hero */
-.blog-update-wrap { position: relative; z-index: 5; }
-
-
-      /* Header stays clickable above all hero content */
-      .site-header {
-        position: sticky; top: 0; z-index: 9999;
-        padding: 12px 16px;
-        display:flex; align-items:center; justify-content:space-between;
-        border-bottom:1px solid #e5e7eb; background:#fff;
-      }
-
-      nav { display:flex; gap:16px; align-items:center; }
-      .nav-link {
-        color:#0f172a; text-decoration:none; font-weight:600; letter-spacing:.02em;
-        padding:6px 8px; border-radius:8px;
-      }
-      .nav-link:hover { background:#f3f4f6; }
-      .nav-link[aria-current="page"] { text-decoration: underline; }
-
-      main { padding: 24px 16px 56px; }
+      /* page shell */
+      main, footer { max-width: 1100px; margin: 0 auto; }
+      /* offset for fixed header height (~56px) */
+      main { padding: 80px 16px 56px; } /* top padding increased to clear fixed header */
       footer { padding: 16px; color: var(--ink-muted); }
 
-      /* Headings */
+      /* global heading look */
       h1, h2, h3, h4, .brand-title, .products-title, .site-title {
-        font-family: var(--font-head); line-height:1.15; letter-spacing:-.01em;
+        font-family: var(--font-head); line-height: 1.15; letter-spacing: -0.01em;
       }
-      h1, .site-title, h2, .products-title { font-weight:700; } h3, h4 { font-weight:600; }
+      h1, .site-title, h2, .products-title { font-weight: 700; }
+      h3, h4 { font-weight: 600; }
 
-      /* --- Clickability fixes (stop overlays from eating clicks) --- */
-      /* Kill any old hero button overlays if they still exist in CSS */
+      /* --- anti-overlay sledgehammer --- */
+      /* Any old hero overlay/buttons that might still exist */
       .hero-actions, .hero-cta, .quick-actions { display: none !important; }
-
-      /* Make sure background layers never intercept clicks */
-      .hero-bg, .hero::before { pointer-events: none !important; }
-
-      /* Keep post-hero blocks (like the blog teaser) above hero */
-      .blog-update-wrap { position: relative; z-index: 5; }
-
-      /* Safety: hero content is above its bg, below header */
+      /* Background layers never intercept clicks */
+      .hero-bg, .hero::before, .hero::after { pointer-events: none !important; }
+      /* Ensure hero content is stacked sanely */
       .hero, .hero-inner, .hero-card { position: relative; z-index: 1; }
+      /* Make bottom blog teaser clickable above any leftovers */
+      .blog-update-wrap, .blog-update { position: relative; z-index: 5; }
     </style>
   </head>
 
   <body>
-    <header class="site-header">
-      <nav aria-label="Main">
-        <a href="/" class="nav-link"
-           aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>
-          Home
-        </a>
-
-        <a href="/products" class="nav-link"
-           aria-current={Astro.url.pathname.startsWith('/products') ? 'page' : undefined}>
-          Products
-        </a>
-
-        <a href="/blog" class="nav-link"
-           aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>
-          Blog
-        </a>
-
-        <a href="/contact" class="nav-link"
-           aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>
-          Contact Us
-        </a>
-      </nav>
-    </header>
+    <SafeHeader />
 
     <main>
       <slot />
