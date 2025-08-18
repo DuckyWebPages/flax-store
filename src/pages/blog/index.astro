@@ -1,148 +1,41 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-const title = "Flax Lignan Health — Home";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const title = "Blog — Flax Lignan Health";
 ---
 
 <BaseLayout>
-  <section class="hero" aria-label="Flax Lignan Health hero">
-    <!-- Background image -->
-    <img class="hero-bg" src="/images/hero-1600.jpg?v=15" alt="" />
+  <header class="blog-header">
+    <h1>Blog</h1>
+    <p>Articles, specials, and research notes from Flax Lignan Health.</p>
+    <p><a class="back-home" href="/">← Back to Home</a></p>
+  </header>
 
-    <div class="hero-inner">
-      <!-- Text card -->
-      <div class="hero-card">
-        <h1 class="site-title">Flax Lignan Health</h1>
-        <p>
-          Your research-driven source for natural products promoting health, vitality and immune system support.<br />
-          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
-        </p>
-
-        <!-- ✅ NEW CLASS NAMES so no global styles interfere -->
-        <nav class="cta-row" aria-label="Quick actions">
-          <a href="/products" class="cta-btn">Shop</a>
-          <a href="https://wa.me/18177106918" class="cta-btn" target="_blank" rel="noopener">Whatsapp</a>
-          <a href="/blog" class="cta-btn">Blog</a>
-        </nav>
-      </div>
-    </div>
-  </section>
-
-  <!-- Optional promo below hero -->
-  <div class="blog-update-wrap">
-    <a href="/blog" class="blog-update">
-      <img class="blog-icon" src="/images/flax-flower.png" alt="" />
-      <span>Read our latest blog update</span>
-    </a>
-  </div>
+  <main class="blog-main">
+    <article class="post-card">
+      <h2>Welcome</h2>
+      <p>Your blog is enabled. Add posts here or link to individual articles.</p>
+    </article>
+  </main>
 
   <style>
-    /* ===== HERO LAYOUT ===== */
-    .hero {
-      position: relative;
-      isolation: isolate;
-      min-height: clamp(420px, 62vh, 680px);
-      padding: 56px 16px 56px;
+    .blog-header {
+      max-width: 1100px; margin: 1.25rem auto 0; padding: 0 1rem .5rem;
       border-bottom: 1px solid #e5e7eb;
-      overflow: hidden;
-      display: block !important; /* cancel any grid/flex centering elsewhere */
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
-    .hero-inner {
-      position: relative;
-      max-width: 1100px; margin: 0 auto;
-      z-index: 1;
-    }
-    .hero-card {
-      display: inline-block;
-      max-width: 760px;
-      background: rgba(255,255,255,0.62);
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      border-radius: 14px;
-      padding: 16px 20px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.10);
-    }
-
-    .site-title {
+    .blog-header h1 {
       font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      line-height: 1.1;
-      color: #000;
-      margin: 0 0 .25rem 0;
+      font-weight: 700; font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1.1;
+      margin: 0 0 .25rem 0; color: #000;
     }
-    .hero-card p {
-      font-family: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-weight: 300; line-height: 1.6;
-      font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem);
-      color: #000; margin: .5rem 0 0 0; max-width: 720px;
+    .blog-header p { font-family: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; margin: .25rem 0; color: #111; }
+    .back-home { text-decoration: none; } .back-home:hover { text-decoration: underline; }
+
+    .blog-main {
+      max-width: 1100px; margin: 0 auto; padding: 1rem 1rem 3rem; display: grid; gap: 1rem;
     }
-    .hero-card p a { color: inherit; text-decoration: underline; }
-
-    /* ===== NEW CTA ROW (INSIDE CARD) ===== */
-    .cta-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: flex-start;   /* aligns with text */
-      margin-top: 12px;
-      /* safety: make sure no positioning sneaks in from elsewhere */
-      position: static !important;
-      left: auto !important; right: auto !important; top: auto !important; bottom: auto !important;
-      transform: none !important;
-      width: auto !important;
-      z-index: auto !important;
+    .post-card {
+      border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; background: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.04);
     }
-    .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      width: auto;
-      min-width: 120px;
-      padding: 10px 16px;
-      font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      text-decoration: none;
-
-      color: #fff;
-      background: #111827;
-      border: 0;
-      border-radius: 9999px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.18);
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      white-space: nowrap;
-      transition: transform .08s ease, opacity .15s ease;
-    }
-    .cta-btn:hover { opacity: .92; transform: translateY(-1px); }
-
-    /* ===== MOBILE ===== */
-    @media (max-width: 768px) {
-      .hero { padding: 36px 16px 48px; }
-      .hero-card { padding: 12px 14px; border-radius: 12px; }
-      .cta-row { flex-direction: column; }
-      .cta-btn { width: 100%; padding: 12px 16px; }
-    }
-
-    /* ===== BLOG UPDATE ===== */
-    .blog-update-wrap { text-align: center; margin: 2rem 0; }
-    .blog-update {
-      display: inline-flex; align-items: center; gap: 12px;
-      font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-weight: 600; letter-spacing: 0.02em;
-      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-      line-height: 1; color: inherit; text-decoration: none;
-    }
-    .blog-update:hover { text-decoration: underline; opacity: .95; }
-    .blog-icon { width: 1.6em; height: 1.6em; object-fit: contain; transform: translateY(0.02em); }
-
-    /* ===== KILL OLD CLASSES so they never interfere again ===== */
-    .quick-actions, .hero-actions { display: none !important; }
+    .post-card h2 { margin: 0 0 .5rem 0; font-size: clamp(1.25rem, 2.2vw, 1.5rem); }
   </style>
 </BaseLayout>

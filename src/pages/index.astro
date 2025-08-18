@@ -1,15 +1,13 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "Flax Lignan Health — Home";
 ---
 
 <BaseLayout>
   <section class="hero" aria-label="Flax Lignan Health hero">
-    <!-- Background image (change the src if needed) -->
-    <img class="hero-bg" src="/images/hero-1600.jpg?v=12" alt="" />
+    <img class="hero-bg" src="/images/hero-1600.jpg?v=16" alt="" />
 
     <div class="hero-inner">
-      <!-- Tagline card -->
       <div class="hero-card">
         <h1 class="site-title">Flax Lignan Health</h1>
         <p>
@@ -18,16 +16,15 @@ const title = "Flax Lignan Health — Home";
         </p>
       </div>
 
-      <!-- Button strip (BOTTOM of hero, centered) -->
-      <nav class="hero-actions" aria-label="Quick actions">
-        <a href="/products" class="btn-hero">Shop</a>
-        <a href="https://wa.me/18177106918" class="btn-hero" target="_blank" rel="noopener">Whatsapp</a>
-        <a href="/blog" class="btn-hero">Blog</a>
+      <!-- Buttons directly under the card -->
+      <nav class="cta-row" aria-label="Quick actions">
+        <a href="/products" class="cta-btn">Shop</a>
+        <a href="https://wa.me/18177106918" class="cta-btn" target="_blank" rel="noopener">Whatsapp</a>
+        <a href="/blog" class="cta-btn">Blog</a>
       </nav>
     </div>
   </section>
 
-  <!-- Optional promo below hero -->
   <div class="blog-update-wrap">
     <a href="/blog" class="blog-update">
       <img class="blog-icon" src="/images/flax-flower.png" alt="" />
@@ -36,118 +33,74 @@ const title = "Flax Lignan Health — Home";
   </div>
 
   <style>
-    /* ===== HERO LAYOUT ===== */
+    /* HERO */
     .hero {
-      position: relative;
-      isolation: isolate;
+      position: relative; isolation: isolate; overflow: hidden;
       min-height: clamp(420px, 62vh, 680px);
-      padding: 56px 16px 112px; /* extra bottom padding so actions have room */
+      padding: 56px 16px 56px;
       border-bottom: 1px solid #e5e7eb;
-      overflow: hidden;
+      display: block !important;
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
-    .hero-inner {
-      position: relative;
-      max-width: 1100px; margin: 0 auto;
-      z-index: 1;
-    }
+    .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    .hero-inner { position: relative; max-width: 1100px; margin: 0 auto; z-index: 1; }
+
     .hero-card {
-      display: inline-block;
-      max-width: 760px;
+      display: inline-block; max-width: 760px;
       background: rgba(255,255,255,0.62);
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      border-radius: 14px;
-      padding: 16px 20px;
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      border-radius: 14px; padding: 16px 20px;
       box-shadow: 0 6px 18px rgba(0,0,0,.10);
     }
-
-    .hero .site-title {
+    .site-title {
       font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      line-height: 1.1;
-      color: #000;
-      text-shadow: none;
-      margin: 0 0 .25rem 0;
+      font-size: clamp(2.2rem, 4.2vw, 3.2rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.1;
+      color: #000; margin: 0 0 .25rem 0;
     }
-    .hero .hero-card p {
+    .hero-card p {
       font-family: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-weight: 300;
-      line-height: 1.6;
-      font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem);
-      color: #000;
-      margin: .5rem 0 0 0;
-      max-width: 720px;
+      font-weight: 300; line-height: 1.6; font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem);
+      color: #000; margin: .5rem 0 0 0; max-width: 720px;
     }
-    .hero .hero-card p a { color: inherit; text-decoration: underline; }
+    .hero-card p a { color: inherit; text-decoration: underline; }
 
-    /* ===== BUTTON STRIP — pinned to bottom, centered ===== */
-    .hero-actions {
-      position: absolute;
-      left: 50%; transform: translateX(-50%);
-      bottom: 24px;
+    /* CTAs — flow under the card (no absolute positioning) */
+    .cta-row {
+      position: static !important; transform: none !important; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important;
       display: flex; gap: 12px; flex-wrap: wrap;
-      justify-content: center;
-      width: calc(100% - 32px); /* padding off edges on mobile */
-      z-index: 2;
+      justify-content: flex-start;
+      margin-top: 12px;
+      width: auto;
     }
-
-    /* HERO BUTTONS — hard overrides to prevent jumbo sizing */
-    .hero .hero-actions a,
-    .hero .hero-actions .btn-hero {
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-
-      width: auto !important;
-      min-width: 120px !important;
-      height: auto !important;
-
-      padding: 10px 16px !important;
-      margin: 0 !important;
-      font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-      text-decoration: none !important;
-
-      color: #fff !important;
-      background: #111827 !important;  /* near-black */
-      border: 0 !important;
-      border-radius: 9999px !important;
-      box-shadow: 0 6px 18px rgba(0,0,0,.18) !important;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      white-space: nowrap;
+    .cta-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: auto; min-width: 120px; padding: 10px 16px;
+      font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #fff; background: #111827; text-decoration: none;
+      border: 0; border-radius: 9999px; box-shadow: 0 6px 18px rgba(0,0,0,.18);
+      user-select: none; -webkit-tap-highlight-color: transparent; white-space: nowrap;
+      transition: transform .08s ease, opacity .15s ease;
     }
-    .hero .hero-actions a:hover { opacity: .92 !important; transform: translateY(-1px); }
+    .cta-btn:hover { opacity: .92; transform: translateY(-1px); }
 
-    /* ===== MOBILE ===== */
+    /* Mobile */
     @media (max-width: 768px) {
-      .hero { padding: 36px 16px 90px; }
+      .hero { padding: 36px 16px 48px; }
       .hero-card { padding: 12px 14px; border-radius: 12px; }
-      .hero-actions { bottom: 16px; flex-direction: column; }
-      .hero .hero-actions a { width: 100% !important; padding: 12px 16px !important; }
+      .cta-row { flex-direction: column; }
+      .cta-btn { width: 100%; padding: 12px 16px; }
     }
 
-    /* ===== BLOG UPDATE ===== */
+    /* Blog promo */
     .blog-update-wrap { text-align: center; margin: 2rem 0; }
-    .blog-update {
-      display: inline-flex; align-items: center; gap: 12px;
+    .blog-update { display: inline-flex; align-items: center; gap: 12px;
       font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-weight: 600; letter-spacing: 0.02em;
-      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 600; letter-spacing: 0.02em; font-size: clamp(1.2rem, 2.5vw, 1.6rem);
       line-height: 1; color: inherit; text-decoration: none;
     }
     .blog-update:hover { text-decoration: underline; opacity: .95; }
     .blog-icon { width: 1.6em; height: 1.6em; object-fit: contain; transform: translateY(0.02em); }
 
-    /* Safety: kill any old hero-CTA rows or dark overlays if present */
-    .hero-cta { display: none !important; }
-    .hero::before { content: none !important; }
+    /* Safety: hide any old hero button rows if they still exist somewhere */
+    .hero-actions, .quick-actions { display: none !important; }
   </style>
 </BaseLayout>
