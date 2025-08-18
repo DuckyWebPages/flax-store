@@ -1,8 +1,8 @@
-export const prerender = true;
-
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro'; // if you didn't add the @ alias, change to: ../../layouts/BaseLayout.astro
 import { getCollection } from 'astro:content';
+
+export const prerender = true;
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -15,6 +15,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 const title = `${post.data.title} — Flax Lignan Health`;
+const description = post.data.description ?? '';
 ---
 
 <BaseLayout>
@@ -23,9 +24,10 @@ const title = `${post.data.title} — Flax Lignan Health`;
       <h1>{post.data.title}</h1>
       <p class="meta">
         {post.data.date.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })}
-        {post.data.tags && post.data.tags.length ? ` • ${post.data.tags.join(', ')}` : ''}
+        {post.data.tags?.length ? ` • ${post.data.tags.join(', ')}` : ''}
       </p>
       {post.data.heroImage && <img class="hero" src={post.data.heroImage} alt="" />}
+      {description && <p class="desc">{description}</p>}
     </header>
 
     <main class="post-body">
@@ -43,9 +45,4 @@ const title = `${post.data.title} — Flax Lignan Health`;
       font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       font-weight: 700; font-size: clamp(2rem, 4.6vw, 2.8rem); margin: 0 0 .25rem 0; color:#000;
     }
-    .meta { color:#555; margin: 0 0 .75rem 0; }
-    .hero { width: 100%; height: auto; display: block; border-radius: 12px; margin: .5rem 0 1rem; }
-    .post-body :where(p, li) { line-height: 1.7; }
-    .post-footer { margin-top: 2rem; }
-  </style>
-</BaseLayout>
+    .meta { color:#555; margin: 0 0 .5rem 0; f
