@@ -1,10 +1,37 @@
-/* 1) Load Inter (body) + Source Sans 3 (headings/brand) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Source+Sans+3:wght@400;600;700&display=swap');
+---
+const title = "Flax Lignan Health — Home";
+---
 
+<html lang="en">
+  <head>
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1 class="site-title">Flax Lignan Health</h1>
+      <p>Nutrient-dense lignans and gentle detox support you can trust.</p>
+    </section>
+
+    <!-- Products Section -->
+    <h2 id="products" class="products-title">Products</h2>
+
+    <!-- Blog Update Example -->
+    <div class="blog-update-wrap">
+      <a href="/blog" class="blog-update">
+        <span class="blog-icon">🌸</span>
+        <span>Read our latest blog update</span>
+      </a>
+    </div>
+  </body>
+</html>
+
+<style>
 /* ---------- Site-wide body defaults ---------- */
 html, body {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 400;
+  margin: 0;
 }
 p, li { line-height: 1.6; }
 
@@ -19,22 +46,20 @@ small, .subtle, .muted, .fineprint {
 h1.site-title {
   font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-  font-weight: 700;               /* was 400; Source Sans 3 looks better bold for titles */
+  font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.1;
-  color: black;   /* title is black */
+  color: black;
 }
 
 .hero p {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 300;
-  color: #222;    /* darker gray (nearly black) */
+  color: black;
 }
 
 /* ---------- Header / Nav ---------- */
 .logo-text {
-  /* If you want this hidden everywhere, uncomment the next line */
-  /* display: none !important; */
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
@@ -44,7 +69,6 @@ h1.site-title {
 }
 
 nav a {
-  /* Use Inter for the top tabs */
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 1.05rem;
   font-weight: 400;
@@ -68,13 +92,12 @@ nav a:hover { opacity: 0.85; }
 .products-title {
   font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 2rem;
-  font-weight: 700;               /* was 400; stronger section heading */
+  font-weight: 700;
   letter-spacing: -0.01em;
   margin-bottom: 1rem;
 }
 
 /* ---------- Products grid body copy (inside React island) ---------- */
-/* Wrap your <ShopApp /> with <div class="shop-app-root"> ... </div> */
 .shop-app-root p,
 .shop-app-root li,
 .shop-app-root small,
@@ -86,13 +109,13 @@ nav a:hover { opacity: 0.85; }
   line-height: 1.6;
 }
 
-/* Front-page BLOG UPDATE link uses Source Sans 3 (formerly Genuine) */
+/* Front-page BLOG UPDATE link */
 .blog-update {
   display: inline-flex;
-  align-items: center;         /* centers text on flower vertically */
+  align-items: center;
   gap: 12px;
   font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 600;            /* give it presence */
+  font-weight: 600;
   letter-spacing: 0.02em;
   font-size: clamp(1.3rem, 2.8vw, 1.8rem);
   line-height: 1;
@@ -100,15 +123,15 @@ nav a:hover { opacity: 0.85; }
 }
 .blog-update:hover { text-decoration: underline; opacity: .95; }
 
-/* Icon scales with the text and sits dead-center */
+/* Blog update icon */
 .blog-icon {
-  width: 1.6em; 
+  width: 1.6em;
   height: 1.6em;
   flex: 0 0 auto;
-  transform: translateY(0.02em); /* micro-adjust for optical centering */
+  transform: translateY(0.02em);
 }
 
-/* Stacked version: flower on top, text centered under it */
+/* Stacked version */
 .blog-update--stacked {
   flex-direction: column;
   gap: 10px;
@@ -119,17 +142,14 @@ nav a:hover { opacity: 0.85; }
   height: 2.2em;
 }
 
-/* Improve blog readability */
+/* Blog readability */
 .blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
 .blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
 .blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
 
-/* ===== FINAL OVERRIDES (keep at very end) ===== */
-
-/* If you never want the text "Flax Lignan Health" to appear */
+/* ===== FINAL OVERRIDES ===== */
 .logo-text { display: none !important; }
 
-/* Force Inter on the top nav, regardless of component CSS or load order */
 header nav a,
 header .nav a,
 .site-header nav a,
@@ -142,6 +162,4 @@ nav a {
   text-decoration: none;
   color: inherit;
 }
-
-/* Ensure hero paragraph is dark */
-.hero p { color: black !important; }
+</style>
