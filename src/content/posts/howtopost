@@ -1,0 +1,18 @@
+---
+title: Research Update: Lignans & Immunity
+description: New paper roundup + how we source our ingredients.
+date: 2025-08-20
+tags: [research, immunity]
+draft: false
+---
+Your post content in Markdown…
+
+
+
+
+
+Write your blog post and make sure it has the above content in it. Then commit and push the change.
+cd flax-store
+git add -A
+git commit -m "adding a blog post"
+git push
