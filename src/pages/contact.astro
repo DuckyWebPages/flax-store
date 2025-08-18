@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = "Contact Us — Flax Lignan Health";
+---
+
+<BaseLayout>
+  <header class="contact-header">
+    <h1>Contact Us</h1>
+    <p>We’re here to help with orders, subscriptions, and product questions.</p>
+  </header>
+
+  <main class="contact-main">
+    <section class="contact-card">
+      <h2>Call Us</h2>
+      <p>
+        Phone: <a href="tel:18177106918" class="phone-link">817-710-6918</a><br />
+        Hours: Mon–Fri, 9:00am–5:00pm CT
+      </p>
+    </section>
+
+    <section class="contact-card">
+      <h2>Join Our List</h2>
+      <p>Get product updates, promos, and research notes sent to your inbox.</p>
+
+      <!-- Hosted Constant Contact landing page -->
+      <div class="cta-row">
+        <a
+          href="https://lp.constantcontactpages.com/sl/DjPeNBz"
+          class="cta-btn"
+          target="_blank"
+          rel="noopener"
+        >
+          Join our email list
+        </a>
+      </div>
+
+      <!-- If later you want an inline embed instead of a separate page,
+           Constant Contact will give you a div with data-form-id plus a script.
+           We can swap it in here when you have that ID. -->
+    </section>
+
+    <section class="contact-card">
+      <h2>Prefer Email?</h2>
+      <p>
+        Reach us at <a href="mailto:info@flaxlignanhealth.com">info@flaxlignanhealth.com</a>
+      </p>
+    </section>
+  </main>
+
+  <style>
+    .contact-header {
+      max-width: 1100px; margin: 1.5rem auto 0; padding: 0 1rem 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .contact-header h1 {
+      font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-weight: 700; font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1.1;
+      margin: 0 0 .25rem 0; color: #000;
+    }
+    .contact-header p {
+      font-family: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; margin: .25rem 0; color: #111;
+    }
+
+    .contact-main {
+      max-width: 1100px; margin: 0 auto; padding: 1rem 1rem 3rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .contact-card {
+      border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; background: #fff;
+      box-shadow: 0 6px 16px rgba(0,0,0,.04);
+    }
+    .contact-card h2 { margin: 0 0 .5rem 0; font-size: clamp(1.2rem, 2.5vw, 1.4rem); }
+    .phone-link { font-weight: 700; text-decoration: none; }
+    .phone-link:hover { text-decoration: underline; }
+
+    /* Mobile */
+    @media (max-width: 860px) {
+      .contact-main { grid-template-columns: 1fr; }
+    }
+  </style>
+</BaseLayout>
