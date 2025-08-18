@@ -1,159 +1,147 @@
----
-const title = "Flax Lignan Health — Home";
----
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{title}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Flax Lignan Health: clean, research-driven lignans and detox support. Order online or call 817-710-6918."
-    />
+/* 1) Load Inter (body) + Source Sans 3 (headings/brand) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Source+Sans+3:wght@400;600;700&display=swap');
 
-    <!-- Brand font + global styles -->
-    <link rel="preload" href="/fonts/GENUINE.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="stylesheet" href="/global.css">
+/* ---------- Site-wide body defaults ---------- */
+html, body {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 400;
+}
+p, li { line-height: 1.6; }
 
-    <style>
-      /* Embed Genuine font */
-      @font-face {
-        font-family: 'Genuine';
-        src: url('/fonts/GENUINE.ttf') format('truetype');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
+/* Smaller / subtle text */
+small, .subtle, .muted, .fineprint {
+  font-size: 0.9rem;
+  font-weight: 300;
+  opacity: 0.9;
+}
 
-      /* Header */
-      nav a {
-        font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        font-size: 1.05rem;
-        font-weight: 400;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-      }
-      nav a:hover { opacity: 0.85; }
+/* ---------- Home hero ---------- */
+h1.site-title {
+  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+  font-weight: 700;               /* was 400; Source Sans 3 looks better bold for titles */
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: black;   /* title is black */
+}
 
-      /* HERO */
-      .hero { position: relative; min-height: clamp(420px, 60vh, 680px); overflow: hidden; }
-      .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero p {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 300;
+  color: #222;    /* darker gray (nearly black) */
+}
 
-      /* Shaded text pill */
-      .hero-content {
-        position: relative;
-        z-index: 1;               /* sit above the image */
-        background: rgba(255,255,255,.12);
-        backdrop-filter: blur(2px);
-        display: inline-block;
-        padding: .75rem 1rem;
-        border-radius: 12px;
-        color: #fff;
-        max-width: 1100px;
-        margin: 64px auto 0;
-        text-align: left;
-      }
+/* ---------- Header / Nav ---------- */
+.logo-text {
+  /* If you want this hidden everywhere, uncomment the next line */
+  /* display: none !important; */
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: black;
+  display: inline-block;
+}
 
-      .hero h1.site-title {
-        margin: 0 0 .5rem 0;
-        font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-        font-weight: 400;
-        letter-spacing: -0.01em;
-        line-height: 1.1;
-      }
-      .hero p {
-        margin: 0 0 1.0rem 0;
-        font-size: clamp(1rem, 2.2vw, 1.2rem);
-        color: #fff;
-        opacity: .95;
-      }
+nav a {
+  /* Use Inter for the top tabs */
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+}
+nav a:hover { opacity: 0.85; }
 
-      /* Vertical buttons BELOW the shaded block */
-      .hero-actions {
-        position: relative;
-        z-index: 1;
-        max-width: 1100px;
-        margin: .75rem auto 0;   /* just below the pill */
-        padding: 0 16px;
-        display: flex;
-        flex-direction: column;  /* vertical stack */
-        align-items: flex-start; /* left-aligned */
-        gap: .6rem;
-      }
-      .hero-cta {
-        display: inline-block;
-        text-decoration: none;
-        background: #0f172a;
-        color: #fff;
-        border: 1px solid #0f172a;
-        padding: .75rem 1.1rem;
-        border-radius: 10px;
-        font-weight: 700;
-        width: max-content;
-      }
+/* Hide logo text on small screens */
+.logo-text { display: none; }
+@media (min-width: 768px) {
+  .logo-text {
+    display: inline-block;
+    margin-left: 0.25rem;
+  }
+}
 
-      @media (min-width: 900px) {
-        .hero-content { text-align: left; }
-      }
+/* ---------- Products page header ---------- */
+.products-title {
+  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: 700;               /* was 400; stronger section heading */
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+}
 
-      /* Blog alert link (optional, below) */
-      .blog-update-wrap { margin: 2rem 0 0 0; }
-      .blog-update {
-        display:inline-flex; align-items:center; gap:.5rem;
-        text-decoration:none; font-weight:700; color:#0f172a;
-        padding:.6rem .9rem; border:1px solid #e5e7eb; border-radius:10px; background:#fff;
-      }
-      .blog-icon { width:22px; height:22px; }
-    </style>
-  </head>
+/* ---------- Products grid body copy (inside React island) ---------- */
+/* Wrap your <ShopApp /> with <div class="shop-app-root"> ... </div> */
+.shop-app-root p,
+.shop-app-root li,
+.shop-app-root small,
+.shop-app-root .desc,
+.shop-app-root .fineprint,
+.shop-app-root .muted {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+  font-weight: 300;
+  line-height: 1.6;
+}
 
-  <body class="min-h-screen">
-    <!-- HEADER -->
-    <header style="max-width:1100px;margin:1rem auto;padding:0 1rem;">
-      <div style="display:flex;align-items:center;gap:24px;justify-content:flex-start;">
-        <a href="/" class="logo-link" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
-          <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
-          <span class="logo-text">Flax Lignan Health</span>
-        </a>
-        <nav style="display:flex;gap:16px;">
-          <a href="/products">Products</a>
-          <a href="/blog">Blog</a>
-          <a href="/contact">Contact</a>
-        </nav>
-      </div>
-    </header>
+/* Front-page BLOG UPDATE link uses Source Sans 3 (formerly Genuine) */
+.blog-update {
+  display: inline-flex;
+  align-items: center;         /* centers text on flower vertically */
+  gap: 12px;
+  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 600;            /* give it presence */
+  letter-spacing: 0.02em;
+  font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+  line-height: 1;
+  text-decoration: none;
+}
+.blog-update:hover { text-decoration: underline; opacity: .95; }
 
-    <!-- HERO -->
-    <section class="hero" aria-label="Flax Lignan Health">
-      <img class="hero-bg" src="/images/hero-1600.jpg" alt="" decoding="async" fetchpriority="high" />
+/* Icon scales with the text and sits dead-center */
+.blog-icon {
+  width: 1.6em; 
+  height: 1.6em;
+  flex: 0 0 auto;
+  transform: translateY(0.02em); /* micro-adjust for optical centering */
+}
 
-      <div class="hero-content">
-        <h1 class="site-title">Flax Lignan Health</h1>
-        <p>Your research-driven source for natural products promoting health, vitality and immune system support.</p>
-        <p>Order online or call <a href="tel:+18177106918" style="color:#fff;text-decoration:underline;">817-710-6918</a> to speak to customer service.</p>
-      </div>
+/* Stacked version: flower on top, text centered under it */
+.blog-update--stacked {
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+.blog-update--stacked .blog-icon {
+  width: 2.2em;
+  height: 2.2em;
+}
 
-      <!-- Buttons stacked vertically under the shaded block -->
-      <div class="hero-actions">
-        <a class="hero-cta" href="/products">Shop Products</a>
-        <!-- Either point to a local page or your Constant Contact URL -->
-        <a class="hero-cta" href="https://lp.constantcontactpages.com/sl/DjPeNBz" >Coupons</a>
-        <!-- Or: <a class="hero-cta" href="https://YOUR-CONSTANT-CONTACT-LINK" target="_blank" rel="noopener">Coupons</a> -->
-        <a class="hero-cta" href="/blog">Blog</a>
-        <a class="hero-cta" href="/contact">Contact Us</a>
-      </div>
-    </section>
-    <!-- /HERO -->
+/* Improve blog readability */
+.blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
+.blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
+.blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
 
-    <main style="max-width:1100px;margin:2rem auto;padding:0 1rem;">
-      <!-- Optional blog teaser -->
-      <p class="blog-update-wrap">
-        <a class="blog-update" href="/blog">
-          <img src="/images/flax-flower-outline.svg" alt="" class="blog-icon" />
-          BLOG UPDATE: Click here for the latest specials!
-        </a>
-      </p>
-    </main>
-  </body>
-</html>
+/* ===== FINAL OVERRIDES (keep at very end) ===== */
+
+/* If you never want the text "Flax Lignan Health" to appear */
+.logo-text { display: none !important; }
+
+/* Force Inter on the top nav, regardless of component CSS or load order */
+header nav a,
+header .nav a,
+.site-header nav a,
+nav.primary a,
+nav a {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Ensure hero paragraph is dark */
+.hero p { color: black !important; }
