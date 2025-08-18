@@ -1,6 +1,7 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'; // If you don't use the @ alias, change to ../layouts/BaseLayout.astro
-import ShopApp from '@/components/ShopApp.tsx';      // Or: ../components/ShopApp.tsx
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ShopApp from '@/components/ShopApp.tsx';
+import { products as PRODUCTS } from '@/data/products';
 const title = 'Products — Flax Lignan Health';
 ---
 
@@ -10,8 +11,8 @@ const title = 'Products — Flax Lignan Health';
   </header>
 
   <main class="products-page">
-    <!-- Mount on client only to avoid SSR errors -->
-    <ShopApp client:only="react" />
+    <!-- Client-only mount to avoid SSR errors, pass your product list -->
+    <ShopApp client:only="react" products={PRODUCTS} items={PRODUCTS} />
   </main>
 
   <style>
@@ -22,7 +23,9 @@ const title = 'Products — Flax Lignan Health';
     }
 
     .products-header {
-      max-width: 1100px; margin: 0 auto; padding: 0 16px 8px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px 8px;
       border-bottom: 1px solid #e5e7eb;
     }
     .products-title {
@@ -35,17 +38,17 @@ const title = 'Products — Flax Lignan Health';
       font-size: clamp(1.8rem, 3.8vw, 2.4rem);
     }
 
-    /* === FONT OVERRIDES FOR THE ENTIRE SHOP AREA === */
+    /* Page container + font scoping */
     .products-page {
-      max-width: 1100px; margin: 0 auto; padding: 1rem 16px 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 16px 3rem;
       font-family: var(--font-body);
       color: var(--ink);
     }
-
     .products-page :where(p, li, span, div, td, th, input, select, textarea, label, a) {
       font-family: var(--font-body);
     }
-
     .products-page :where(h1, h2, h3, h4, h5, h6) {
       font-family: var(--font-head);
       letter-spacing: -0.01em;
@@ -53,7 +56,6 @@ const title = 'Products — Flax Lignan Health';
     }
     .products-page h1 { font-weight: 700; }
     .products-page h2, .products-page h3, .products-page h4 { font-weight: 600; }
-
     .products-page :where(button, [role="button"], .button) {
       font-family: var(--font-body);
       font-weight: 600;
@@ -62,6 +64,9 @@ const title = 'Products — Flax Lignan Health';
       font-family: var(--font-body);
     }
 
-    /* If the shop’s own CSS wins the cascade, uncomment to force fonts: */
-    /*
-    .products-page :where(p, li, span, div, td, th, input, select, textarea
+    /* If the shop’s CSS overrides fonts, you can force them by uncommenting:
+    .products-page :where(p, li, span, div, td, th, input, select, textarea, label, a, button) { font-family: var(--font-body) !important; }
+    .products-page :where(h1, h2, h3, h4, h5, h6) { font-family: var(--font-head) !important; }
+    */
+  </style>
+</BaseLayout>
