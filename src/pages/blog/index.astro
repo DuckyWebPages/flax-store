@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = "Flax Lignan Health — Home";
 ---
-
 
 <BaseLayout>
   <!-- Hero -->
@@ -11,7 +11,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <!-- Left vertical quick-action buttons -->
     <nav class="quick-actions" aria-label="Quick actions">
       <a href="/products" class="qa-btn">Shop</a>
-      <a href="https://wa.me/18177106918" class="qa-btn" target="_blank" rel="noopener">Whatsapp</a>
+      <a href="tel:18177106918" class="qa-btn">Call</a>
       <a href="/blog" class="qa-btn">Blog</a>
     </nav>
 
@@ -46,7 +46,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('/images/hero-1600.jpg'); /* no dark overlay */
+      background-image: url('/images/hero-1600.jpg');
       background-size: cover;
       background-position: center;
       z-index: -1;
@@ -63,7 +63,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       font-weight: 700;
       letter-spacing: -0.01em;
       line-height: 1.1;
-      color: #000; /* black over non-darkened hero */
+      color: #000;
     }
     .hero p {
       font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -76,7 +76,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     }
     .hero p a { color: inherit; text-decoration: underline; }
 
-    /* Left-side vertical buttons */
+    /* Left-side vertical buttons — match pill/black style */
     .quick-actions {
       position: absolute;
       left: 18px;
@@ -90,31 +90,51 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 64px;
-      height: 44px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.95);
-      color: #0f172a;
+      padding: 10px 16px;           /* same as CTA */
+      border-radius: 999px;         /* pill shape */
+      background: #111827;          /* black, same as CTA */
+      color: #fff;
+      border: 1px solid #111827;
       font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 700;
+      font-weight: 600;
+      line-height: 1;
       text-decoration: none;
-      border: 1px solid rgba(15,23,42,.12);
       box-shadow: 0 4px 14px rgba(0,0,0,.08);
-      transition: transform .08s ease, background-color .15s ease, opacity .15s ease;
-      padding: 0 10px;
+      transition: transform .08s ease, opacity .15s ease, background-color .15s ease, border-color .15s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
     }
-    .qa-btn:hover { background: #fff; }
+    .qa-btn:hover { opacity: .9; }
     .qa-btn:active { transform: translateY(1px); }
 
     @media (max-width: 768px) {
-      .quick-actions { display: none; }
+      .quick-actions { display: none; } /* hide to prevent overlap on mobile */
       .hero { padding: 36px 16px; }
     }
 
-    /* ===== BLOG UPDATE (with image) ===== */
+    /* ===== BLOG UPDATE ===== */
     .blog-update-wrap { text-align: center; margin: 2rem 0; }
     .blog-update {
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      font-family: 'Source Sans 3', 'Inter', s
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+      line-height: 1;
+      text-decoration: none;
+      color: inherit;
+    }
+    .blog-update:hover { text-decoration: underline; opacity: .95; }
+    .blog-icon {
+      width: 1.6em;
+      height: 1.6em;
+      display: inline-block;
+      flex: 0 0 auto;
+      object-fit: contain;
+      transform: translateY(0.02em);
+    }
+  </style>
+</BaseLayout>
