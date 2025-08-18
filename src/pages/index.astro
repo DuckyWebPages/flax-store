@@ -4,34 +4,26 @@ const title = "Flax Lignan Health — Home";
 ---
 
 <BaseLayout>
-  <!-- Hero -->
   <section class="hero">
     <div class="hero-bg" role="img" aria-label="Healthy flax and natural products background"></div>
 
-    <!-- Left vertical quick-action buttons -->
     <nav class="quick-actions" aria-label="Quick actions">
-      <a href="#products" class="qa-btn">Shop</a>
-      <a href="tel:18177106918" class="qa-btn">Call</a>
+      <a href="/products" class="qa-btn">Shop</a>
+      <a href="https://wa.me/18177106918" class="qa-btn" target="_blank" rel="noopener">Whatsapp</a>
       <a href="/blog" class="qa-btn">Blog</a>
     </nav>
 
     <div class="hero-inner">
-      <h1 class="site-title">Flax Lignan Health</h1>
-      <p>
-        Your research-driven source for natural products promoting health, vitality and immune system support.<br />
-        <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
-      </p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#products">Shop Now</a>
-        <a class="btn btn-outline" href="/about">Learn More</a>
+      <div class="hero-card">
+        <h1 class="site-title">Flax Lignan Health</h1>
+        <p>
+          Your research-driven source for natural products promoting health, vitality and immune system support.<br />
+          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Products -->
-  <h2 id="products" class="products-title">Products</h2>
-
-  <!-- Blog Update (with flax flower image) -->
   <div class="blog-update-wrap">
     <a href="/blog" class="blog-update">
       <img class="blog-icon" src="/images/flax-flower.png" alt="Flax flower" />
@@ -40,22 +32,20 @@ const title = "Flax Lignan Health — Home";
   </div>
 
   <style>
-    /* ===== HERO ===== */
     .hero {
       position: relative;
       isolation: isolate;
       min-height: clamp(380px, 60vh, 620px);
       display: grid;
-      align-items: center;
-      padding: 48px 16px;
+      align-items: start;
+      padding: 64px 16px 48px;
       border-bottom: 1px solid #e5e7eb;
     }
+    .hero::before { content: none !important; }
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.20)),
-        url('/images/hero-1600.jpg'); /* change if your hero image has a different path/name */
+      background-image: url('/images/hero-1600.jpg?v=9');
       background-size: cover;
       background-position: center;
       z-index: -1;
@@ -64,103 +54,76 @@ const title = "Flax Lignan Health — Home";
       max-width: 1100px;
       width: 100%;
       margin: 0 auto;
-      color: #0f172a;
     }
-    h1.site-title {
+    .hero-card {
+      display: inline-block;
+      background: rgba(255,255,255,0.6);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.1);
+    }
+
+    .hero h1.site-title {
       font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       font-size: clamp(2.2rem, 4.2vw, 3.2rem);
       font-weight: 700;
       letter-spacing: -0.01em;
       line-height: 1.1;
-      color: #fff;
-      text-shadow: 0 1px 2px rgba(0,0,0,.35);
+      color: #000;
+      text-shadow: none;
     }
-    .hero p {
+    .hero .hero-card p {
       font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       font-weight: 300;
       line-height: 1.6;
       font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem);
-      color: #f8fafc;
+      color: #000;
       max-width: 720px;
       margin-top: .6rem;
-      text-shadow: 0 1px 2px rgba(0,0,0,.25);
+      text-shadow: none;
     }
-    .hero p a { color: #fff; text-decoration: underline; }
+    .hero .hero-card p a { color: inherit; text-decoration: underline; }
 
-    .hero-cta { display: flex; gap: 12px; margin-top: 16px; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 600;
-      text-decoration: none;
-      line-height: 1;
-      transition: transform .08s ease, opacity .15s ease, background-color .15s ease, border-color .15s ease;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .btn:active { transform: translateY(1px); }
-    .btn-primary {
-      background: #111827;
-      color: #fff;
-      border: 1px solid #111827;
-    }
-    .btn-primary:hover { opacity: .9; }
-    .btn-outline {
-      background: transparent;
-      color: #fff;
-      border: 1px solid rgba(255,255,255,.7);
-      backdrop-filter: blur(2px);
-    }
-    .btn-outline:hover { background: rgba(255,255,255,.08); }
-
-    /* Left-side vertical buttons */
     .quick-actions {
       position: absolute;
-      left: 18px;                 /* LEFT side */
+      left: 18px;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       gap: 10px;
+      z-index: 5;
     }
     .qa-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.9);
-      color: #0f172a;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      border: 1px solid #111827;
       font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 700;
+      font-weight: 600;
+      line-height: 1;
       text-decoration: none;
-      border: 1px solid rgba(15,23,42,.1);
       box-shadow: 0 4px 14px rgba(0,0,0,.08);
-      transition: transform .08s ease, background-color .15s ease, opacity .15s ease;
+      transition: transform .08s ease, opacity .15s ease, background-color .15s ease, border-color .15s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
     }
-    .qa-btn:hover { background: #fff; }
+    .qa-btn:hover { opacity: .9; }
     .qa-btn:active { transform: translateY(1px); }
 
     @media (max-width: 768px) {
       .quick-actions { display: none; }
       .hero { padding: 36px 16px; }
+      .hero-card { padding: 12px 14px; border-radius: 10px; }
     }
 
-    /* ===== PRODUCTS HEADER ===== */
-    .products-title {
-      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin: 1.5rem 0 1rem;
-    }
-
-    /* ===== BLOG UPDATE (with image) ===== */
     .blog-update-wrap { text-align: center; margin: 2rem 0; }
     .blog-update {
       display: inline-flex;
@@ -183,8 +146,7 @@ const title = "Flax Lignan Health — Home";
       object-fit: contain;
       transform: translateY(0.02em);
     }
-    /* Optional stacked variant */
-    .blog-update--stacked { flex-direction: column; gap: 10px; text-align: center; }
-    .blog-update--stacked .blog-icon { width: 2.2em; height: 2.2em; }
+
+    .products-title { display: none !important; }
   </style>
 </BaseLayout>
