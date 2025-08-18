@@ -1,5 +1,5 @@
 ---
-/* Base layout: inline header, anti-overlay hardening */
+/* Base layout: fixed header, anti-overlay, and a tiny click fail-safe */
 ---
 
 <html lang="en">
@@ -17,12 +17,13 @@
       }
 
       * { box-sizing: border-box; }
+      html, body { height: 100%; }
       body { margin: 0; font-family: var(--font-body); background: var(--bg); color: var(--ink); }
 
       /* ===== Fixed header that ALWAYS receives clicks ===== */
       .site-header-wrap {
         position: fixed; top: 0; left: 0; right: 0;
-        z-index: 2147483647;
+        z-index: 2147483647; /* max practical */
         background: #fff; border-bottom: 1px solid #e5e7eb;
         pointer-events: auto !important;
       }
@@ -56,20 +57,21 @@
       /* Legacy hero overlays: never render them */
       .hero-actions, .hero-cta, .quick-actions { display: none !important; }
 
-      /* Background layers must never catch clicks */
+      /* Background/overlays never catch clicks */
       .hero-bg, .hero::before, .hero::after, .overlay, .shade { pointer-events: none !important; }
 
-      /* On home, a big hero can cover content — disable clicks on hero except the one CTA */
+      /* Some themes position the whole .hero over the page; disable clicks there,
+         then re-enable ONLY the pieces we actually want clickable. */
       .hero { pointer-events: none !important; }
       .hero * { pointer-events: none !important; }
 
-      /* Re-enable clicks ONLY for the single Shop CTA under the tagline */
+      /* Keep the single Shop CTA clickable */
       .home-shop-cta, .home-shop-cta * { pointer-events: auto !important; position: relative; z-index: 5; }
 
       /* Bottom blog teaser: always clickable */
       .blog-update-wrap, .blog-update, .blog-update-wrap a { position: relative; z-index: 6; pointer-events: auto !important; }
 
-      /* Belt-and-suspenders: every /blog link is clickable above all */
+      /* Belt-and-suspenders: every /blog link sits above and is clickable */
       a[href^="/blog"] { position: relative; z-index: 7; pointer-events: auto !important; }
     </style>
   </head>
@@ -107,5 +109,17 @@
     <footer>
       © {new Date().getFullYear()} Flax Lignan Health
     </footer>
+
+    <!-- Tiny fail-safe: any click on a /blog link forces navigation -->
+    <script is:inline>
+      document.addEventListener('click', function (e) {
+        const link = e.target && e.target.closest && e.target.closest('a[href^="/blog"]');
+        if (link) {
+          e.preventDefault();
+          const href = link.getAttribute('href');
+          if (href) window.location.href = href;
+        }
+      }, { capture: true });
+    </script>
   </body>
 </html>
