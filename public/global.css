@@ -1,63 +1,31 @@
-/* 1) Load Inter (thin/clean body font) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
-
-/* 2) Brand headline font (Genuine) */
-@font-face { 
-  font-family: 'Genuine';
-  src: url('/fonts/GENUINE.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ---------- Site-wide body defaults ---------- */
+/* ---------- Site-wide typography ---------- */
 html, body {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 400;
 }
 p, li { line-height: 1.6; }
 
-/* Smaller / subtle text */
 small, .subtle, .muted, .fineprint {
   font-size: 0.9rem;
   font-weight: 300;
   opacity: 0.9;
 }
 
-/* ---------- Home hero ---------- */
-h1.site-title {
-  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-  font-weight: 400;
+/* Headings use Source Sans 3 (fonts are linked in BaseLayout) */
+h1, h2, h3, h4, .products-title, .site-title, .brand-title {
+  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.15;
   letter-spacing: -0.01em;
-  line-height: 1.1;
-  color: black;   /* title is black */
 }
-
-.hero p {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 300;
-  color: #222;    /* darker gray (nearly black) */
-}
-
+h1, .site-title { font-weight: 700; }
+h2, .products-title { font-weight: 700; }
+h3, h4 { font-weight: 600; }
 
 /* ---------- Header / Nav ---------- */
-.logo-text {
-  /* If you want this hidden everywhere, uncomment the next line */
-  /* display: none !important; */
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  color: black;
-  display: inline-block;
-}
-
 nav a {
-  /* Use Inter for the top tabs */
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 1.05rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   text-decoration: none;
@@ -65,27 +33,30 @@ nav a {
 }
 nav a:hover { opacity: 0.85; }
 
-/* Hide logo text on small screens */
-.logo-text { display: none; }
+/* Optional logo text */
+.logo-text {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: black;
+  display: inline-block;
+}
+.logo-text { display: none; } /* keep hidden by default */
 @media (min-width: 768px) {
-  .logo-text {
-    display: inline-block;
-    margin-left: 0.25rem;
-  }
+  .logo-text { display: inline-block; margin-left: 0.25rem; }
 }
 
-
-/* ---------- Products page header ---------- */
+/* ---------- Products section heading (shared) ---------- */
 .products-title {
-  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: -0.01em;
   margin-bottom: 1rem;
 }
 
-/* ---------- Products grid body copy (inside React island) ---------- */
-/* Wrap your <ShopApp /> with <div class="shop-app-root"> ... </div> (see step 2) */
+/* ---------- React shop island body copy ---------- */
 .shop-app-root p,
 .shop-app-root li,
 .shop-app-root small,
@@ -96,95 +67,45 @@ nav a:hover { opacity: 0.85; }
   font-weight: 300;
   line-height: 1.6;
 }
-/* Front-page BLOG UPDATE link uses Genuine */
-.blog-update {
-  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  text-decoration: none;
-}
 
-.blog-update:hover {
-  text-decoration: underline;
-  opacity: 0.9;
-}
+/* ---------- Blog update link ---------- */
 .blog-update {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  letter-spacing: 0.01em;
-  text-decoration: none;
-}
-.blog-update:hover { text-decoration: underline; opacity: .95; }
-.blog-icon { width: 20px; height: 20px; display: inline-block; }
-
-/* Center the whole unit on the page */
-.blog-update-wrap {
-  text-align: center;
-  margin: 1rem 0;
-}
-
-/* Bigger text and exact vertical centering to the icon */
-.blog-update {
-  display: inline-flex;
-  align-items: center;         /* centers text on flower vertically */
   gap: 12px;
-  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 400;
+  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  font-size: clamp(1.3rem, 2.8vw, 1.8rem);  /* bigger */
-  line-height: 1;                           /* tidy vertical alignment */
+  font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+  line-height: 1;
   text-decoration: none;
+  color: inherit;
 }
 .blog-update:hover { text-decoration: underline; opacity: .95; }
+.blog-icon { width: 1.6em; height: 1.6em; display: inline-block; }
 
-/* Icon scales with the text and sits dead-center */
-.blog-icon {
-  width: 1.6em; 
-  height: 1.6em;
-  flex: 0 0 auto;
-  transform: translateY(0.02em); /* micro-adjust for optical centering */
-}
+/* Center the unit on the page */
+.blog-update-wrap { text-align: center; margin: 1rem 0; }
 
-/* Stacked version: flower on top, text centered under it */
-.blog-update--stacked {
-  flex-direction: column;
-  gap: 10px;
-  text-align: center;
-}
-.blog-update--stacked .blog-icon {
-  width: 2.2em;
-  height: 2.2em;
-}
-/* Improve blog readability */
+/* Blog content readability */
 .blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
 .blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
 .blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
 
-/* ===== FINAL OVERRIDES (keep at very end) ===== */
+/* ---------- Final safeguards ---------- */
+/* Ensure no legacy overlay appears over the hero */
+.hero::before { content: none !important; }
 
-/* If you never want the text "Flax Lignan Health" to appear */
-.logo-text { display: none !important; }
-
-/* Force Inter on the top nav, regardless of component CSS or load order */
+/* Force Inter on nav no matter load order */
 header nav a,
 header .nav a,
 .site-header nav a,
 nav.primary a,
 nav a {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   text-decoration: none;
   color: inherit;
 }
-.hero p {
-  color: black !important;
-}
-
-.hero::before {
-  content: none !important;
-}
-
