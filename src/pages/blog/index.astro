@@ -1,65 +1,120 @@
 ---
-const title = "Blog | Flax Lignan Health";
-
-// Load all Markdown posts in this folder (./*.md)
-const modules = import.meta.glob('./*.md', { eager: true });
-
-// Convert to an array with urls + frontmatter
-const posts = Object.entries(modules).map(([path, mod]: any) => {
-  const url = path.replace('./', '/blog/').replace('.md', '');
-  return { url, ...mod.frontmatter };
-});
-
-// Sort newest first (by date in frontmatter)
-posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = "Flax Lignan Health — Home";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{title}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preload" href="/fonts/GENUINE.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="stylesheet" href="/global.css">
-  </head>
+<BaseLayout>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg" role="img" aria-label="Healthy flax and natural products background"></div>
 
-  <body class="min-h-screen">
-    <!-- Header (same as other pages) -->
-    <header style="max-width:1100px;margin:1rem auto;padding:0 1rem;">
-      <div style="display:flex;align-items:center;gap:24px;justify-content:flex-start;">
-        <a href="/" class="logo-link" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
-          <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
-          <span class="logo-text">Flax Lignan Health</span>
-        </a>
+    <!-- Left vertical quick-action buttons -->
+    <nav class="quick-actions" aria-label="Quick actions">
+      <a href="/products" class="qa-btn">Shop</a>
+      <a href="https://wa.me/18177106918" class="qa-btn" target="_blank" rel="noopener">Whatsapp</a>
+      <a href="/blog" class="qa-btn">Blog</a>
+    </nav>
 
-        <nav style="display:flex;gap:16px;">
+    <div class="hero-inner">
+      <h1 class="site-title">Flax Lignan Health</h1>
+      <p>
+        Your research-driven source for natural products promoting health, vitality and immune system support.<br />
+        <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
+      </p>
+    </div>
+  </section>
 
-          <a href="/products">Products</a>
-          <a href="/blog">Blog</a>
-        </nav>
-      </div>
-    </header>
+  <!-- Blog Update (with flax flower image) -->
+  <div class="blog-update-wrap">
+    <a href="/blog" class="blog-update">
+      <img class="blog-icon" src="/images/flax-flower.png" alt="Flax flower" />
+      <span>Read our latest blog update</span>
+    </a>
+  </div>
 
-    <main style="max-width:1100px;margin:2rem auto;padding:0 1rem;">
-      <h1 class="products-title">Blog Updates</h1>
-      <p>Latest specials, health tips, and product news.</p>
+  <style>
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(380px, 60vh, 620px);
+      display: grid;
+      align-items: center;
+      padding: 48px 16px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('/images/hero-1600.jpg'); /* no dark overlay */
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      color: #0f172a;
+    }
+    h1.site-title {
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: #000; /* black over non-darkened hero */
+    }
+    .hero p {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem);
+      color: #000;
+      max-width: 720px;
+      margin-top: .6rem;
+    }
+    .hero p a { color: inherit; text-decoration: underline; }
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:1rem;">
-        {posts.map((post) => (
-          <a href={post.url} style="display:block;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;">
-            {post.cover && (
-              <img src={post.cover} alt={post.title} style="width:100%;height:140px;object-fit:cover;display:block;" />
-            )}
-            <div style="padding:12px 14px;">
-              <h2 style="margin:0 0 6px 0;font-size:1.1rem;font-weight:600;">{post.title}</h2>
-              <div style="font-size:.9rem;opacity:.75;margin-bottom:8px;">
-                {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' })}
-              </div>
-              <p style="margin:0;font-size:.95rem;opacity:.9;">{post.summary}</p>
-            </div>
-          </a>
-        ))}
-      </div>
-    </main>
-  </body>
-</html>
+    /* Left-side vertical buttons */
+    .quick-actions {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .qa-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(255,255,255,.95);
+      color: #0f172a;
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid rgba(15,23,42,.12);
+      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+      transition: transform .08s ease, background-color .15s ease, opacity .15s ease;
+      padding: 0 10px;
+    }
+    .qa-btn:hover { background: #fff; }
+    .qa-btn:active { transform: translateY(1px); }
+
+    @media (max-width: 768px) {
+      .quick-actions { display: none; }
+      .hero { padding: 36px 16px; }
+    }
+
+    /* ===== BLOG UPDATE (with image) ===== */
+    .blog-update-wrap { text-align: center; margin: 2rem 0; }
+    .blog-update {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Source Sans 3', 'Inter', s
