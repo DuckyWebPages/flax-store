@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'; // If you didn't add the @ alias, use: ../layouts/BaseLayout.astro
+import BaseLayout from '@/layouts/BaseLayout.astro'; // If you don't use the @ alias, change to ../layouts/BaseLayout.astro
 import ShopApp from '@/components/ShopApp.tsx';      // Or: ../components/ShopApp.tsx
 const title = 'Products — Flax Lignan Health';
 ---
@@ -10,14 +10,12 @@ const title = 'Products — Flax Lignan Health';
   </header>
 
   <main class="products-page">
-    <!-- Your React shop app -->
-    <ShopApp client:load />
+    <!-- Mount on client only to avoid SSR errors -->
+    <ShopApp client:only="react" />
   </main>
 
   <style>
-    /* Use the same font vars defined in BaseLayout */
     :root {
-      /* kept here only if BaseLayout is ever changed—otherwise these inherit */
       --font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --font-head: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --ink: #0f172a;
@@ -44,12 +42,10 @@ const title = 'Products — Flax Lignan Health';
       color: var(--ink);
     }
 
-    /* Body text and UI controls */
     .products-page :where(p, li, span, div, td, th, input, select, textarea, label, a) {
       font-family: var(--font-body);
     }
 
-    /* Headings inside the app */
     .products-page :where(h1, h2, h3, h4, h5, h6) {
       font-family: var(--font-head);
       letter-spacing: -0.01em;
@@ -58,26 +54,14 @@ const title = 'Products — Flax Lignan Health';
     .products-page h1 { font-weight: 700; }
     .products-page h2, .products-page h3, .products-page h4 { font-weight: 600; }
 
-    /* Buttons */
     .products-page :where(button, [role="button"], .button) {
       font-family: var(--font-body);
       font-weight: 600;
     }
-
-    /* Forms */
     .products-page :where(input, select, textarea) {
       font-family: var(--font-body);
     }
 
-    /* If the shop’s own CSS is winning the cascade, uncomment the two blocks below
-       to force the fonts (adds !important just for fonts). */
+    /* If the shop’s own CSS wins the cascade, uncomment to force fonts: */
     /*
-    .products-page :where(p, li, span, div, td, th, input, select, textarea, label, a, button) {
-      font-family: var(--font-body) !important;
-    }
-    .products-page :where(h1, h2, h3, h4, h5, h6) {
-      font-family: var(--font-head) !important;
-    }
-    */
-  </style>
-</BaseLayout>
+    .products-page :where(p, li, span, div, td, th, input, select, textarea
