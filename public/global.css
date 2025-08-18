@@ -31,23 +31,31 @@ h1.site-title {
   font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 1.1;
+  color: black;   /* title is black */
 }
+
 .hero p {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 300;
+  color: #222;    /* darker gray (nearly black) */
 }
+
 
 /* ---------- Header / Nav ---------- */
 .logo-text {
-  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  /* If you want this hidden everywhere, uncomment the next line */
+  /* display: none !important; */
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
   letter-spacing: 0.01em;
-  color: inherit;
+  color: black;
   display: inline-block;
 }
+
 nav a {
-  font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  /* Use Inter for the top tabs */
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-size: 1.05rem;
   font-weight: 400;
   letter-spacing: 0.02em;
@@ -65,6 +73,7 @@ nav a:hover { opacity: 0.85; }
     margin-left: 0.25rem;
   }
 }
+
 
 /* ---------- Products page header ---------- */
 .products-title {
@@ -152,3 +161,26 @@ nav a:hover { opacity: 0.85; }
 .blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
 .blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
 .blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
+
+/* ===== FINAL OVERRIDES (keep at very end) ===== */
+
+/* If you never want the text "Flax Lignan Health" to appear */
+.logo-text { display: none !important; }
+
+/* Force Inter on the top nav, regardless of component CSS or load order */
+header nav a,
+header .nav a,
+.site-header nav a,
+nav.primary a,
+nav a {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+}
+.hero p {
+  color: black !important;
+}
+

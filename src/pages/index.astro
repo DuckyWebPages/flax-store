@@ -3,119 +3,157 @@ const title = "Flax Lignan Health — Home";
 ---
 <html lang="en">
   <head>
-	<link rel="preload" href="/fonts/GENUINE.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="/global.css">
-
-
     <meta charset="utf-8" />
     <title>{title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Flax Lignan Health: clean, research-driven lignans and detox support. Order online or call 817-710-6918." />
+    <meta
+      name="description"
+      content="Flax Lignan Health: clean, research-driven lignans and detox support. Order online or call 817-710-6918."
+    />
 
+    <!-- Brand font + global styles -->
+    <link rel="preload" href="/fonts/GENUINE.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="/global.css">
+
+    <style>
+      /* Embed Genuine font */
+      @font-face {
+        font-family: 'Genuine';
+        src: url('/fonts/GENUINE.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Header */
+      nav a {
+        font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        font-size: 1.05rem;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+      nav a:hover { opacity: 0.85; }
+
+      /* HERO */
+      .hero { position: relative; min-height: clamp(420px, 60vh, 680px); overflow: hidden; }
+      .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      /* Shaded text pill */
+      .hero-content {
+        position: relative;
+        z-index: 1;               /* sit above the image */
+        background: rgba(255,255,255,.12);
+        backdrop-filter: blur(2px);
+        display: inline-block;
+        padding: .75rem 1rem;
+        border-radius: 12px;
+        color: #fff;
+        max-width: 1100px;
+        margin: 64px auto 0;
+        text-align: left;
+      }
+
+      .hero h1.site-title {
+        margin: 0 0 .5rem 0;
+        font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        line-height: 1.1;
+      }
+      .hero p {
+        margin: 0 0 1.0rem 0;
+        font-size: clamp(1rem, 2.2vw, 1.2rem);
+        color: #fff;
+        opacity: .95;
+      }
+
+      /* Vertical buttons BELOW the shaded block */
+      .hero-actions {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: .75rem auto 0;   /* just below the pill */
+        padding: 0 16px;
+        display: flex;
+        flex-direction: column;  /* vertical stack */
+        align-items: flex-start; /* left-aligned */
+        gap: .6rem;
+      }
+      .hero-cta {
+        display: inline-block;
+        text-decoration: none;
+        background: #0f172a;
+        color: #fff;
+        border: 1px solid #0f172a;
+        padding: .75rem 1.1rem;
+        border-radius: 10px;
+        font-weight: 700;
+        width: max-content;
+      }
+
+      @media (min-width: 900px) {
+        .hero-content { text-align: left; }
+      }
+
+      /* Blog alert link (optional, below) */
+      .blog-update-wrap { margin: 2rem 0 0 0; }
+      .blog-update {
+        display:inline-flex; align-items:center; gap:.5rem;
+        text-decoration:none; font-weight:700; color:#0f172a;
+        padding:.6rem .9rem; border:1px solid #e5e7eb; border-radius:10px; background:#fff;
+      }
+      .blog-icon { width:22px; height:22px; }
+    </style>
   </head>
+
   <body class="min-h-screen">
-   <header style="max-width:1100px;margin:1rem auto;padding:0 1rem;">
-  <div style="display:flex;align-items:center;gap:24px;justify-content:flex-start;">
+    <!-- HEADER -->
+    <header style="max-width:1100px;margin:1rem auto;padding:0 1rem;">
+      <div style="display:flex;align-items:center;gap:24px;justify-content:flex-start;">
+        <a href="/" class="logo-link" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
+          <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
+          <span class="logo-text">Flax Lignan Health</span>
+        </a>
+        <nav style="display:flex;gap:16px;">
+          <a href="/products">Products</a>
+          <a href="/blog">Blog</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+    </header>
 
-    <a href="/" class="logo-link" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:inherit">
-  <img src="/images/logo.png" alt="Flax Lignan Health" style="height:40px;width:auto;display:block" />
-  <span class="logo-text">Flax Lignan Health</span>
-</a>
+    <!-- HERO -->
+    <section class="hero" aria-label="Flax Lignan Health">
+      <img class="hero-bg" src="/images/hero-1600.jpg" alt="" decoding="async" fetchpriority="high" />
 
-    <nav style="display:flex;gap:16px;">
+      <div class="hero-content">
+        <h1 class="site-title">Flax Lignan Health</h1>
+        <p>Your research-driven source for natural products promoting health, vitality and immune system support.</p>
+        <p>Order online or call <a href="tel:+18177106918" style="color:#fff;text-decoration:underline;">817-710-6918</a> to speak to customer service.</p>
+      </div>
 
-      <a href="/products">Products</a>
-    </nav>
-  </div>
-</header>
-
-
-
-
-<!-- HERO -->
-<section class="hero" aria-label="Flax Lignan Health">
-  <!-- Background image -->
-  <img
-    class="hero-bg"
-    src="/images/hero-1600.jpg"
-    alt=""
-    decoding="async"
-    fetchpriority="high"
-  />
-  <!-- Dark overlay for text contrast -->
-  <div class="hero-overlay"></div>
-
-  <div class="hero-content">
-    <h1 class="site-title">Flax Lignan Health</h1>
-
-    <p>Your research-driven source for natural products promoting health, vitality and immune system support.</p>
-<p>Order online or call <a href="tel:+18177106918">817-710-6918</a> to speak to customer service.</p>
-
-    <a class="hero-cta" href="/products">Shop Products</a>
-  </div>
-</section>
-
-<style>
-  .hero { position: relative; min-height: clamp(420px, 60vh, 680px); overflow: hidden; }
-  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.4)); }
-  .hero-content { position: relative; z-index: 1; color: #fff; max-width: 1100px; margin: 0 auto; padding: 64px 16px; text-align: center; }
-  .hero h1 { margin: 0 0 .5rem 0; font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.01em; }
-  .hero p { margin: 0 0 1.25rem 0; font-size: clamp(1rem, 2.2vw, 1.2rem); opacity: .95; }
-  .hero-cta { display: inline-block; padding: .75rem 1.1rem; border-radius: 10px; text-decoration: none; font-weight: 700; background: #0f172a; color: #fff; border: 1px solid #0f172a; }
-  @media (min-width: 900px) {
-    .hero-content { text-align: left; }
-  }
-<style>
-  @font-face {
-    font-family: 'Genuine';
-    src: url('/fonts/GENUINE.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  /* Hero title */
-  h1.site-title {
-    font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-  }
-
-  /* Nav links */
-  nav a {
-    font-family: 'Genuine', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    font-size: 1.05rem;         /* slightly larger for clarity */
-    font-weight: 400;           /* Genuine is bold enough by default */
-    letter-spacing: 0.02em;     /* opens up spacing for readability */
-    text-transform: uppercase;  /* optional: gives a clean, branded look */
-  }
-
-  nav a:hover {
-    opacity: 0.85;              /* subtle hover effect */
-  }
-</style>
-
-
-
-<!-- /HERO -->
-
+      <!-- Buttons stacked vertically under the shaded block -->
+      <div class="hero-actions">
+        <a class="hero-cta" href="/products">Shop Products</a>
+        <!-- Either point to a local page or your Constant Contact URL -->
+        <a class="hero-cta" href="https://lp.constantcontactpages.com/sl/DjPeNBz" >Coupons</a>
+        <!-- Or: <a class="hero-cta" href="https://YOUR-CONSTANT-CONTACT-LINK" target="_blank" rel="noopener">Coupons</a> -->
+        <a class="hero-cta" href="/blog">Blog</a>
+        <a class="hero-cta" href="/contact">Contact Us</a>
+      </div>
+    </section>
+    <!-- /HERO -->
 
     <main style="max-width:1100px;margin:2rem auto;padding:0 1rem;">
-      <h2 style="font-size:2rem;margin-bottom:0.5rem;"></h2>
-      <p style="font-size:1.05rem;line-height:1.5;margin:0 0 1.25rem 0;">
-        
+      <!-- Optional blog teaser -->
       <p class="blog-update-wrap">
-  <a class="blog-update" href="/blog">
-    <img src="/images/flax-flower-outline.svg" alt="" class="blog-icon" />
-    BLOG UPDATE: Click Here for the latest specials!
-  </a>
-</p>
-
-
-
+        <a class="blog-update" href="/blog">
+          <img src="/images/flax-flower-outline.svg" alt="" class="blog-icon" />
+          BLOG UPDATE: Click here for the latest specials!
+        </a>
+      </p>
     </main>
   </body>
 </html>
