@@ -1,46 +1,27 @@
 ---
+layout: ../layouts/BaseLayout.astro
 const title = "Flax Lignan Health — Home";
 ---
 
-<html lang="en">
-  <head>
-    <title>{title}</title>
-  </head>
-  <body>
-    <!-- Hero Section -->
-    <section class="hero">
-      <h1 class="site-title">Flax Lignan Health</h1>
-      <p>Nutrient-dense lignans and gentle detox support you can trust.</p>
-    </section>
+<!-- Hero Section -->
+<section class="hero">
+  <h1 class="site-title">Flax Lignan Health</h1>
+  <p>Nutrient-dense lignans and gentle detox support you can trust.</p>
+</section>
 
-    <!-- Products Section -->
-    <h2 id="products" class="products-title">Products</h2>
+<!-- Products Section -->
+<h2 id="products" class="products-title">Products</h2>
 
-    <!-- Blog Update Example -->
-    <div class="blog-update-wrap">
-      <a href="/blog" class="blog-update">
-        <span class="blog-icon">🌸</span>
-        <span>Read our latest blog update</span>
-      </a>
-    </div>
-  </body>
-</html>
+<!-- Blog Update Example -->
+<div class="blog-update-wrap">
+  <a href="/blog" class="blog-update">
+    <span class="blog-icon">🌸</span>
+    <span>Read our latest blog update</span>
+  </a>
+</div>
 
 <style>
-/* ---------- Site-wide body defaults ---------- */
-html, body {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 400;
-  margin: 0;
-}
-p, li { line-height: 1.6; }
-
-/* Smaller / subtle text */
-small, .subtle, .muted, .fineprint {
-  font-size: 0.9rem;
-  font-weight: 300;
-  opacity: 0.9;
-}
+/* Fonts are loaded in BaseLayout.astro */
 
 /* ---------- Home hero ---------- */
 h1.site-title {
@@ -56,36 +37,7 @@ h1.site-title {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 300;
   color: black;
-}
-
-/* ---------- Header / Nav ---------- */
-.logo-text {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  color: black;
-  display: inline-block;
-}
-
-nav a {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: 1.05rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: inherit;
-}
-nav a:hover { opacity: 0.85; }
-
-/* Hide logo text on small screens */
-.logo-text { display: none; }
-@media (min-width: 768px) {
-  .logo-text {
-    display: inline-block;
-    margin-left: 0.25rem;
-  }
+  line-height: 1.6;
 }
 
 /* ---------- Products page header ---------- */
@@ -94,22 +46,12 @@ nav a:hover { opacity: 0.85; }
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
-/* ---------- Products grid body copy (inside React island) ---------- */
-.shop-app-root p,
-.shop-app-root li,
-.shop-app-root small,
-.shop-app-root .desc,
-.shop-app-root .fineprint,
-.shop-app-root .muted {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
-  font-weight: 300;
-  line-height: 1.6;
-}
+/* ---------- Blog link styles ---------- */
+.blog-update-wrap { text-align: center; margin: 1rem 0; }
 
-/* Front-page BLOG UPDATE link */
 .blog-update {
   display: inline-flex;
   align-items: center;
@@ -123,7 +65,6 @@ nav a:hover { opacity: 0.85; }
 }
 .blog-update:hover { text-decoration: underline; opacity: .95; }
 
-/* Blog update icon */
 .blog-icon {
   width: 1.6em;
   height: 1.6em;
@@ -131,35 +72,8 @@ nav a:hover { opacity: 0.85; }
   transform: translateY(0.02em);
 }
 
-/* Stacked version */
-.blog-update--stacked {
-  flex-direction: column;
-  gap: 10px;
-  text-align: center;
-}
-.blog-update--stacked .blog-icon {
-  width: 2.2em;
-  height: 2.2em;
-}
-
-/* Blog readability */
+/* Blog content readability (if used on homepage) */
 .blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
 .blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
 .blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
-
-/* ===== FINAL OVERRIDES ===== */
-.logo-text { display: none !important; }
-
-header nav a,
-header .nav a,
-.site-header nav a,
-nav.primary a,
-nav a {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: inherit;
-}
 </style>
