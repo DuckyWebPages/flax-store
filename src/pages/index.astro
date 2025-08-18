@@ -1,83 +1,84 @@
 ---
-layout: ../layouts/BaseLayout.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
 const title = "Flax Lignan Health — Home";
 ---
 
-<!-- Hero Section -->
-<section class="hero">
-  <h1 class="site-title">Flax Lignan Health</h1>
-  <p>
-    Your research-driven source for natural products promoting health, vitality and immune system support.<br />
-    <strong>Order online or call 817-710-6918 to speak to customer service.</strong>
-  </p>
-</section>
+<BaseLayout>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 class="site-title">Flax Lignan Health</h1>
+    <p>
+      Your research-driven source for natural products promoting health, vitality and immune system support.<br />
+      <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
+    </p>
+  </section>
 
-<!-- Products Section -->
-<h2 id="products" class="products-title">Products</h2>
+  <!-- Products Section -->
+  <h2 id="products" class="products-title">Products</h2>
 
-<!-- Blog Update Example -->
-<div class="blog-update-wrap">
-  <a href="/blog" class="blog-update">
-    <span class="blog-icon">🌸</span>
-    <span>Read our latest blog update</span>
-  </a>
-</div>
+  <!-- Blog Update Example -->
+  <div class="blog-update-wrap">
+    <a href="/blog" class="blog-update">
+      <span class="blog-icon">🌸</span>
+      <span>Read our latest blog update</span>
+    </a>
+  </div>
 
-<style>
-/* ---------- Home hero ---------- */
-h1.site-title {
-  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
-  color: black;
-}
+  <style>
+    /* ---------- Home hero ---------- */
+    h1.site-title {
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: black;
+    }
 
-.hero p {
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 300;
-  color: black;
-  line-height: 1.6;
-  font-size: 1.1rem;
-  max-width: 700px;
-  margin-top: 0.5rem;
-}
+    .hero p {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 300;
+      color: black;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin-top: 0.5rem;
+    }
 
-/* ---------- Products page header ---------- */
-.products-title {
-  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin: 1.5rem 0 1rem;
-}
+    /* ---------- Products page header ---------- */
+    .products-title {
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 1.5rem 0 1rem;
+    }
 
-/* ---------- Blog link styles ---------- */
-.blog-update-wrap { text-align: center; margin: 2rem 0; }
+    /* ---------- Blog link styles ---------- */
+    .blog-update-wrap { text-align: center; margin: 2rem 0; }
 
-.blog-update {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  font-size: clamp(1.3rem, 2.8vw, 1.8rem);
-  line-height: 1;
-  text-decoration: none;
-}
-.blog-update:hover { text-decoration: underline; opacity: .95; }
+    .blog-update {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+      line-height: 1;
+      text-decoration: none;
+    }
+    .blog-update:hover { text-decoration: underline; opacity: .95; }
 
-.blog-icon {
-  width: 1.6em;
-  height: 1.6em;
-  flex: 0 0 auto;
-  transform: translateY(0.02em);
-}
+    .blog-icon {
+      width: 1.6em;
+      height: 1.6em;
+      flex: 0 0 auto;
+      transform: translateY(0.02em);
+    }
 
-/* Blog readability */
-.blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
-.blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
-.blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
-</style>
+    .blog-content p, .blog-content li { line-height: 1.7; font-size: 1.05rem; }
+    .blog-content h2, .blog-content h3 { margin-top: 1.25rem; }
+    .blog-content img { max-width: 100%; height: auto; border-radius: 10px; }
+  </style>
+</BaseLayout>
