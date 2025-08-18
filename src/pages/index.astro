@@ -1,45 +1,90 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'; // change to ../layouts/... if you don't use the @ alias
-const title = 'Flax Lignan Health — Home';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export const prerender = true;
+
+// Load posts (non-drafts), newest first
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const title = 'Blog — Flax Lignan Health';
 ---
 
 <BaseLayout>
-  <section class="hero" aria-label="Flax Lignan Health hero">
-    <img class="hero-bg" src="/images/hero-1600.jpg?v=16" alt="" />
+  <!-- Put the page title into the <title> slot in BaseLayout -->
+  <Fragment slot="title">{title} — </Fragment>
 
-    <div class="hero-inner">
-      <div class="hero-card">
-        <h1 class="site-title">Flax Lignan Health</h1>
-        <p>
-          Your research-driven source for natural products promoting health, vitality and immune system support.<br />
-          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
-        </p>
-      </div>
-      <!-- ❌ CTA row removed -->
-    </div>
-  </section>
+  <header class="blog-header">
+    <h1>Blog</h1>
+    <p class="lede">Research-driven insights and site updates.</p>
+  </header>
 
-  <div class="blog-update-wrap">
-    <a href="/blog" class="blog-update">
-      <img class="blog-icon" src="/images/flax-flower.png" alt="" />
-      <span>Read our latest blog update</span>
-    </a>
-  </div>
+  <main class="blog-list" aria-labelledby="blog-listing">
+    {posts.length === 0 ? (
+      <p>No posts yet. Check back soon.</p>
+    ) : (
+      posts.map((post) => (
+        <article class="post-card">
+          <h2 class="post-title">
+            <a href={`/blog/${post.slug}/`} class="post-link">
+              {post.data.title}
+            </a>
+          </h2>
+
+          <p class="meta">
+            {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            {post.data.tags?.length ? ` • ${post.data.tags.join(', ')}` : ''}
+          </p>
+
+          {post.data.description && <p class="excerpt">{post.data.description}</p>}
+        </article>
+      ))
+    )}
+  </main>
 
   <style>
-    .hero { position: relative; isolation: isolate; overflow: hidden; min-height: clamp(420px, 62vh, 680px); padding: 56px 16px 56px; border-bottom: 1px solid #e5e7eb; display: block; }
-    .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
-    .hero-inner { position: relative; max-width: 1100px; margin: 0 auto; z-index: 1; }
-    .hero-card { display: inline-block; max-width: 760px; background: rgba(255,255,255,0.62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 14px; padding: 16px 20px; box-shadow: 0 6px 18px rgba(0,0,0,.10); }
-    .site-title { font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-size: clamp(2.2rem, 4.2vw, 3.2rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; color: #000; margin: 0 0 .25rem 0; }
-    .hero-card p { font-family: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight: 300; line-height: 1.6; font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem); color: #000; margin: .5rem 0 0 0; max-width: 720px; }
-    .hero-card p a { color: inherit; text-decoration: underline; }
+    .blog-header {
+      max-width: 1100px;
+      margin: 0 auto 8px;
+      padding: 0 16px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .blog-header h1 {
+      font-weight: 700;
+      margin: .5rem 0 .25rem;
+    }
+    .lede {
+      color: #555;
+      margin: 0 0 .9rem;
+    }
 
-    .blog-update-wrap { text-align: center; margin: 2rem 0; }
-    .blog-update { display: inline-flex; align-items: center; gap: 12px; font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight: 600; letter-spacing: 0.02em; font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1; color: inherit; text-decoration: none; }
-    .blog-update:hover { text-decoration: underline; opacity: .95; }
-    .blog-icon { width: 1.6em; height: 1.6em; object-fit: contain; transform: translateY(0.02em); }
-
-    @media (max-width: 768px) { .hero { padding: 36px 16px 48px; } .hero-card { padding: 12px 14px; border-radius: 12px; } }
+    .blog-list {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 16px 2.5rem;
+    }
+    .post-card {
+      padding: .6rem 0 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    .post-title {
+      margin: 0 0 .25rem;
+      font-weight: 700;
+    }
+    .post-link {
+      color: inherit;
+      text-decoration: underline;
+      position: relative;
+      z-index: 2;             /* belt-and-suspenders clickability */
+      pointer-events: auto;
+    }
+    .meta {
+      color:#555;
+      margin: 0 0 .5rem;
+    }
+    .excerpt {
+      margin: 0;
+    }
   </style>
 </BaseLayout>
