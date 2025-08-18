@@ -1,5 +1,5 @@
 ---
-/* NOTE: No React provider here anymore */
+/* Base layout */
 ---
 
 <html lang="en">
@@ -7,93 +7,59 @@
     <meta charset="utf-8" />
     <title><slot name="title" />Flax Lignan Health</title>
 
-    <!-- Google Fonts: Inter (body) + Source Sans 3 (headings/brand) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
       :root {
         --font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         --font-head: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        --ink: #0f172a;
-        --ink-muted: #64748b;
-        --bg: #f8fafc;
+        --ink: #0f172a; --ink-muted: #64748b; --bg: #f8fafc;
       }
-
-      /* Base defaults */
-      body {
-        margin: 0;
-        font-family: var(--font-body);
-        background: var(--bg);
-        color: var(--ink);
+      body { margin: 0; font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+      .site-header, main, footer { max-width: 1100px; margin: 0 auto; }
+      .site-header {
+        padding: 12px 16px; display:flex; align-items:center; justify-content:space-between;
+        border-bottom:1px solid #e5e7eb; background:#fff;
+        position: relative; z-index: 100; /* ✅ keep header clickable above hero */
       }
-
-      header, main, footer { max-width: 1100px; margin: 0 auto; }
-      header {
-        padding: 12px 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #e5e7eb;
-      }
-
-      /* Nav */
-      nav a {
-        color: var(--ink);
-        text-decoration: none;
-        margin-right: 14px;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        padding: 6px 8px;
-        border-radius: 8px;
-      }
-      nav a:hover { background: #f3f4f6; }
-      /* underline the active page */
+      nav { display:flex; gap:16px; align-items:center; }
+      .nav-link { color:#0f172a; text-decoration:none; font-weight:600; letter-spacing:.02em; padding:6px 8px; border-radius:8px; }
+      .nav-link:hover { background:#f3f4f6; }
       .nav-link[aria-current="page"] { text-decoration: underline; }
 
       main { padding: 24px 16px 56px; }
       footer { padding: 16px; color: var(--ink-muted); }
 
-      /* Global heading style = Source Sans 3 */
       h1, h2, h3, h4, .brand-title, .products-title, .site-title {
-        font-family: var(--font-head);
-        line-height: 1.15;
-        letter-spacing: -0.01em;
+        font-family: var(--font-head); line-height:1.15; letter-spacing:-.01em;
       }
-      h1, .site-title { font-weight: 700; }
-      h2, .products-title { font-weight: 700; }
-      h3, h4 { font-weight: 600; }
+      h1, .site-title, h2, .products-title { font-weight:700; } h3, h4 { font-weight:600; }
     </style>
   </head>
 
   <body>
-    <header>
+    <header class="site-header">
       <nav aria-label="Main">
-        <a href="/"
-           class="nav-link"
+        <a href="/" class="nav-link"
            aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>
           Home
         </a>
 
-        <!-- Use the products PAGE (matches your hero button). Change to "/#products" only if you specifically want the home anchor. -->
-        <a href="/products"
-           class="nav-link"
+        <a href="/products" class="nav-link"
            aria-current={Astro.url.pathname.startsWith('/products') ? 'page' : undefined}>
           Products
         </a>
 
-        <a href="/blog"
-           class="nav-link"
+        <a href="/blog" class="nav-link"
            aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>
           Blog
         </a>
 
-        <a href="/contact"
-           class="nav-link"
+        <a href="/contact" class="nav-link"
            aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>
           Contact Us
         </a>
       </nav>
-      <!-- Cart button will come from CartIsland inside pages -->
     </header>
 
     <main>

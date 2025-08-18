@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'; // If you don't use the @ alias, change to: ../layouts/BaseLayout.astro
+import BaseLayout from '@/layouts/BaseLayout.astro'; // change to ../layouts/... if you don't use the @ alias
 const title = 'Flax Lignan Health — Home';
 ---
 
@@ -15,13 +15,7 @@ const title = 'Flax Lignan Health — Home';
           <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
         </p>
       </div>
-
-      <!-- Buttons directly under the card -->
-      <nav class="cta-row" aria-label="Quick actions">
-        <a href="/products" class="cta-btn">Shop</a>
-        <a href="/contact" class="cta-btn">Contact Us</a>
-        <a href="/blog" class="cta-btn">Blog</a>
-      </nav>
+      <!-- ❌ CTA row removed -->
     </div>
   </section>
 
@@ -40,14 +34,12 @@ const title = 'Flax Lignan Health — Home';
     .site-title { font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-size: clamp(2.2rem, 4.2vw, 3.2rem); font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; color: #000; margin: 0 0 .25rem 0; }
     .hero-card p { font-family: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight: 300; line-height: 1.6; font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem); color: #000; margin: .5rem 0 0 0; max-width: 720px; }
     .hero-card p a { color: inherit; text-decoration: underline; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 12px; }
-    .cta-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 120px; padding: 10px 16px; font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #fff; background: #111827; text-decoration: none; border: 0; border-radius: 9999px; box-shadow: 0 6px 18px rgba(0,0,0,.18); user-select: none; -webkit-tap-highlight-color: transparent; white-space: nowrap; transition: transform .08s ease, opacity .15s ease; }
-    .cta-btn:hover { opacity: .92; transform: translateY(-1px); }
-    .cta-btn:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
+
     .blog-update-wrap { text-align: center; margin: 2rem 0; }
     .blog-update { display: inline-flex; align-items: center; gap: 12px; font-family: 'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-weight: 600; letter-spacing: 0.02em; font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1; color: inherit; text-decoration: none; }
     .blog-update:hover { text-decoration: underline; opacity: .95; }
     .blog-icon { width: 1.6em; height: 1.6em; object-fit: contain; transform: translateY(0.02em); }
-    @media (max-width: 768px) { .hero { padding: 36px 16px 48px; } .hero-card { padding: 12px 14px; border-radius: 12px; } .cta-row { flex-direction: column; } .cta-btn { width: 100%; padding: 12px 16px; } }
+
+    @media (max-width: 768px) { .hero { padding: 36px 16px 48px; } .hero-card { padding: 12px 14px; border-radius: 12px; } }
   </style>
 </BaseLayout>
