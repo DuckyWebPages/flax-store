@@ -150,3 +150,159 @@ const title = "Flax Lignan Health — Home";
     .products-title { display: none !important; }
   </style>
 </BaseLayout>
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const title = "Flax Lignan Health — Home";
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="hero-bg" role="img" aria-label="Healthy flax and natural products background"></div>
+
+    <div class="hero-inner">
+      <div class="hero-card">
+        <h1 class="site-title">Flax Lignan Health</h1>
+        <p>
+          Your research-driven source for natural products promoting health, vitality and immune system support.<br />
+          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a> to speak to customer service.</strong>
+        </p>
+      </div>
+
+      <!-- Moved here, under the text -->
+      <nav class="quick-actions" aria-label="Quick actions">
+        <a href="/products" class="qa-btn">Shop</a>
+        <a href="https://wa.me/18177106918" class="qa-btn" target="_blank" rel="noopener">Whatsapp</a>
+        <a href="/blog" class="qa-btn">Blog</a>
+      </nav>
+    </div>
+  </section>
+
+  <div class="blog-update-wrap">
+    <a href="/blog" class="blog-update">
+      <img class="blog-icon" src="/images/flax-flower.png" alt="Flax flower" />
+      <span>Read our latest blog update</span>
+    </a>
+  </div>
+
+  <style>
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(380px, 60vh, 620px);
+      display: grid;
+      align-items: start;
+      padding: 64px 16px 48px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .hero::before { content: none !important; }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('/images/hero-1600.jpg?v=10');
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .hero-card {
+      display: inline-block;
+      background: rgba(255,255,255,0.6);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.1);
+    }
+
+    /* Hero text */
+    .hero h1.site-title {
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-size: clamp(2.2rem, 4.2vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      color: #000;
+      text-shadow: none;
+    }
+    .hero .hero-card p {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      font-size: clamp(1rem, 1.2vw + .8rem, 1.125rem);
+      color: #000;
+      max-width: 720px;
+      margin-top: .6rem;
+      text-shadow: none;
+    }
+    .hero .hero-card p a { color: inherit; text-decoration: underline; }
+
+    /* ===== Buttons now flow UNDER the text ===== */
+    .quick-actions {
+      display: flex;
+      flex-direction: column;   /* keep vertical stack */
+      gap: 10px;
+      margin-top: 16px;         /* space below hero-card */
+      position: static;         /* no overlay */
+      transform: none;
+    }
+    .qa-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      border: 1px solid #111827;
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+      line-height: 1;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+      transition: transform .08s ease, opacity .15s ease, background-color .15s ease, border-color .15s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+      width: fit-content;
+    }
+    .qa-btn:hover { opacity: .9; }
+    .qa-btn:active { transform: translateY(1px); }
+
+    @media (max-width: 768px) {
+      .hero { padding: 36px 16px; }
+      .hero-card { padding: 12px 14px; border-radius: 10px; }
+    }
+
+    /* ===== BLOG UPDATE ===== */
+    .blog-update-wrap { text-align: center; margin: 2rem 0; }
+    .blog-update {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+      line-height: 1;
+      text-decoration: none;
+      color: inherit;
+    }
+    .blog-update:hover { text-decoration: underline; opacity: .95; }
+    .blog-icon {
+      width: 1.6em;
+      height: 1.6em;
+      display: inline-block;
+      flex: 0 0 auto;
+      object-fit: contain;
+      transform: translateY(0.02em);
+    }
+
+    /* Hide any stray Products heading on this page */
+    .products-title { display: none !important; }
+  </style>
+</BaseLayout>
