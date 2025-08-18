@@ -184,3 +184,7 @@ nav a {
   color: black !important;
 }
 
+.hero::before {
+  content: none !important;
+}
+
