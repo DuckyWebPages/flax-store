@@ -1,5 +1,5 @@
 ---
-/* Base layout: fixed header, anti-overlay, and a tiny click fail-safe */
+/* Simple, reliable layout with fixed header + clean nav */
 ---
 
 <html lang="en">
@@ -7,72 +7,44 @@
     <meta charset="utf-8" />
     <title><slot name="title" />Flax Lignan Health</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Source+Sans+3:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
-      :root {
-        --font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        --font-head: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        --ink: #0f172a; --ink-muted: #64748b; --bg: #f8fafc;
+      :root{
+        --font-body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+        --font-head:'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+        --ink:#0f172a; --ink-muted:#64748b; --bg:#f8fafc;
       }
+      *{box-sizing:border-box}
+      body{margin:0;font-family:var(--font-body);background:var(--bg);color:var(--ink);}
 
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
-      body { margin: 0; font-family: var(--font-body); background: var(--bg); color: var(--ink); }
+      /* Fixed header that always sits above page content */
+      .site-header-wrap{
+        position:fixed;top:0;left:0;right:0;z-index:9999;
+        background:#fff;border-bottom:1px solid #e5e7eb;
+      }
+      .site-header{
+        max-width:1100px;margin:0 auto;padding:10px 16px;
+        display:flex;align-items:center;justify-content:space-between;
+      }
+      .brand{font-family:var(--font-head);font-weight:800;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+      nav.main-nav{display:flex;gap:16px;align-items:center}
+      .nav-link{
+        color:var(--ink);text-decoration:none;font-weight:600;letter-spacing:.02em;
+        padding:6px 8px;border-radius:8px;
+      }
+      .nav-link:hover{background:#f3f4f6}
+      .nav-link[aria-current="page"]{text-decoration:underline}
 
-      /* ===== Fixed header that ALWAYS receives clicks ===== */
-      .site-header-wrap {
-        position: fixed; top: 0; left: 0; right: 0;
-        z-index: 2147483647; /* max practical */
-        background: #fff; border-bottom: 1px solid #e5e7eb;
-        pointer-events: auto !important;
-      }
-      .site-header {
-        max-width: 1100px; margin: 0 auto; padding: 10px 16px;
-        display: flex; align-items: center; justify-content: space-between;
-      }
-      .brand { font-family: var(--font-head); font-weight: 800; letter-spacing: -0.01em; text-decoration: none; color: var(--ink); }
-      nav.main-nav { display: flex; gap: 16px; align-items: center; }
-      .nav-link {
-        color: var(--ink); text-decoration: none; font-weight: 600; letter-spacing: .02em;
-        padding: 6px 8px; border-radius: 8px;
-        position: relative; z-index: 2; pointer-events: auto !important;
-      }
-      .nav-link:hover { background: #f3f4f6; }
-      .nav-link[aria-current="page"] { text-decoration: underline; }
-
-      /* Page shell (clear fixed header) */
-      main, footer { max-width: 1100px; margin: 0 auto; }
-      main { padding: 92px 16px 56px; }
-      footer { padding: 16px; color: var(--ink-muted); }
+      /* Page shell: leave room for fixed header */
+      main,footer{max-width:1100px;margin:0 auto}
+      main{padding:92px 16px 56px}
+      footer{padding:16px;color:var(--ink-muted)}
 
       /* Headings */
-      h1, h2, h3, h4, .brand-title, .products-title, .site-title {
-        font-family: var(--font-head); line-height: 1.15; letter-spacing: -0.01em;
-      }
-      h1, .site-title, h2, .products-title { font-weight: 700; }
-      h3, h4 { font-weight: 600; }
-
-      /* ===== CLICKABILITY HARDENING ===== */
-      /* Legacy hero overlays: never render them */
-      .hero-actions, .hero-cta, .quick-actions { display: none !important; }
-
-      /* Background/overlays never catch clicks */
-      .hero-bg, .hero::before, .hero::after, .overlay, .shade { pointer-events: none !important; }
-
-      /* Some themes position the whole .hero over the page; disable clicks there,
-         then re-enable ONLY the pieces we actually want clickable. */
-      .hero { pointer-events: none !important; }
-      .hero * { pointer-events: none !important; }
-
-      /* Keep the single Shop CTA clickable */
-      .home-shop-cta, .home-shop-cta * { pointer-events: auto !important; position: relative; z-index: 5; }
-
-      /* Bottom blog teaser: always clickable */
-      .blog-update-wrap, .blog-update, .blog-update-wrap a { position: relative; z-index: 6; pointer-events: auto !important; }
-
-      /* Belt-and-suspenders: every /blog link sits above and is clickable */
-      a[href^="/blog"] { position: relative; z-index: 7; pointer-events: auto !important; }
+      h1,h2,h3,h4,.site-title,.products-title{font-family:var(--font-head);letter-spacing:-.01em;line-height:1.15}
+      h1,.site-title,h2,.products-title{font-weight:700}
+      h3,h4{font-weight:600}
     </style>
   </head>
 
@@ -80,46 +52,17 @@
     <div class="site-header-wrap">
       <div class="site-header">
         <a href="/" class="brand">Flax Lignan Health</a>
-
         <nav class="main-nav" aria-label="Main">
-          <a href="/" class="nav-link"
-             aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>
-            Home
-          </a>
-          <a href="/products" class="nav-link"
-             aria-current={Astro.url.pathname.startsWith('/products') ? 'page' : undefined}>
-            Products
-          </a>
-          <a href="/blog/" class="nav-link"
-             aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>
-            Blog
-          </a>
-          <a href="/contact" class="nav-link"
-             aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>
-            Contact Us
-          </a>
+          <a href="/" class="nav-link" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a>
+          <a href="/products" class="nav-link" aria-current={Astro.url.pathname.startsWith('/products') ? 'page' : undefined}>Products</a>
+          <a href="/blog/" class="nav-link" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+          <a href="/contact" class="nav-link" aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>Contact Us</a>
         </nav>
       </div>
     </div>
 
-    <main>
-      <slot />
-    </main>
+    <main><slot /></main>
 
-    <footer>
-      © {new Date().getFullYear()} Flax Lignan Health
-    </footer>
-
-    <!-- Tiny fail-safe: any click on a /blog link forces navigation -->
-    <script is:inline>
-      document.addEventListener('click', function (e) {
-        const link = e.target && e.target.closest && e.target.closest('a[href^="/blog"]');
-        if (link) {
-          e.preventDefault();
-          const href = link.getAttribute('href');
-          if (href) window.location.href = href;
-        }
-      }, { capture: true });
-    </script>
+    <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
   </body>
 </html>
