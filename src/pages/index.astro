@@ -9,21 +9,23 @@ const pageTitle = 'Home — ';
   <section class="hero" aria-label="Flax Lignan Health hero">
     <img class="hero-bg" src="/images/hero-1600.jpg?v=21" alt="" />
 
-    <!-- Logo in the top-left -->
-    <a href="/" class="logo-wrap" aria-label="Flax Lignan Health home">
-      <img
-        src="/images/flhlogo20252.png"
-        alt="Flax Lignan Health logo"
-        width="320"
-        height="320"
-        decoding="async"
-        loading="eager"
-        fetchpriority="high"
-        style="aspect-ratio:1/1"
-      />
-    </a>
-
     <div class="hero-inner">
+      <!-- Logo (no background, larger) -->
+      <a href="/" class="logo-link" aria-label="Flax Lignan Health home">
+        <img
+          class="logo"
+          src="/images/flhlogo20252.png"
+          alt="Flax Lignan Health logo"
+          width="400"
+          height="400"
+          decoding="async"
+          loading="eager"
+          fetchpriority="high"
+          style="aspect-ratio:1/1"
+        />
+      </a>
+
+      <!-- White text box immediately to the right of the logo -->
       <div class="hero-card">
         <h1 class="site-title">Flax Lignan Health</h1>
         <p>
@@ -42,26 +44,27 @@ const pageTitle = 'Home — ';
     .hero{
       position:relative;isolation:isolate;overflow:hidden;
       min-height:clamp(420px,62vh,680px);
-      padding:56px 16px 56px;border-bottom:1px solid #e5e7eb;display:block;
+      padding:28px 16px 56px; /* tighter top padding to pin items higher */
+      border-bottom:1px solid #e5e7eb;display:block;
     }
     .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
 
-    /* Top-left logo */
-    .logo-wrap{
-      position:absolute;top:16px;left:16px;z-index:2;
-      display:block;padding:8px;border-radius:12px;background:rgba(255,255,255,.75);
-      -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
-      box-shadow:0 6px 18px rgba(0,0,0,.12);
-    }
-    .logo-wrap img{
-      display:block;height:clamp(54px,8vw,92px);width:auto;
-    }
-
-    /* Push card to the right on desktop */
+    /* Row layout: logo + card at top-left */
     .hero-inner{
       position:relative;max-width:1100px;margin:0 auto;z-index:1;
-      display:flex;justify-content:flex-end;align-items:flex-end;min-height:clamp(360px,54vh,600px);
+      display:flex;align-items:flex-start;justify-content:flex-start;gap:20px;
+      min-height:clamp(360px,54vh,600px);
     }
+
+    /* Logo: no background, larger (about 2× from earlier) */
+    .logo-link{display:block;line-height:0}
+    .logo{
+      display:block;
+      height:clamp(120px,18vw,200px); /* adjust as needed */
+      width:auto;
+    }
+
+    /* White text box */
     .hero-card{
       display:inline-block;max-width:760px;background:rgba(255,255,255,.62);
       -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
@@ -83,11 +86,10 @@ const pageTitle = 'Home — ';
     .cta-btn:hover{opacity:.92;transform:translateY(-1px)}
 
     @media (max-width:768px){
-      .hero{padding:36px 16px 48px}
-      .hero-inner{justify-content:center;align-items:flex-end}
+      .hero{padding:24px 16px 48px}
+      .hero-inner{gap:12px;flex-wrap:wrap}
+      .logo{height:clamp(96px,22vw,140px)}
       .hero-card{padding:12px 14px;border-radius:12px}
-      .logo-wrap{top:12px;left:12px;padding:6px;border-radius:10px}
-      .logo-wrap img{height:64px}
     }
   </style>
 </BaseLayout>
