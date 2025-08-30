@@ -6,7 +6,7 @@ const pageTitle = 'Home — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- === Category Bar (full-width, taller, with heading) === -->
+  <!-- === Category Bar (full-width, with heading) === -->
   <section class="category-bar" aria-label="Shop by category">
     <div class="cat-wrap">
       <h2 class="cat-heading">Top Selling Products</h2>
@@ -56,7 +56,7 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
-    <!-- === Hero with new image === -->
+  <!-- === Hero with new image === -->
   <section class="hero" aria-label="Flax Lignan Health hero">
     <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
 
@@ -83,65 +83,34 @@ const pageTitle = 'Home — ';
   </section>
 
   <style>
-    /* Signup banner */
-    .signup-banner {
-      margin: 20px auto;
-      max-width: 1536px;     /* matches coupon1.jpg width */
-      text-align:center;
-    }
-    .signup-banner img {
-  width:100%;            
-  height:auto;
-  max-height:260px;       /* keeps banner shorter on desktops */
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,.15);
-  transition: transform .18s ease, opacity .18s ease;
-  object-fit:cover;       /* crop if needed */
-}
-
-/* Mobile tweak */
-@media (max-width: 640px) {
-  .signup-banner img {
-    max-height:160px;     /* shorter height on small screens */
-  }
-}
-
-    .signup-banner img:hover {
-      transform: translateY(-2px);
-      opacity:.95;
-    }
-  </style>
-
-
     /* ===== Category Bar ===== */
-   .category-bar{
-  background:#fff;
-  min-height:240px;   /* reduced from 300px */
-  display:flex;
-  align-items:center; /* vertically center contents */
-  border-bottom:1px solid #e5e7eb;
-  padding-top:10px;   /* was 20px */
-  padding-bottom:10px;/* was 20px */
-}
-.cat-wrap{
-  width:min(1200px, 92vw);
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  justify-content:center; /* centers heading + circles in the space */
-  gap:16px;               /* a little less gap */
-}
-.cat-heading{
-  font-size:1.5rem;
-  font-weight:700;
-  text-align:center;
-  margin:0;
-}
-
+    .category-bar{
+      background:#fff;
+      min-height:240px;            /* reduced height */
+      display:flex;
+      align-items:center;          /* center contents vertically */
+      border-bottom:1px solid #e5e7eb;
+      padding-top:10px;
+      padding-bottom:10px;
+    }
+    .cat-wrap{
+      width:min(1200px, 92vw);
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;      /* center heading + circles */
+      gap:16px;
+    }
+    .cat-heading{
+      font-size:1.5rem;
+      font-weight:700;
+      text-align:center;
+      margin:0;
+    }
     .cat-grid{
       display:grid;
       grid-template-columns: repeat(6, 1fr);
-      gap:clamp(10px, 2vw, 28px);
+      gap:clamp(10px, 2vw, 24px);  /* slightly tighter gap */
       align-items:center;
       justify-items:center;
     }
@@ -168,85 +137,81 @@ const pageTitle = 'Home — ';
       box-shadow:0 2px 6px rgba(0,0,0,.10);
       display:block;
     }
-    .cat-thumb img{
-      width:100%;height:100%;object-fit:cover;display:block;
-    }
-    .cat-label{
-      font-size:1rem;font-weight:600;text-align:center;line-height:1.2;
-    }
+    .cat-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .cat-label{ font-size:1rem; font-weight:600; text-align:center; line-height:1.2; }
+
     @media (max-width: 1024px){
       .cat-grid{ grid-template-columns: repeat(3, 1fr); }
-      .category-bar{ min-height: 340px; }
+      .category-bar{ min-height: 300px; }
     }
     @media (max-width: 640px){
       .cat-grid{ grid-template-columns: repeat(2, 1fr); }
-      .category-bar{ min-height: 380px; }
+      .category-bar{ min-height: 320px; }
     }
 
     /* ===== Hero ===== */
     .hero{
-      position:relative;isolation:isolate;overflow:hidden;
+      position:relative; isolation:isolate; overflow:hidden;
       min-height:clamp(420px,62vh,680px);
       padding:28px 16px 56px;
-      border-bottom:1px solid #e5e7eb;display:block;
+      border-bottom:1px solid #e5e7eb; display:block;
     }
     .hero-bg{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center 60%;
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:center 60%;
       z-index:-1;
     }
     .hero-inner{
-      position:relative;
-      max-width:1100px;
-      margin:0 auto;
-      z-index:1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      position:relative; max-width:1100px; margin:0 auto; z-index:1;
+      display:flex; align-items:center; justify-content:center;
       min-height:clamp(360px,54vh,600px);
     }
     .hero-card{
-      display:inline-block;
-      width:75%;
-      max-width:720px;
+      display:inline-block; width:75%; max-width:720px;
       background:rgba(255,255,255,.62);
-      -webkit-backdrop-filter:blur(8px);
-      backdrop-filter:blur(8px);
-      border-radius:14px;
-      padding:16px 20px;
-      box-shadow:0 6px 18px rgba(0,0,0,.10);
-      text-align:center;
-      z-index:2;
+      -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+      border-radius:14px; padding:16px 20px; box-shadow:0 6px 18px rgba(0,0,0,.10);
+      text-align:center; z-index:2;
     }
     .home-shop-cta{
-      display:flex;
-      justify-content:center;
-      margin-top:16px;
+      display:flex; justify-content:center; margin-top:16px;
     }
     .cta-btn{
       display:inline-flex; align-items:center; justify-content:center;
-      min-width:140px;
-      padding:12px 18px;
+      min-width:140px; padding:12px 18px;
       font:700 16px/1 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-      color:#fff; background:#111827;
-      text-decoration:none; border:0; border-radius:9999px;
-      box-shadow:0 6px 18px rgba(0,0,0,.18);
-      position:relative; z-index:3;
+      color:#fff; background:#111827; text-decoration:none; border:0; border-radius:9999px;
+      box-shadow:0 6px 18px rgba(0,0,0,.18); position:relative; z-index:3;
       user-select:none; -webkit-tap-highlight-color:transparent; white-space:nowrap;
       transition:transform .08s ease, opacity .15s ease;
     }
-    .cta-btn:hover{opacity:.92; transform:translateY(-1px)}
+    .cta-btn:hover{ opacity:.92; transform:translateY(-1px); }
 
     @media (max-width:768px){
-      .hero{padding:24px 16px 48px}
-      .hero-inner{min-height:420px}
-      .hero-card{width:92%; max-width:none; padding:14px 16px; border-radius:12px}
-      .home-shop-cta{margin-top:14px}
-      .cta-btn{width:100%; max-width:320px}
+      .hero{ padding:24px 16px 48px; }
+      .hero-inner{ min-height:420px; }
+      .hero-card{ width:92%; max-width:none; padding:14px 16px; border-radius:12px; }
+      .home-shop-cta{ margin-top:14px; }
+      .cta-btn{ width:100%; max-width:320px; }
+    }
+
+    /* ===== Signup banner ===== */
+    .signup-banner{
+      margin:20px auto;
+      max-width:1536px;
+      text-align:center;
+    }
+    .signup-banner img{
+      width:100%; height:auto;
+      max-height:260px;         /* desktop cap */
+      object-fit:cover;
+      cursor:pointer;
+      box-shadow:0 2px 6px rgba(0,0,0,.15);
+      transition: transform .18s ease, opacity .18s ease;
+    }
+    .signup-banner img:hover{ transform:translateY(-2px); opacity:.95; }
+    @media (max-width:640px){
+      .signup-banner img{ max-height:160px; }
     }
   </style>
 </BaseLayout>
