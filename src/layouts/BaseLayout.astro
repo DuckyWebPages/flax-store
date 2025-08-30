@@ -1,7 +1,6 @@
 ---
 /* Simple, reliable layout with fixed header + clean nav */
 ---
-
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -28,16 +27,16 @@
         display:flex;align-items:center;justify-content:space-between;
       }
 
-      /* Brand (logo + name) */
+      /* Brand (logo only) */
       .brand{
-        display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;
-        font-family:var(--font-head);font-weight:800;letter-spacing:-.01em;color:var(--ink);
+        display:inline-flex;align-items:center;text-decoration:none;
       }
-      .brand-logo{display:block;width:44px;height:44px;object-fit:contain}
-      .brand-name{font-weight:800;font-size:1.125rem}
+      .nav-logo{
+        height:48px;          /* adjust as needed */
+        width:auto;display:block;
+      }
       @media (min-width:1024px){
-        .brand-logo{width:56px;height:56px}
-        .brand-name{font-size:1.25rem}
+        .nav-logo{height:56px}
       }
 
       nav.main-nav{display:flex;gap:16px;align-items:center}
@@ -63,18 +62,15 @@
   <body>
     <div class="site-header-wrap">
       <div class="site-header">
-        <!-- Brand with logo + name -->
+        <!-- Brand: image logo replaces text -->
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
           <img
-            src="/images/flhlogo20252.png"
-            alt="Flax Lignan Health logo"
-            width="44"
-            height="44"
-            class="brand-logo"
+            src="/images/flh-logo-2025.png"
+            alt="Flax Lignan Health"
+            class="nav-logo"
             decoding="async"
             loading="eager"
           />
-          <span class="brand-name">Flax Lignan Health</span>
         </a>
 
         <nav class="main-nav" aria-label="Main">
