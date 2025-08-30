@@ -20,6 +20,7 @@
         margin:0;
         font-family:var(--font-body);
         color:var(--ink);
+        /* SITE-WIDE BACKGROUND IMAGE */
         background:#0b7a53 url("/images/background3.png") center top / cover no-repeat fixed;
       }
 
@@ -42,13 +43,11 @@
 
       /* Links on the right */
       nav.main-nav{
-        display:flex; gap:24px; align-items:center;
-        height:100%;
+        display:flex; gap:24px; align-items:center; height:100%;
       }
       .nav-link{
         color:var(--ink); font-weight:600; text-decoration:none;
-        padding:6px 8px; border-radius:6px;
-        font-size:1.05rem;
+        padding:6px 8px; border-radius:6px; font-size:1.05rem;
       }
       .nav-link:hover{ background:#f3f4f6; }
       .nav-link[aria-current="page"]{ text-decoration:underline; }
@@ -56,7 +55,12 @@
       /* Page spacing for tall header */
       main,footer{ max-width:1100px; margin:0 auto; }
       main{ padding:240px 16px 56px; } /* header is 200px tall */
-      footer{ padding:16px; color:var(--ink-muted); background:rgba(255,255,255,.85); border-radius:12px 12px 0 0; }
+      footer{
+        padding:16px;
+        color:var(--ink-muted);
+        background:rgba(255,255,255,.85);
+        border-radius:12px 12px 0 0;
+      }
 
       /* Headings */
       h1,h2,h3,h4,.site-title,.products-title{
@@ -75,3 +79,19 @@
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
           <img src="/images/flh-logo-3.png" alt="Flax Lignan Health" class="nav-logo" />
         </a>
+
+        <!-- Links aligned right -->
+        <nav class="main-nav" aria-label="Main">
+          <a href="/" class="nav-link" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a>
+          <a href="/products" class="nav-link" aria-current={Astro.url.pathname.startsWith('/products') ? 'page' : undefined}>Products</a>
+          <a href="/blog/" class="nav-link" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+          <a href="/contact" class="nav-link" aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>Contact Us</a>
+        </nav>
+      </div>
+    </div>
+
+    <main><slot /></main>
+
+    <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
+  </body>
+</html>
