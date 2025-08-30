@@ -56,7 +56,7 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
-  <!-- === Hero with new image === -->
+    <!-- === Hero with new image === -->
   <section class="hero" aria-label="Flax Lignan Health hero">
     <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
 
@@ -75,7 +75,44 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
+  <!-- === Constant Contact Signup Banner === -->
+  <section class="signup-banner">
+    <a href="https://lp.constantcontactpages.com/sl/DjPeNBz" target="_blank" rel="noopener">
+      <img src="/images/coupon1.jpg" alt="Sign up for our newsletter" />
+    </a>
+  </section>
+
   <style>
+    /* Signup banner */
+    .signup-banner {
+      margin: 20px auto;
+      max-width: 1536px;     /* matches coupon1.jpg width */
+      text-align:center;
+    }
+    .signup-banner img {
+  width:100%;            
+  height:auto;
+  max-height:260px;       /* keeps banner shorter on desktops */
+  cursor:pointer;
+  box-shadow:0 2px 6px rgba(0,0,0,.15);
+  transition: transform .18s ease, opacity .18s ease;
+  object-fit:cover;       /* crop if needed */
+}
+
+/* Mobile tweak */
+@media (max-width: 640px) {
+  .signup-banner img {
+    max-height:160px;     /* shorter height on small screens */
+  }
+}
+
+    .signup-banner img:hover {
+      transform: translateY(-2px);
+      opacity:.95;
+    }
+  </style>
+
+
     /* ===== Category Bar ===== */
    .category-bar{
   background:#fff;
