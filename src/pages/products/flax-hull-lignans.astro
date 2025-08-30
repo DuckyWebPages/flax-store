@@ -3,23 +3,22 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const pageTitle = 'Flax Hull Lignans — ';
 
-// 👉 Edit images/prices/links here when you have them.
-// Images are placeholders; put your real files under /public/images/products/
+// Update these URLs later to your cart links (e.g., /cart?sku=...)
 const products = [
   {
     title: 'Flax Hull Lignan (Single Jar)',
     badge: 'Single',
     image: '/images/products/flax-hull-single.jpg',
-    price: '',                             // e.g., '$49.95'
-    url: '#',                              // e.g., '/cart?sku=FHL-1' or a product detail page
+    price: '',
+    url: '#',
     alt: 'Flax Hull Lignan single jar'
   },
   {
     title: 'Flax Hull Lignan (3 Jar Bundle)',
     badge: 'Bundle',
     image: '/images/products/flax-hull-3pack.jpg',
-    price: '',                             // e.g., '$139.95'
-    url: '#',                              // e.g., '/cart?sku=FHL-3'
+    price: '',
+    url: '#',
     alt: 'Flax Hull Lignan three-jar bundle'
   },
   {
@@ -62,14 +61,7 @@ const products = [
           {p.price && <div class="price">{p.price}</div>}
 
           <div class="actions">
-            {p.url !== '#' ? (
-              <a href={p.url} class="btn">View / Buy</a>
-            ) : (
-              <>
-                <a href="/contact" class="btn">Contact to Order</a>
-                <a href="tel:18177106918" class="btn btn-ghost">Call 817-710-6918</a>
-              </>
-            )}
+            <a href={p.url} class="btn" aria-label={`Add ${p.title} to cart`}>Add to Cart</a>
           </div>
         </article>
       ))}
@@ -77,74 +69,24 @@ const products = [
   </section>
 
   <style>
-    .fhl-wrap{
-      width:min(1100px, 92vw);
-      margin:0 auto;
-      padding: 8px 0 40px;
-    }
+    .fhl-wrap{ width:min(1100px, 92vw); margin:0 auto; padding: 8px 0 40px; }
     .fhl-header{ text-align:center; margin-bottom:16px; }
-    .fhl-title{
-      font-family:var(--font-head); font-weight:700;
-      font-size:clamp(1.6rem, 2.4vw, 2rem); margin:8px 0 6px;
-      color:#0f172a;
-    }
+    .fhl-title{ font-family:var(--font-head); font-weight:700; font-size:clamp(1.6rem, 2.4vw, 2rem); margin:8px 0 6px; color:#0f172a; }
     .fhl-lead{ margin:0; color:#334155; }
 
-    /* Grid */
-    .fhl-grid{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:clamp(12px, 2vw, 20px);
-    }
+    .fhl-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:clamp(12px, 2vw, 20px); }
     @media (max-width:1024px){ .fhl-grid{ grid-template-columns: repeat(2, 1fr); } }
     @media (max-width:640px){ .fhl-grid{ grid-template-columns: 1fr; } }
 
-    /* Card */
-    .card{
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:12px;
-      box-shadow:0 4px 14px rgba(0,0,0,.06);
-      overflow:hidden;
-      display:flex; flex-direction:column; align-items:stretch;
-    }
-    .thumb{
-      position:relative; aspect-ratio: 4/3; background:#f8fafc;
-      display:flex; align-items:center; justify-content:center;
-      overflow:hidden;
-    }
-    .thumb img{
-      width:100%; height:100%; object-fit:contain; display:block;
-    }
-    .badge{
-      position:absolute; left:10px; top:10px;
-      background:#0b7a53; color:#fff; font-weight:700;
-      font-size:.8rem; padding:6px 10px; border-radius:999px;
-      box-shadow:0 2px 8px rgba(0,0,0,.15);
-    }
-    .card-title{
-      font:700 1.05rem/1.25 var(--font-head);
-      margin:12px 12px 6px; color:#0f172a;
-    }
-    .price{
-      margin:0 12px 8px; font-weight:700; color:#0f172a;
-    }
-    .actions{
-      display:flex; gap:10px; align-items:center; justify-content:center;
-      padding:12px; margin-top:auto;
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px; min-width:140px;
-      color:#fff; background:#111827; text-decoration:none; border-radius:9999px;
-      font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,.18);
-      transition: transform .08s ease, opacity .15s ease;
-      white-space:nowrap;
-    }
+    .card{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,.06); overflow:hidden; display:flex; flex-direction:column; }
+    .thumb{ position:relative; aspect-ratio: 4/3; background:#f8fafc; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .thumb img{ width:100%; height:100%; object-fit:contain; display:block; }
+    .badge{ position:absolute; left:10px; top:10px; background:#0b7a53; color:#fff; font-weight:700; font-size:.8rem; padding:6px 10px; border-radius:999px; box-shadow:0 2px 8px rgba(0,0,0,.15); }
+    .card-title{ font:700 1.05rem/1.25 var(--font-head); margin:12px 12px 6px; color:#0f172a; }
+    .price{ margin:0 12px 8px; font-weight:700; color:#0f172a; }
+
+    .actions{ display:flex; justify-content:center; padding:12px; margin-top:auto; }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; min-width:160px; color:#fff; background:#111827; text-decoration:none; border-radius:9999px; font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,.18); transition: transform .08s ease, opacity .15s ease; }
     .btn:hover{ opacity:.92; transform:translateY(-1px); }
-    .btn-ghost{
-      background:transparent; color:#111827; border:1px solid #cbd5e1;
-      box-shadow:none;
-    }
   </style>
 </BaseLayout>
