@@ -160,32 +160,57 @@ const pageTitle = 'Home — ';
       object-position:center 60%; /* adjust vertical framing */
       z-index:-1;
     }
-    .hero-inner{
-      position:relative;
-      max-width:1100px;
-      margin:0 auto;
-      z-index:1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:clamp(360px,54vh,600px);
-    }
-    .hero-card{
-      display:inline-block;
-      width:75%;
-      max-width:720px;
-      background:rgba(255,255,255,.62);
-      -webkit-backdrop-filter:blur(8px);
-      backdrop-filter:blur(8px);
-      border-radius:14px;
-      padding:16px 20px;
-      box-shadow:0 6px 18px rgba(0,0,0,.10);
-      text-align:center;
-    }
-    @media (max-width:768px){
-      .hero{padding:24px 16px 48px}
-      .hero-inner{min-height:420px}
-      .hero-card{width:92%; max-width:none; padding:14px 16px; border-radius:12px}
-    }
+    /* ===== Hero (only the changed bits) ===== */
+.hero-inner{
+  position:relative;
+  max-width:1100px;
+  margin:0 auto;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:clamp(360px,54vh,600px);
+}
+
+.hero-card{
+  display:inline-block;
+  width:75%;
+  max-width:720px;
+  background:rgba(255,255,255,.62);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  border-radius:14px;
+  padding:16px 20px;
+  box-shadow:0 6px 18px rgba(0,0,0,.10);
+  text-align:center;
+  z-index:2;                 /* make sure it’s above the bg */
+}
+
+.home-shop-cta{
+  display:flex;              /* center the CTA row */
+  justify-content:center;
+  margin-top:16px;           /* more separation from paragraph */
+}
+
+.cta-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:140px;           /* a bit wider so it doesn’t collapse */
+  padding:12px 18px;
+  font:700 16px/1 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:#fff; background:#111827;
+  text-decoration:none; border:0; border-radius:9999px;
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
+  position:relative; z-index:3;   /* ensure above any backdrop effects */
+  user-select:none; -webkit-tap-highlight-color:transparent; white-space:nowrap;
+  transition:transform .08s ease, opacity .15s ease;
+}
+.cta-btn:hover{opacity:.92; transform:translateY(-1px)}
+
+@media (max-width:768px){
+  .hero-card{width:92%; max-width:none; padding:14px 16px; border-radius:12px}
+  .home-shop-cta{margin-top:14px}
+  .cta-btn{width:100%; max-width:320px}  /* tidy on phones */
+}
+
   </style>
 </BaseLayout>
