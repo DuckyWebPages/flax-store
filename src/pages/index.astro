@@ -45,7 +45,7 @@ const pageTitle = 'Home — ';
 
     <!-- pinned logo -->
     <img
-      src="/images/flh-logo-33.png"
+      src="/images/flh-logo-33.png?v=1"
       alt="Flax Lignan Health"
       class="hero-logo"
       decoding="async"
@@ -73,6 +73,7 @@ const pageTitle = 'Home — ';
     </a>
   </section>
 
+  <!-- KEEP THIS STYLE TAG AT THE BOTTOM OF index.astro -->
   <style>
     /* ---------- Controls ---------- */
     :root{
@@ -84,7 +85,7 @@ const pageTitle = 'Home — ';
     /* ===== Category Bar ===== */
     .category-bar{ background:#fff; border-bottom:1px solid #e5e7eb; padding:12px 0; }
     .cat-wrap{
-      width:100%;                 /* <-- prevents overflow inside 1100px main */
+      width:100%;
       max-width:1100px;           /* match BaseLayout main max width */
       margin:0 auto; display:flex; flex-direction:column; gap:16px;
     }
@@ -108,10 +109,8 @@ const pageTitle = 'Home — ';
     /* ===== Hero (compact, simple, reliable) ===== */
     .hero{
       position:relative; isolation:isolate; overflow:hidden;
-      /* cut height roughly in half vs. before */
-      min-height:clamp(300px, 42vh, 520px);
-      /* top padding equals logo height so card starts below it */
-      padding: calc(var(--hero-logo-h) + var(--hero-gap)) 12px 28px;
+      min-height:clamp(300px, 42vh, 520px); /* compact */
+      padding: calc(var(--hero-logo-h) + var(--hero-gap)) 12px 28px; /* card begins below logo */
       border-bottom:1px solid #e5e7eb; text-align:center; background:transparent;
     }
     .hero-bg{
@@ -122,7 +121,7 @@ const pageTitle = 'Home — ';
     /* logo pinned to very top of hero */
     .hero-logo{
       position:absolute; top:0; left:50%; transform:translateX(-50%);
-      height:var(--hero-logo-h); width:auto; display:block; margin:0;
+      height:var(--hero-logo-h); width:auto; display:block; margin:0; z-index:2;
     }
 
     /* card naturally follows because of hero padding-top */
@@ -152,7 +151,7 @@ const pageTitle = 'Home — ';
     }
 
     /* ===== Signup banner ===== */
-    .signup-banner{ margin:20px auto; max-width:1100px; text-align:center; }  /* align with main width */
+    .signup-banner{ margin:20px auto; max-width:1100px; text-align:center; }
     .signup-banner img{ width:100%; height:auto; max-height:240px; object-fit:cover; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.15); transition: transform .18s ease, opacity .18s ease; }
     @media (max-width:640px){ .signup-banner img{ max-height:160px; } }
   </style>
