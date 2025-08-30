@@ -3,35 +3,34 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const pageTitle = 'Flax Hull Lignans — ';
 
-// TODO: Replace each paymentLink with your Stripe Payment Link URL
-// If you don't have Payment Links, leave `paymentLink: ''` and I can wire Checkout API instead.
+// EDIT ME: Fill in your Stripe Payment Links below (https://buy.stripe.com/...)
 const products = [
   {
     title: 'Flax Hull Lignan (Single Jar)',
     badge: 'Single',
     image: '/images/products/flax-hull-single.jpg',
-    paymentLink: '', // e.g. 'https://buy.stripe.com/XXXXsingle'
+    paymentLink: 'https://buy.stripe.com/test_8x200j2r8aAugaM3iK7EQ01', // e.g. 'https://buy.stripe.com/test_8x200j2r8aAugaM3iK7EQ01'
     alt: 'Flax Hull Lignan single jar',
   },
   {
     title: 'Flax Hull Lignan (3 Jar Bundle)',
     badge: 'Bundle',
     image: '/images/products/flax-hull-3pack.jpg',
-    paymentLink: '', // e.g. 'https://buy.stripe.com/XXXX3pack'
+    paymentLink: 'https://buy.stripe.com/test_dRm28r4zg4c64s4bPg7EQ02', // e.g. 'https://buy.stripe.com/xxxx3pack'
     alt: 'Flax Hull Lignan three-jar bundle',
   },
   {
     title: 'FHL Flax Hull Lignans (Ancient Seeds & Grains Certified)',
     badge: 'Ancient Seeds & Grains',
     image: '/images/products/flax-hull-ancient.jpg',
-    paymentLink: '', // e.g. 'https://buy.stripe.com/XXXXancient'
+    paymentLink: 'https://buy.stripe.com/test_eVqcN56Ho9wq8Ikg5w7EQ03', // e.g. 'https://buy.stripe.com/xxxxancient'
     alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified',
   },
   {
     title: 'FHL Flax Hull Lignans (Ancient Seeds & Grains Certified) — 3 Jar Bundle',
     badge: 'Ancient • Bundle',
     image: '/images/products/flax-hull-ancient-3pack.jpg',
-    paymentLink: '', // e.g. 'https://buy.stripe.com/XXXXancient3'
+    paymentLink: 'https://buy.stripe.com/test_28EfZhe9QcIC4s4bPg7EQ05', // e.g. 'https://buy.stripe.com/xxxxancient3'
     alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified 3-jar bundle',
   },
 ];
@@ -59,7 +58,7 @@ const products = [
           <div class="actions">
             {p.paymentLink
               ? <a href={p.paymentLink} class="btn" rel="noopener" target="_blank" aria-label={`Add ${p.title} to cart`}>Add to Cart</a>
-              : <button class="btn btn-disabled" disabled aria-disabled="true" title="Add your Stripe link in the file to enable">Add to Cart</button>
+              : <button class="btn btn-disabled" disabled aria-disabled="true" title="Add your Stripe Payment Link in this file to enable">Add to Cart</button>
             }
           </div>
         </article>
