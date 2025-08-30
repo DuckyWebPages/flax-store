@@ -1,5 +1,5 @@
 ---
-/* Layout with fixed header sized to logo, links on right */
+/* Slim fixed header + clean nav; site-wide background image */
 ---
 <html lang="en">
   <head>
@@ -13,59 +13,50 @@
         --font-body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
         --font-head:'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
         --ink:#0f172a; --ink-muted:#64748b;
+        --header-h: 88px; /* slim header height */
       }
       *{box-sizing:border-box}
 
       body{
-        margin:0;
-        font-family:var(--font-body);
-        color:var(--ink);
-        /* SITE-WIDE BACKGROUND IMAGE */
+        margin:0; font-family:var(--font-body); color:var(--ink);
         background:#0b7a53 url("/images/background3.png") center top / cover no-repeat fixed;
       }
 
-      /* Fixed header */
+      /* Fixed slim header */
       .site-header-wrap{
         position:fixed; top:0; left:0; right:0; z-index:9999;
-        background:#ffffff;
-        border-bottom:1px solid #e5e7eb;
-        box-shadow:0 2px 6px rgba(0,0,0,.15);
+        background:#ffffff; border-bottom:1px solid #e5e7eb;
+        box-shadow:0 2px 6px rgba(0,0,0,.12);
+        height:var(--header-h);
       }
       .site-header{
-        max-width:1100px; margin:0 auto; padding:0 16px;
-        display:flex; align-items:center; justify-content:space-between;
-        height:200px; /* matches logo height */
+        max-width:1100px; margin:0 auto; height:var(--header-h);
+        padding:0 16px; display:flex; align-items:center; justify-content:space-between;
       }
 
-      /* Logo */
+      /* Brand (small in nav to reduce white) */
       .brand{display:inline-flex; align-items:center; line-height:0;}
-      .nav-logo{ height:200px; width:auto; display:block; }
+      .nav-logo{ height:64px; width:auto; display:block; }  /* tweak if needed */
+      @media (min-width:1024px){ .nav-logo{ height:72px; } }
 
-      /* Links on the right */
-      nav.main-nav{
-        display:flex; gap:24px; align-items:center; height:100%;
-      }
+      nav.main-nav{ display:flex; gap:24px; align-items:center; }
       .nav-link{
         color:var(--ink); font-weight:600; text-decoration:none;
-        padding:6px 8px; border-radius:6px; font-size:1.05rem;
+        padding:6px 8px; border-radius:6px;
       }
       .nav-link:hover{ background:#f3f4f6; }
       .nav-link[aria-current="page"]{ text-decoration:underline; }
 
-      /* Page spacing for tall header */
+      /* Page spacing under slim header */
       main,footer{ max-width:1100px; margin:0 auto; }
-      main{ padding:240px 16px 56px; } /* header is 200px tall */
+      main{ padding: calc(var(--header-h) + 16px) 16px 56px; }
       footer{
-        padding:16px;
-        color:var(--ink-muted);
-        background:rgba(255,255,255,.85);
-        border-radius:12px 12px 0 0;
+        padding:16px; color:var(--ink-muted);
+        background:rgba(255,255,255,.85); border-radius:12px 12px 0 0;
       }
 
-      /* Headings */
       h1,h2,h3,h4,.site-title,.products-title{
-        font-family:var(--font-head);
-        letter-spacing:-.01em; line-height:1.15;
+        font-family:var(--font-head); letter-spacing:-.01em; line-height:1.15;
       }
       h1,.site-title,h2,.products-title{ font-weight:700; }
       h3,h4{ font-weight:600; }
@@ -75,12 +66,12 @@
   <body>
     <div class="site-header-wrap">
       <div class="site-header">
-        <!-- Logo on left -->
+        <!-- Logo left -->
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
           <img src="/images/flh-logo-3.png" alt="Flax Lignan Health" class="nav-logo" />
         </a>
 
-        <!-- Links aligned right -->
+        <!-- Links right -->
         <nav class="main-nav" aria-label="Main">
           <a href="/" class="nav-link" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a>
           <a href="/products" class="nav-link" aria-current={Astro.url.pathname.startsWith('/products') ? 'page' : undefined}>Products</a>

@@ -6,7 +6,7 @@ const pageTitle = 'Home — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- === Category Bar (ABOVE HERO) === -->
+  <!-- === Category Bar (centered heading) === -->
   <section class="category-bar" aria-label="Shop by category">
     <div class="cat-wrap">
       <h2 class="cat-heading">Top Selling Products</h2>
@@ -39,34 +39,24 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
-  <!-- === HERO (logo pinned to very top; large) === -->
+  <!-- === HERO (logo pinned to top; card directly under) === -->
   <section class="hero" aria-label="Flax Lignan Health hero">
     <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
 
-    <!-- Logo pinned to top center -->
-    <div class="hero-brand">
-      <img
-        src="/images/flh-logo-3.png"
-        alt="Flax Lignan Health"
-        class="hero-logo"
-        decoding="async"
-        loading="eager"
-      />
-    </div>
+    <!-- Pinned logo -->
+    <img src="/images/flh-logo-3.png" alt="Flax Lignan Health" class="hero-logo" decoding="async" loading="eager" />
 
-    <!-- Copy card under the logo -->
-    <div class="hero-inner">
-      <div class="hero-card">
-        <p class="hero-text">
-          Your research-driven source for natural products promoting health, vitality and immune system support.
-          The original FHL Flax Hull Lignans found in international trials around the world.
-          Fresh from the USA North Dakota farm to your home. <br />
-          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
-        </p>
-        <nav class="home-shop-cta" aria-label="Shop">
-          <a href="/products" class="cta-btn">Shop</a>
-        </nav>
-      </div>
+    <!-- Copy card UNDER the logo -->
+    <div class="hero-card">
+      <p class="hero-text">
+        Your research-driven source for natural products promoting health, vitality and immune system support.
+        The original FHL Flax Hull Lignans found in international trials around the world.
+        Fresh from the USA North Dakota farm to your home. <br />
+        <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
+      </p>
+      <nav class="home-shop-cta" aria-label="Shop">
+        <a href="/products" class="cta-btn">Shop</a>
+      </nav>
     </div>
   </section>
 
@@ -78,13 +68,16 @@ const pageTitle = 'Home — ';
   </section>
 
   <style>
-    /* control hero logo height (keeps it big on desktop) */
-    :root{ --hero-logo-h: clamp(200px, 24vw, 320px); }
+    /* ------ Controls ------ */
+    :root{
+      --hero-logo-h: clamp(220px, 26vw, 360px);  /* BIG on desktop, scales down */
+      --hero-gap: 16px;                           /* gap between logo & card */
+    }
 
     /* ===== Category Bar ===== */
-    .category-bar{ background:#fff; display:flex; align-items:center; border-bottom:1px solid #e5e7eb; padding:10px 0; }
+    .category-bar{ background:#fff; border-bottom:1px solid #e5e7eb; padding:12px 0; }
     .cat-wrap{ width:min(1200px, 92vw); margin:0 auto; display:flex; flex-direction:column; gap:16px; }
-    .cat-heading{ font-size:1.5rem; font-weight:700; margin:0; color:#0f172a; }
+    .cat-heading{ margin:0; font:700 1.6rem/1 var(--font-head); text-align:center; color:#0f172a; } /* centered */
     .cat-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap:clamp(10px, 2vw, 24px); align-items:center; justify-items:center; }
     .cat-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; text-decoration:none; color:#0f172a; transition: transform .18s ease; }
     .cat-item:hover{ transform: translateY(-4px); }
@@ -93,37 +86,33 @@ const pageTitle = 'Home — ';
     @media (max-width:1024px){ .cat-grid{ grid-template-columns: repeat(3, 1fr);} }
     @media (max-width:640px){ .cat-grid{ grid-template-columns: repeat(2, 1fr);} }
 
-    /* ===== Hero ===== */
+    /* ===== Hero (simplified) ===== */
     .hero{
       position:relative; isolation:isolate; overflow:hidden;
-      min-height:clamp(560px, 68vh, 900px);
-      padding:0 12px 48px; border-bottom:1px solid #e5e7eb;
-      text-align:center; background:transparent;
+      min-height:clamp(520px, 68vh, 900px);
+      /* SIMPLE TRICK: pad the top by the logo height + small gap */
+      padding: calc(var(--hero-logo-h) + var(--hero-gap)) 12px 48px;
+      border-bottom:1px solid #e5e7eb; text-align:center; background:transparent;
     }
     .hero-bg{
       position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; object-position:center 60%; z-index:-2;
+      object-fit:cover; object-position:center 60%; z-index:-1;
     }
 
-    /* Pin logo to top edge of hero */
-    .hero-brand{
-      position:absolute; top:8px; left:50%; transform:translateX(-50%);
-      z-index:5;
+    /* Pin the logo to the very top of the hero */
+    .hero-logo{
+      position:absolute; top:0; left:50%; transform:translateX(-50%);
+      height:var(--hero-logo-h); width:auto; display:block; margin:0;
     }
-    .hero-logo{ height:var(--hero-logo-h); width:auto; display:block; margin:0; }
 
-    /* Card sits BELOW the logo: use same var for spacing */
-    .hero-inner{
-      display:flex; flex-direction:column; align-items:center;
-      padding-top:calc(var(--hero-logo-h) + 24px);
-    }
+    /* Card naturally sits below because of hero padding */
     .hero-card{
-      width:min(64%, 760px);
+      width:min(64%, 760px); margin:0 auto;
       background:rgba(255,255,255,.85);
       -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
       border-radius:12px; padding:14px 18px;
       box-shadow:0 8px 22px rgba(0,0,0,.12);
-      text-align:center; color:#0f172a;
+      color:#0f172a; text-align:center;
     }
     .hero-text{ margin:4px 0 10px; line-height:1.3; }
 
