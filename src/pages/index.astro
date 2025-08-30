@@ -77,28 +77,30 @@ const pageTitle = 'Home — ';
 
   <style>
     /* ===== Category Bar ===== */
-    .category-bar{
-      background:#fff;
-      min-height:300px;
-      display:flex;
-      align-items:flex-start;
-      border-bottom:1px solid #e5e7eb;
-      padding-top:20px;
-      padding-bottom:20px;
-    }
-    .cat-wrap{
-      width:min(1200px, 92vw);
-      margin:0 auto;
-      display:flex;
-      flex-direction:column;
-      gap:20px;
-    }
-    .cat-heading{
-      font-size:1.5rem;
-      font-weight:700;
-      text-align:center;
-      margin:0;
-    }
+   .category-bar{
+  background:#fff;
+  min-height:240px;   /* reduced from 300px */
+  display:flex;
+  align-items:center; /* vertically center contents */
+  border-bottom:1px solid #e5e7eb;
+  padding-top:10px;   /* was 20px */
+  padding-bottom:10px;/* was 20px */
+}
+.cat-wrap{
+  width:min(1200px, 92vw);
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:center; /* centers heading + circles in the space */
+  gap:16px;               /* a little less gap */
+}
+.cat-heading{
+  font-size:1.5rem;
+  font-weight:700;
+  text-align:center;
+  margin:0;
+}
+
     .cat-grid{
       display:grid;
       grid-template-columns: repeat(6, 1fr);
