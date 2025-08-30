@@ -62,16 +62,16 @@ const pageTitle = 'Home — ';
 
     <div class="hero-inner">
       <div class="hero-card">
-        <img 
-          src="/images/flh-logo-3.png" 
-          alt="Flax Lignan Health" 
+        <img
+          src="/images/flh-logo-3.png"
+          alt="Flax Lignan Health"
           class="hero-logo"
           decoding="async"
           loading="eager"
         />
         <p>
-          Your research-driven source for natural products promoting health, vitality and immune system support. 
-          The original FHL Flax Hull Lignans found in international trials around the world. 
+          Your research-driven source for natural products promoting health, vitality and immune system support.
+          The original FHL Flax Hull Lignans found in international trials around the world.
           Fresh from the USA North Dakota farm to your home. <br />
           <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
         </p>
@@ -175,24 +175,23 @@ const pageTitle = 'Home — ';
       min-height:clamp(360px,54vh,600px);
     }
     .hero-card{
-  display:inline-block; 
-  width:75%; 
-  max-width:720px;
-  background:rgba(255,255,255,.62);
-  -webkit-backdrop-filter:blur(8px);
-  backdrop-filter:blur(8px);
-  border-radius:14px;
-  padding:10px 14px;   /* was 16px 20px */
-  box-shadow:0 6px 18px rgba(0,0,0,.10);
-  text-align:center; 
-  z-index:2;
-}
-
+      display:inline-block;
+      width:min(62%, 720px);
+      background:rgba(255,255,255,.62);
+      -webkit-backdrop-filter:blur(8px);
+      backdrop-filter:blur(8px);
+      border-radius:14px;
+      padding:16px 20px;
+      box-shadow:0 6px 18px rgba(0,0,0,.10);
+      text-align:center;
+      z-index:2;
     }
-    .hero-logo {
-      max-width: 370px;
+
+    .hero-logo{
+      max-width: 260px;
+      width: 100%;
       height: auto;
-      margin: 0 auto 8px;
+      margin: 0 auto 10px;
       display: block;
     }
     .home-shop-cta{
@@ -213,7 +212,7 @@ const pageTitle = 'Home — ';
       .hero{ padding:24px 16px 48px; }
       .hero-inner{ min-height:420px; }
       .hero-card{ width:92%; max-width:none; padding:14px 16px; border-radius:12px; }
-      .hero-logo{ max-width: 220px; }
+      .hero-logo{ max-width: 200px; }
       .home-shop-cta{ margin-top:14px; }
       .cta-btn{ width:100%; max-width:320px; }
     }
