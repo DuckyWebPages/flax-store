@@ -23,20 +23,22 @@
         background:#fff;border-bottom:1px solid #e5e7eb;
       }
       .site-header{
-        max-width:1100px;margin:0 auto;padding:10px 16px;
+        max-width:1100px;margin:0 auto;padding:6px 14px; /* tighter */
         display:flex;align-items:center;justify-content:space-between;
       }
 
       /* Brand (logo only) */
       .brand{
-        display:inline-flex;align-items:center;text-decoration:none;
+        display:inline-flex;align-items:flex-start;text-decoration:none;
+        line-height:0; /* kill inline img baseline gap */
       }
       .nav-logo{
-        height:48px;          /* adjust as needed */
+        height:48px; /* primary size */
         width:auto;display:block;
+        margin:-4px 0 -6px; /* crop any PNG transparent padding */
       }
       @media (min-width:1024px){
-        .nav-logo{height:56px}
+        .nav-logo{height:56px;margin:-6px 0 -8px;}
       }
 
       nav.main-nav{display:flex;gap:16px;align-items:center}
@@ -49,7 +51,7 @@
 
       /* Page shell: leave room for fixed header */
       main,footer{max-width:1100px;margin:0 auto}
-      main{padding:92px 16px 56px}
+      main{padding:88px 16px 56px} /* header smaller -> reduce offset */
       footer{padding:16px;color:var(--ink-muted)}
 
       /* Headings */
@@ -65,11 +67,9 @@
         <!-- Brand: image logo replaces text -->
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
           <img
-            src="/images/flh-logo-2025.png"
+            src="/images/flh-logo-3.png"
             alt="Flax Lignan Health"
             class="nav-logo"
-            decoding="async"
-            loading="eager"
           />
         </a>
 
