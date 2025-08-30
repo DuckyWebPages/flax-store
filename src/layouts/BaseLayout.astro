@@ -30,25 +30,25 @@
       /* Brand (logo) */
       .brand{display:inline-flex;align-items:flex-start;text-decoration:none;line-height:0;}
       .nav-logo{
-        height:90px;   /* was 48px — now much larger */
+        height:200px;   /* BIG logo */
         width:auto;display:block;
-        margin:-6px 0 -6px;
+        margin:-10px 0 -12px; /* crop transparent padding if any */
       }
       @media (min-width:1024px){
-        .nav-logo{height:110px;}
+        .nav-logo{height:220px;margin:-12px 0 -14px;}
       }
 
-      nav.main-nav{display:flex;gap:16px;align-items:center}
+      nav.main-nav{display:flex;gap:20px;align-items:center}
       .nav-link{
         color:var(--ink);text-decoration:none;font-weight:600;letter-spacing:.02em;
-        padding:6px 8px;border-radius:8px;
+        padding:8px 10px;border-radius:8px;font-size:1.1rem;
       }
       .nav-link:hover{background:#f3f4f6}
       .nav-link[aria-current="page"]{text-decoration:underline}
 
       /* Page shell */
       main,footer{max-width:1100px;margin:0 auto}
-      main{padding:120px 16px 56px}  /* bumped to account for taller header */
+      main{padding:240px 16px 56px}  /* offset for very tall header */
       footer{padding:16px;color:var(--ink-muted)}
 
       /* Headings */
