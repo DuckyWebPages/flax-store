@@ -6,7 +6,38 @@ const pageTitle = 'Home — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- === Category Bar (full-width, with heading) === -->
+  <!-- === HERO FIRST === -->
+  <section class="hero" aria-label="Flax Lignan Health hero">
+    <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
+
+    <!-- Logo pinned to top of hero -->
+    <div class="hero-brand">
+      <img
+        src="/images/flh-logo-3.png"
+        alt="Flax Lignan Health"
+        class="hero-logo"
+        decoding="async"
+        loading="eager"
+      />
+    </div>
+
+    <!-- Copy card under logo -->
+    <div class="hero-inner">
+      <div class="hero-card">
+        <p class="hero-text">
+          Your research-driven source for natural products promoting health, vitality and immune system support.
+          The original FHL Flax Hull Lignans found in international trials around the world.
+          Fresh from the USA North Dakota farm to your home. <br />
+          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
+        </p>
+        <nav class="home-shop-cta" aria-label="Shop">
+          <a href="/products" class="cta-btn">Shop</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- === Category Bar (now below hero) === -->
   <section class="category-bar" aria-label="Shop by category">
     <div class="cat-wrap">
       <h2 class="cat-heading">Top Selling Products</h2>
@@ -39,101 +70,77 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
- <!-- === Hero (logo pinned to top; card sits below it) === -->
-<section class="hero" aria-label="Flax Lignan Health hero">
-  <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
+  <!-- === Constant Contact Signup Banner === -->
+  <section class="signup-banner">
+    <a href="https://lp.constantcontactpages.com/sl/DjPeNBz" target="_blank" rel="noopener">
+      <img src="/images/coupon1.jpg" alt="Sign up for our newsletter" />
+    </a>
+  </section>
 
-  <!-- Logo pinned to the very top of the hero -->
-  <div class="hero-brand">
-    <img
-      src="/images/flh-logo-3.png"
-      alt="Flax Lignan Health"
-      class="hero-logo"
-      decoding="async"
-      loading="eager"
-    />
-  </div>
+  <style>
+    :root{ --hero-logo-h: 180px; } /* control hero logo height */
 
-  <!-- Copy card underneath the logo -->
-  <div class="hero-inner">
-    <div class="hero-card">
-      <p class="hero-text">
-        Your research-driven source for natural products promoting health, vitality and immune system support.
-        The original FHL Flax Hull Lignans found in international trials around the world.
-        Fresh from the USA North Dakota farm to your home. <br />
-        <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
-      </p>
+    /* ===== Hero ===== */
+    .hero{
+      position:relative; isolation:isolate; overflow:hidden;
+      min-height:clamp(520px,72vh,880px);
+      padding:0 12px 40px; border-bottom:1px solid #e5e7eb;
+      text-align:center; background:transparent;
+    }
+    .hero-bg{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:center 60%; z-index:-2;
+    }
+    .hero-brand{
+      position:absolute; top:8px; left:50%; transform:translateX(-50%);
+      z-index:5;
+    }
+    .hero-logo{ height:var(--hero-logo-h); width:auto; display:block; }
 
-      <nav class="home-shop-cta" aria-label="Shop">
-        <a href="/products" class="cta-btn">Shop</a>
-      </nav>
-    </div>
-  </div>
-</section>
+    .hero-inner{
+      display:flex; flex-direction:column; align-items:center;
+      padding-top:calc(var(--hero-logo-h) + 20px); /* card always below logo */
+    }
+    .hero-card{
+      width:min(64%, 760px);
+      background:rgba(255,255,255,.85);
+      -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+      border-radius:12px; padding:14px 18px;
+      box-shadow:0 8px 22px rgba(0,0,0,.12);
+      text-align:center; color:#0f172a;
+    }
+    .hero-text{ margin:4px 0 10px; line-height:1.3; }
+    .home-shop-cta{ margin-top:10px; display:flex; justify-content:center; }
+    .cta-btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      min-width:140px; padding:12px 18px;
+      font:700 16px/1 Inter,system-ui,sans-serif;
+      color:#fff; background:#111827; border-radius:9999px;
+      box-shadow:0 6px 18px rgba(0,0,0,.18); text-decoration:none;
+      transition:transform .08s ease, opacity .15s ease;
+    }
+    .cta-btn:hover{ opacity:.92; transform:translateY(-1px); }
 
-<style>
-  :root{
-    /* control the logo height once, everything else follows */
-    --hero-logo-h: 180px;
-  }
+    @media (max-width:768px){
+      :root{ --hero-logo-h: 120px; }
+      .hero-card{ width:92%; padding:12px 14px; }
+      .hero-text{ font-size:.95rem; }
+    }
 
-  /* ===== Hero ===== */
-  .hero{
-    position:relative; isolation:isolate; overflow:hidden;
-    min-height:clamp(520px,72vh,880px);
-    padding:0 12px 40px; border-bottom:1px solid #e5e7eb;
-    text-align:center; background:transparent;
-  }
-  .hero-bg{
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; object-position:center 60%; z-index:-2;
-  }
+    /* ===== Category Bar ===== */
+    .category-bar{ background:#fff; display:flex; align-items:center; border-bottom:1px solid #e5e7eb; padding:10px 0; }
+    .cat-wrap{ width:min(1200px, 92vw); margin:0 auto; display:flex; flex-direction:column; gap:16px; }
+    .cat-heading{ font-size:1.5rem; font-weight:700; margin:0; color:#0f172a; }
+    .cat-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap:clamp(10px, 2vw, 24px); align-items:center; justify-items:center; }
+    .cat-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; text-decoration:none; color:#0f172a; transition: transform .18s ease; }
+    .cat-item:hover{ transform: translateY(-4px); }
+    .cat-thumb{ width: clamp(96px, 10vw, 140px); height: clamp(96px, 10vw, 140px); border-radius:50%; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.10); display:block; background:#fff; }
+    .cat-thumb img{ width:100%; height:100%; object-fit:cover; }
 
-  /* Pin logo to top edge of the hero */
-  .hero-brand{
-    position:absolute;
-    top:8px;               /* <- at the very top */
-    left:50%; transform:translateX(-50%);
-    z-index:5;
-  }
-  .hero-logo{
-    height:var(--hero-logo-h);
-    width:auto; display:block; margin:0;
-  }
-
-  /* Push the card down by logo height + gap so it never overlaps */
-  .hero-inner{
-    display:flex; flex-direction:column; align-items:center;
-    padding-top:calc(var(--hero-logo-h) + 20px);  /* <- replaces previous margin-top */
-  }
-
-  .hero-card{
-    width:min(64%, 760px);
-    background:rgba(255,255,255,.85);
-    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
-    border-radius:12px;
-    padding:14px 18px;
-    box-shadow:0 8px 22px rgba(0,0,0,.12);
-    text-align:center; color:#0f172a;
-  }
-  .hero-text{ margin:4px 0 10px; line-height:1.3; }
-
-  .home-shop-cta{ margin-top:10px; display:flex; justify-content:center; }
-  .cta-btn{
-    display:inline-flex; align-items:center; justify-content:center;
-    min-width:140px; padding:12px 18px;
-    font:700 16px/1 Inter,system-ui,sans-serif;
-    color:#fff; background:#111827; border-radius:9999px;
-    box-shadow:0 6px 18px rgba(0,0,0,.18); text-decoration:none;
-    transition:transform .08s ease, opacity .15s ease;
-  }
-  .cta-btn:hover{ opacity:.92; transform:translateY(-1px); }
-
-  @media (max-width:768px){
-    :root{ --hero-logo-h: 120px; }          /* smaller on phones */
-    .hero-card{ width:92%; padding:12px 14px; }
-    .hero-text{ font-size:.95rem; }
-  }
-</style>
-
+    /* ===== Signup banner ===== */
+    .signup-banner{ margin:20px auto; max-width:1536px; text-align:center; }
+    .signup-banner img{ width:100%; height:auto; max-height:260px; object-fit:cover; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.15); transition: transform .18s ease, opacity .18s ease; }
+    .signup-banner img:hover{ transform:translateY(-2px); opacity:.95; }
+    @media (max-width:640px){ .signup-banner img{ max-height:160px; } }
+  </style>
 </BaseLayout>
