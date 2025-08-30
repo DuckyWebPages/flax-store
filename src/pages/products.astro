@@ -3,6 +3,20 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import ShopApp from '@/components/ShopApp.tsx';
 import { products as PRODUCTS } from '@/data/products';
 const title = 'Products — Flax Lignan Health';
+
+/** Hide these products from the Products page */
+const HIDE_TITLES = new Set([
+  'Flax Hull Lignan Monthly Subscription',
+]);
+
+/** Filter: by exact title OR any slug/id that includes 'subscription' */
+const ITEMS = PRODUCTS.filter((p: any) => {
+  const title = (p?.title || p?.name || '').trim();
+  const slugish = (p?.slug || p?.id || p?.sku || '').toString().toLowerCase();
+  const byTitle = HIDE_TITLES.has(title);
+  const bySlug = slugish.includes('subscription');
+  return !(byTitle || bySlug);
+});
 ---
 
 <BaseLayout>
@@ -11,8 +25,8 @@ const title = 'Products — Flax Lignan Health';
   </header>
 
   <main class="products-page">
-    <!-- Client-only mount to avoid SSR errors, pass your product list -->
-    <ShopApp client:only="react" products={PRODUCTS} items={PRODUCTS} />
+    <!-- Client-only mount to avoid SSR errors, pass filtered list -->
+    <ShopApp client:only="react" products={ITEMS} items={ITEMS} />
   </main>
 
   <style>
@@ -56,40 +70,74 @@ const title = 'Products — Flax Lignan Health';
     }
     .products-page h1 { font-weight: 700; }
     .products-page h2, .products-page h3, .products-page h4 { font-weight: 600; }
-    .products-page :where(button, [role="button"], .button) {
-      font-family: var(--font-body);
-      font-weight: 600;
-    }
-    .products-page :where(input, select, textarea) {
-      font-family: var(--font-body);
+    .products-page :where(button, [role="button"], .button) { font-family: var(--font-body); font-weight: 600; }
+    .products-page :where(input, select, textarea) { font-family: var(--font-body); }
+
+    /* Hide any Buy-Now style buttons/links within the Products page only */
+    .products-page a[href*="buy.stripe.com"],
+    .products-page a.buy-now, .products-page .buy-now, .products-page .btn-buy-now, .products-page [data-variant="buy-now"],
+    .products-page a[aria-label*="Buy"], .products-page a[aria-label*="buy"],
+    .products-page button[aria-label*="Buy"], .products-page button[aria-label*="buy"],
+    .products-page [title*="Buy"], .products-page [title*="buy"] {
+      display: none !important;
     }
 
-    /* If the shop’s CSS overrides fonts, you can force them by uncommenting:
-    .products-page :where(p, li, span, div, td, th, input, select, textarea, label, a, button) { font-family: var(--font-body) !important; }
-    .products-page :where(h1, h2, h3, h4, h5, h6) { font-family: var(--font-head) !important; }
-    */
-    /* Hide any Buy-Now style buttons/links on this page */
-a[href*="buy.stripe.com"],
-a.buy-now, .buy-now, .btn-buy-now, [data-variant="buy-now"],
-a[aria-label*="Buy"], a[aria-label*="buy"],
-button[aria-label*="Buy"], button[aria-label*="buy"],
-[title*="Buy"], [title*="buy"] {
-  display: none !important;
-}
-
+    /* === Add to Cart button: black/white, bold, pill, matches front page === */
+    .products-page :where(button, a).add-to-cart,
+    .products-page :where(button, a)[data-action="add-to-cart"],
+    .products-page :where(button, a)[data-add-to-cart],
+    .products-page :where(button, a)[data-sku],
+    .products-page :where(button, a)[aria-label*="Add to Cart"],
+    .products-page :where(button, a).btn-add-to-cart {
+      background: #111827 !important;        /* near-black */
+      color: #fff !important;
+      border: 0 !important;
+      border-radius: 9999px !important;
+      padding: 10px 16px !important;
+      min-width: 160px !important;
+      font-weight: 700 !important;
+      text-decoration: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18) !important;
+      transition: transform .08s ease, opacity .15s ease !important;
+      cursor: pointer !important;
+      line-height: 1 !important;
+    }
+    .products-page :where(button, a)[aria-label*="Add to Cart"]:hover,
+    .products-page :where(button, a)[data-action="add-to-cart"]:hover,
+    .products-page :where(button, a)[data-add-to-cart]:hover,
+    .products-page :where(button, a)[data-sku]:hover,
+    .products-page :where(button, a).add-to-cart:hover,
+    .products-page :where(button, a).btn-add-to-cart:hover {
+      opacity: .92 !important;
+      transform: translateY(-1px) !important;
+    }
+    .products-page :where(button, a)[aria-label*="Add to Cart"]:focus-visible,
+    .products-page :where(button, a)[data-action="add-to-cart"]:focus-visible,
+    .products-page :where(button, a)[data-add-to-cart]:focus-visible,
+    .products-page :where(button, a)[data-sku]:focus-visible,
+    .products-page :where(button, a).add-to-cart:focus-visible,
+    .products-page :where(button, a).btn-add-to-cart:focus-visible {
+      outline: 2px solid #111827 !important;
+      outline-offset: 2px !important;
+    }
   </style>
-  <script is:inline>
-  // Remove any Buy-Now links that might be injected by external scripts
-  const kill = () => {
-    document.querySelectorAll(
-      'a[href*="buy.stripe.com"], a.buy-now, .buy-now, .btn-buy-now, [data-variant="buy-now"], a[aria-label*="Buy"], a[aria-label*="buy"]'
-    ).forEach(el => el.remove());
-  };
-  // Run now and after any dynamic injections
-  kill();
-  document.addEventListener('DOMContentLoaded', kill);
-  const mo = new MutationObserver(kill);
-  mo.observe(document.documentElement, { childList: true, subtree: true });
-</script>
 
+  <!-- Scoped script: remove any Buy-Now links injected dynamically only inside .products-page -->
+  <script is:inline>
+    const root = document.querySelector('.products-page');
+    const kill = () => {
+      if (!root) return;
+      root.querySelectorAll(
+        'a[href*="buy.stripe.com"], a.buy-now, .buy-now, .btn-buy-now, [data-variant="buy-now"], a[aria-label*="Buy"], a[aria-label*="buy"]'
+      ).forEach(el => el.remove());
+    };
+    kill();
+    document.addEventListener('DOMContentLoaded', kill);
+    new MutationObserver(kill).observe(root, { childList: true, subtree: true });
+  </script>
 </BaseLayout>
+
+
