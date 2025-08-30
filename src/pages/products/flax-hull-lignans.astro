@@ -3,39 +3,36 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const pageTitle = 'Flax Hull Lignans — ';
 
-// Update these URLs later to your cart links (e.g., /cart?sku=...)
+// TODO: Replace each paymentLink with your Stripe Payment Link URL
+// If you don't have Payment Links, leave `paymentLink: ''` and I can wire Checkout API instead.
 const products = [
   {
     title: 'Flax Hull Lignan (Single Jar)',
     badge: 'Single',
     image: '/images/products/flax-hull-single.jpg',
-    price: '',
-    url: '#',
-    alt: 'Flax Hull Lignan single jar'
+    paymentLink: '', // e.g. 'https://buy.stripe.com/XXXXsingle'
+    alt: 'Flax Hull Lignan single jar',
   },
   {
     title: 'Flax Hull Lignan (3 Jar Bundle)',
     badge: 'Bundle',
     image: '/images/products/flax-hull-3pack.jpg',
-    price: '',
-    url: '#',
-    alt: 'Flax Hull Lignan three-jar bundle'
+    paymentLink: '', // e.g. 'https://buy.stripe.com/XXXX3pack'
+    alt: 'Flax Hull Lignan three-jar bundle',
   },
   {
     title: 'FHL Flax Hull Lignans (Ancient Seeds & Grains Certified)',
     badge: 'Ancient Seeds & Grains',
     image: '/images/products/flax-hull-ancient.jpg',
-    price: '',
-    url: '#',
-    alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified'
+    paymentLink: '', // e.g. 'https://buy.stripe.com/XXXXancient'
+    alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified',
   },
   {
     title: 'FHL Flax Hull Lignans (Ancient Seeds & Grains Certified) — 3 Jar Bundle',
     badge: 'Ancient • Bundle',
     image: '/images/products/flax-hull-ancient-3pack.jpg',
-    price: '',
-    url: '#',
-    alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified 3-jar bundle'
+    paymentLink: '', // e.g. 'https://buy.stripe.com/XXXXancient3'
+    alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified 3-jar bundle',
   },
 ];
 ---
@@ -46,7 +43,7 @@ const products = [
   <section class="fhl-wrap" aria-label="Flax Hull Lignans">
     <header class="fhl-header">
       <h1 class="fhl-title">Flax Hull Lignans</h1>
-      <p class="fhl-lead">Choose the option that fits your needs. Order online or call <a href="tel:18177106918">817-710-6918</a>.</p>
+      <p class="fhl-lead">Choose the option that fits your needs.</p>
     </header>
 
     <div class="fhl-grid">
@@ -58,10 +55,12 @@ const products = [
           </div>
 
           <h2 class="card-title">{p.title}</h2>
-          {p.price && <div class="price">{p.price}</div>}
 
           <div class="actions">
-            <a href={p.url} class="btn" aria-label={`Add ${p.title} to cart`}>Add to Cart</a>
+            {p.paymentLink
+              ? <a href={p.paymentLink} class="btn" rel="noopener" target="_blank" aria-label={`Add ${p.title} to cart`}>Add to Cart</a>
+              : <button class="btn btn-disabled" disabled aria-disabled="true" title="Add your Stripe link in the file to enable">Add to Cart</button>
+            }
           </div>
         </article>
       ))}
@@ -83,10 +82,16 @@ const products = [
     .thumb img{ width:100%; height:100%; object-fit:contain; display:block; }
     .badge{ position:absolute; left:10px; top:10px; background:#0b7a53; color:#fff; font-weight:700; font-size:.8rem; padding:6px 10px; border-radius:999px; box-shadow:0 2px 8px rgba(0,0,0,.15); }
     .card-title{ font:700 1.05rem/1.25 var(--font-head); margin:12px 12px 6px; color:#0f172a; }
-    .price{ margin:0 12px 8px; font-weight:700; color:#0f172a; }
 
     .actions{ display:flex; justify-content:center; padding:12px; margin-top:auto; }
-    .btn{ display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; min-width:160px; color:#fff; background:#111827; text-decoration:none; border-radius:9999px; font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,.18); transition: transform .08s ease, opacity .15s ease; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; min-width:160px;
+      color:#fff; background:#111827; text-decoration:none; border-radius:9999px;
+      font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,.18);
+      transition: transform .08s ease, opacity .15s ease; cursor:pointer; border:0;
+    }
     .btn:hover{ opacity:.92; transform:translateY(-1px); }
+    .btn-disabled{ background:#cbd5e1; color:#475569; box-shadow:none; cursor:not-allowed; }
   </style>
 </BaseLayout>
