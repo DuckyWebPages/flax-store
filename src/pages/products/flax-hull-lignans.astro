@@ -3,9 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const pageTitle = 'Flax Hull Lignans — ';
 
-// Use your site cart (no Stripe redirect).
-// OPTIONAL: fill unitCents (price in cents) if your cart expects it.
-// If your cart looks up price from SKU, you can leave unitCents undefined.
+// Site cart (no Stripe redirect). Fill unitCents if your cart needs it; otherwise leave undefined.
 const products = [
   {
     title: 'Flax Hull Lignan (Single Jar)',
@@ -64,7 +62,8 @@ const products = [
           <div class="actions">
             <button
               type="button"
-              class="btn add-to-cart"
+              class="btn-cta add-to-cart"
+              aria-label={`Add ${p.title} to Cart`}
               data-sku={p.sku}
               data-name={p.title}
               data-image={p.image}
@@ -79,6 +78,11 @@ const products = [
   </section>
 
   <style>
+    :root{
+      --cta-bg:#111827;   /* near-black to match Products/front page */
+      --cta-fg:#ffffff;
+    }
+
     .fhl-wrap{ width:min(1100px, 92vw); margin:0 auto; padding: 8px 0 40px; }
     .fhl-header{ text-align:center; margin-bottom:16px; }
     .fhl-title{ font-family:var(--font-head); font-weight:700; font-size:clamp(1.6rem, 2.4vw, 2rem); margin:8px 0 6px; color:#0f172a; }
@@ -95,21 +99,34 @@ const products = [
     .card-title{ font:700 1.05rem/1.25 var(--font-head); margin:12px 12px 6px; color:#0f172a; }
 
     .actions{ display:flex; justify-content:center; padding:12px; margin-top:auto; }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px; min-width:160px;
-      color:#fff; background:#111827; text-decoration:none; border-radius:9999px;
-      font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,.18);
-      transition: transform .08s ease, opacity .15s ease; cursor:pointer; border:0;
+
+    /* === Same Add to Cart CTA style as Products page === */
+    .btn-cta{
+      background: var(--cta-bg);
+      color: var(--cta-fg);
+      border: 0;
+      border-radius: 9999px;
+      padding: 10px 16px;
+      min-width: 160px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+      transition: transform .08s ease, opacity .15s ease;
+      cursor: pointer;
+      line-height: 1;
     }
-    .btn:hover{ opacity:.92; transform:translateY(-1px); }
+    .btn-cta:hover{ opacity:.92; transform:translateY(-1px); }
+    .btn-cta:focus-visible{ outline:2px solid var(--cta-bg); outline-offset:2px; }
   </style>
 
   <!-- Bridge to your CartProvider: fire cart:add + call window.cart.add if present -->
   <script type="module" is:inline>
     const buttons = document.querySelectorAll<HTMLButtonElement>('.add-to-cart');
 
-    function toInt(x) { const n = parseInt(x ?? '', 10); return Number.isFinite(n) ? n : undefined; }
+    function toInt(x){ const n = parseInt(x ?? '', 10); return Number.isFinite(n) ? n : undefined; }
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -117,7 +134,6 @@ const products = [
         const name = btn.dataset.name || sku || 'Item';
         const image = btn.dataset.image || '';
         const unitCents = toInt(btn.dataset.cents);
-
         const detail: any = { sku, name, image, quantity: 1 };
         if (unitCents !== undefined) detail.unitCents = unitCents;
 
