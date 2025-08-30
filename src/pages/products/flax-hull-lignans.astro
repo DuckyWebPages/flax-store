@@ -3,34 +3,40 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const pageTitle = 'Flax Hull Lignans — ';
 
-// EDIT ME: Fill in your Stripe Payment Links below (https://buy.stripe.com/...)
+// Use your site cart (no Stripe redirect).
+// OPTIONAL: fill unitCents (price in cents) if your cart expects it.
+// If your cart looks up price from SKU, you can leave unitCents undefined.
 const products = [
   {
     title: 'Flax Hull Lignan (Single Jar)',
     badge: 'Single',
+    sku: 'fhl-single',
     image: '/images/products/flax-hull-single.jpg',
-    paymentLink: 'https://buy.stripe.com/test_8x200j2r8aAugaM3iK7EQ01', // e.g. 'https://buy.stripe.com/test_8x200j2r8aAugaM3iK7EQ01'
+    unitCents: undefined, // e.g. 4995
     alt: 'Flax Hull Lignan single jar',
   },
   {
     title: 'Flax Hull Lignan (3 Jar Bundle)',
     badge: 'Bundle',
+    sku: 'fhl-3pack',
     image: '/images/products/flax-hull-3pack.jpg',
-    paymentLink: 'https://buy.stripe.com/test_dRm28r4zg4c64s4bPg7EQ02', // e.g. 'https://buy.stripe.com/xxxx3pack'
+    unitCents: undefined, // e.g. 13995
     alt: 'Flax Hull Lignan three-jar bundle',
   },
   {
     title: 'FHL Flax Hull Lignans (Ancient Seeds & Grains Certified)',
     badge: 'Ancient Seeds & Grains',
+    sku: 'fhl-ancient',
     image: '/images/products/flax-hull-ancient.jpg',
-    paymentLink: 'https://buy.stripe.com/test_eVqcN56Ho9wq8Ikg5w7EQ03', // e.g. 'https://buy.stripe.com/xxxxancient'
+    unitCents: undefined,
     alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified',
   },
   {
     title: 'FHL Flax Hull Lignans (Ancient Seeds & Grains Certified) — 3 Jar Bundle',
     badge: 'Ancient • Bundle',
+    sku: 'fhl-ancient-3pack',
     image: '/images/products/flax-hull-ancient-3pack.jpg',
-    paymentLink: 'https://buy.stripe.com/test_28EfZhe9QcIC4s4bPg7EQ05', // e.g. 'https://buy.stripe.com/xxxxancient3'
+    unitCents: undefined,
     alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified 3-jar bundle',
   },
 ];
@@ -56,10 +62,16 @@ const products = [
           <h2 class="card-title">{p.title}</h2>
 
           <div class="actions">
-            {p.paymentLink
-              ? <a href={p.paymentLink} class="btn" rel="noopener" target="_blank" aria-label={`Add ${p.title} to cart`}>Add to Cart</a>
-              : <button class="btn btn-disabled" disabled aria-disabled="true" title="Add your Stripe Payment Link in this file to enable">Add to Cart</button>
-            }
+            <button
+              type="button"
+              class="btn add-to-cart"
+              data-sku={p.sku}
+              data-name={p.title}
+              data-image={p.image}
+              data-cents={typeof p.unitCents === 'number' ? String(p.unitCents) : ''}
+            >
+              Add to Cart
+            </button>
           </div>
         </article>
       ))}
@@ -91,6 +103,36 @@ const products = [
       transition: transform .08s ease, opacity .15s ease; cursor:pointer; border:0;
     }
     .btn:hover{ opacity:.92; transform:translateY(-1px); }
-    .btn-disabled{ background:#cbd5e1; color:#475569; box-shadow:none; cursor:not-allowed; }
   </style>
+
+  <!-- Bridge to your CartProvider: fire cart:add + call window.cart.add if present -->
+  <script type="module" is:inline>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.add-to-cart');
+
+    function toInt(x) { const n = parseInt(x ?? '', 10); return Number.isFinite(n) ? n : undefined; }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const sku = btn.dataset.sku || '';
+        const name = btn.dataset.name || sku || 'Item';
+        const image = btn.dataset.image || '';
+        const unitCents = toInt(btn.dataset.cents);
+
+        const detail: any = { sku, name, image, quantity: 1 };
+        if (unitCents !== undefined) detail.unitCents = unitCents;
+
+        // 1) Dispatch event your CartProvider listens for
+        window.dispatchEvent(new CustomEvent('cart:add', { detail }));
+
+        // 2) Also call global helper if exposed by CartProvider
+        try { (window as any).cart?.add?.({ id: sku, name, image, unitCents }, 1); } catch {}
+
+        // UX feedback
+        const original = btn.textContent;
+        btn.textContent = 'Added ✓';
+        btn.disabled = true;
+        setTimeout(() => { btn.textContent = original || 'Add to Cart'; btn.disabled = false; }, 1200);
+      });
+    });
+  </script>
 </BaseLayout>
