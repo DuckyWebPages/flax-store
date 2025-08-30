@@ -39,24 +39,24 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
-  <!-- === Hero with brand on image and text card below === -->
+  <!-- === Hero with fixed logo at top === -->
   <section class="hero" aria-label="Flax Lignan Health hero">
     <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
 
-    <div class="hero-inner">
-      <!-- Brand directly on the hero image -->
-      <div class="hero-brand">
-        <img
-          src="/images/flh-logo-3.png"
-          alt="Flax Lignan Health"
-          class="hero-logo"
-          decoding="async"
-          loading="eager"
-        />
-      </div>
+    <!-- logo fixed at top of hero -->
+    <div class="hero-brand">
+      <img
+        src="/images/flh-logo-3.png"
+        alt="Flax Lignan Health"
+        class="hero-logo"
+        decoding="async"
+        loading="eager"
+      />
+    </div>
 
-      <!-- Copy box under the logo -->
-      <div class="hero-card" aria-label="Intro">
+    <!-- text card below -->
+    <div class="hero-inner">
+      <div class="hero-card">
         <p class="hero-text">
           Your research-driven source for natural products promoting health, vitality and immune system support.
           The original FHL Flax Hull Lignans found in international trials around the world.
@@ -88,41 +88,49 @@ const pageTitle = 'Home — ';
     .cat-thumb{ width: clamp(96px, 10vw, 140px); height: clamp(96px, 10vw, 140px); border-radius:50%; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.10); display:block; }
     .cat-thumb img{ width:100%; height:100%; object-fit:cover; }
     .cat-label{ font-size:1rem; font-weight:600; text-align:center; line-height:1.2; }
-    @media (max-width:1024px){ .cat-grid{ grid-template-columns: repeat(3, 1fr);} .category-bar{ min-height:300px;} }
-    @media (max-width:640px){ .cat-grid{ grid-template-columns: repeat(2, 1fr);} .category-bar{ min-height:320px;} }
 
     /* ===== Hero ===== */
-    .hero{ position:relative; isolation:isolate; overflow:hidden; min-height:clamp(460px,64vh,760px); padding:18px 12px 40px; border-bottom:1px solid #e5e7eb; }
-    .hero-bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 60%; z-index:-1; }
-    .hero-inner{
-      position:relative; max-width:1100px; margin:0 auto; z-index:1;
-      display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
-      min-height:clamp(420px,58vh,680px);
+    .hero{ position:relative; isolation:isolate; overflow:hidden;
+      min-height:clamp(520px,72vh,880px);
+      padding:0 12px 40px; border-bottom:1px solid #e5e7eb;
+      text-align:center;
+    }
+    .hero-bg{ position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:center 60%; z-index:-2;
+    }
+    /* green overlay */
+    .hero::before{
+      content:""; position:absolute; inset:0; z-index:-1;
+      background:linear-gradient(to bottom,
+        rgba(11,122,83,.65) 0%,
+        rgba(11,122,83,.4) 40%,
+        rgba(11,122,83,.0) 100%);
     }
 
-    /* Brand on image */
-    .hero-brand{ width:100%; display:flex; justify-content:center; }
+    /* logo fixed at top */
+    .hero-brand{
+      position:absolute;
+      top:16px; left:50%; transform:translateX(-50%);
+      z-index:5;
+    }
     .hero-logo{
-      width:min(560px, 86vw);  /* large but responsive */
+      width:min(560px, 86vw);
       height:auto; display:block;
-      margin:4px auto 10px;    /* tiny top gap so it kisses the top visually */
-      /* If PNG has transparent padding, you can crop visually: */
-      /* margin:-8px auto 10px; */
     }
 
-    /* Copy card */
+    /* card below */
+    .hero-inner{ display:flex; flex-direction:column; align-items:center; margin-top:240px; }
     .hero-card{
-      display:block; width:min(64%, 760px);
-      background:rgba(255,255,255,.66);
-      -webkit-backdrop-filter:blur(6px);
-      backdrop-filter:blur(6px);
+      width:min(64%, 760px);
+      background:rgba(255,255,255,.7);
+      -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
       border-radius:12px;
-      padding:12px 16px;           /* tight vertical padding */
+      padding:14px 18px;
       box-shadow:0 8px 22px rgba(0,0,0,.12);
       text-align:center;
     }
-    .hero-text{ margin:4px 0 10px; line-height:1.28; }
-    .home-shop-cta{ display:flex; justify-content:center; margin-top:6px; }
+    .hero-text{ margin:4px 0 10px; line-height:1.3; }
+    .home-shop-cta{ margin-top:10px; display:flex; justify-content:center; }
     .cta-btn{
       display:inline-flex; align-items:center; justify-content:center;
       min-width:140px; padding:12px 18px;
@@ -134,10 +142,9 @@ const pageTitle = 'Home — ';
     .cta-btn:hover{ opacity:.92; transform:translateY(-1px); }
 
     @media (max-width:768px){
-      .hero{ padding:12px 10px 28px; }
-      .hero-inner{ min-height:420px; }
       .hero-logo{ width:min(340px, 88vw); }
-      .hero-card{ width:92%; padding:10px 12px; border-radius:10px; }
+      .hero-inner{ margin-top:160px; }
+      .hero-card{ width:92%; padding:12px 14px; }
       .hero-text{ font-size:.95rem; }
     }
 
