@@ -30,6 +30,87 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("cart:updated", h as EventListener);
   }, []);
 
+  // 🔗 BRIDGE: accept DOM events & expose window.cart helper
+  useEffect(() => {
+    type Incoming =
+      | (Partial<CartItem> & {
+          /** Common alternates that buttons may send */
+          sku?: string;
+          priceId?: string;
+          quantity?: number;
+          qty?: number;
+        })
+      | { item: CartItem; quantity?: number; qty?: number };
+
+    const onAdd = (evt: Event) => {
+      const e = evt as CustomEvent<Incoming>;
+      const d = e.detail || ({} as Incoming);
+
+      // Normalize qty
+      const qty = Number.isFinite((d as any).quantity)
+        ? Number((d as any).quantity)
+        : Number.isFinite((d as any).qty)
+        ? Number((d as any).qty)
+        : 1;
+
+      // Prefer a full item if provided
+      let item: CartItem | null = (d as any).item ?? null;
+
+      if (!item) {
+        // Derive an id: prefer id → sku → priceId → name
+        const id =
+          (d as any).id ??
+          (d as any).sku ??
+          (d as any).priceId ??
+          (d as any).name;
+
+        if (!id) return; // nothing to add
+
+        item = {
+          // @ts-expect-error - we allow partials; Cart.add will validate
+          id,
+          name: (d as any).name ?? String(id),
+          unitCents:
+            typeof (d as any).unitCents === "number" ? (d as any).unitCents : 0,
+          image: (d as any).image,
+        } as CartItem;
+      }
+
+      // Use your existing cart core + open the drawer
+      Cart.add(item, qty);
+      setOpen(true);
+    };
+
+    const onOpen = () => setOpen(true);
+    const onClear = () => Cart.clear();
+
+    window.addEventListener("cart:add", onAdd as EventListener);
+    document.addEventListener("cart:add", onAdd as EventListener);
+    window.addEventListener("cart:open", onOpen as EventListener);
+    window.addEventListener("cart:clear", onClear as EventListener);
+
+    // Global helper for legacy buttons/scripts
+    (window as any).cart = {
+      add: (item: CartItem, qty: number = 1) => {
+        Cart.add(item, qty);
+        setOpen(true);
+      },
+      open: () => setOpen(true),
+      close: () => setOpen(false),
+      clear: () => Cart.clear(),
+      setQty: (id: string, qty: number) => Cart.setQty(id, qty),
+      remove: (id: string) => Cart.remove(id),
+    };
+
+    return () => {
+      window.removeEventListener("cart:add", onAdd as EventListener);
+      document.removeEventListener("cart:add", onAdd as EventListener);
+      window.removeEventListener("cart:open", onOpen as EventListener);
+      window.removeEventListener("cart:clear", onClear as EventListener);
+      // Optionally: delete (window as any).cart;
+    };
+  }, []);
+
   const value: Ctx = {
     items,
     count: items.reduce((n, i) => n + i.qty, 0),

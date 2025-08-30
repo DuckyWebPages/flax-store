@@ -68,5 +68,28 @@ const title = 'Products — Flax Lignan Health';
     .products-page :where(p, li, span, div, td, th, input, select, textarea, label, a, button) { font-family: var(--font-body) !important; }
     .products-page :where(h1, h2, h3, h4, h5, h6) { font-family: var(--font-head) !important; }
     */
+    /* Hide any Buy-Now style buttons/links on this page */
+a[href*="buy.stripe.com"],
+a.buy-now, .buy-now, .btn-buy-now, [data-variant="buy-now"],
+a[aria-label*="Buy"], a[aria-label*="buy"],
+button[aria-label*="Buy"], button[aria-label*="buy"],
+[title*="Buy"], [title*="buy"] {
+  display: none !important;
+}
+
   </style>
+  <script is:inline>
+  // Remove any Buy-Now links that might be injected by external scripts
+  const kill = () => {
+    document.querySelectorAll(
+      'a[href*="buy.stripe.com"], a.buy-now, .buy-now, .btn-buy-now, [data-variant="buy-now"], a[aria-label*="Buy"], a[aria-label*="buy"]'
+    ).forEach(el => el.remove());
+  };
+  // Run now and after any dynamic injections
+  kill();
+  document.addEventListener('DOMContentLoaded', kill);
+  const mo = new MutationObserver(kill);
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+</script>
+
 </BaseLayout>
