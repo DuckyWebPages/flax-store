@@ -175,16 +175,24 @@ const pageTitle = 'Home — ';
       min-height:clamp(360px,54vh,600px);
     }
     .hero-card{
-      display:inline-block; width:75%; max-width:720px;
-      background:rgba(255,255,255,.62);
-      -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
-      border-radius:14px; padding:16px 20px; box-shadow:0 6px 18px rgba(0,0,0,.10);
-      text-align:center; z-index:2;
+  display:inline-block; 
+  width:75%; 
+  max-width:720px;
+  background:rgba(255,255,255,.62);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  border-radius:14px;
+  padding:10px 14px;   /* was 16px 20px */
+  box-shadow:0 6px 18px rgba(0,0,0,.10);
+  text-align:center; 
+  z-index:2;
+}
+
     }
     .hero-logo {
-      max-width: 280px;
+      max-width: 370px;
       height: auto;
-      margin: 0 auto 12px;
+      margin: 0 auto 8px;
       display: block;
     }
     .home-shop-cta{
