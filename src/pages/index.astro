@@ -62,9 +62,17 @@ const pageTitle = 'Home — ';
 
     <div class="hero-inner">
       <div class="hero-card">
-        <h1 class="site-title">Flax Lignan Health</h1>
+        <img 
+          src="/images/flh-logo-2025b.png" 
+          alt="Flax Lignan Health" 
+          class="hero-logo"
+          decoding="async"
+          loading="eager"
+        />
         <p>
-          Your research-driven source for natural products promoting health, vitality and immune system support. The original FHL Flax Hull Lignans found in international trials around the world. Fresh from the USA North Dakota farm to your home. <br />
+          Your research-driven source for natural products promoting health, vitality and immune system support. 
+          The original FHL Flax Hull Lignans found in international trials around the world. 
+          Fresh from the USA North Dakota farm to your home. <br />
           <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
         </p>
 
@@ -86,9 +94,9 @@ const pageTitle = 'Home — ';
     /* ===== Category Bar ===== */
     .category-bar{
       background:#fff;
-      min-height:240px;            /* reduced height */
+      min-height:240px;
       display:flex;
-      align-items:center;          /* center contents vertically */
+      align-items:center;
       border-bottom:1px solid #e5e7eb;
       padding-top:10px;
       padding-bottom:10px;
@@ -98,7 +106,7 @@ const pageTitle = 'Home — ';
       margin:0 auto;
       display:flex;
       flex-direction:column;
-      justify-content:center;      /* center heading + circles */
+      justify-content:center;
       gap:16px;
     }
     .cat-heading{
@@ -110,7 +118,7 @@ const pageTitle = 'Home — ';
     .cat-grid{
       display:grid;
       grid-template-columns: repeat(6, 1fr);
-      gap:clamp(10px, 2vw, 24px);  /* slightly tighter gap */
+      gap:clamp(10px, 2vw, 24px);
       align-items:center;
       justify-items:center;
     }
@@ -130,7 +138,7 @@ const pageTitle = 'Home — ';
       transform: translateY(-4px);
     }
     .cat-thumb{
-      width: clamp(96px, 10vw, 140px);   /* adjusted smaller */
+      width: clamp(96px, 10vw, 140px);
       height: clamp(96px, 10vw, 140px);
       border-radius:50%;
       overflow:hidden;
@@ -173,6 +181,12 @@ const pageTitle = 'Home — ';
       border-radius:14px; padding:16px 20px; box-shadow:0 6px 18px rgba(0,0,0,.10);
       text-align:center; z-index:2;
     }
+    .hero-logo {
+      max-width: 280px;
+      height: auto;
+      margin: 0 auto 12px;
+      display: block;
+    }
     .home-shop-cta{
       display:flex; justify-content:center; margin-top:16px;
     }
@@ -191,6 +205,7 @@ const pageTitle = 'Home — ';
       .hero{ padding:24px 16px 48px; }
       .hero-inner{ min-height:420px; }
       .hero-card{ width:92%; max-width:none; padding:14px 16px; border-radius:12px; }
+      .hero-logo{ max-width: 220px; }
       .home-shop-cta{ margin-top:14px; }
       .cta-btn{ width:100%; max-width:320px; }
     }
@@ -203,7 +218,7 @@ const pageTitle = 'Home — ';
     }
     .signup-banner img{
       width:100%; height:auto;
-      max-height:260px;         /* desktop cap */
+      max-height:260px;
       object-fit:cover;
       cursor:pointer;
       box-shadow:0 2px 6px rgba(0,0,0,.15);
@@ -213,12 +228,5 @@ const pageTitle = 'Home — ';
     @media (max-width:640px){
       .signup-banner img{ max-height:160px; }
     }
-  /* ===== Global Background ===== */
-body {
-  background: url("/images/background3.png") no-repeat center top;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
   </style>
 </BaseLayout>
