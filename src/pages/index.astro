@@ -6,7 +6,7 @@ const pageTitle = 'Home — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- === Category Bar (ABOVE HERO) === -->
+  <!-- === Category Bar (centered) === -->
   <section class="category-bar" aria-label="Shop by category">
     <div class="cat-wrap">
       <h2 class="cat-heading">Top Selling Products</h2>
@@ -39,31 +39,21 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
-  <!-- === HERO (logo pinned to top; compact height) === -->
+  <!-- === HERO (no logo for now; compact) === -->
   <section class="hero" aria-label="Flax Lignan Health hero">
     <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
-
-    <!-- pinned logo -->
-    <img
-  src="/images/flh-logo-33.png?v=5"
-  alt="Flax Lignan Health"
-  class="hero-logo"
-  decoding="async"
-  loading="eager"
-/>
-
-
-    <!-- card directly under the logo -->
-    <div class="hero-card">
-      <p class="hero-text">
-        Your research-driven source for natural products promoting health, vitality and immune system support.
-        The original FHL Flax Hull Lignans found in international trials around the world.
-        Fresh from the USA North Dakota farm to your home. <br />
-        <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
-      </p>
-      <nav class="home-shop-cta" aria-label="Shop">
-        <a href="/products" class="cta-btn">Shop</a>
-      </nav>
+    <div class="hero-inner">
+      <div class="hero-card">
+        <p class="hero-text">
+          Your research-driven source for natural products promoting health, vitality and immune system support.
+          The original FHL Flax Hull Lignans found in international trials around the world.
+          Fresh from the USA North Dakota farm to your home. <br />
+          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
+        </p>
+        <nav class="home-shop-cta" aria-label="Shop">
+          <a href="/products" class="cta-btn">Shop</a>
+        </nav>
+      </div>
     </div>
   </section>
 
@@ -74,32 +64,12 @@ const pageTitle = 'Home — ';
     </a>
   </section>
 
-  <!-- KEEP THIS STYLE TAG AT THE BOTTOM OF index.astro -->
   <style>
-    /* ---------- Controls ---------- */
-    :root{
-      /* Large but sane logo; hero becomes compact */
-      --hero-logo-h: clamp(180px, 22vw, 260px);
-      --hero-gap: 12px; /* space between logo and card */
-    }
-
     /* ===== Category Bar ===== */
     .category-bar{ background:#fff; border-bottom:1px solid #e5e7eb; padding:12px 0; }
-    .cat-wrap{
-      width:100%;
-      max-width:1100px;           /* match BaseLayout main max width */
-      margin:0 auto; display:flex; flex-direction:column; gap:16px;
-    }
-    .cat-heading{
-      margin:0; text-align:center; color:#0f172a;
-      font:700 1.6rem/1 var(--font-head);
-    }
-    .cat-grid{
-      display:grid; align-items:center; justify-items:center;
-      grid-template-columns: repeat(6, 1fr);
-      gap:clamp(10px, 2vw, 24px);
-      width:100%;
-    }
+    .cat-wrap{ width:100%; max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:16px; }
+    .cat-heading{ margin:0; text-align:center; color:#0f172a; font:700 1.6rem/1 var(--font-head); }
+    .cat-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap:clamp(10px, 2vw, 24px); align-items:center; justify-items:center; width:100%; }
     .cat-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; text-decoration:none; color:#0f172a; transition:transform .18s ease; }
     .cat-item:hover{ transform: translateY(-4px); }
     .cat-thumb{ width: clamp(96px, 10vw, 140px); height: clamp(96px, 10vw, 140px); border-radius:50%; overflow:hidden; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.10); }
@@ -107,34 +77,30 @@ const pageTitle = 'Home — ';
     @media (max-width:1024px){ .cat-grid{ grid-template-columns: repeat(3, 1fr); } }
     @media (max-width:640px){ .cat-grid{ grid-template-columns: repeat(2, 1fr); } }
 
-    /* ===== Hero (compact, simple, reliable) ===== */
+    /* ===== Hero (compact) ===== */
     .hero{
       position:relative; isolation:isolate; overflow:hidden;
-      min-height:clamp(300px, 42vh, 520px); /* compact */
-      padding: calc(var(--hero-logo-h) + var(--hero-gap)) 12px 28px; /* card begins below logo */
+      min-height:clamp(280px, 40vh, 500px);     /* ~half as tall as before */
+      padding:24px 12px 36px;                   /* small top padding now that logo is gone */
       border-bottom:1px solid #e5e7eb; text-align:center; background:transparent;
     }
     .hero-bg{
       position:absolute; inset:0; width:100%; height:100%;
       object-fit:cover; object-position:center 60%; z-index:-1;
     }
-
-    /* logo pinned to very top of hero */
-    .hero-logo{
-      position:absolute; top:0; left:50%; transform:translateX(-50%);
-      height:var(--hero-logo-h); width:auto; display:block; margin:0; z-index:2;
+    .hero-inner{
+      width:min(1100px, 92vw); margin:0 auto;
+      display:flex; flex-direction:column; align-items:center;
     }
-
-    /* card naturally follows because of hero padding-top */
     .hero-card{
-      width:min(64%, 760px); margin:0 auto;
+      width:min(64%, 760px);
       background:rgba(255,255,255,.85);
       -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
       border-radius:12px; padding:12px 16px;
-      box-shadow:0 8px 22px rgba(0,0,0,.12); color:#0f172a;
+      box-shadow:0 8px 22px rgba(0,0,0,.12);
+      color:#0f172a; text-align:center;
     }
     .hero-text{ margin:4px 0 8px; line-height:1.28; }
-
     .home-shop-cta{ margin-top:8px; display:flex; justify-content:center; }
     .cta-btn{
       display:inline-flex; align-items:center; justify-content:center;
@@ -145,11 +111,6 @@ const pageTitle = 'Home — ';
       transition:transform .08s ease, opacity .15s ease;
     }
     .cta-btn:hover{ opacity:.92; transform:translateY(-1px); }
-
-    @media (max-width:768px){
-      :root{ --hero-logo-h: clamp(140px, 34vw, 200px); }
-      .hero-card{ width:92%; padding:10px 12px; }
-    }
 
     /* ===== Signup banner ===== */
     .signup-banner{ margin:20px auto; max-width:1100px; text-align:center; }
