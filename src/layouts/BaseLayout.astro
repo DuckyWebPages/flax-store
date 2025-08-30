@@ -8,12 +8,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Source+Sans+3:wght@600;700&display=swap" rel="stylesheet">
 
-    {/* Preload the nav logo to avoid stale cache / path issues */}
-    <link
-      rel="preload"
-      as="image"
-      href={import.meta.env.BASE_URL + 'images/flh-logo-33.png?v=4'}
-    />
+    <!-- Preload the nav logo to avoid any cache/path hiccups -->
+    <link rel="preload" as="image" href="/images/flh-logo-33.png?v=5" />
 
     <style>
       :root{
@@ -76,7 +72,7 @@
         <!-- Logo left -->
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
           <img
-            src={import.meta.env.BASE_URL + 'images/flh-logo-33.png?v=4'}
+            src="/images/flh-logo-33.png?v=5"
             alt="Flax Lignan Health"
             class="nav-logo"
             decoding="async"
