@@ -1,7 +1,7 @@
 import React from "react";
 import { CartProvider } from "./CartProvider";
 import CartDrawer from "./CartDrawer";
-import AddToCartButton from "./AddToCartButton";
+import AddToCart from "./AddToCart";
 
 type P = {
   id: string;
@@ -9,11 +9,14 @@ type P = {
   price: number;
   image?: string;
   description?: string;
-  stripePaymentLink?: string;
+  stripePaymentLink?: string; // kept, but not used here
 };
 
 const fmt = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+
+// tiny util so we can pass a CTA class reliably
+const cx = (...xs: Array<string | undefined | false>) => xs.filter(Boolean).join(" ");
 
 export default function ShopApp({ products }: { products: P[] }) {
   return (
@@ -72,47 +75,15 @@ export default function ShopApp({ products }: { products: P[] }) {
                 </p>
               ) : null}
 
-              {/* Actions */}
+              {/* Actions (NO Buy Now link; Add to Cart only) */}
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {p.stripePaymentLink?.startsWith("https://buy.stripe.com/") ? (
-                  <a
-                    href={p.stripePaymentLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: "inline-block",
-                      textDecoration: "none",
-                      background: "#111827",     // BLACK BACKGROUND
-                      color: "#fff",             // WHITE TEXT
-                      border: "1px solid #111827",
-                      padding: ".6rem .9rem",
-                      borderRadius: 10,
-                    }}
-                  >
-                    Buy Now
-                  </a>
-                ) : (
-                  <button
-                    disabled
-                    title="Checkout link missing or invalid"
-                    style={{
-                      opacity: 0.6,
-                      cursor: "not-allowed",
-                      border: "1px solid #cbd5e1",
-                      padding: ".6rem .9rem",
-                      borderRadius: 10,
-                      background: "#f1f5f9",
-                    }}
-                  >
-                    Coming soon
-                  </button>
-                )}
-
-                <AddToCartButton
+                <AddToCart
                   id={p.id}
                   name={p.name}
-                  cents={Math.round((p.price || 0) * 100)}
+                  unitCents={Math.round((p.price || 0) * 100)}
                   image={p.image}
+                  className={cx("btn-cta", "add-to-cart")}
+                  {...{ "data-sku": p.id }}
                 />
               </div>
             </div>
