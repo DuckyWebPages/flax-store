@@ -12,46 +12,44 @@
       :root{
         --font-body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
         --font-head:'Source Sans 3','Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-        --ink:#0f172a; --ink-muted:#64748b; --bg:#f8fafc;
+        --brand-green:#0b7a53;
+        --ink:#0f172a; --ink-muted:#e2f2ea; /* lighter for green bg */
+        --bg:var(--brand-green);            /* SITE BACKGROUND IS GREEN */
       }
       *{box-sizing:border-box}
-      body{margin:0;font-family:var(--font-body);background:var(--bg);color:var(--ink);}
+      body{margin:0;font-family:var(--font-body);background:var(--bg);color:#ffffff;}
 
       /* Fixed header */
       .site-header-wrap{
         position:fixed;top:0;left:0;right:0;z-index:9999;
-        background:#fff;border-bottom:1px solid #e5e7eb;
+        background:var(--brand-green);
+        border-bottom:1px solid rgba(0,0,0,.08);
       }
       .site-header{
-        max-width:1100px;margin:0 auto;padding:6px 14px;
-        display:flex;align-items:center;justify-content:space-between;
+        max-width:1100px;margin:0 auto;
+        padding:0 14px;
+        display:flex;align-items:flex-start;justify-content:space-between;
       }
 
-      /* Brand (logo) */
-      .brand{display:inline-flex;align-items:flex-start;text-decoration:none;line-height:0;}
+      /* Brand logo */
+      .brand{display:inline-flex;align-items:flex-start;line-height:0;}
       .nav-logo{
-        height:200px;   /* BIG logo */
-        width:auto;display:block;
-        margin:-10px 0 -12px; /* crop transparent padding if any */
+        height:200px; width:auto; display:block;
+        margin-top:-8px; margin-bottom:-4px;
       }
       @media (min-width:1024px){
-        .nav-logo{height:220px;margin:-12px 0 -14px;}
+        .nav-logo{height:220px;margin-top:-10px;}
       }
 
-      nav.main-nav{display:flex;gap:20px;align-items:center}
-      .nav-link{
-        color:var(--ink);text-decoration:none;font-weight:600;letter-spacing:.02em;
-        padding:8px 10px;border-radius:8px;font-size:1.1rem;
-      }
-      .nav-link:hover{background:#f3f4f6}
-      .nav-link[aria-current="page"]{text-decoration:underline}
+      nav.main-nav{display:flex;gap:20px;align-items:flex-end;margin-top:8px;}
+      .nav-link{ color:#fff; font-weight:600; text-decoration:none; padding:8px 10px; border-radius:8px; }
+      .nav-link:hover{background:rgba(255,255,255,.12);}
+      .nav-link[aria-current="page"]{text-decoration:underline;}
 
-      /* Page shell */
+      /* Page shell spacing for tall header */
       main,footer{max-width:1100px;margin:0 auto}
-      main{padding:240px 16px 56px}  /* offset for very tall header */
-      footer{padding:16px;color:var(--ink-muted)}
-
-      /* Headings */
+      main{padding:260px 16px 56px}
+      footer{padding:16px;color:#e6fff4}
       h1,h2,h3,h4,.site-title,.products-title{font-family:var(--font-head);letter-spacing:-.01em;line-height:1.15}
       h1,.site-title,h2,.products-title{font-weight:700}
       h3,h4{font-weight:600}
@@ -62,11 +60,7 @@
     <div class="site-header-wrap">
       <div class="site-header">
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
-          <img
-            src="/images/flh-logo-3.png"
-            alt="Flax Lignan Health"
-            class="nav-logo"
-          />
+          <img src="/images/flh-logo-3.png" alt="Flax Lignan Health" class="nav-logo" />
         </a>
 
         <nav class="main-nav" aria-label="Main">

@@ -39,7 +39,7 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
-  <!-- === Hero with fixed logo at top === -->
+  <!-- === Hero with fixed logo at top (no green overlay) === -->
   <section class="hero" aria-label="Flax Lignan Health hero">
     <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
 
@@ -81,53 +81,47 @@ const pageTitle = 'Home — ';
     /* ===== Category Bar ===== */
     .category-bar{ background:#fff; min-height:240px; display:flex; align-items:center; border-bottom:1px solid #e5e7eb; padding:10px 0; }
     .cat-wrap{ width:min(1200px, 92vw); margin:0 auto; display:flex; flex-direction:column; justify-content:center; gap:16px; }
-    .cat-heading{ font-size:1.5rem; font-weight:700; text-align:center; margin:0; }
+    .cat-heading{ font-size:1.5rem; font-weight:700; text-align:center; margin:0; color:#0f172a; }
     .cat-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap:clamp(10px, 2vw, 24px); align-items:center; justify-items:center; }
-    .cat-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; text-decoration:none; color:inherit; transition: transform .18s ease; }
+    .cat-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; text-decoration:none; color:#0f172a; transition: transform .18s ease; }
     .cat-item:hover{ transform: translateY(-4px); }
-    .cat-thumb{ width: clamp(96px, 10vw, 140px); height: clamp(96px, 10vw, 140px); border-radius:50%; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.10); display:block; }
+    .cat-thumb{ width: clamp(96px, 10vw, 140px); height: clamp(96px, 10vw, 140px); border-radius:50%; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.10); display:block; background:#fff; }
     .cat-thumb img{ width:100%; height:100%; object-fit:cover; }
-    .cat-label{ font-size:1rem; font-weight:600; text-align:center; line-height:1.2; }
 
-    /* ===== Hero ===== */
-    .hero{ position:relative; isolation:isolate; overflow:hidden;
+    @media (max-width:1024px){ .cat-grid{ grid-template-columns: repeat(3, 1fr);} .category-bar{ min-height:300px;} }
+    @media (max-width:640px){ .cat-grid{ grid-template-columns: repeat(2, 1fr);} .category-bar{ min-height:320px;} }
+
+    /* ===== Hero (no green overlay) ===== */
+    .hero{
+      position:relative; isolation:isolate; overflow:hidden;
       min-height:clamp(520px,72vh,880px);
       padding:0 12px 40px; border-bottom:1px solid #e5e7eb;
       text-align:center;
+      background:transparent; /* show site green around edges if any */
     }
-    .hero-bg{ position:absolute; inset:0; width:100%; height:100%;
+    .hero-bg{
+      position:absolute; inset:0; width:100%; height:100%;
       object-fit:cover; object-position:center 60%; z-index:-2;
     }
-    /* green overlay */
-    .hero::before{
-      content:""; position:absolute; inset:0; z-index:-1;
-      background:linear-gradient(to bottom,
-        rgba(11,122,83,.65) 0%,
-        rgba(11,122,83,.4) 40%,
-        rgba(11,122,83,.0) 100%);
-    }
 
-    /* logo fixed at top */
+    /* logo fixed at top inside hero */
     .hero-brand{
-      position:absolute;
-      top:16px; left:50%; transform:translateX(-50%);
+      position:absolute; top:16px; left:50%; transform:translateX(-50%);
       z-index:5;
     }
-    .hero-logo{
-      width:min(560px, 86vw);
-      height:auto; display:block;
-    }
+    .hero-logo{ width:min(560px, 86vw); height:auto; display:block; }
 
-    /* card below */
+    /* card below logo */
     .hero-inner{ display:flex; flex-direction:column; align-items:center; margin-top:240px; }
     .hero-card{
       width:min(64%, 760px);
-      background:rgba(255,255,255,.7);
+      background:rgba(255,255,255,.8);
       -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
       border-radius:12px;
       padding:14px 18px;
       box-shadow:0 8px 22px rgba(0,0,0,.12);
       text-align:center;
+      color:#0f172a;
     }
     .hero-text{ margin:4px 0 10px; line-height:1.3; }
     .home-shop-cta{ margin-top:10px; display:flex; justify-content:center; }
