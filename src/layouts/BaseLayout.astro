@@ -1,5 +1,5 @@
 ---
-/* Simple, reliable layout with fixed header + clean nav */
+/* Layout with fixed header sized to logo, links on right */
 ---
 <html lang="en">
   <head>
@@ -20,42 +20,42 @@
         margin:0;
         font-family:var(--font-body);
         color:var(--ink);
-        /* SITE-WIDE BACKGROUND IMAGE */
-        background: #0b7a53 url("/images/background3.png") center top / cover no-repeat fixed;
+        background:#0b7a53 url("/images/background3.png") center top / cover no-repeat fixed;
       }
 
-      /* Fixed header (kept solid so bg image doesn’t show through) */
+      /* Fixed header */
       .site-header-wrap{
         position:fixed; top:0; left:0; right:0; z-index:9999;
         background:#ffffff;
         border-bottom:1px solid #e5e7eb;
+        box-shadow:0 2px 6px rgba(0,0,0,.15);
       }
       .site-header{
-        max-width:1100px; margin:0 auto; padding:6px 14px;
-        display:flex; align-items:flex-start; justify-content:space-between;
+        max-width:1100px; margin:0 auto; padding:0 16px;
+        display:flex; align-items:center; justify-content:space-between;
+        height:200px; /* matches logo height */
       }
 
-      /* Brand logo */
-      .brand{display:inline-flex; align-items:flex-start; line-height:0;}
-      .nav-logo{
-        height:200px; width:auto; display:block;
-        margin-top:-8px; margin-bottom:-4px;
-      }
-      @media (min-width:1024px){
-        .nav-logo{height:220px; margin-top:-10px;}
-      }
+      /* Logo */
+      .brand{display:inline-flex; align-items:center; line-height:0;}
+      .nav-logo{ height:200px; width:auto; display:block; }
 
-      nav.main-nav{display:flex; gap:20px; align-items:flex-end; margin-top:8px;}
+      /* Links on the right */
+      nav.main-nav{
+        display:flex; gap:24px; align-items:center;
+        height:100%;
+      }
       .nav-link{
         color:var(--ink); font-weight:600; text-decoration:none;
-        padding:8px 10px; border-radius:8px;
+        padding:6px 8px; border-radius:6px;
+        font-size:1.05rem;
       }
       .nav-link:hover{ background:#f3f4f6; }
       .nav-link[aria-current="page"]{ text-decoration:underline; }
 
-      /* Page shell spacing for tall header */
+      /* Page spacing for tall header */
       main,footer{ max-width:1100px; margin:0 auto; }
-      main{ padding:260px 16px 56px; }
+      main{ padding:240px 16px 56px; } /* header is 200px tall */
       footer{ padding:16px; color:var(--ink-muted); background:rgba(255,255,255,.85); border-radius:12px 12px 0 0; }
 
       /* Headings */
@@ -71,21 +71,7 @@
   <body>
     <div class="site-header-wrap">
       <div class="site-header">
+        <!-- Logo on left -->
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
           <img src="/images/flh-logo-3.png" alt="Flax Lignan Health" class="nav-logo" />
         </a>
-
-        <nav class="main-nav" aria-label="Main">
-          <a href="/" class="nav-link" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a>
-          <a href="/products" class="nav-link" aria-current={Astro.url.pathname.startsWith('/products') ? 'page' : undefined}>Products</a>
-          <a href="/blog/" class="nav-link" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a>
-          <a href="/contact" class="nav-link" aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>Contact Us</a>
-        </nav>
-      </div>
-    </div>
-
-    <main><slot /></main>
-
-    <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
-  </body>
-</html>
