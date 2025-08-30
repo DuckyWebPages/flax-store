@@ -6,7 +6,7 @@ const pageTitle = 'Home — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- === Category Bar (centered heading) === -->
+  <!-- === Category Bar (ABOVE HERO) === -->
   <section class="category-bar" aria-label="Shop by category">
     <div class="cat-wrap">
       <h2 class="cat-heading">Top Selling Products</h2>
@@ -39,14 +39,20 @@ const pageTitle = 'Home — ';
     </div>
   </section>
 
-  <!-- === HERO (logo pinned to top; card directly under) === -->
+  <!-- === HERO (logo pinned to top; compact height) === -->
   <section class="hero" aria-label="Flax Lignan Health hero">
     <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
 
-    <!-- Pinned logo -->
-    <img src="/images/flh-logo-3.png" alt="Flax Lignan Health" class="hero-logo" decoding="async" loading="eager" />
+    <!-- pinned logo -->
+    <img
+      src="/images/flh-logo-3.png"
+      alt="Flax Lignan Health"
+      class="hero-logo"
+      decoding="async"
+      loading="eager"
+    />
 
-    <!-- Copy card UNDER the logo -->
+    <!-- card directly under the logo -->
     <div class="hero-card">
       <p class="hero-text">
         Your research-driven source for natural products promoting health, vitality and immune system support.
@@ -68,30 +74,44 @@ const pageTitle = 'Home — ';
   </section>
 
   <style>
-    /* ------ Controls ------ */
+    /* ---------- Controls ---------- */
     :root{
-      --hero-logo-h: clamp(220px, 26vw, 360px);  /* BIG on desktop, scales down */
-      --hero-gap: 16px;                           /* gap between logo & card */
+      /* Large but sane logo; hero becomes compact */
+      --hero-logo-h: clamp(180px, 22vw, 260px);
+      --hero-gap: 12px; /* space between logo and card */
     }
 
     /* ===== Category Bar ===== */
     .category-bar{ background:#fff; border-bottom:1px solid #e5e7eb; padding:12px 0; }
-    .cat-wrap{ width:min(1200px, 92vw); margin:0 auto; display:flex; flex-direction:column; gap:16px; }
-    .cat-heading{ margin:0; font:700 1.6rem/1 var(--font-head); text-align:center; color:#0f172a; } /* centered */
-    .cat-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap:clamp(10px, 2vw, 24px); align-items:center; justify-items:center; }
-    .cat-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; text-decoration:none; color:#0f172a; transition: transform .18s ease; }
+    .cat-wrap{
+      width:100%;                 /* <-- prevents overflow inside 1100px main */
+      max-width:1100px;           /* match BaseLayout main max width */
+      margin:0 auto; display:flex; flex-direction:column; gap:16px;
+    }
+    .cat-heading{
+      margin:0; text-align:center; color:#0f172a;
+      font:700 1.6rem/1 var(--font-head);
+    }
+    .cat-grid{
+      display:grid; align-items:center; justify-items:center;
+      grid-template-columns: repeat(6, 1fr);
+      gap:clamp(10px, 2vw, 24px);
+      width:100%;
+    }
+    .cat-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; text-decoration:none; color:#0f172a; transition:transform .18s ease; }
     .cat-item:hover{ transform: translateY(-4px); }
-    .cat-thumb{ width: clamp(96px, 10vw, 140px); height: clamp(96px, 10vw, 140px); border-radius:50%; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.10); background:#fff; }
+    .cat-thumb{ width: clamp(96px, 10vw, 140px); height: clamp(96px, 10vw, 140px); border-radius:50%; overflow:hidden; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.10); }
     .cat-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-    @media (max-width:1024px){ .cat-grid{ grid-template-columns: repeat(3, 1fr);} }
-    @media (max-width:640px){ .cat-grid{ grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width:1024px){ .cat-grid{ grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width:640px){ .cat-grid{ grid-template-columns: repeat(2, 1fr); } }
 
-    /* ===== Hero (simplified) ===== */
+    /* ===== Hero (compact, simple, reliable) ===== */
     .hero{
       position:relative; isolation:isolate; overflow:hidden;
-      min-height:clamp(520px, 68vh, 900px);
-      /* SIMPLE TRICK: pad the top by the logo height + small gap */
-      padding: calc(var(--hero-logo-h) + var(--hero-gap)) 12px 48px;
+      /* cut height roughly in half vs. before */
+      min-height:clamp(300px, 42vh, 520px);
+      /* top padding equals logo height so card starts below it */
+      padding: calc(var(--hero-logo-h) + var(--hero-gap)) 12px 28px;
       border-bottom:1px solid #e5e7eb; text-align:center; background:transparent;
     }
     .hero-bg{
@@ -99,27 +119,26 @@ const pageTitle = 'Home — ';
       object-fit:cover; object-position:center 60%; z-index:-1;
     }
 
-    /* Pin the logo to the very top of the hero */
+    /* logo pinned to very top of hero */
     .hero-logo{
       position:absolute; top:0; left:50%; transform:translateX(-50%);
       height:var(--hero-logo-h); width:auto; display:block; margin:0;
     }
 
-    /* Card naturally sits below because of hero padding */
+    /* card naturally follows because of hero padding-top */
     .hero-card{
       width:min(64%, 760px); margin:0 auto;
       background:rgba(255,255,255,.85);
       -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
-      border-radius:12px; padding:14px 18px;
-      box-shadow:0 8px 22px rgba(0,0,0,.12);
-      color:#0f172a; text-align:center;
+      border-radius:12px; padding:12px 16px;
+      box-shadow:0 8px 22px rgba(0,0,0,.12); color:#0f172a;
     }
-    .hero-text{ margin:4px 0 10px; line-height:1.3; }
+    .hero-text{ margin:4px 0 8px; line-height:1.28; }
 
-    .home-shop-cta{ margin-top:10px; display:flex; justify-content:center; }
+    .home-shop-cta{ margin-top:8px; display:flex; justify-content:center; }
     .cta-btn{
       display:inline-flex; align-items:center; justify-content:center;
-      min-width:140px; padding:12px 18px;
+      min-width:140px; padding:10px 16px;
       font:700 16px/1 Inter,system-ui,sans-serif;
       color:#fff; background:#111827; border-radius:9999px;
       box-shadow:0 6px 18px rgba(0,0,0,.18); text-decoration:none;
@@ -128,15 +147,13 @@ const pageTitle = 'Home — ';
     .cta-btn:hover{ opacity:.92; transform:translateY(-1px); }
 
     @media (max-width:768px){
-      :root{ --hero-logo-h: clamp(140px, 36vw, 220px); }
-      .hero-card{ width:92%; padding:12px 14px; }
-      .hero-text{ font-size:.95rem; }
+      :root{ --hero-logo-h: clamp(140px, 34vw, 200px); }
+      .hero-card{ width:92%; padding:10px 12px; }
     }
 
     /* ===== Signup banner ===== */
-    .signup-banner{ margin:20px auto; max-width:1536px; text-align:center; }
-    .signup-banner img{ width:100%; height:auto; max-height:260px; object-fit:cover; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.15); transition: transform .18s ease, opacity .18s ease; }
-    .signup-banner img:hover{ transform:translateY(-2px); opacity:.95; }
+    .signup-banner{ margin:20px auto; max-width:1100px; text-align:center; }  /* align with main width */
+    .signup-banner img{ width:100%; height:auto; max-height:240px; object-fit:cover; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.15); transition: transform .18s ease, opacity .18s ease; }
     @media (max-width:640px){ .signup-banner img{ max-height:160px; } }
   </style>
 </BaseLayout>
