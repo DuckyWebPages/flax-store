@@ -1,30 +1,35 @@
 ---
-// TEMP: ultra-minimal homepage to isolate the issue
-// (no layout, no scripts)
-const pageTitle = 'Temp Home';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+const pageTitle = 'Welcome — ';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{pageTitle}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      body { font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif; margin:0; padding:2rem; background:#eef6f3; color:#0f172a; }
-      .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; max-width:680px; margin:0 auto; }
-      h1 { margin:0 0 .5rem 0; }
-      .row { display:flex; gap:.5rem; flex-wrap:wrap; }
-      a.button { display:inline-block; padding:10px 14px; border-radius:999px; background:#111827; color:#fff; text-decoration:none; font-weight:700; }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <h1>It works 🎉</h1>
-      <p>If you can see this, the problem is in <code>BaseLayout.astro</code> or one of the scripts it includes.</p>
-      <div class="row">
-        <a class="button" href="/products">Go to Products</a>
-        <a class="button" href="/">Reload Home</a>
+
+<BaseLayout>
+  <Fragment slot="title">{pageTitle}</Fragment>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 class="site-title">Flax Lignan Health</h1>
+      <p class="tagline">
+        Premium flax hull lignans for everyday wellness—simple, pure, and potent.
+      </p>
+      <div class="cta-row">
+        <a class="btn-cta" href="/products">Shop Products</a>
+        <a class="nav-link learn" href="/blog/">Learn More</a>
       </div>
     </div>
-  </body>
-</html>
+  </section>
+
+  <style>
+    .hero {
+      padding: 40px 16px 24px;
+      max-width: 1100px; margin: 0 auto;
+      background: rgba(255,255,255,.9);
+      border-radius: 14px;
+    }
+    .hero-inner { display: grid; gap: 14px; }
+    .site-title { margin: 0; }
+    .tagline { margin: 0; font-size: 1.1rem; color: #334155; }
+    .cta-row { display: flex; gap: 12px; align-items: center; margin-top: 6px; }
+    .learn { font-weight: 600; }
+  </style>
+</BaseLayout>

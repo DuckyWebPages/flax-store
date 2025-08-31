@@ -242,10 +242,10 @@
       </div>
     </aside>
 
-           <!-- Toast: added to cart -->
+          <!-- Toast: added to cart -->
     <div class="cart-toast" data-cart-toast hidden>Added to cart</div>
 
-    <!-- Cart Store (load guarded so an error can’t blank the page) -->
+    <!-- Cart Store (safe dynamic import so errors can’t white-screen) -->
     <script is:inline type="module">
       (async () => {
         try {
