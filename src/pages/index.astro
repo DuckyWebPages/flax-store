@@ -6,30 +6,138 @@ const pageTitle = 'Welcome — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
-      <h1 class="site-title">Flax Lignan Health</h1>
-      <p class="tagline">
-        Premium flax hull lignans for everyday wellness—simple, pure, and potent.
-      </p>
-      <div class="cta-row">
-        <a class="btn-cta" href="/products">Shop Products</a>
-        <a class="nav-link learn" href="/blog/">Learn More</a>
+      <div class="hero-copy">
+        <h1 class="site-title">Flax Lignan Health</h1>
+        <p class="tagline">
+          Premium flax hull lignans for everyday wellness—simple, pure, and potent.
+        </p>
+        <div class="cta-row">
+          <a class="btn-cta" href="/products">Shop Products</a>
+          <a class="nav-link learn" href="/blog/">Learn More</a>
+        </div>
+      </div>
+      <!-- swap this image if you have a dedicated hero -->
+      <div class="hero-art" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- FEATURED ROUND CARDS -->
+  <section class="featured">
+    <h2 class="products-title">Best Sellers</h2>
+    <div class="grid">
+      <!-- Single Jar -->
+      <article class="circle-card">
+        <a class="circle" href="/products/flax-hull-lignans" aria-label="Flax Hull Lignan (Single Jar)">
+          <img src="/images/products/flax-hull-single.jpg" alt="Flax Hull Lignan (Single Jar)" loading="lazy" />
+        </a>
+        <h3 class="title"><a href="/products/flax-hull-lignans">Flax Hull Lignan (Single Jar)</a></h3>
+        <div class="price">$49.95</div>
+        <button
+          class="btn-cta add-to-cart"
+          data-sku="fhl-single"
+          data-name="Flax Hull Lignan (Single Jar)"
+          data-price="4995"
+          data-image="/images/products/flax-hull-single.jpg"
+          data-qty="1"
+        >Add to Cart</button>
+      </article>
+
+      <!-- Bundle -->
+      <article class="circle-card">
+        <a class="circle" href="/products/flax-hull-lignans" aria-label="Flax Hull Lignan Bundle (3 Jars)">
+          <img src="/images/products/flax-hull-bundle.jpg" alt="Flax Hull Lignan Bundle (3 Jars)" loading="lazy" />
+        </a>
+        <h3 class="title"><a href="/products/flax-hull-lignans">Flax Hull Lignan Bundle (3 Jars)</a></h3>
+        <div class="price">$134.95 <span class="save">Save 10%</span></div>
+        <button
+          class="btn-cta add-to-cart"
+          data-sku="fhl-bundle"
+          data-name="Flax Hull Lignan Bundle (3 Jars)"
+          data-price="13495"
+          data-image="/images/products/flax-hull-bundle.jpg"
+          data-qty="1"
+        >Add Bundle</button>
+      </article>
+
+      <!-- Third promo -->
+      <article class="circle-card">
+        <a class="circle" href="/products" aria-label="Shop all products">
+          <img src="/images/products/flax-hull-single.jpg" alt="Shop all products" loading="lazy" />
+        </a>
+        <h3 class="title"><a href="/products">Shop All Products</a></h3>
+        <p class="blurb">Explore sizes and bundles that fit your routine.</p>
+        <a class="btn-cta" href="/products">Browse</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE -->
+  <section class="subscribe">
+    <div class="sub-inner">
+      <h2 class="products-title">Stay in the loop</h2>
+      <p class="subcopy">Get education, tips, and exclusive offers. Unsubscribe anytime.</p>
+
+      <!-- Paste your Constant Contact embed code inside this div -->
+      <div class="cc-embed">
+        <!-- Placeholder form so the layout looks right until you paste the real CC embed -->
+        <form class="mini-form" onsubmit="alert('Thanks! (Replace with your Constant Contact embed.)'); return false;">
+          <input type="email" name="email" placeholder="you@example.com" required />
+          <button class="btn-cta" type="submit">Subscribe</button>
+        </form>
       </div>
     </div>
   </section>
 
   <style>
-    .hero {
-      padding: 40px 16px 24px;
-      max-width: 1100px; margin: 0 auto;
-      background: rgba(255,255,255,.9);
-      border-radius: 14px;
+    :root { --ink:#0f172a; --muted:#334155; }
+
+    /* HERO */
+    .hero { max-width:1100px; margin:0 auto 16px; padding:0 16px; }
+    .hero-inner {
+      display:grid; gap:16px; grid-template-columns:1.2fr .8fr;
+      background:rgba(255,255,255,.92); border-radius:14px; overflow:hidden;
     }
-    .hero-inner { display: grid; gap: 14px; }
-    .site-title { margin: 0; }
-    .tagline { margin: 0; font-size: 1.1rem; color: #334155; }
-    .cta-row { display: flex; gap: 12px; align-items: center; margin-top: 6px; }
-    .learn { font-weight: 600; }
+    @media (max-width: 860px){ .hero-inner{ grid-template-columns:1fr; } }
+    .hero-copy { padding:28px 24px; }
+    .site-title { margin:0 0 6px 0; }
+    .tagline { margin:0; font-size:1.1rem; color:var(--muted); }
+    .cta-row { display:flex; gap:12px; align-items:center; margin-top:10px; }
+    .learn { font-weight:600; }
+    .hero-art { min-height:220px; background:url('/images/products/flax-hull-bundle.jpg') center/cover no-repeat; }
+
+    /* FEATURED ROUND CARDS */
+    .featured { max-width:1100px; margin:12px auto 48px; padding:0 16px; }
+    .featured .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); }
+    .circle-card{
+      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
+      display:grid; gap:.6rem; place-items:center; text-align:center;
+      box-shadow:0 8px 18px rgba(0,0,0,.06);
+    }
+    .circle{
+      width:200px; height:200px; border-radius:50%; overflow:hidden; display:block; background:#f8fafc; border:8px solid #f1f5f9;
+    }
+    .circle img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .circle-card .title{ margin:.35rem 0 .15rem; font-size:1.05rem; }
+    .circle-card .title a{ color:inherit; text-decoration:none; }
+    .circle-card .title a:hover{ text-decoration:underline; }
+    .price{ font-weight:700; }
+    .save{ color:#16a34a; font-weight:700; margin-left:.35rem; font-size:.95rem; }
+    .blurb{ margin:0 0 .25rem; color:#475569; }
+    .btn-cta.add-to-cart{ width:100%; max-width:220px; }
+
+    /* SUBSCRIBE */
+    .subscribe{ max-width:1100px; margin:0 auto 64px; padding:0 16px; }
+    .sub-inner{
+      background:#fff; border-radius:14px; padding:16px;
+      box-shadow:0 8px 18px rgba(0,0,0,.06);
+    }
+    .subcopy{ color:#334155; margin:.25rem 0 .75rem; }
+    .mini-form{ display:flex; gap:8px; flex-wrap:wrap; }
+    .mini-form input[type="email"]{
+      flex:1 1 260px; min-width:220px; padding:10px 12px; border:1px solid #e5e7eb; border-radius:999px; font-size:1rem;
+    }
   </style>
 </BaseLayout>
