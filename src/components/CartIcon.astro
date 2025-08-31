@@ -30,7 +30,7 @@ const { showLabel = false } = Astro.props;
     .cart-icon-btn:active .badge{ transform:translate(0,1px); }
   </style>
 
-  <script>
+    <script is:inline>
     // Lightweight client script for live count + accessibility label
     (function(){
       const btn = document.currentScript.closest('button');
