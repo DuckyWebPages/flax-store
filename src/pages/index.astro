@@ -7,21 +7,30 @@ const pageTitle = 'Welcome — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- HERO -->
+  <!-- HERO (full-width background image with white overlay box) -->
   <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-copy">
+    <div class="hero-bg" aria-hidden="true"></div>
+
+    <div class="hero-shell">
+      <div class="hero-box">
         <h1 class="site-title">Flax Lignan Health</h1>
+
         <p class="tagline">
           Premium flax hull lignans for everyday wellness—simple, pure, and potent.
         </p>
+
+        <p class="hero-extra">
+          Your research-driven source for natural products promoting health, vitality and immune system support.<br />
+          The original FHL Flax Hull Lignans found in international trials around the world.<br />
+          Fresh from the USA North Dakota farm to your home.<br />
+          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
+        </p>
+
         <div class="cta-row">
           <a class="btn-cta" href="/products">Shop Products</a>
           <a class="nav-link learn" href="/blog/">Learn More</a>
         </div>
       </div>
-      <!-- Swap to a dedicated hero image if you have one -->
-      <div class="hero-art" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -92,21 +101,60 @@ const pageTitle = 'Welcome — ';
   <style>
     :root { --ink:#0f172a; --muted:#334155; }
 
-    /* HERO */
-    .hero { max-width:1100px; margin:0 auto 16px; padding:0 16px; }
-    .hero-inner {
-      display:grid; gap:16px; grid-template-columns:1.2fr .8fr;
-      background:rgba(255,255,255,.92); border-radius:14px; overflow:hidden;
+    /* =========================
+       HERO (background image)
+       ========================= */
+    .hero{
+      position: relative;
+      min-height: 440px;
+      display: grid;
+      place-items: center;
+      margin: 0 0 18px 0;
     }
-    @media (max-width: 860px){ .hero-inner{ grid-template-columns:1fr; } }
-    .hero-copy { padding:28px 24px; }
-    .site-title { margin:0 0 6px 0; }
-    .tagline { margin:0; font-size:1.1rem; color:var(--muted); }
-    .cta-row { display:flex; gap:12px; align-items:center; margin-top:10px; }
-    .learn { font-weight:600; }
-    .hero-art { min-height:220px; background:url('/images/products/flax-hull-bundle.jpg') center/cover no-repeat; }
+    /* Background image */
+    .hero-bg{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.25)),
+        url('/images/hero-1600x.jpg') center / cover no-repeat;
+      z-index: 0;
+    }
+    /* Shell centers content and gives side padding */
+    .hero-shell{
+      position: relative; z-index: 1;
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 16px;
+      display: grid; justify-items: start;
+    }
+    /* White overlay box */
+    .hero-box{
+      background: rgba(255,255,255,.96);
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.12);
+      padding: 22px 22px 18px;
+      max-width: 720px;
+      backdrop-filter: blur(2px);
+    }
 
-    /* BEST SELLING (connected white box with circles) */
+    .site-title { margin:0 0 6px 0; }
+    .tagline { margin:0; font-size:1.08rem; color:var(--muted); }
+    .hero-extra {
+      font-size: 1rem;
+      line-height: 1.45;
+      color:#1f2937;
+      margin: 0.75rem 0 1rem;
+    }
+    .hero-extra a { color: inherit; text-decoration: none; border-bottom: 1px dotted #475569; }
+    .hero-extra a:hover { border-bottom-style: solid; }
+
+    .cta-row { display:flex; gap:12px; align-items:center; margin-top:6px; }
+    .learn { font-weight:600; }
+
+    /* =========================
+       BEST SELLING
+       ========================= */
     .best-selling { max-width:1100px; margin:14px auto 48px; padding:0 16px; }
     .bs-wrap {
       background:#fff; border-radius:16px; box-shadow:0 8px 18px rgba(0,0,0,.06);
@@ -134,7 +182,9 @@ const pageTitle = 'Welcome — ';
     .circle img { width:100%; height:100%; object-fit: cover; object-position:center; display:block; }
     .label { font-weight:700; letter-spacing:.01em; }
 
-    /* SUBSCRIBE */
+    /* =========================
+       SUBSCRIBE / COUPON
+       ========================= */
     .subscribe{ max-width:1100px; margin:0 auto 64px; padding:0 16px; }
     .sub-inner{
       background:#fff; border-radius:14px; padding:16px;
