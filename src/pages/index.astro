@@ -88,9 +88,13 @@ const pageTitle = 'Welcome — ';
 </p>
 
         <div class="cta-row">
-          <a class="btn-cta" href="/products">Shop Products</a>
-          <a class="nav-link learn" href="/blog/">Learn More</a>
-        </div>
+  <a class="btn-cta" href="/products">Shop Products</a>
+  <a class="nav-link learn" href="/blog/">Learn More</a>
+  <a href="https://www.facebook.com/YourPageName" target="_blank" rel="noopener">
+    <img src="/images/facebook.png" alt="Follow us on Facebook" class="social-icon" />
+  </a>
+</div>
+
       </div>
     </div>
   </section>
@@ -201,11 +205,12 @@ const pageTitle = 'Welcome — ';
     }
     .coupon-img:hover{ transform: scale(1.02); }
     .social-icon {
-  width: 24px;
   height: 24px;
-  margin-left: 8px;
-  vertical-align: middle;
+  width: 72px; /* 3x longer than height */
+  margin-left: 10px;
+  object-fit: contain;
 }
+
 
   </style>
 </BaseLayout>
