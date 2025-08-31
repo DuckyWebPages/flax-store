@@ -178,18 +178,86 @@
 
     <aside class="cart-drawer" data-cart-drawer hidden aria-hidden="true" aria-label="Shopping cart">
       <div class="cart-panel">
-        <!-- ... cart header, items, upsell, footer ... -->
+            <aside class="cart-drawer" data-cart-drawer hidden aria-hidden="true" aria-label="Shopping cart">
+      <div class="cart-panel">
+        <header class="cart-header">
+          <h3>Cart</h3>
+          <button class="icon-btn" data-cart-close aria-label="Close cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+        </header>
+
+        <!-- Free shipping progress -->
+        <div class="ship-progress" data-ship-progress data-threshold="7500">
+          <div class="ship-bar"><span data-ship-bar></span></div>
+          <p class="ship-note" data-ship-note>Spend $75 for free shipping.</p>
+        </div>
+
+        <!-- Line items -->
+        <ul class="cart-items" data-cart-items>
+          <!-- Filled by cart-drawer.js -->
+        </ul>
+
+        <!-- Upsell (optional) -->
+        <div class="upsell">
+          <div class="upsell-card">
+            <img src="/images/products/flax-hull-bundle.jpg" alt="" />
+            <div>
+              <p class="u-title">Bundle & Save 10%</p>
+              <button class="btn-cta add-to-cart"
+                data-sku="fhl-bundle"
+                data-name="Flax Hull Lignan Bundle (3 Jars)"
+                data-price="13495"
+                data-image="/images/products/flax-hull-bundle.jpg"
+                data-qty="1">Add Bundle</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer totals -->
+        <footer class="cart-footer">
+          <div class="tot-row">
+            <span>Subtotal</span>
+            <strong data-subtotal>$0.00</strong>
+          </div>
+          <div class="tot-row small">Taxes & shipping calculated at checkout.</div>
+
+          <div class="coupon">
+            <input type="text" placeholder="Promo code" data-coupon />
+            <button class="btn" data-apply-coupon>Apply</button>
+          </div>
+
+          <button class="btn-cta btn-checkout" data-checkout>Checkout</button>
+          <div class="trust">
+            <span class="lock">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 10h12v10H6zM8 10V7a4 4 0 1 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              Secure checkout
+            </span>
+            <span>30-day satisfaction guarantee</span>
+          </div>
+        </footer>
       </div>
     </aside>
 
-        <!-- Toast: added to cart -->
+      </div>
+    </aside>
+
+           <!-- Toast: added to cart -->
     <div class="cart-toast" data-cart-toast hidden>Added to cart</div>
 
-    <!-- Cart Store -->
-    <!-- <script is:inline type="module" src="/scripts/cart-store.js"></script> -->
+    <!-- Cart Store (load guarded so an error can’t blank the page) -->
+    <script is:inline type="module">
+      (async () => {
+        try {
+          await import('/scripts/cart-store.js');
+        } catch (err) {
+          console.error('cart-store failed to load', err);
+        }
+      })();
+    </script>
 
     <!-- Cart Drawer Controller -->
-    <!-- <script is:inline src="/scripts/cart-drawer.js"></script> -->
+    <script is:inline src="/scripts/cart-drawer.js"></script>
   </body>
 </html>
 
