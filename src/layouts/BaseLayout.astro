@@ -1,3 +1,4 @@
+// FILE: src/layouts/BaseLayout.astro
 ---
 /* Base layout with fixed header, global styles, and cart drawer */
 ---
@@ -176,9 +177,8 @@
          ======================= -->
     <div class="cart-overlay" data-cart-overlay hidden></div>
 
+    <!-- Single, non-nested drawer -->
     <aside class="cart-drawer" data-cart-drawer hidden aria-hidden="true" aria-label="Shopping cart">
-      <div class="cart-panel">
-            <aside class="cart-drawer" data-cart-drawer hidden aria-hidden="true" aria-label="Shopping cart">
       <div class="cart-panel">
         <header class="cart-header">
           <h3>Cart</h3>
@@ -239,10 +239,7 @@
       </div>
     </aside>
 
-      </div>
-    </aside>
-
-          <!-- Toast: added to cart -->
+    <!-- Toast: added to cart -->
     <div class="cart-toast" data-cart-toast hidden>Added to cart</div>
 
     <!-- Cart Store (safe dynamic import so errors can’t white-screen) -->
@@ -260,4 +257,3 @@
     <script is:inline src="/scripts/cart-drawer.js"></script>
   </body>
 </html>
-
