@@ -7,38 +7,7 @@ const pageTitle = 'Welcome — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- HERO (full-width background; centered white box) -->
-  <section class="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="container">
-      <div class="hero-box">
-        <img
-          src="/images/flh-logo-33.png?v=6"
-          alt="Flax Lignan Health"
-          class="hero-logo"
-          width="280"
-          height="80"
-          loading="eager"
-          decoding="async"
-        />
-        <p class="tagline">
-          Premium flax hull lignans for everyday wellness—simple, pure, and potent.
-        </p>
-        <p class="hero-extra">
-          Your research-driven source for natural products promoting health, vitality and immune system support.<br />
-          The original FHL Flax Hull Lignans found in international trials around the world.<br />
-          Fresh from the USA North Dakota farm to your home.<br />
-          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
-        </p>
-        <div class="cta-row">
-          <a class="btn-cta" href="/products">Shop Products</a>
-          <a class="nav-link learn" href="/blog/">Learn More</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BEST SELLING PRODUCTS (5 circles in connected white box) -->
+  <!-- BEST SELLING PRODUCTS (moved to top) -->
   <section class="best-selling">
     <div class="container">
       <div class="bs-wrap">
@@ -89,7 +58,38 @@ const pageTitle = 'Welcome — ';
     </div>
   </section>
 
-  <!-- SUBSCRIBE (coupon image links to Constant Contact) -->
+  <!-- HERO (moved between sections, new image, resized) -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-box">
+        <img
+          src="/images/flh-logo-33.png?v=6"
+          alt="Flax Lignan Health"
+          class="hero-logo"
+          width="280"
+          height="80"
+          loading="eager"
+          decoding="async"
+        />
+        <p class="tagline">
+          Premium flax hull lignans for everyday wellness—simple, pure, and potent.
+        </p>
+        <p class="hero-extra">
+          Your research-driven source for natural products promoting health, vitality and immune system support.<br />
+          The original FHL Flax Hull Lignans found in international trials around the world.<br />
+          Fresh from the USA North Dakota farm to your home.<br />
+          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
+        </p>
+        <div class="cta-row">
+          <a class="btn-cta" href="/products">Shop Products</a>
+          <a class="nav-link learn" href="/blog/">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE -->
   <section class="subscribe">
     <div class="container">
       <div class="sub-inner">
@@ -108,45 +108,7 @@ const pageTitle = 'Welcome — ';
   <style>
     :root { --ink:#0f172a; --muted:#334155; }
 
-    /* ============= Shared container so widths line up ============= */
     .container{ max-width:1100px; margin:0 auto; padding:0 16px; }
-
-    /* ========================= HERO ========================= */
-    .hero{
-      position: relative;
-      min-height: 460px;
-      display: flex;
-      align-items: center;
-      margin: 0 0 18px 0;
-    }
-    .hero-bg{
-      position:absolute; inset:0;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.20)),
-        url('/images/hero-1600.jpg') center / cover no-repeat;
-      z-index: 0;
-    }
-    .hero .container{ position: relative; z-index: 1; display: grid; place-items: center; }
-    .hero-box{
-      background: rgba(255,255,255,.96);
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      box-shadow: 0 12px 28px rgba(0,0,0,.12);
-      padding: 22px 22px 18px;
-      width: min(760px, 100%);
-      text-align: center;
-      backdrop-filter: blur(2px);
-    }
-    .hero-logo{ display:block; margin: 0 auto 8px; height:auto; }
-    .tagline { margin:0; font-size:1.08rem; color:var(--muted); }
-    .hero-extra {
-      font-size: 1rem; line-height: 1.45; color:#1f2937;
-      margin: 0.75rem 0 1rem;
-    }
-    .hero-extra a { color: inherit; text-decoration: none; border-bottom: 1px dotted #475569; }
-    .hero-extra a:hover { border-bottom-style: solid; }
-    .cta-row { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
-    .learn { font-weight:600; }
 
     /* ===================== BEST SELLING ===================== */
     .best-selling { margin:14px 0 48px; }
@@ -175,6 +137,44 @@ const pageTitle = 'Welcome — ';
     }
     .circle img { width:100%; height:100%; object-fit: cover; object-position:center; display:block; }
     .label { font-weight:700; letter-spacing:.01em; }
+
+    /* ========================= HERO ========================= */
+    .hero{
+      position: relative;
+      min-height: 400px; /* reduced 60px from original 460px */
+      max-width: calc(100% - 24px); /* reduced width by 24px */
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+    }
+    .hero-bg{
+      position:absolute; inset:0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.20)),
+        url('/images/hero-1600s.jpg') center / cover no-repeat;
+      z-index: 0;
+    }
+    .hero .container{ position: relative; z-index: 1; display: grid; place-items: center; }
+    .hero-box{
+      background: rgba(255,255,255,.96);
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.12);
+      padding: 22px 22px 18px;
+      width: min(760px, 100%);
+      text-align: center;
+      backdrop-filter: blur(2px);
+    }
+    .hero-logo{ display:block; margin: 0 auto 8px; height:auto; }
+    .tagline { margin:0; font-size:1.08rem; color:var(--muted); }
+    .hero-extra {
+      font-size: 1rem; line-height: 1.45; color:#1f2937;
+      margin: 0.75rem 0 1rem;
+    }
+    .hero-extra a { color: inherit; text-decoration: none; border-bottom: 1px dotted #475569; }
+    .hero-extra a:hover { border-bottom-style: solid; }
+    .cta-row { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
+    .learn { font-weight:600; }
 
     /* ===================== SUBSCRIBE ===================== */
     .subscribe{ margin:0 0 64px; }
