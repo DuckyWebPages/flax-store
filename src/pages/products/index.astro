@@ -7,94 +7,129 @@ const pageTitle = 'Products — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <section class="container">
-    <h1 class="products-title">Products</h1>
-    <p class="lead">Browse by category, or jump straight to our best sellers.</p>
+  <section class="prodpg">
+    <div class="prodpg__container">
+      <h1 class="products-title">Products</h1>
+      <p class="prodpg__lead">Browse by category, or jump straight to our best sellers.</p>
 
-    <!-- Category Grid -->
-    <div class="cat-grid">
-      <!-- Flax Products -->
-      <a class="cat-card" href="/products/flax-hull-lignans" aria-label="Flax Products">
-        <span class="circle">
-          <img src="/images/flax-hull-bundle.jpg" alt="Flax Hull Lignans" loading="lazy" />
-        </span>
-        <span class="label">Flax Products</span>
-      </a>
+      <!-- Category Grid -->
+      <div class="prodpg__cats">
+        <a class="prodpg__cat" href="/products/flax-hull-lignans" aria-label="Flax Products">
+          <span class="prodpg__circle">
+            <img src="/images/flax-hull-bundle.jpg" alt="Flax Hull Lignans" loading="lazy" />
+          </span>
+          <span class="prodpg__label">Flax Products</span>
+        </a>
 
-      <!-- Ocean Cleanse -->
-      <a class="cat-card" href="/products/ocean-cleanse" aria-label="Ocean Cleanse">
-        <span class="circle">
-          <img src="/images/ocean-cleanse-3jars-3035.jpg" alt="Ocean Cleanse" loading="lazy" />
-        </span>
-        <span class="label">Ocean Cleanse</span>
-      </a>
+        <a class="prodpg__cat" href="/products/ocean-cleanse" aria-label="Ocean Cleanse">
+          <span class="prodpg__circle">
+            <img src="/images/ocean-cleanse-3jars-3035.jpg" alt="Ocean Cleanse" loading="lazy" />
+          </span>
+          <span class="prodpg__label">Ocean Cleanse</span>
+        </a>
 
-      <!-- Aftershot Zeolite -->
-      <a class="cat-card" href="/products/zeolite" aria-label="Aftershot Zeolite">
-        <span class="circle">
-          <img src="/images/zeolite.png" alt="Aftershot Zeolite" loading="lazy" />
-        </span>
-        <span class="label">Aftershot Zeolite</span>
-      </a>
+        <a class="prodpg__cat" href="/products/zeolite" aria-label="Aftershot Zeolite">
+          <span class="prodpg__circle">
+            <img src="/images/zeolite.png" alt="Aftershot Zeolite" loading="lazy" />
+          </span>
+          <span class="prodpg__label">Aftershot Zeolite</span>
+        </a>
 
-      <!-- Essiac Tea -->
-      <a class="cat-card" href="/products/essiac-tea" aria-label="Essiac Tea">
-        <span class="circle">
-          <img src="/images/essiac-tea.png" alt="Essiac Tea" loading="lazy" />
-        </span>
-        <span class="label">Essiac Tea</span>
-      </a>
+        <a class="prodpg__cat" href="/products/essiac-tea" aria-label="Essiac Tea">
+          <span class="prodpg__circle">
+            <img src="/images/essiac-tea.png" alt="Essiac Tea" loading="lazy" />
+          </span>
+          <span class="prodpg__label">Essiac Tea</span>
+        </a>
 
-      <!-- Essential Oils -->
-      <a class="cat-card" href="/products/essential-oils" aria-label="Essential Oils">
-        <span class="circle">
-          <img src="/images/eoils.png" alt="Essential Oils" loading="lazy" />
-        </span>
-        <span class="label">Essential Oils</span>
-      </a>
+        <a class="prodpg__cat" href="/products/essential-oils" aria-label="Essential Oils">
+          <span class="prodpg__circle">
+            <img src="/images/eoils.png" alt="Essential Oils" loading="lazy" />
+          </span>
+          <span class="prodpg__label">Essential Oils</span>
+        </a>
+      </div>
+
+      <!-- Featured Products -->
+      <h2 class="products-title">Featured Products</h2>
+      <div class="prodpg__grid">
+        <article class="prodpg__card">
+          <img
+            src="/images/products/flax-hull-single.jpg"
+            alt="Flax Hull Lignan (Single Jar)"
+            loading="lazy"
+          />
+          <h3>Flax Hull Lignan (Single Jar)</h3>
+          <p class="prodpg__price">$49.95</p>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="fhl-single"
+            data-name="Flax Hull Lignan (Single Jar)"
+            data-price="4995"
+            data-image="/images/products/flax-hull-single.jpg"
+            data-qty="1"
+          >Add to Cart</button>
+        </article>
+
+        <article class="prodpg__card">
+          <img
+            src="/images/products/flax-hull-bundle.jpg"
+            alt="Flax Hull Lignan Bundle (3 Jars)"
+            loading="lazy"
+          />
+          <h3>Flax Hull Lignan Bundle (3 Jars)</h3>
+          <p class="prodpg__price">$134.95 <span class="prodpg__save">Save 10%</span></p>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="fhl-bundle"
+            data-name="Flax Hull Lignan Bundle (3 Jars)"
+            data-price="13495"
+            data-image="/images/products/flax-hull-bundle.jpg"
+            data-qty="1"
+          >Add Bundle</button>
+        </article>
+      </div>
     </div>
+  </section>
 
-    <!-- Featured Products -->
-    <h2 class="products-title">Featured Products</h2>
-    <div class="prod-grid">
-      <!-- Flax Hull Lignan (Single Jar) -->
-      <article class="product-card">
-        <img
-          src="/images/products/flax-hull-single.jpg"
-          alt="Flax Hull Lignan (Single Jar)"
-          loading="lazy"
-        />
-        <h3>Flax Hull Lignan (Single Jar)</h3>
-        <p class="price">$49.95</p>
-        <button
-          class="btn-cta add-to-cart"
-          data-sku="fhl-single"
-          data-name="Flax Hull Lignan (Single Jar)"
-          data-price="4995"
-          data-image="/images/products/flax-hull-single.jpg"
-          data-qty="1"
-        >Add to Cart</button>
-      </article>
+  <style>
+    /* Everything on this page is namespaced under .prodpg */
+    .prodpg { padding: 0 0 48px; }
+    .prodpg__container { max-width:1100px; margin:0 auto; padding:0 16px; }
+    .prodpg__lead { color:#334155; margin:.25rem 0 1rem; }
 
-      <!-- Flax Hull Lignan Bundle (3 Jars) -->
-      <article class="product-card">
-        <img
-          src="/images/products/flax-hull-bundle.jpg"
-          alt="Flax Hull Lignan Bundle (3 Jars)"
-          loading="lazy"
-        />
-        <h3>Flax Hull Lignan Bundle (3 Jars)</h3>
-        <p class="price">$134.95 <span class="save">Save 10%</span></p>
-        <button
-          class="btn-cta add-to-cart"
-          data-sku="fhl-bundle"
-          data-name="Flax Hull Lignan Bundle (3 Jars)"
-          data-price="13495"
-          data-image="/images/products/flax-hull-bundle.jpg"
-          data-qty="1"
-        >Add Bundle</button>
-      </article>
+    .prodpg__cats{
+      display:grid; gap:14px;
+      grid-template-columns: repeat(5, 1fr);
+      margin: 12px 0 28px;
+    }
+    @media (max-width: 980px){ .prodpg__cats{ grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 520px){ .prodpg__cats{ grid-template-columns: repeat(2, 1fr); } }
 
-      <!-- Example placeholders (uncomment/add real SKUs as you’re ready) -->
-      <!--
-      <article class="product-card">
+    .prodpg__cat{
+      display:grid; gap:8px; place-items:center; text-align:center;
+      padding:12px; border-radius:12px; text-decoration:none; color:inherit;
+      background:#fff; border:1px solid #e5e7eb; box-shadow:0 8px 18px rgba(0,0,0,.06);
+      transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .prodpg__cat:hover{ background:#f8fafc; transform: translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.05); }
+
+    .prodpg__circle{ width:150px; height:150px; border-radius:50%; overflow:hidden; display:block; background:#f8fafc; border:6px solid #f1f5f9; }
+    .prodpg__circle img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .prodpg__label{ font-weight:700; letter-spacing:.01em; }
+
+    .prodpg__grid{
+      display:grid; gap:14px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin: 6px 0 12px;
+    }
+    .prodpg__card{
+      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
+      box-shadow:0 8px 18px rgba(0,0,0,.06);
+      display:grid; gap:.65rem; justify-items:start;
+    }
+    .prodpg__card img{ width:100%; height:220px; object-fit:cover; border-radius:10px; }
+    .prodpg__price{ font-weight:700; }
+    .prodpg__save{ color:#16a34a; font-weight:700; margin-left:.35rem; font-size:.95rem; }
+  </style>
+</BaseLayout>
