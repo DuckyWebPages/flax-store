@@ -11,7 +11,8 @@ const pageTitle = 'Welcome — ';
   <section class="best-selling">
     <div class="container">
       <div class="bs-wrap">
-        <h2 class="products-title">Best Selling Products</h2>
+        <h2 class="home-products-title">Best Selling Products</h2>
+
 
         <div class="bs-grid">
           <!-- 1) Flax Products -->
@@ -109,6 +110,14 @@ const pageTitle = 'Welcome — ';
   </section>
 
   <style>
+    .home-products-title{
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem);
+  font-weight: 800;
+  margin: 0 0 10px 4px;
+  letter-spacing: .01em;
+}
+
+
     :root { --ink:#0f172a; --muted:#334155; }
 
     /* Shared container */
