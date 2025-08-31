@@ -1,0 +1,30 @@
+---
+// TEMP: ultra-minimal homepage to isolate the issue
+// (no layout, no scripts)
+const pageTitle = 'Temp Home';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{pageTitle}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body { font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif; margin:0; padding:2rem; background:#eef6f3; color:#0f172a; }
+      .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; max-width:680px; margin:0 auto; }
+      h1 { margin:0 0 .5rem 0; }
+      .row { display:flex; gap:.5rem; flex-wrap:wrap; }
+      a.button { display:inline-block; padding:10px 14px; border-radius:999px; background:#111827; color:#fff; text-decoration:none; font-weight:700; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>It works 🎉</h1>
+      <p>If you can see this, the problem is in <code>BaseLayout.astro</code> or one of the scripts it includes.</p>
+      <div class="row">
+        <a class="button" href="/products">Go to Products</a>
+        <a class="button" href="/">Reload Home</a>
+      </div>
+    </div>
+  </body>
+</html>
