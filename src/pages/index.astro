@@ -1,120 +1,114 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-const pageTitle = 'Home — ';
+
+const pageTitle = 'Products — ';
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- === Category Bar (centered) === -->
-  <section class="category-bar" aria-label="Shop by category">
-    <div class="cat-wrap">
-      <h2 class="cat-heading">Top Selling Products</h2>
-      <div class="cat-grid">
-        <a href="/products/flax-hull-lignans" class="cat-item">
-          <span class="cat-thumb"><img src="/images/flaxhull.png" alt="Flax Hull Lignans" /></span>
-          <span class="cat-label">Flax Hull Lignans</span>
-        </a>
-        <a href="/products/ocean-cleanse" class="cat-item">
-          <span class="cat-thumb"><img src="/images/oceancleanse.png" alt="Ocean Cleanse" /></span>
-          <span class="cat-label">Ocean Cleanse</span>
-        </a>
-        <a href="/products/essiac-tea" class="cat-item">
-          <span class="cat-thumb"><img src="/images/essiac-tea.png" alt="Essiac Tea" /></span>
-          <span class="cat-label">Essiac Tea</span>
-        </a>
-        <a href="/products/zeolite" class="cat-item">
-          <span class="cat-thumb"><img src="/images/zeolite.png" alt="Aftershot" /></span>
-          <span class="cat-label">Aftershot &amp; Zeolite</span>
-        </a>
-        <a href="/products/essential-oils" class="cat-item">
-          <span class="cat-thumb"><img src="/images/eoils.png" alt="Essential Oils" /></span>
-          <span class="cat-label">Essential Oils</span>
-        </a>
-        <a href="/products/other-products" class="cat-item">
-          <span class="cat-thumb"><img src="/images/otherprods.png" alt="Other Products" /></span>
-          <span class="cat-label">Other Products</span>
-        </a>
-      </div>
-    </div>
-  </section>
+  <section class="shop">
+    <h1 class="products-title">Products</h1>
+    <p class="intro">Our best-sellers. Add to cart right from here or tap into a product to learn more.</p>
 
-  <!-- === HERO (no logo for now; compact) === -->
-  <section class="hero" aria-label="Flax Lignan Health hero">
-    <img class="hero-bg" src="/images/hero-1600x.jpg?v=3" alt="Sunrise over flax field with farm in the distance" />
-    <div class="hero-inner">
-      <div class="hero-card">
-        <p class="hero-text">
-          Your research-driven source for natural products promoting health, vitality and immune system support.
-          The original FHL Flax Hull Lignans found in international trials around the world.
-          Fresh from the USA North Dakota farm to your home. <br />
-          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
-        </p>
-        <nav class="home-shop-cta" aria-label="Shop">
-          <a href="/products" class="cta-btn">Shop</a>
-        </nav>
-      </div>
-    </div>
-  </section>
+    <div class="grid">
+      <!-- Flax Hull Lignan (Single Jar) -->
+      <article class="card">
+        <a class="thumb" href="/products/flax-hull-lignans" aria-label="View Flax Hull Lignan details">
+          <img src="/images/products/flax-hull-single.jpg" alt="Flax Hull Lignan single jar" width="480" height="480" loading="lazy" />
+        </a>
+        <div class="info">
+          <h2 class="title">
+            <a href="/products/flax-hull-lignans">Flax Hull Lignan (Single Jar)</a>
+          </h2>
+          <div class="price">$49.95</div>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="fhl-single"
+            data-name="Flax Hull Lignan (Single Jar)"
+            data-price="4995"
+            data-image="/images/products/flax-hull-single.jpg"
+            data-qty="1"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </article>
 
-  <!-- === Constant Contact Signup Banner === -->
-  <section class="signup-banner">
-    <a href="https://lp.constantcontactpages.com/sl/DjPeNBz" target="_blank" rel="noopener">
-      <img src="/images/coupon1.jpg" alt="Sign up for our newsletter" />
-    </a>
+      <!-- Flax Hull Lignan Bundle -->
+      <article class="card">
+        <a class="thumb" href="/products/flax-hull-lignans" aria-label="View Flax Hull Lignan bundle details">
+          <img src="/images/products/flax-hull-bundle.jpg" alt="Flax Hull Lignan bundle (3 jars)" width="480" height="480" loading="lazy" />
+        </a>
+        <div class="info">
+          <h2 class="title">
+            <a href="/products/flax-hull-lignans">Flax Hull Lignan Bundle (3 Jars)</a>
+          </h2>
+          <div class="price">$134.95 <span class="save">Save 10%</span></div>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="fhl-bundle"
+            data-name="Flax Hull Lignan Bundle (3 Jars)"
+            data-price="13495"
+            data-image="/images/products/flax-hull-bundle.jpg"
+            data-qty="1"
+          >
+            Add Bundle
+          </button>
+        </div>
+      </article>
+    </div>
   </section>
 
   <style>
-    /* ===== Category Bar ===== */
-    .category-bar{ background:#fff; border-bottom:1px solid #e5e7eb; padding:12px 0; }
-    .cat-wrap{ width:100%; max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:16px; }
-    .cat-heading{ margin:0; text-align:center; color:#0f172a; font:700 1.6rem/1 var(--font-head); }
-    .cat-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap:clamp(10px, 2vw, 24px); align-items:center; justify-items:center; width:100%; }
-    .cat-item{ display:flex; flex-direction:column; align-items:center; gap:.6rem; text-decoration:none; color:#0f172a; transition:transform .18s ease; }
-    .cat-item:hover{ transform: translateY(-4px); }
-    .cat-thumb{ width: clamp(96px, 10vw, 140px); height: clamp(96px, 10vw, 140px); border-radius:50%; overflow:hidden; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.10); }
-    .cat-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-    @media (max-width:1024px){ .cat-grid{ grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width:640px){ .cat-grid{ grid-template-columns: repeat(2, 1fr); } }
+    .shop { display: grid; gap: 1rem; }
+    .intro { color: #334155; background: rgba(255,255,255,.9); padding: .75rem 1rem; border-radius: .75rem; }
 
-    /* ===== Hero (compact) ===== */
-    .hero{
-      position:relative; isolation:isolate; overflow:hidden;
-      min-height:clamp(280px, 40vh, 500px);     /* ~half as tall as before */
-      padding:24px 12px 36px;                   /* small top padding now that logo is gone */
-      border-bottom:1px solid #e5e7eb; text-align:center; background:transparent;
+    .grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
-    .hero-bg{
-      position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; object-position:center 60%; z-index:-1;
-    }
-    .hero-inner{
-      width:min(1100px, 92vw); margin:0 auto;
-      display:flex; flex-direction:column; align-items:center;
-    }
-    .hero-card{
-      width:min(64%, 760px);
-      background:rgba(255,255,255,.85);
-      -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
-      border-radius:12px; padding:12px 16px;
-      box-shadow:0 8px 22px rgba(0,0,0,.12);
-      color:#0f172a; text-align:center;
-    }
-    .hero-text{ margin:4px 0 8px; line-height:1.28; }
-    .home-shop-cta{ margin-top:8px; display:flex; justify-content:center; }
-    .cta-btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      min-width:140px; padding:10px 16px;
-      font:700 16px/1 Inter,system-ui,sans-serif;
-      color:#fff; background:#111827; border-radius:9999px;
-      box-shadow:0 6px 18px rgba(0,0,0,.18); text-decoration:none;
-      transition:transform .08s ease, opacity .15s ease;
-    }
-    .cta-btn:hover{ opacity:.92; transform:translateY(-1px); }
 
-    /* ===== Signup banner ===== */
-    .signup-banner{ margin:20px auto; max-width:1100px; text-align:center; }
-    .signup-banner img{ width:100%; height:auto; max-height:240px; object-fit:cover; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.15); transition: transform .18s ease, opacity .18s ease; }
-    @media (max-width:640px){ .signup-banner img{ max-height:160px; } }
+    .card {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+    }
+
+    .thumb {
+      display: block;
+      background: #f8fafc;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .info {
+      display: grid; gap: .5rem;
+      padding: 1rem;
+    }
+    .title {
+      font-size: 1.05rem; margin: 0;
+      line-height: 1.2;
+    }
+    .title a { color: inherit; text-decoration: none; }
+    .title a:hover { text-decoration: underline; }
+
+    .price { font-weight: 700; }
+    .save {
+      color: #16a34a; font-weight: 700; margin-left: .35rem; font-size: .95rem;
+    }
+
+    /* Ensure CTA stretches nicely on small cards */
+    .btn-cta.add-to-cart { width: 100%; }
   </style>
 </BaseLayout>

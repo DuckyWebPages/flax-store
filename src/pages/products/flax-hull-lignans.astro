@@ -1,154 +1,79 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro'
 
-const pageTitle = 'Flax Hull Lignans — ';
-
-// Site cart (no Stripe redirect). Fill unitCents if your cart needs it; otherwise leave undefined.
-const products = [
-  {
-    title: 'Flax Hull Lignan (Single Jar)',
-    badge: 'Single',
-    sku: 'fhl-single',
-    image: '/images/products/flax-hull-single.jpg',
-    unitCents: undefined, // e.g. 4995
-    alt: 'Flax Hull Lignan single jar',
-  },
-  {
-    title: 'Flax Hull Lignan (3 Jar Bundle)',
-    badge: 'Bundle',
-    sku: 'fhl-3pack',
-    image: '/images/products/flax-hull-3pack.jpg',
-    unitCents: undefined, // e.g. 13995
-    alt: 'Flax Hull Lignan three-jar bundle',
-  },
-  {
-    title: 'FHL Flax Hull Lignans (Ancient Seeds & Grains Certified)',
-    badge: 'Ancient Seeds & Grains',
-    sku: 'fhl-ancient',
-    image: '/images/products/flax-hull-ancient.jpg',
-    unitCents: undefined,
-    alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified',
-  },
-  {
-    title: 'FHL Flax Hull Lignans (Ancient Seeds & Grains Certified) — 3 Jar Bundle',
-    badge: 'Ancient • Bundle',
-    sku: 'fhl-ancient-3pack',
-    image: '/images/products/flax-hull-ancient-3pack.jpg',
-    unitCents: undefined,
-    alt: 'FHL Flax Hull Lignans Ancient Seeds & Grains certified 3-jar bundle',
-  },
-];
+const pageTitle = 'Flax Hull Lignans — '
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <section class="fhl-wrap" aria-label="Flax Hull Lignans">
-    <header class="fhl-header">
-      <h1 class="fhl-title">Flax Hull Lignans</h1>
-      <p class="fhl-lead">Choose the option that fits your needs.</p>
-    </header>
+  <section class="product-detail">
+    <h1 class="products-title">Flax Hull Lignans</h1>
 
-    <div class="fhl-grid">
-      {products.map((p) => (
-        <article class="card">
-          <div class="thumb">
-            <img src={p.image} alt={p.alt} loading="eager" decoding="async" />
-            {p.badge && <span class="badge">{p.badge}</span>}
-          </div>
+    <!-- Single Jar -->
+    <article class="product-card">
+      <img
+        src="/images/products/flax-hull-single.jpg"
+        alt="Flax Hull Lignan single jar"
+        width="400"
+        height="400"
+      />
+      <h2>Flax Hull Lignan (Single Jar)</h2>
+      <p class="price">$49.95</p>
 
-          <h2 class="card-title">{p.title}</h2>
+      <button
+        class="btn-cta add-to-cart"
+        data-sku="fhl-single"
+        data-name="Flax Hull Lignan (Single Jar)"
+        data-price="4995"
+        data-image="/images/products/flax-hull-single.jpg"
+        data-qty="1"
+      >
+        Add to Cart
+      </button>
+    </article>
 
-          <div class="actions">
-            <button
-              type="button"
-              class="btn-cta add-to-cart"
-              aria-label={`Add ${p.title} to Cart`}
-              data-sku={p.sku}
-              data-name={p.title}
-              data-image={p.image}
-              data-cents={typeof p.unitCents === 'number' ? String(p.unitCents) : ''}
-            >
-              Add to Cart
-            </button>
-          </div>
-        </article>
-      ))}
-    </div>
+    <!-- Bundle -->
+    <article class="product-card">
+      <img
+        src="/images/products/flax-hull-bundle.jpg"
+        alt="Flax Hull Lignan bundle"
+        width="400"
+        height="400"
+      />
+      <h2>Flax Hull Lignan Bundle (3 Jars)</h2>
+      <p class="price">$134.95 (Save 10%)</p>
+
+      <button
+        class="btn-cta add-to-cart"
+        data-sku="fhl-bundle"
+        data-name="Flax Hull Lignan Bundle (3 Jars)"
+        data-price="13495"
+        data-image="/images/products/flax-hull-bundle.jpg"
+        data-qty="1"
+      >
+        Add Bundle to Cart
+      </button>
+    </article>
   </section>
 
   <style>
-    :root{
-      --cta-bg:#111827;   /* near-black to match Products/front page */
-      --cta-fg:#ffffff;
+    .product-detail {
+      display: grid;
+      gap: 2rem;
     }
-
-    .fhl-wrap{ width:min(1100px, 92vw); margin:0 auto; padding: 8px 0 40px; }
-    .fhl-header{ text-align:center; margin-bottom:16px; }
-    .fhl-title{ font-family:var(--font-head); font-weight:700; font-size:clamp(1.6rem, 2.4vw, 2rem); margin:8px 0 6px; color:#0f172a; }
-    .fhl-lead{ margin:0; color:#334155; }
-
-    .fhl-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:clamp(12px, 2vw, 20px); }
-    @media (max-width:1024px){ .fhl-grid{ grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width:640px){ .fhl-grid{ grid-template-columns: 1fr; } }
-
-    .card{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; box-shadow:0 4px 14px rgba(0,0,0,.06); overflow:hidden; display:flex; flex-direction:column; }
-    .thumb{ position:relative; aspect-ratio: 4/3; background:#f8fafc; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-    .thumb img{ width:100%; height:100%; object-fit:contain; display:block; }
-    .badge{ position:absolute; left:10px; top:10px; background:#0b7a53; color:#fff; font-weight:700; font-size:.8rem; padding:6px 10px; border-radius:999px; box-shadow:0 2px 8px rgba(0,0,0,.15); }
-    .card-title{ font:700 1.05rem/1.25 var(--font-head); margin:12px 12px 6px; color:#0f172a; }
-
-    .actions{ display:flex; justify-content:center; padding:12px; margin-top:auto; }
-
-    /* === Same Add to Cart CTA style as Products page === */
-    .btn-cta{
-      background: var(--cta-bg);
-      color: var(--cta-fg);
-      border: 0;
-      border-radius: 9999px;
-      padding: 10px 16px;
-      min-width: 160px;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 6px 18px rgba(0,0,0,.18);
-      transition: transform .08s ease, opacity .15s ease;
-      cursor: pointer;
-      line-height: 1;
+    .product-card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+      display: grid;
+      justify-items: start;
+      gap: .75rem;
     }
-    .btn-cta:hover{ opacity:.92; transform:translateY(-1px); }
-    .btn-cta:focus-visible{ outline:2px solid var(--cta-bg); outline-offset:2px; }
+    .price {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
   </style>
-
-  <!-- Bridge to your CartProvider: fire cart:add + call window.cart.add if present -->
-  <script type="module" is:inline>
-    const buttons = document.querySelectorAll<HTMLButtonElement>('.add-to-cart');
-
-    function toInt(x){ const n = parseInt(x ?? '', 10); return Number.isFinite(n) ? n : undefined; }
-
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const sku = btn.dataset.sku || '';
-        const name = btn.dataset.name || sku || 'Item';
-        const image = btn.dataset.image || '';
-        const unitCents = toInt(btn.dataset.cents);
-        const detail: any = { sku, name, image, quantity: 1 };
-        if (unitCents !== undefined) detail.unitCents = unitCents;
-
-        // 1) Dispatch event your CartProvider listens for
-        window.dispatchEvent(new CustomEvent('cart:add', { detail }));
-
-        // 2) Also call global helper if exposed by CartProvider
-        try { (window as any).cart?.add?.({ id: sku, name, image, unitCents }, 1); } catch {}
-
-        // UX feedback
-        const original = btn.textContent;
-        btn.textContent = 'Added ✓';
-        btn.disabled = true;
-        setTimeout(() => { btn.textContent = original || 'Add to Cart'; btn.disabled = false; }, 1200);
-      });
-    });
-  </script>
 </BaseLayout>
