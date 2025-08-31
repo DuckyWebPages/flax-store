@@ -1,7 +1,4 @@
 import React from "react";
-import { CartProvider } from "./CartProvider";
-import CartDrawer from "./CartDrawer";
-import AddToCart from "./AddToCart";
 
 type P = {
   id: string;
@@ -9,30 +6,24 @@ type P = {
   price: number;
   image?: string;
   description?: string;
-  stripePaymentLink?: string; // kept, but not used here
 };
 
 const fmt = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 
-// tiny util so we can pass a CTA class reliably
-const cx = (...xs: Array<string | undefined | false>) => xs.filter(Boolean).join(" ");
-
 export default function ShopApp({ products }: { products: P[] }) {
   return (
-    <CartProvider>
-      {/* The slide-out cart drawer (opens after Add to Cart) */}
-      <CartDrawer />
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+        gap: "1.25rem",
+      }}
+    >
+      {products.map((p) => {
+        const unitCents = Math.round((p.price || 0) * 100);
 
-      {/* Product grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-          gap: "1.25rem",
-        }}
-      >
-        {products.map((p) => (
+        return (
           <article
             key={p.id}
             style={{
@@ -75,21 +66,24 @@ export default function ShopApp({ products }: { products: P[] }) {
                 </p>
               ) : null}
 
-              {/* Actions (NO Buy Now link; Add to Cart only) */}
+              {/* ✅ Add to Cart button (cartStore.js will catch this) */}
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <AddToCart
-                  id={p.id}
-                  name={p.name}
-                  unitCents={Math.round((p.price || 0) * 100)}
-                  image={p.image}
-                  className={cx("btn-cta", "add-to-cart")}
-                  {...{ "data-sku": p.id }}
-                />
+                <button
+                  className="btn-cta add-to-cart"
+                  data-sku={p.id}
+                  data-name={p.name}
+                  data-price={unitCents}
+                  data-image={p.image}
+                  data-qty="1"
+                  aria-label={`Add ${p.name} to cart`}
+                >
+                  Add to Cart
+                </button>
               </div>
             </div>
           </article>
-        ))}
-      </div>
-    </CartProvider>
+        );
+      })}
+    </div>
   );
 }
