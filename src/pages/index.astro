@@ -7,7 +7,7 @@ const pageTitle = 'Welcome — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- BEST SELLING PRODUCTS (moved to top) -->
+  <!-- BEST SELLING PRODUCTS (top) -->
   <section class="best-selling">
     <div class="container">
       <div class="bs-wrap">
@@ -15,15 +15,15 @@ const pageTitle = 'Welcome — ';
 
         <div class="bs-grid">
           <!-- 1) Flax Products -->
-          <a class="bs-card" href="/products?cat=flax" aria-label="Flax Products">
+          <a class="bs-card" href="/products/flax-hull-lignans" aria-label="Flax Products">
             <span class="circle">
-              <img src="/images/flax-hull-bundle.jpg" alt="Flax Products" loading="lazy" />
+              <img src="/images/flax-hull-bundle.jpg" alt="Flax Hull Lignans" loading="lazy" />
             </span>
             <span class="label">Flax Products</span>
           </a>
 
           <!-- 2) Ocean Cleanse -->
-          <a class="bs-card" href="/products?cat=ocean-cleanse" aria-label="Ocean Cleanse">
+          <a class="bs-card" href="/products/ocean-cleanse" aria-label="Ocean Cleanse">
             <span class="circle">
               <img src="/images/ocean-cleanse-3jars-3035.jpg" alt="Ocean Cleanse" loading="lazy" />
             </span>
@@ -31,7 +31,7 @@ const pageTitle = 'Welcome — ';
           </a>
 
           <!-- 3) Aftershot Zeolite -->
-          <a class="bs-card" href="/products?cat=aftershot-zeolite" aria-label="Aftershot Zeolite">
+          <a class="bs-card" href="/products/zeolite" aria-label="Aftershot Zeolite">
             <span class="circle">
               <img src="/images/zeolite.png" alt="Aftershot Zeolite" loading="lazy" />
             </span>
@@ -39,7 +39,7 @@ const pageTitle = 'Welcome — ';
           </a>
 
           <!-- 4) Essiac Tea -->
-          <a class="bs-card" href="/products?cat=essiac-tea" aria-label="Essiac Tea">
+          <a class="bs-card" href="/products/essiac-tea" aria-label="Essiac Tea">
             <span class="circle">
               <img src="/images/essiac-tea.png" alt="Essiac Tea" loading="lazy" />
             </span>
@@ -47,7 +47,7 @@ const pageTitle = 'Welcome — ';
           </a>
 
           <!-- 5) Essential Oils -->
-          <a class="bs-card" href="/products?cat=essential-oils" aria-label="Essential Oils">
+          <a class="bs-card" href="/products/essential-oils" aria-label="Essential Oils">
             <span class="circle">
               <img src="/images/eoils.png" alt="Essential Oils" loading="lazy" />
             </span>
@@ -58,7 +58,7 @@ const pageTitle = 'Welcome — ';
     </div>
   </section>
 
-  <!-- HERO (moved between sections, new image, resized) -->
+  <!-- HERO (shadow box only; no background image) -->
   <section class="hero">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="container">
@@ -76,23 +76,18 @@ const pageTitle = 'Welcome — ';
           Premium flax hull lignans for everyday wellness—simple, pure, and potent.
         </p>
         <p class="hero-extra">
-  Your research-driven source for natural products promoting health, vitality and immune system support.<br />
-  The original FHL Flax Hull Lignans found in international trials around the world.<br />
-  Fresh from the USA North Dakota farm to your home.<br />
-  <strong>
-    Order online or call <a href="tel:18177106918">817-710-6918</a>.
-    
-  </strong>
-</p>
-
+          Your research-driven source for natural products promoting health, vitality and immune system support.<br />
+          The original FHL Flax Hull Lignans found in international trials around the world.<br />
+          Fresh from the USA North Dakota farm to your home.<br />
+          <strong>Order online or call <a href="tel:18177106918">817-710-6918</a>.</strong>
+        </p>
         <div class="cta-row">
-  <a class="btn-cta" href="/products">Shop Products</a>
-  <a class="nav-link learn" href="/blog/">Learn More</a>
-  <a href="https://www.facebook.com/flaxlignanhealth" target="_blank" rel="noopener">
-    <img src="/images/facebook.png" alt="Follow us on Facebook" class="social-icon" />
-  </a>
-</div>
-
+          <a class="btn-cta" href="/products">Shop Products</a>
+          <a class="nav-link learn" href="/blog/">Learn More</a>
+          <a href="https://www.facebook.com/YourPageName" target="_blank" rel="noopener">
+            <img src="/images/facebook.jpg" alt="Follow us on Facebook" class="social-icon" />
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -116,77 +111,36 @@ const pageTitle = 'Welcome — ';
   <style>
     :root { --ink:#0f172a; --muted:#334155; }
 
+    /* Shared container */
     .container{ max-width:1100px; margin:0 auto; padding:0 16px; }
 
-    /* ===================== BEST SELLING ===================== */
-    <!-- BEST SELLING PRODUCTS -->
-<section class="best-selling">
-  <div class="container">
-    <div class="bs-wrap">
-      <h2 class="products-title">Best Selling Products</h2>
-
-      <div class="bs-grid">
-        <!-- 1) Flax Products -->
-        <a class="bs-card" href="/products/flax-hull-lignans" aria-label="Flax Products">
-          <span class="circle">
-            <img src="/images/flax-hull-bundle.jpg" alt="Flax Hull Lignans" loading="lazy" />
-          </span>
-          <span class="label">Flax Products</span>
-        </a>
-
-        <!-- 2) Ocean Cleanse -->
-        <a class="bs-card" href="/products/ocean-cleanse" aria-label="Ocean Cleanse">
-          <span class="circle">
-            <img src="/images/ocean-cleanse-3jars-3035.jpg" alt="Ocean Cleanse" loading="lazy" />
-          </span>
-          <span class="label">Ocean Cleanse</span>
-        </a>
-
-        <!-- 3) Aftershot Zeolite -->
-        <a class="bs-card" href="/products/zeolite" aria-label="Aftershot Zeolite">
-          <span class="circle">
-            <img src="/images/zeolite.png" alt="Aftershot Zeolite" loading="lazy" />
-          </span>
-          <span class="label">Aftershot Zeolite</span>
-        </a>
-
-        <!-- 4) Essiac Tea -->
-        <a class="bs-card" href="/products/essiac-tea" aria-label="Essiac Tea">
-          <span class="circle">
-            <img src="/images/essiac-tea.png" alt="Essiac Tea" loading="lazy" />
-          </span>
-          <span class="label">Essiac Tea</span>
-        </a>
-
-        <!-- 5) Essential Oils -->
-        <a class="bs-card" href="/products/essential-oils" aria-label="Essential Oils">
-          <span class="circle">
-            <img src="/images/eoils.png" alt="Essential Oils" loading="lazy" />
-          </span>
-          <span class="label">Essential Oils</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-    /* ========================= HERO ========================= */
-    .hero{
-      position: relative;
-      min-height: 400px; /* reduced 60px from original 460px */
-      max-width: calc(100% - 24px); /* reduced width by 24px */
-      margin: 0 auto 18px;
-      display: flex;
-      align-items: center;
+    /* BEST SELLING */
+    .best-selling { margin:14px 0 24px; }
+    .bs-wrap {
+      background:#fff; border-radius:16px; box-shadow:0 8px 18px rgba(0,0,0,.06);
+      border:1px solid #e5e7eb; padding:18px;
     }
-    .hero-bg{
-  position:absolute; inset:0;
-  background:
-    linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.14));
-  z-index: 0;
-}
+    .bs-wrap .products-title { margin:0 0 10px 4px; }
+    .bs-grid { display:grid; gap:12px; grid-template-columns: repeat(5, 1fr); }
+    @media (max-width: 980px){ .bs-grid{ grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 520px){ .bs-grid{ grid-template-columns: repeat(2, 1fr); } }
 
+    .bs-card {
+      display:grid; gap:8px; place-items:center; text-align:center;
+      padding:12px; border-radius:12px; text-decoration:none; color:inherit;
+      transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .bs-card:hover { background:#f8fafc; transform: translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.05); }
+    .circle { width:150px; height:150px; border-radius:50%; overflow:hidden; display:block; background:#f8fafc; border:6px solid #f1f5f9; }
+    .circle img { width:100%; height:100%; object-fit: cover; display:block; }
+    .label { font-weight:700; letter-spacing:.01em; }
+
+    /* HERO (no bg image; keep subtle gradient) */
+    .hero{ position: relative; min-height: 400px; display: flex; align-items: center; margin: 0 0 18px 0; }
+    .hero-bg{
+      position:absolute; inset:0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.14));
+      z-index: 0;
     }
     .hero .container{ position: relative; z-index: 1; display: grid; place-items: center; }
     .hero-box{
@@ -201,16 +155,13 @@ const pageTitle = 'Welcome — ';
     }
     .hero-logo{ display:block; margin: 0 auto 8px; height:auto; }
     .tagline { margin:0; font-size:1.08rem; color:var(--muted); }
-    .hero-extra {
-      font-size: 1rem; line-height: 1.45; color:#1f2937;
-      margin: 0.75rem 0 1rem;
-    }
+    .hero-extra { font-size: 1rem; line-height: 1.45; color:#1f2937; margin: 0.75rem 0 1rem; }
     .hero-extra a { color: inherit; text-decoration: none; border-bottom: 1px dotted #475569; }
     .hero-extra a:hover { border-bottom-style: solid; }
     .cta-row { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
-    .learn { font-weight:600; }
+    .social-icon { height: 24px; width: 72px; margin-left: 10px; object-fit: contain; }
 
-    /* ===================== SUBSCRIBE ===================== */
+    /* SUBSCRIBE */
     .subscribe{ margin:0 0 64px; }
     .sub-inner{
       background:#fff; border-radius:14px; padding:16px;
@@ -221,20 +172,9 @@ const pageTitle = 'Welcome — ';
     .subcopy{ color:#334155; margin:.25rem 0 .75rem; }
     .cc-embed{ margin-top:12px; }
     .coupon-img{
-      max-width:100%;
-      height:auto;
-      border-radius:12px;
-      box-shadow:0 6px 12px rgba(0,0,0,.08);
+      max-width:100%; height:auto; border-radius:12px; box-shadow:0 6px 12px rgba(0,0,0,.08);
       transition: transform .15s ease;
     }
     .coupon-img:hover{ transform: scale(1.02); }
-    .social-icon {
-  height: 24px;
-  width: 72px; /* 3x longer than height */
-  margin-left: 10px;
-  object-fit: contain;
-}
-
-
   </style>
 </BaseLayout>
