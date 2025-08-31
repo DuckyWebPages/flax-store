@@ -161,7 +161,7 @@
           <a href="/blog/" class="nav-link" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a>
           <a href="/contact" class="nav-link" aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>Contact Us</a>
 
-          <!-- Cart icon (example trigger) -->
+          <!-- Cart icon -->
           <button class="nav-link" data-cart-open aria-label="Open cart">Cart</button>
         </nav>
       </div>
@@ -178,181 +178,17 @@
 
     <aside class="cart-drawer" data-cart-drawer hidden aria-hidden="true" aria-label="Shopping cart">
       <div class="cart-panel">
-        <header class="cart-header">
-          <h3>Cart</h3>
-          <button class="icon-btn" data-cart-close aria-label="Close cart">
-            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-          </button>
-        </header>
-
-        <!-- Free shipping progress -->
-        <div class="ship-progress" data-ship-progress data-threshold="7500">
-          <div class="ship-bar"><span data-ship-bar></span></div>
-          <p class="ship-note" data-ship-note>Spend $75 for free shipping.</p>
-        </div>
-
-        <!-- Line items (render your items into this <ul>) -->
-        <ul class="cart-items" data-cart-items>
-          <!-- Example (remove if your cart renders items automatically)
-          <li class="cart-item" data-sku="fhl-single">
-            <img class="ci-thumb" src="/images/products/flax-hull-single.jpg" alt="Flax Hull Lignan single jar" />
-            <div class="ci-main">
-              <div class="ci-row">
-                <h4 class="ci-title">Flax Hull Lignan (Single Jar)</h4>
-                <button class="icon-btn" data-remove="fhl-single" aria-label="Remove">
-                  <svg width="18" height="18" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                </button>
-              </div>
-              <div class="ci-row">
-                <div class="qty">
-                  <button class="qty-btn" data-decr="fhl-single" aria-label="Decrease">−</button>
-                  <input class="qty-input" data-qty="fhl-single" type="number" min="1" value="1" inputmode="numeric"/>
-                  <button class="qty-btn" data-incr="fhl-single" aria-label="Increase">+</button>
-                </div>
-                <div class="ci-price" data-line="fhl-single">$49.95</div>
-              </div>
-            </div>
-          </li>
-          -->
-        </ul>
-
-        <!-- Upsell (optional) -->
-        <div class="upsell">
-          <div class="upsell-card">
-            <img src="/images/products/flax-hull-bundle.jpg" alt="" />
-            <div>
-              <p class="u-title">Bundle & Save 10%</p>
-              <button class="btn-cta add-to-cart" data-sku="fhl-bundle">Add Bundle</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer totals -->
-        <footer class="cart-footer">
-          <div class="tot-row">
-            <span>Subtotal</span>
-            <strong data-subtotal>$0.00</strong>
-          </div>
-          <div class="tot-row small">Taxes & shipping calculated at checkout.</div>
-
-          <div class="coupon">
-            <input type="text" placeholder="Promo code" data-coupon />
-            <button class="btn" data-apply-coupon>Apply</button>
-          </div>
-
-          <button class="btn-cta btn-checkout" data-checkout>Checkout</button>
-          <div class="trust">
-            <span class="lock">
-              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 10h12v10H6zM8 10V7a4 4 0 1 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-              Secure checkout
-            </span>
-            <span>30-day satisfaction guarantee</span>
-          </div>
-        </footer>
+        <!-- ... cart header, items, upsell, footer ... -->
       </div>
     </aside>
 
     <!-- Toast: added to cart -->
     <div class="cart-toast" data-cart-toast hidden>Added to cart</div>
-  <!-- Cart Store -->
+
+    <!-- Cart Store -->
     <script type="module" src="/src/components/scripts/cartStore.js"></script>
 
-
-    <!-- =======================
-         Cart Drawer Controller
-         ======================= -->
-    <script>
-      (function () {
-        const $drawer = document.querySelector('[data-cart-drawer]');
-        const $overlay = document.querySelector('[data-cart-overlay]');
-        const $toast = document.querySelector('[data-cart-toast]');
-        const $ship = document.querySelector('[data-ship-progress]');
-        const $shipBar = document.querySelector('[data-ship-bar]');
-        const $shipNote = document.querySelector('[data-ship-note]');
-        const $subtotal = document.querySelector('[strong][data-subtotal], [data-subtotal]');
-        const threshold = $ship ? parseInt($ship.dataset.threshold, 10) : 7500; // cents
-
-        function openCart() {
-          if (!$drawer || !$overlay) return;
-          $drawer.hidden = false; $overlay.hidden = false;
-          requestAnimationFrame(() => {
-            $drawer.classList.add('is-open');
-            $overlay.classList.add('is-open');
-            $drawer.setAttribute('aria-hidden', 'false');
-          });
-        }
-        function closeCart() {
-          if (!$drawer || !$overlay) return;
-          $drawer.classList.remove('is-open');
-          $overlay.classList.remove('is-open');
-          $drawer.setAttribute('aria-hidden', 'true');
-          setTimeout(() => { $drawer.hidden = true; $overlay.hidden = true; }, 280);
-        }
-
-        // Click handlers
-        document.addEventListener('click', (e) => {
-          if (e.target.closest('[data-cart-open]')) { openCart(); }
-          if (e.target.closest('[data-cart-close]') || e.target.closest('[data-cart-overlay]')) { closeCart(); }
-
-          const inc = e.target.closest('[data-incr]'); const dec = e.target.closest('[data-decr]');
-          if (inc || dec) {
-            const sku = (inc || dec).dataset.incr || (inc || dec).dataset.decr;
-            const input = document.querySelector(\`.qty-input[data-qty="\${sku}"]\`);
-            if (input) {
-              const val = Math.max(1, parseInt(input.value || '1', 10) + (inc ? 1 : -1));
-              input.value = val;
-              document.dispatchEvent(new CustomEvent('cart:updateQty', { detail: { sku, qty: val }}));
-            }
-          }
-
-          const rem = e.target.closest('[data-remove]');
-          if (rem) {
-            const sku = rem.dataset.remove;
-            document.dispatchEvent(new CustomEvent('cart:remove', { detail: { sku }}));
-          }
-        });
-
-        // Free shipping progress updater
-        function setSubtotal(cents) {
-          if ($ship && $shipBar && $shipNote) {
-            const pct = Math.max(0, Math.min(1, cents / threshold));
-            $shipBar.style.width = (pct * 100).toFixed(0) + '%';
-            if (cents >= threshold) {
-              $shipNote.textContent = 'You’ve unlocked free shipping!';
-            } else {
-              const remaining = ((threshold - cents) / 100).toFixed(2);
-              $shipNote.textContent = \`Spend $\${remaining} more for free shipping.\`;
-            }
-          }
-          if ($subtotal) {
-            $subtotal.textContent = (cents/100).toLocaleString(undefined, { style: 'currency', currency: 'USD' });
-          }
-        }
-
-        // Listen for your cart system’s events (adapt if your cart uses different names)
-        document.addEventListener('cart:subtotal', (e) => setSubtotal(e.detail.cents));
-        document.addEventListener('cart:open', openCart);
-        document.addEventListener('cart:close', closeCart);
-
-        // Toast + optional auto-open on add
-        function showToast(msg = 'Added to cart') {
-          if (!$toast) return;
-          $toast.textContent = msg;
-          $toast.hidden = false;
-          requestAnimationFrame(() => $toast.classList.add('show'));
-          setTimeout(() => { $toast.classList.remove('show'); setTimeout(()=>{$toast.hidden = true;}, 250); }, 1600);
-        }
-        document.addEventListener('click', (e) => {
-          const btn = e.target.closest('.add-to-cart');
-          if (btn) {
-            showToast();
-            openCart(); // comment this out if you don't want auto-open
-          }
-        });
-
-        // ESC to close
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCart(); });
-      })();
-    </script>
+    <!-- Cart Drawer Controller (external) -->
+    <script src="/scripts/cart-drawer.js"></script>
   </body>
 </html>
