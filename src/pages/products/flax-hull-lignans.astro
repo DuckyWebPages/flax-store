@@ -7,7 +7,7 @@ const pageTitle = 'Flax Hull Lignans — '
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <section class="product-detail">
+  <section class="container product-detail">
     <h1 class="products-title">Flax Hull Lignans</h1>
 
     <!-- Single Jar -->
@@ -17,6 +17,7 @@ const pageTitle = 'Flax Hull Lignans — '
         alt="Flax Hull Lignan single jar"
         width="400"
         height="400"
+        loading="lazy"
       />
       <h2>Flax Hull Lignan (Single Jar)</h2>
       <p class="price">$49.95</p>
@@ -40,9 +41,10 @@ const pageTitle = 'Flax Hull Lignans — '
         alt="Flax Hull Lignan bundle"
         width="400"
         height="400"
+        loading="lazy"
       />
       <h2>Flax Hull Lignan Bundle (3 Jars)</h2>
-      <p class="price">$134.95 (Save 10%)</p>
+      <p class="price">$134.95 <span class="save">(Save 10%)</span></p>
 
       <button
         class="btn-cta add-to-cart"
@@ -58,22 +60,28 @@ const pageTitle = 'Flax Hull Lignans — '
   </section>
 
   <style>
+    .container{ max-width:1100px; margin:0 auto; padding:0 16px; }
     .product-detail {
-      display: grid;
-      gap: 2rem;
+      display: grid; gap: 16px; margin: 8px 0 48px;
+      grid-template-columns: 1fr; align-items: start;
+    }
+    @media (min-width: 900px){
+      .product-detail{ grid-template-columns: 1fr 1fr; }
     }
     .product-card {
       background: #fff;
-      padding: 1.5rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
       display: grid;
       justify-items: start;
       gap: .75rem;
     }
-    .price {
-      font-weight: 600;
-      font-size: 1.1rem;
+    .product-card img{
+      width: 100%; height: auto; max-height: 360px; object-fit: cover; border-radius: 10px;
     }
+    .price { font-weight: 700; font-size: 1.1rem; }
+    .save { color:#16a34a; font-weight:700; }
   </style>
 </BaseLayout>
