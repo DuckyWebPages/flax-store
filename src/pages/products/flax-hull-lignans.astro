@@ -7,129 +7,123 @@ const pageTitle = 'Flax Hull Lignans — '
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <section class="container product-detail">
-    <h1 class="products-title">Flax Hull Lignans</h1>
+  <section class="prodpg">
+    <div class="prodpg__container">
+      <h1 class="products-title">Flax Hull Lignans</h1>
 
-    <!-- Single Jar -->
-    <article class="product-card">
-      <img
-        src="/images/products/flax-hull-single.jpg"
-        alt="Flax Hull Lignan single jar"
-        width="400"
-        height="400"
-        loading="lazy"
-      />
-      <h2>Flax Hull Lignan (Single Jar)</h2>
-      <p class="price">$49.95</p>
+      <div class="prodpg__grid">
+        <!-- Regular Single Jar -->
+        <article class="prodpg__card">
+          <img
+            src="/images/products/flax-hull-single.jpg"
+            alt="Flax Hull Lignan single jar"
+            loading="lazy"
+          />
+          <h3>Flax Hull Lignan (Single Jar)</h3>
+          <p class="prodpg__price">$49.95</p>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="fhl-single"
+            data-name="Flax Hull Lignan (Single Jar)"
+            data-price="4995"
+            data-image="/images/products/flax-hull-single.jpg"
+            data-qty="1"
+          >Add to Cart</button>
+        </article>
 
-      <button
-        class="btn-cta add-to-cart"
-        data-sku="fhl-single"
-        data-name="Flax Hull Lignan (Single Jar)"
-        data-price="4995"
-        data-image="/images/products/flax-hull-single.jpg"
-        data-qty="1"
-      >
-        Add to Cart
-      </button>
-    </article>
+        <!-- Regular Bundle (3 Jars) -->
+        <article class="prodpg__card">
+          <img
+            src="/images/products/flax-hull-bundle.jpg"
+            alt="Flax Hull Lignan bundle"
+            loading="lazy"
+          />
+          <h3>Flax Hull Lignan Bundle (3 Jars)</h3>
+          <p class="prodpg__price">$134.95 <span class="prodpg__save">Save 10%</span></p>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="fhl-bundle"
+            data-name="Flax Hull Lignan Bundle (3 Jars)"
+            data-price="13495"
+            data-image="/images/products/flax-hull-bundle.jpg"
+            data-qty="1"
+          >Add Bundle</button>
+        </article>
 
-    <!-- Bundle -->
-    <article class="product-card">
-      <img
-        src="/images/products/flax-hull-bundle.jpg"
-        alt="Flax Hull Lignan bundle"
-        width="400"
-        height="400"
-        loading="lazy"
-      />
-      <h2>Flax Hull Lignan Bundle (3 Jars)</h2>
-      <p class="price">$134.95 <span class="save">(Save 10%)</span></p>
+        <!-- Ancient Seeds & Grains (Single Jar) -->
+        <article class="prodpg__card">
+          <img
+            src="/images/products/ancient-single-small.png"
+            alt="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
+            loading="lazy"
+          />
+          <h3>FLH Ancient Seeds &amp; Grains Flax Hull Lignans (Single Jar)</h3>
+          <p class="prodpg__price">$45.00</p>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="ancient-single"
+            data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
+            data-price="4500"
+            data-image="/images/products/ancient-single-small.png"
+            data-qty="1"
+          >Add to Cart</button>
+        </article>
 
-      <button
-        class="btn-cta add-to-cart"
-        data-sku="fhl-bundle"
-        data-name="Flax Hull Lignan Bundle (3 Jars)"
-        data-price="13495"
-        data-image="/images/products/flax-hull-bundle.jpg"
-        data-qty="1"
-      >
-        Add Bundle to Cart
-      </button>
-    </article>
-
-    <!-- Ancient Seeds & Grains (Single Jar) -->
-    <article class="product-card">
-      <img
-        src="/images/products/ancient-single-small.png"
-        alt="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
-        width="400"
-        height="400"
-        loading="lazy"
-      />
-      <h2>FLH Ancient Seeds &amp; Grains Flax Hull Lignans (Single Jar)</h2>
-      <p class="price">$45.00</p>
-
-      <button
-        class="btn-cta add-to-cart"
-        data-sku="ancient-single"
-        data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
-        data-price="4500"
-        data-image="/images/products/ancient-single-small.png"
-        data-qty="1"
-      >
-        Add to Cart
-      </button>
-    </article>
-
-    <!-- Ancient Seeds & Grains (3 Jar Bundle) -->
-    <article class="product-card">
-      <img
-        src="/images/products/ancient3jarsmall.jpg"
-        alt="FLH Ancient Seeds & Grains Flax Hull Lignans (3 Jar Bundle)"
-        width="400"
-        height="400"
-        loading="lazy"
-      />
-      <h2>FLH Ancient Seeds &amp; Grains Flax Hull Lignans (3 Jar Bundle)</h2>
-      <p class="price">$132.00</p>
-
-      <button
-        class="btn-cta add-to-cart"
-        data-sku="ancient-bundle"
-        data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (3 Jar Bundle)"
-        data-price="13200"
-        data-image="/images/products/ancient3jarsmall.jpg"
-        data-qty="1"
-      >
-        Add Bundle to Cart
-      </button>
-    </article>
+        <!-- Ancient Seeds & Grains (3 Jar Bundle) -->
+        <article class="prodpg__card">
+          <img
+            src="/images/products/ancient3jarsmall.jpg"
+            alt="FLH Ancient Seeds & Grains Flax Hull Lignans (3 Jar Bundle)"
+            loading="lazy"
+          />
+          <h3>FLH Ancient Seeds &amp; Grains Flax Hull Lignans (3 Jar Bundle)</h3>
+          <p class="prodpg__price">$132.00</p>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="ancient-bundle"
+            data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (3 Jar Bundle)"
+            data-price="13200"
+            data-image="/images/products/ancient3jarsmall.jpg"
+            data-qty="1"
+          >Add Bundle</button>
+        </article>
+      </div>
+    </div>
   </section>
 
   <style>
-    .container{ max-width:1100px; margin:0 auto; padding:0 16px; }
-    .product-detail {
-      display: grid; gap: 16px; margin: 8px 0 48px;
-      grid-template-columns: 1fr; align-items: start;
+    /* match the compact layout from Products page */
+    .prodpg { padding: 0 0 48px; }
+    .prodpg__container { max-width:1100px; margin:0 auto; padding:0 16px; }
+
+    .prodpg__grid{
+      display:grid; gap:12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin: 10px 0 24px;
     }
-    @media (min-width: 900px){
-      .product-detail{ grid-template-columns: 1fr 1fr; }
+    @media (min-width: 700px){
+      .prodpg__grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
-    .product-card {
-      background: #fff;
-      padding: 16px;
-      border-radius: 14px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
-      display: grid;
-      justify-items: start;
-      gap: .75rem;
+    @media (min-width: 1100px){
+      .prodpg__grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
-    .product-card img{
-      width: 100%; height: auto; max-height: 360px; object-fit: cover; border-radius: 10px;
+
+    .prodpg__card{
+      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px;
+      box-shadow:0 8px 18px rgba(0,0,0,.06);
+      display:grid; gap:.55rem; justify-items:start;
+      width:100%;
     }
-    .price { font-weight: 700; font-size: 1.1rem; }
-    .save { color:#16a34a; font-weight:700; }
+
+    .prodpg__card img{
+      width:100%;
+      height:170px;           /* keeps cards uniform & small */
+      object-fit:cover;
+      border-radius:10px;
+      display:block;
+    }
+
+    .prodpg__price{ font-weight:700; }
+    .prodpg__save{ color:#16a34a; font-weight:700; margin-left:.35rem; font-size:.95rem; }
   </style>
 </BaseLayout>
