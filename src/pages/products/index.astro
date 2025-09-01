@@ -159,33 +159,37 @@ const pageTitle = 'Products — ';
     .prodpg__circle img{ width:100%; height:100%; object-fit:cover; display:block; }
     .prodpg__label{ font-weight:700; letter-spacing:.01em; }
 
-    /* Featured products grid — enforce smaller cards */
-    .prodpg__grid{
-      display:grid; gap:14px;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      margin: 6px 0 12px;
-    }
-    @media (min-width: 900px){
-      .prodpg__grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
+    /* Featured products grid */
+.prodpg__grid{
+  display:grid; gap:12px;                 /* slightly smaller gap */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 6px 0 12px;
+}
+@media (min-width: 700px){
+  .prodpg__grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px){
+  .prodpg__grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }  /* <-- 4 across */
+}
 
-    /* Keep cards from stretching full width */
-    .prodpg__card{
-      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:14px;
-      box-shadow:0 8px 18px rgba(0,0,0,.06);
-      display:grid; gap:.55rem; justify-items:start;
-      max-width: 340px;            /* cap width */
-      width: 100%;
-      margin: 0 auto;              /* center within grid cell */
-    }
+/* Cards: allow grid to control width */
+.prodpg__card{
+  background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px; /* slightly tighter */
+  box-shadow:0 8px 18px rgba(0,0,0,.06);
+  display:grid; gap:.55rem; justify-items:start;
+  width: 100%;
+  /* remove width limiter & centering that cause wrap */
+  /* max-width: 340px;  <-- remove */
+  /* margin: 0 auto;    <-- remove */
+}
 
-    /* Force image height so tall images don’t make giant cards */
-    .prodpg__card img{
-      width:100%;
-      height:180px;                /* adjust to taste (e.g., 160–200) */
-      object-fit:cover;
-      border-radius:10px;
-    }
+/* Keep image reasonable height */
+.prodpg__card img{
+  width:100%;
+  height:170px;           /* a tad shorter helps fit */
+  object-fit:cover;
+  border-radius:10px;
+}
 
     .prodpg__price{ font-weight:700; }
     .prodpg__save{ color:#16a34a; font-weight:700; margin-left:.35rem; font-size:.95rem; }
