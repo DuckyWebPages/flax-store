@@ -247,7 +247,7 @@
 </aside>
 
 <!-- Toast: added to cart -->
-<div class="cart-toast" data-cart-toast hidden>Added to cart</div>
+
 
 
     <div class="cart-toast" data-cart-toast hidden>Added to cart</div>
@@ -259,5 +259,40 @@
       })();
     </script>
     <script is:inline src="/scripts/cart-drawer.js"></script>
+    <script is:inline>
+  // Global "Add to Cart" click handler (uses window.Cart from cart-store.js)
+  (function () {
+    function int(v, fb=1){ const n=parseInt(v||'',10); return Number.isFinite(n)?n:fb; }
+
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.add-to-cart');
+      if (!btn) return;
+
+      const item = {
+        id: btn.dataset.sku,
+        name: btn.dataset.name || btn.dataset.sku,
+        unitCents: int(btn.dataset.price, 0),  // e.g., "3900" => $39.00
+        image: btn.dataset.image || undefined
+      };
+      const qty = int(btn.dataset.qty, 1);
+
+      if (!item.id || !item.unitCents) {
+        console.warn('Missing id or unitCents on add-to-cart button', btn.dataset);
+        return;
+      }
+
+      window.Cart.add(item, qty);
+
+      // optional toast
+      const toast = document.querySelector('[data-cart-toast]');
+      if (toast) {
+        toast.hidden = false;
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); toast.hidden = true; }, 1200);
+      }
+    });
+  })();
+</script>
+
   </body>
 </html>

@@ -9,8 +9,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^7.9.0",
     "astro": "^5.13.2",
-    "stripe": "^18.4.0"
+    "stripe": "^18.5.0"
   },
   "devDependencies": {
     "@astrojs/react": "^4.3.0",
