@@ -1,163 +1,164 @@
-// public/scripts/cart-drawer.js
+// FILE: /scripts/cart-drawer.js
+// Depends on window.Cart from /scripts/cart-store.js
 (function () {
-  const $drawer = document.querySelector('[data-cart-drawer]');
-  const $overlay = document.querySelector('[data-cart-overlay]');
-  const $toast = document.querySelector('[data-cart-toast]');
-  const $ship = document.querySelector('[data-ship-progress]');
-  const $shipBar = document.querySelector('[data-ship-bar]');
-  const $shipNote = document.querySelector('[data-ship-note]');
-  const $subtotal = document.querySelector('[strong][data-subtotal], [data-subtotal]');
-  const $items = document.querySelector('[data-cart-items]');
-  const threshold = $ship ? parseInt($ship.dataset.threshold, 10) : 7500; // cents
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  // ---------- Drawer open/close ----------
-  function openCart() {
-    if (!$drawer || !$overlay) return;
-    $drawer.hidden = false; $overlay.hidden = false;
+  const drawer   = $('[data-cart-drawer]');
+  const overlay  = $('[data-cart-overlay]');
+  const itemsEl  = $('[data-cart-items]');
+  const subtotalEl = $('[data-subtotal]');
+  const openBtn  = $('[data-cart-open]');
+  const closeBtn = $('[data-cart-close]');
+  const checkoutBtn = $('[data-checkout]');
+
+  // free shipping progress (optional)
+  const progressWrap = $('[data-ship-progress]');
+  const bar = $('[data-ship-bar]');
+  const note = $('[data-ship-note]');
+  const threshold = progressWrap ? parseInt(progressWrap.dataset.threshold || '0', 10) : 0;
+
+  function fmtUSD(cents) {
+    return (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  }
+
+  function open() {
+    if (!drawer || !overlay) return;
+    drawer.hidden = false;
+    overlay.hidden = false;
     requestAnimationFrame(() => {
-      $drawer.classList.add('is-open');
-      $overlay.classList.add('is-open');
-      $drawer.setAttribute('aria-hidden', 'false');
+      drawer.classList.add('is-open');
+      overlay.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
     });
   }
-  function closeCart() {
-    if (!$drawer || !$overlay) return;
-    $drawer.classList.remove('is-open');
-    $overlay.classList.remove('is-open');
-    $drawer.setAttribute('aria-hidden', 'true');
-    setTimeout(() => { $drawer.hidden = true; $overlay.hidden = true; }, 280);
+  function close() {
+    if (!drawer || !overlay) return;
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    setTimeout(() => {
+      drawer.hidden = true;
+      overlay.hidden = true;
+    }, 250);
   }
 
-  // ---------- Line rendering ----------
-  function fmtUSD(cents) {
-    return (cents / 100).toLocaleString(undefined, { style: 'currency', currency: 'USD' });
-  }
+  function render() {
+    if (!itemsEl || !subtotalEl) return;
 
-  function renderCart(cart) {
-    if (!$items) return;
-    const items = Array.isArray(cart?.items) ? cart.items : [];
-    if (items.length === 0) {
-      $items.innerHTML = `<li style="padding:14px;color:#555;">Your cart is empty.</li>`;
-      // Also zero subtotal/ship bar
-      setSubtotal(0);
+    const cart = window.Cart.all(); // [{id,name,unitCents,image,qty}]
+    if (!cart.length) {
+      itemsEl.innerHTML = `<li class="cart-item" style="border:0;padding:18px">Your cart is empty.</li>`;
+      subtotalEl.textContent = fmtUSD(0);
+      if (bar) bar.style.width = '0%';
+      if (note) note.textContent = threshold ? `Spend ${fmtUSD(threshold)} for free shipping.` : '';
       return;
     }
-    $items.innerHTML = items.map(it => {
-      const sku = String(it.sku);
-      const name = it.name || sku;
-      const img = it.image || '/images/placeholder.png';
-      const qty = Math.max(1, Number(it.qty) || 1);
-      const unit = Number(it.unitCents || 0);
-      const line = unit * qty;
+
+    itemsEl.innerHTML = cart.map(i => {
+      const line = i.unitCents * i.qty;
+      const img = i.image || '/images/placeholder-84.png';
       return `
-        <li class="cart-item" data-sku="${sku}">
-          <img class="ci-thumb" src="${img}" alt="${name}" />
+        <li class="cart-item" data-id="${i.id}">
+          <img class="ci-thumb" src="${img}" alt="" 
+               style="width:84px;height:84px;object-fit:cover;display:block" />
           <div class="ci-main">
             <div class="ci-row">
-              <h4 class="ci-title">${name}</h4>
-              <button class="icon-btn" data-remove="${sku}" aria-label="Remove">
-                <svg width="18" height="18" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-              </button>
+              <p class="ci-title">${i.name}</p>
+              <strong class="ci-price">${fmtUSD(line)}</strong>
             </div>
             <div class="ci-row">
               <div class="qty">
-                <button class="qty-btn" data-decr="${sku}" aria-label="Decrease">−</button>
-                <input class="qty-input" data-qty="${sku}" type="number" min="1" value="${qty}" inputmode="numeric"/>
-                <button class="qty-btn" data-incr="${sku}" aria-label="Increase">+</button>
+                <button class="qty-btn" data-dec aria-label="Decrease">−</button>
+                <input class="qty-input" type="number" min="1" value="${i.qty}" />
+                <button class="qty-btn" data-inc aria-label="Increase">+</button>
               </div>
-              <div class="ci-price" data-line="${sku}">${fmtUSD(line)}</div>
+              <button class="icon-btn" data-remove aria-label="Remove">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 6h18M8 6v12m8-12v12M5 6l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14" 
+                        fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                Remove
+              </button>
             </div>
           </div>
         </li>
       `;
     }).join('');
-  }
 
-  // ---------- Subtotal + free shipping ----------
-  function setSubtotal(cents) {
-    if ($ship && $shipBar && $shipNote) {
-      const pct = Math.max(0, Math.min(1, cents / threshold));
-      $shipBar.style.width = (pct * 100).toFixed(0) + '%';
-      if (cents >= threshold) {
-        $shipNote.textContent = 'You’ve unlocked free shipping!';
-      } else {
-        const remaining = ((threshold - cents) / 100).toFixed(2);
-        $shipNote.textContent = `Spend $${remaining} more for free shipping.`;
-      }
-    }
-    if ($subtotal) {
-      $subtotal.textContent = fmtUSD(cents);
+    const subtotal = cart.reduce((n, i) => n + i.unitCents * i.qty, 0);
+    subtotalEl.textContent = fmtUSD(subtotal);
+
+    // Free shipping progress
+    if (threshold && bar && note) {
+      const pct = Math.max(0, Math.min(100, Math.round((subtotal / threshold) * 100)));
+      bar.style.width = `${pct}%`;
+      note.textContent = subtotal >= threshold
+        ? 'You’ve unlocked free shipping!'
+        : `Spend ${fmtUSD(threshold - subtotal)} more for free shipping.`;
     }
   }
 
-  // ---------- Click handlers (delegated) ----------
+  // Event delegation inside drawer
   document.addEventListener('click', (e) => {
-    if (e.target.closest('[data-cart-open]')) { openCart(); }
-    if (e.target.closest('[data-cart-close]') || e.target.closest('[data-cart-overlay]')) { closeCart(); }
+    const t = e.target;
+    if (!(t instanceof HTMLElement)) return;
 
-    const inc = e.target.closest('[data-incr]'); const dec = e.target.closest('[data-decr]');
-    if (inc || dec) {
-      const sku = (inc || dec).dataset.incr || (inc || dec).dataset.decr;
-      const $input = document.querySelector(`.qty-input[data-qty="${sku}"]`);
-      if ($input) {
-        const next = Math.max(1, parseInt($input.value || '1', 10) + (inc ? 1 : -1));
-        $input.value = String(next);
-        document.dispatchEvent(new CustomEvent('cart:updateQty', { detail: { sku, qty: next }}));
+    // open/close
+    if (t.closest('[data-cart-open]')) { open(); return; }
+    if (t.closest('[data-cart-close]') || t === overlay) { close(); return; }
+
+    // item row
+    const row = t.closest('.cart-item');
+    if (!row) return;
+    const id = row.getAttribute('data-id');
+
+    if (t.closest('[data-inc]')) {
+      const item = window.Cart.all().find(x => x.id === id);
+      if (item) window.Cart.setQty(id, item.qty + 1);
+    }
+    if (t.closest('[data-dec]')) {
+      const item = window.Cart.all().find(x => x.id === id);
+      if (item) window.Cart.setQty(id, Math.max(1, item.qty - 1));
+    }
+    if (t.closest('[data-remove]')) {
+      window.Cart.remove(id);
+    }
+  });
+
+  // qty input change
+  document.addEventListener('change', (e) => {
+    const t = e.target;
+    if (!(t instanceof HTMLInputElement)) return;
+    if (!t.classList.contains('qty-input')) return;
+    const row = t.closest('.cart-item');
+    const id = row?.getAttribute('data-id');
+    const val = Math.max(1, parseInt(t.value || '1', 10) || 1);
+    if (id) window.Cart.setQty(id, val);
+  });
+
+  // Checkout button (optional; if you handle elsewhere, remove)
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', async () => {
+      const items = window.Cart.all();
+      if (!items.length) return;
+      try {
+        const res = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(items),
+        });
+        const data = await res.json();
+        if (data?.url) window.location.href = data.url;
+      } catch (err) {
+        console.error('Checkout failed', err);
       }
-    }
-
-    const rem = e.target.closest('[data-remove]');
-    if (rem) {
-      const sku = rem.dataset.remove;
-      document.dispatchEvent(new CustomEvent('cart:remove', { detail: { sku }}));
-    }
-  });
-
-  // ---------- Toast + auto-open on add ----------
-  function showToast(msg = 'Added to cart') {
-    if (!$toast) return;
-    $toast.textContent = msg;
-    $toast.hidden = false;
-    requestAnimationFrame(() => $toast.classList.add('show'));
-    setTimeout(() => { $toast.classList.remove('show'); setTimeout(()=>{$toast.hidden = true;}, 250); }, 1600);
-  }
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.add-to-cart');
-    if (btn) {
-      showToast();
-      openCart(); // comment out if you don’t want auto-open
-    }
-  });
-
-  // ---------- Listen to cartStore events (EMITTED ON window) ----------
-  window.addEventListener('cart:changed', (e) => {
-    renderCart(e.detail?.cart);
-  });
-  window.addEventListener('cart:subtotal', (e) => {
-    setSubtotal(Number(e.detail?.cents || 0));
-  });
-  window.addEventListener('cart:open', openCart);
-  window.addEventListener('cart:close', closeCart);
-
-  // ---------- Initial hydrate from localStorage ----------
-  try {
-    const raw = localStorage.getItem('cart');
-    if (raw) {
-      const cart = JSON.parse(raw);
-      renderCart(cart);
-      const cents = Array.isArray(cart?.items)
-        ? cart.items.reduce((a, it) => a + (Number(it.unitCents || 0) * Number(it.qty || 0)), 0)
-        : 0;
-      setSubtotal(cents);
-    } else {
-      renderCart({ items: [] });
-      setSubtotal(0);
-    }
-  } catch {
-    renderCart({ items: [] });
-    setSubtotal(0);
+    });
   }
 
-  // Keyboard ESC to close
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCart(); });
+  // React to cart updates from anywhere
+  window.addEventListener('cart:updated', render);
+
+  // Initial
+  render();
 })();
