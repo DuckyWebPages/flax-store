@@ -156,16 +156,28 @@
     });
   }
 
-  // React to cart updates from anywhere
-  window.addEventListener('cart:updated', render);
+  // … keep your existing code …
 
-  // Allow other scripts to open/close the drawer on demand
+// React to cart updates from anywhere
 window.addEventListener('cart:updated', render);
-window.addEventListener('cart:open', open);
-window.addEventListener('cart:close', close);
-// Expose API so BaseLayout can call it directly
+
+// Allow other scripts to control the drawer
+window.addEventListener('cart:open', () => {
+  console.log("[cart-drawer] cart:open event received");
+  open();
+});
+window.addEventListener('cart:close', () => {
+  console.log("[cart-drawer] cart:close event received");
+  close();
+});
+
+// Expose API for direct calls
 // @ts-ignore
 window.CartDrawer = { open, close, render };
+
+console.log("[cart-drawer] loaded; exposing CartDrawer API");
+
+// Initial
 render();
 
 })();

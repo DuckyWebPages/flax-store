@@ -245,62 +245,169 @@
     </footer>
   </div>
 </aside>
-
-<!-- Toast: added to cart (keep only ONE of these) -->
+<!-- Toast: added to cart -->
 <div class="cart-toast" data-cart-toast hidden>Added to cart</div>
 
-<!-- 1) Expose Cart from TS to window BEFORE using it anywhere -->
-<script is:inline type="module">
-  import { Cart } from "/src/lib/cart.ts";
-  // @ts-ignore make Cart available to non-module scripts
+<script type="module" is:inline>
+  // ✅ Bundled import (no "/src/..."):
+  import { Cart } from "../lib/cart.ts"; // adjust if your layout is elsewhere
+
+  // Make available to any non-module code if needed
+  // @ts-ignore
   window.Cart = Cart;
-</script>
+  console.debug("[Cart] bridge ready");
 
-<!-- 2) Drawer logic (renders items, qty controls, subtotal, checkout) -->
-<script is:inline src="/scripts/cart-drawer.js"></script>
+  // ---------- Drawer open/close ----------
+  const drawer  = document.querySelector<HTMLElement>("[data-cart-drawer]");
+  const overlay = document.querySelector<HTMLElement>("[data-cart-overlay]");
+  const openBtn = document.querySelector<HTMLElement>("[data-cart-open]");
 
-<!-- 3) Global Add-to-Cart handler (uses data-* on .add-to-cart buttons) -->
-<script is:inline>
-  (function () {
-    function int(v, fb=1){ const n=parseInt(v||'',10); return Number.isFinite(n)?n:fb; }
+  function openDrawer() {
+    if (!drawer || !overlay) return;
+    drawer.classList.add("is-open");
+    overlay.classList.add("is-open");
+    drawer.hidden = false;
+    overlay.hidden = false;
+    drawer.setAttribute("aria-hidden", "false");
+  }
+  function closeDrawer() {
+    if (!drawer || !overlay) return;
+    drawer.classList.remove("is-open");
+    overlay.classList.remove("is-open");
+    drawer.hidden = true;
+    overlay.hidden = true;
+    drawer.setAttribute("aria-hidden", "true");
+  }
 
-    document.addEventListener('click', function (e) {
-      const btn = e.target.closest('.add-to-cart');
-      if (!btn) return;
+  // ---------- Render helpers ----------
+  const listEl      = document.querySelector<HTMLElement>("[data-cart-items]");
+  const subtotalEl  = document.querySelector<HTMLElement>("[data-subtotal]");
+  const barEl       = document.querySelector<HTMLElement>("[data-ship-bar]");
+  const noteEl      = document.querySelector<HTMLElement>("[data-ship-note]");
+  const progWrap    = document.querySelector<HTMLElement>("[data-ship-progress]");
+  const freeThresh  = progWrap ? Number(progWrap.getAttribute("data-threshold") || "0") : 0;
 
-      const item = {
-        id: btn.dataset.sku,
-        name: btn.dataset.name || btn.dataset.sku,
-        unitCents: int(btn.dataset.price, 0),  // cents (e.g., 3900 => $39.00)
-        image: btn.dataset.image || undefined
-      };
-      const qty = int(btn.dataset.qty, 1);
+  const fmt = (cents:number) => (cents/100).toLocaleString("en-US", { style:"currency", currency:"USD" });
 
-      if (!item?.id || !item?.unitCents) {
-        console.warn('Add-to-cart missing id or unitCents:', btn.dataset);
-        return;
-      }
+  function render() {
+    // Items
+    if (listEl) {
+      const items = Cart.all();
+      listEl.innerHTML = items.length === 0
+        ? `<li class="cart-item" style="border:0;padding:18px;">Your cart is empty.</li>`
+        : items.map(i => `
+            <li class="cart-item" data-id="${i.id}">
+              <img class="ci-thumb" src="${i.image || "/images/flh-logo-33.png?v=6"}" alt="">
+              <div class="ci-main">
+                <div class="ci-row">
+                  <p class="ci-title">${i.name}</p>
+                  <button class="icon-btn" data-remove="${i.id}" aria-label="Remove">
+                    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                  </button>
+                </div>
+                <div class="ci-row">
+                  <div class="qty" aria-label="Quantity">
+                    <button class="qty-btn" data-dec="${i.id}" aria-label="Decrease">–</button>
+                    <input class="qty-input" value="${i.qty}" inputmode="numeric" data-qty="${i.id}">
+                    <button class="qty-btn" data-inc="${i.id}" aria-label="Increase">+</button>
+                  </div>
+                  <div class="ci-price">${fmt(i.unitCents * i.qty)}</div>
+                </div>
+              </div>
+            </li>
+          `).join("");
+    }
 
-      // Add to cart
-      window.Cart.add(item, qty);
+    // Subtotal
+    if (subtotalEl) subtotalEl.textContent = fmt(Cart.totalCents());
 
-      // Open the drawer (direct call if available; else event)
-      if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
-        window.CartDrawer.open();
+    // Free shipping progress
+    if (barEl && noteEl && freeThresh > 0) {
+      const total = Cart.totalCents();
+      const pct = Math.max(0, Math.min(100, Math.round((total / freeThresh) * 100)));
+      (barEl as HTMLElement).style.width = pct + "%";
+      if (total >= freeThresh) {
+        noteEl.textContent = "You’ve unlocked free shipping!";
       } else {
-        window.dispatchEvent(new Event('cart:open'));
+        const toGo = freeThresh - total;
+        noteEl.textContent = `Spend ${fmt(toGo)} more for free shipping.`;
       }
+    }
+  }
 
-      // Quick toast
-      const toast = document.querySelector('[data-cart-toast]');
-      if (toast) {
-        toast.hidden = false;
-        toast.classList.add('show');
-        setTimeout(() => { toast.classList.remove('show'); toast.hidden = true; }, 1200);
-      }
-    });
-  })();
+  // Initial render + on updates
+  render();
+  window.addEventListener("cart:updated", render);
+
+  // ---------- Global click handling ----------
+  document.addEventListener("click", (ev) => {
+    const t = ev.target as Element | null;
+    if (!t) return;
+
+    // Open/close
+    if (t.closest("[data-cart-open]")) { openDrawer(); return; }
+    if (t.closest("[data-cart-close]") || t.closest("[data-cart-overlay]")) { closeDrawer(); return; }
+
+    // Qty +
+    const inc = t.closest("[data-inc]");
+    if (inc) {
+      const id = (inc as HTMLElement).getAttribute("data-inc")!;
+      const curr = Cart.all().find(i => i.id === id)?.qty || 1;
+      Cart.setQty(id, curr + 1);
+      return;
+    }
+    // Qty –
+    const dec = t.closest("[data-dec]");
+    if (dec) {
+      const id = (dec as HTMLElement).getAttribute("data-dec")!;
+      const curr = Cart.all().find(i => i.id === id)?.qty || 1;
+      Cart.setQty(id, Math.max(0, curr - 1));
+      return;
+    }
+    // Remove
+    const rm = t.closest("[data-remove]");
+    if (rm) {
+      const id = (rm as HTMLElement).getAttribute("data-remove")!;
+      Cart.remove(id);
+      return;
+    }
+
+    // Add to cart
+    const btn = t.closest(".add-to-cart") as HTMLElement | null;
+    if (!btn) return;
+
+    const sku   = btn.getAttribute("data-sku") || "";
+    const name  = btn.getAttribute("data-name") || sku;
+    const cents = Number(btn.getAttribute("data-price") || "0"); // in cents
+    const image = btn.getAttribute("data-image") || "";
+    const qty   = Number(btn.getAttribute("data-qty") || "1");
+
+    if (!sku || !Number.isFinite(cents) || !Number.isFinite(qty)) {
+      console.warn("[Cart] Bad button data", { sku, cents, qty });
+      return;
+    }
+
+    // ✅ Match your Cart API exactly:
+    Cart.add({ id: sku, name, unitCents: cents, image }, qty);
+
+    // Toast
+    const toast = document.querySelector<HTMLElement>("[data-cart-toast]");
+    if (toast) {
+      toast.hidden = false;
+      toast.classList.add("show");
+      setTimeout(() => { toast.classList.remove("show"); toast.hidden = true; }, 1200);
+    }
+
+    // Open drawer after add
+    openDrawer();
+  });
+
+  // ESC closes
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+
+  // Optional: checkout button hook (wire to your flow)
+  document.querySelector("[data-checkout]")?.addEventListener("click", () => {
+    // TODO: integrate your checkout
+    console.log("Proceed to checkout with", Cart.all());
+  });
 </script>
-
-</body>
-</html>
