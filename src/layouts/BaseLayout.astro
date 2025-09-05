@@ -249,10 +249,10 @@
 <!-- Toast: added to cart (keep only ONE of these) -->
 <div class="cart-toast" data-cart-toast hidden>Added to cart</div>
 
-<!-- 1) Bridge: expose Cart from TS to window BEFORE using it anywhere -->
+<!-- 1) Expose Cart from TS to window BEFORE using it anywhere -->
 <script is:inline type="module">
   import { Cart } from "/src/lib/cart.ts";
-  // @ts-ignore - make Cart available to non-module scripts
+  // @ts-ignore make Cart available to non-module scripts
   window.Cart = Cart;
 </script>
 
@@ -276,16 +276,22 @@
       };
       const qty = int(btn.dataset.qty, 1);
 
-      if (!item.id || !item.unitCents) {
+      if (!item?.id || !item?.unitCents) {
         console.warn('Add-to-cart missing id or unitCents:', btn.dataset);
         return;
       }
 
+      // Add to cart
       window.Cart.add(item, qty);
-window.dispatchEvent(new Event('cart:open'));   // <— this opens the drawer
 
+      // Open the drawer (direct call if available; else event)
+      if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+        window.CartDrawer.open();
+      } else {
+        window.dispatchEvent(new Event('cart:open'));
+      }
 
-      // quick toast
+      // Quick toast
       const toast = document.querySelector('[data-cart-toast]');
       if (toast) {
         toast.hidden = false;
@@ -296,6 +302,5 @@ window.dispatchEvent(new Event('cart:open'));   // <— this opens the drawer
   })();
 </script>
 
-
-  </body>
+</body>
 </html>

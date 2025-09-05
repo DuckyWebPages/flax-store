@@ -158,10 +158,14 @@
 
   // React to cart updates from anywhere
   window.addEventListener('cart:updated', render);
-  
-  // NEW: allow other scripts to open the drawer on demand
-  window.addEventListener('cart:open', open);
 
-  // Initial
-  render();
+  // Allow other scripts to open/close the drawer on demand
+window.addEventListener('cart:updated', render);
+window.addEventListener('cart:open', open);
+window.addEventListener('cart:close', close);
+// Expose API so BaseLayout can call it directly
+// @ts-ignore
+window.CartDrawer = { open, close, render };
+render();
+
 })();
