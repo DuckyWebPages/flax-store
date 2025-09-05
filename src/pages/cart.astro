@@ -1,75 +1,77 @@
 ---
 // FILE: src/pages/cart.astro
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
-<h1>Your Cart</h1>
+<BaseLayout pageTitle="Your Cart">
+  <h1>Your Cart</h1>
 
-<div id="cart-list"></div>
+  <div id="cart-list"></div>
 
-<button id="checkout" class="btn-cta">Checkout</button>
+  <button id="checkout" class="btn-cta">Checkout</button>
 
-<script type="module">
-  import { Cart } from "/src/lib/cart.ts";
+  <script type="module">
+    import { Cart } from "/src/lib/cart.ts";
 
-  function render() {
-    const mount = document.getElementById("cart-list");
-    const cart = Cart.all(); // [{id,name,unitCents,image,qty}]
-    if (!cart.length) { mount.innerHTML = "<p>Your cart is empty.</p>"; return; }
+    function render() {
+      const mount = document.getElementById("cart-list");
+      const cart = Cart.all(); // [{id,name,unitCents,image,qty}]
+      if (!cart.length) { mount.innerHTML = "<p>Your cart is empty.</p>"; return; }
 
-    mount.innerHTML = cart.map(i => `
-      <div class="row" data-sku="${i.id}">
-        <img src="${i.image ?? ""}" alt="" style="width:64px;height:64px;object-fit:cover;margin-right:.5rem;" />
-        <div style="flex:1;">
-          <strong>${i.name}</strong><br />
-          $${(i.unitCents/100).toFixed(2)}
+      mount.innerHTML = cart.map(i => `
+        <div class="row" data-sku="${i.id}">
+          <img src="${i.image ?? ""}" alt="" style="width:64px;height:64px;object-fit:cover;margin-right:.5rem;" />
+          <div style="flex:1;">
+            <strong>${i.name}</strong><br />
+            $${(i.unitCents/100).toFixed(2)}
+          </div>
+          <input type="number" min="1" value="${i.qty}" class="qty" style="width:64px;" />
+          <button class="rm">Remove</button>
         </div>
-        <input type="number" min="1" value="${i.qty}" class="qty" style="width:64px;" />
-        <button class="rm">Remove</button>
-      </div>
-    `).join("");
-  }
-
-  // qty/remove handlers
-  document.addEventListener("click", (e) => {
-    const t = e.target;
-    if (!(t instanceof HTMLElement)) return;
-    if (t.classList.contains("rm")) {
-      const row = t.closest(".row");
-      const sku = row?.getAttribute("data-sku");
-      if (sku) { Cart.remove(sku); render(); }
+      `).join("");
     }
-  });
-  document.addEventListener("change", (e) => {
-    const t = e.target;
-    if (!(t instanceof HTMLInputElement)) return;
-    if (t.classList.contains("qty")) {
-      const row = t.closest(".row");
-      const sku = row?.getAttribute("data-sku");
-      if (sku) Cart.setQty(sku, Math.max(1, Number(t.value) || 1));
-    }
-  });
 
-  // checkout → creates session and redirects to Stripe
-  document.getElementById("checkout")?.addEventListener("click", async () => {
-    const items = Cart.all();
-    if (!items.length) return;
-    const res = await fetch("/api/create-checkout-session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(items),
+    // qty/remove handlers
+    document.addEventListener("click", (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLElement)) return;
+      if (t.classList.contains("rm")) {
+        const row = t.closest(".row");
+        const sku = row?.getAttribute("data-sku");
+        if (sku) { Cart.remove(sku); render(); }
+      }
     });
-    const data = await res.json();
-    if (data?.url) window.location.href = data.url;
-    else alert(data?.error || "Checkout failed");
-  });
+    document.addEventListener("change", (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLInputElement)) return;
+      if (t.classList.contains("qty")) {
+        const row = t.closest(".row");
+        const sku = row?.getAttribute("data-sku");
+        if (sku) Cart.setQty(sku, Math.max(1, Number(t.value) || 1));
+      }
+    });
 
-  // initial render
-  render();
-</script>
+    // checkout → creates session and redirects to Stripe
+    document.getElementById("checkout")?.addEventListener("click", async () => {
+      const items = Cart.all();
+      if (!items.length) return;
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(items),
+      });
+      const data = await res.json();
+      if (data?.url) window.location.href = data.url;
+      else alert(data?.error || "Checkout failed");
+    });
 
-<style>
-  #cart-list .row {
-    display:flex; align-items:center; gap:.5rem;
-    padding:.5rem 0; border-bottom:1px solid #eee;
-  }
-</style>
+    // initial render
+    render();
+  </script>
+
+  <style>
+    #cart-list .row {
+      display:flex; align-items:center; gap:.5rem;
+      padding:.5rem 0; border-bottom:1px solid #eee;
+    }
+  </style>
+</BaseLayout>
