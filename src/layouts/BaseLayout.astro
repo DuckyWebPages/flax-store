@@ -14,6 +14,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Source+Sans+3:wght@600;700&display=swap" rel="stylesheet">
 
   <link rel="preload" as="image" href="/images/flh-logo-33.png?v=6" />
+  <link rel="preload" as="image" href="/images/backgroundw.jpg" />
+
 
 
     <style>
@@ -25,11 +27,13 @@
       }
       *{ box-sizing:border-box; }
 
-      body{
-        margin:0; font-family:var(--font-body); color:var(--ink);
-        /* Use a real file you have in /public/images to avoid Vite warnings */
-        background:#0b7a53 url("/images/backgroundw.jpg") center top / cover no-repeat fixed;
-      }
+     body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: #ffffff url("/images/backgroundw.jpg") center top / cover no-repeat fixed;
+}
+
 
       /* Fixed slim header */
       .site-header-wrap{
