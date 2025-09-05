@@ -158,6 +158,9 @@
 
   // React to cart updates from anywhere
   window.addEventListener('cart:updated', render);
+  
+  // NEW: allow other scripts to open the drawer on demand
+  window.addEventListener('cart:open', open);
 
   // Initial
   render();

@@ -282,6 +282,8 @@
       }
 
       window.Cart.add(item, qty);
+window.dispatchEvent(new Event('cart:open'));   // <— this opens the drawer
+
 
       // quick toast
       const toast = document.querySelector('[data-cart-toast]');
