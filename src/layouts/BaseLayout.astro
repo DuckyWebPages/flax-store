@@ -246,21 +246,21 @@
   </div>
 </aside>
 
-<!-- Toast: added to cart -->
+<!-- Toast: added to cart (keep only ONE of these) -->
+<div class="cart-toast" data-cart-toast hidden>Added to cart</div>
 
+<!-- 1) Bridge: expose Cart from TS to window BEFORE using it anywhere -->
+<script is:inline type="module">
+  import { Cart } from "/src/lib/cart.ts";
+  // @ts-ignore - make Cart available to non-module scripts
+  window.Cart = Cart;
+</script>
 
+<!-- 2) Drawer logic (renders items, qty controls, subtotal, checkout) -->
+<script is:inline src="/scripts/cart-drawer.js"></script>
 
-    <div class="cart-toast" data-cart-toast hidden>Added to cart</div>
-
-    <script is:inline type="module">
-      (async () => {
-        try { await import('/scripts/cart-store.js'); }
-        catch (err) { console.error('cart-store failed to load', err); }
-      })();
-    </script>
-    <script is:inline src="/scripts/cart-drawer.js"></script>
-    <script is:inline>
-  // Global "Add to Cart" click handler (uses window.Cart from cart-store.js)
+<!-- 3) Global Add-to-Cart handler (uses data-* on .add-to-cart buttons) -->
+<script is:inline>
   (function () {
     function int(v, fb=1){ const n=parseInt(v||'',10); return Number.isFinite(n)?n:fb; }
 
@@ -271,19 +271,19 @@
       const item = {
         id: btn.dataset.sku,
         name: btn.dataset.name || btn.dataset.sku,
-        unitCents: int(btn.dataset.price, 0),  // e.g., "3900" => $39.00
+        unitCents: int(btn.dataset.price, 0),  // cents (e.g., 3900 => $39.00)
         image: btn.dataset.image || undefined
       };
       const qty = int(btn.dataset.qty, 1);
 
       if (!item.id || !item.unitCents) {
-        console.warn('Missing id or unitCents on add-to-cart button', btn.dataset);
+        console.warn('Add-to-cart missing id or unitCents:', btn.dataset);
         return;
       }
 
       window.Cart.add(item, qty);
 
-      // optional toast
+      // quick toast
       const toast = document.querySelector('[data-cart-toast]');
       if (toast) {
         toast.hidden = false;
@@ -293,6 +293,7 @@
     });
   })();
 </script>
+
 
   </body>
 </html>
