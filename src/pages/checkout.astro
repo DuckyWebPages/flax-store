@@ -1,0 +1,42 @@
+---
+const url = new URL(Astro.request.url);
+let items = [];
+try {
+  items = JSON.parse(url.searchParams.get("items") || "[]");
+} catch {}
+const title = "Checkout — ";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}Flax Lignan Health</title>
+    <meta name="robots" content="noindex">
+    <style>
+      body{font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:24px;}
+      h1{margin:0 0 16px;}
+      table{border-collapse:collapse; width:100%; max-width:800px;}
+      th, td{border:1px solid #e5e7eb; padding:8px 10px; text-align:left;}
+      tfoot td{font-weight:700;}
+      .empty{padding:12px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px;}
+      .btn{display:inline-block; margin-top:16px; padding:10px 16px; border-radius:10px; background:#111827; color:#fff; text-decoration:none;}
+    </style>
+  </head>
+  <body>
+    <h1>Checkout</h1>
+
+    {items.length === 0 ? (
+      <div class="empty">Your cart is empty.</div>
+    ) : (
+      <table>
+        <thead><tr><th>Item</th><th>Qty</th></tr></thead>
+        <tbody>
+          {items.map(i => <tr><td>{i.id}</td><td>{i.qty}</td></tr>)}
+        </tbody>
+      </table>
+    )}
+
+    <a href="/products" class="btn">Continue shopping</a>
+    <!-- TODO: Replace this page with real Stripe/PayPal checkout -->
+  </body>
+</html>

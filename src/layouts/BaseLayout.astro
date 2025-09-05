@@ -412,5 +412,23 @@ h1 {
 
   // ESC closes drawer
   window.addEventListener("keydown", function(e){ if (e.key === "Escape") closeDrawer(); });
+  // --- Checkout handler (temporary) ---
+  var checkoutBtn = document.querySelector("[data-checkout]");
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", function () {
+      var items = Cart.all();
+      if (!items.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+      // TEMP: navigate to a local /checkout page with items in the URL.
+      // We'll replace this with real Stripe/PayPal later.
+      var payload = encodeURIComponent(JSON.stringify(items.map(function(i){
+        return { id: i.id, qty: i.qty };
+      })));
+      window.location.href = "/checkout?items=" + payload;
+    });
+  }
+
 })();
 </script>
