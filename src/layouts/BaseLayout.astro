@@ -157,6 +157,140 @@ h1 {
         position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
         overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
       }
+      /* Nav cart bubble */
+.nav-cart { position: relative; }
+.cart-badge {
+  position: absolute;
+  top: -6px; right: -6px;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 700 12px/18px var(--font-body, system-ui);
+  color: #fff; background: #0b7a53; border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+.cart-badge[hidden] { display: none; }
+
+      /* --- Cart polish (safe, CSS-only) --------------------------------------- */
+/* Accent color (keeps existing if already set) */
+:root { --accent: var(--accent, #0b7a53); }
+
+/* Header */
+.cart-header {
+  background: linear-gradient(180deg, #fff, #fafafa);
+}
+.cart-header h3 {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 1.05rem; letter-spacing: .02em;
+}
+.cart-count-badge {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:22px; height:22px; padding:0 6px;
+  font:700 12px/1 var(--font-body, system-ui); color:#fff;
+  background: var(--accent); border-radius:999px;
+  box-shadow: 0 2px 8px rgba(11,122,83,.25);
+}
+
+/* Items list (keep your list/grid mechanics; just card look) */
+.cart-items { padding: 14px; display: grid; gap: 12px; }
+.cart-item {
+  border: 1px solid #ececec; border-radius: 14px;
+  padding: 12px; background: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,.05);
+  transition: box-shadow .15s ease, transform .06s ease;
+}
+.cart-item:hover { box-shadow: 0 10px 24px rgba(0,0,0,.07); }
+
+.ci-title { margin: 0; font-weight: 700; font-size: 1rem; }
+.ci-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+/* Remove button — polished */
+.btn-remove{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-width: 32px;       /* comfy tap target */
+  height: 32px;          /* comfy tap target */
+  padding: 0 8px;
+
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: #6b7280;        /* gray-600 */
+  cursor: pointer;
+
+  transition: background .15s ease, color .15s ease, transform .05s ease;
+}
+.btn-remove svg{
+  display: block;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;  /* icon matches text color */
+}
+.btn-remove:hover{
+  background: #fef2f2;   /* red-50 */
+  color: #b91c1c;        /* red-700 */
+}
+.btn-remove:active{
+  transform: translateY(1px);
+}
+.btn-remove:focus-visible{
+  outline: 2px solid #ef4444; /* red-500 */
+  outline-offset: 2px;
+}
+
+
+/* Qty controls */
+.qty {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #fbfbfb; border: 1px solid #e6e6e6; border-radius: 999px; padding: 4px 6px;
+}
+.qty-btn {
+  width: 30px; height: 30px; border: none; border-radius: 999px;
+  background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.04);
+  cursor: pointer; font-weight: 700;
+  transition: transform .05s ease, background .12s ease, box-shadow .12s ease;
+}
+.qty-btn:hover { background: #f3f4f6; }
+.qty-btn:active { transform: translateY(1px); }
+.qty-input {
+  width: 42px; text-align: center; border: none; background: transparent; outline: none; font-size: .95rem;
+}
+.ci-price { font-weight: 700; font-size: 1rem; }
+
+/* Footer + checkout */
+.cart-footer { border-top: 1px solid #eee; background: #fff; }
+.tot-row span { color: #6b7280; }
+.tot-row strong { font-size: 1.05rem; }
+
+/* Checkout button (hard-coded colors, stronger specificity) */
+.btn-cta.btn-checkout {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  border: 0;
+  background: linear-gradient(180deg, #0b7a53, #096746) !important; /* no CSS var */
+  color: #ffffff !important;
+  box-shadow: 0 10px 20px rgba(11,122,83,.22);
+  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+}
+.btn-cta.btn-checkout:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(11,122,83,.28);
+}
+.btn-cta.btn-checkout:disabled {
+  background: #e5e7eb !important;
+  color: #374151 !important;     /* readable gray */
+  box-shadow: none;
+  cursor: not-allowed;
+  text-shadow: none;
+}
+
+
     </style>
   </head>
 
@@ -183,10 +317,13 @@ h1 {
           <a href="/contact" class="nav-link" aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>Contact Us</a>
 
           <!-- Cart icon -->
-          <button class="nav-link nav-cart" data-cart-open aria-label="Open cart">
-            <img src="/images/shoppingcart.jpg" alt="" class="cart-icon" />
-            <span class="sr-only">Cart</span>
-          </button>
+          <!-- Cart icon -->
+<button class="nav-link nav-cart" data-cart-open aria-label="Open cart">
+  <img src="/images/shoppingcart.jpg" alt="" class="cart-icon" />
+  <span class="cart-badge" data-cart-count-nav hidden>0</span>
+  <span class="sr-only">Cart</span>
+</button>
+
         </nav>
       </div>
     </div>
@@ -202,13 +339,17 @@ h1 {
 <aside class="cart-drawer" data-cart-drawer hidden aria-hidden="true" aria-label="Shopping cart">
   <div class="cart-panel">
     <header class="cart-header">
-      <h3>Cart</h3>
-      <button class="icon-btn" data-cart-close aria-label="Close cart">
-        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      </button>
-    </header>
+  <h3>Cart <span class="cart-count-badge" data-cart-count hidden>0</span></h3>
+  <button class="icon-btn" data-cart-close aria-label="Close cart">
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2"/>
+    </svg>
+  </button>
+</header>
+
+
+
+
 
     
 
@@ -329,11 +470,12 @@ h1 {
             '<div class="ci-main">'+
               '<div class="ci-row">'+
                 '<p class="ci-title">'+i.name+'</p>'+
-                '<button class="icon-btn" data-remove="'+i.id+'" aria-label="Remove">'+
-                  '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">'+
-                    '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2"/>'+
-                  '</svg>'+
-                '</button>'+
+                '<button class="btn-remove" data-remove="'+i.id+'" aria-label="Remove item">'+
+  '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">'+
+    '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'+
+  '</svg>'+
+'</button>'+
+
               '</div>'+
               '<div class="ci-row">'+
                 '<div class="qty" aria-label="Quantity">'+
@@ -349,6 +491,26 @@ h1 {
       }
     }
     if (subEl) subEl.textContent = fmt(Cart.totalCents());
+// Update counts/badges (header + nav)
+var count = Cart.count();
+
+var drawerBadge = document.querySelector('[data-cart-count]');
+if (drawerBadge) {
+  drawerBadge.textContent = String(count);
+  drawerBadge.toggleAttribute('hidden', count === 0);
+}
+
+var navBadge = document.querySelector('[data-cart-count-nav]');
+if (navBadge) {
+  navBadge.textContent = String(count);
+  navBadge.toggleAttribute('hidden', count === 0);
+}
+
+
+// Enable/disable checkout button
+var checkoutBtn = document.querySelector('[data-checkout]');
+if (checkoutBtn) checkoutBtn.disabled = count === 0;
+
   }
 
   // Initial paint
@@ -412,23 +574,45 @@ h1 {
 
   // ESC closes drawer
   window.addEventListener("keydown", function(e){ if (e.key === "Escape") closeDrawer(); });
-  // --- Checkout handler (temporary) ---
-  var checkoutBtn = document.querySelector("[data-checkout]");
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", function () {
-      var items = Cart.all();
-      if (!items.length) {
-        alert("Your cart is empty.");
-        return;
+// --- Checkout handler (Stripe) ---
+var checkoutBtn = document.querySelector("[data-checkout]");
+if (checkoutBtn) {
+  checkoutBtn.addEventListener("click", async function () {
+    var items = Cart.all();
+    if (!items.length) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    // Only send the minimal data the server needs
+    var skinny = items.map(function(i){ return { id: i.id, qty: i.qty }; });
+
+    try {
+      checkoutBtn.disabled = true;
+
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ items: skinny })
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data?.url) {
+        throw new Error(data?.error || 'Checkout failed');
       }
-      // TEMP: navigate to a local /checkout page with items in the URL.
-      // We'll replace this with real Stripe/PayPal later.
-      var payload = encodeURIComponent(JSON.stringify(items.map(function(i){
-        return { id: i.id, qty: i.qty };
-      })));
-      window.location.href = "/checkout?items=" + payload;
-    });
-  }
+
+      // Redirect the browser to Stripe Checkout
+      window.location.href = data.url;
+    } catch (err) {
+      console.error('[checkout] error:', err);
+      alert('Sorry, something went wrong starting checkout.');
+    } finally {
+      checkoutBtn.disabled = false;
+    }
+  });
+}
+
+
 
 })();
 </script>

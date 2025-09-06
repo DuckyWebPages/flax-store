@@ -1,42 +1,115 @@
 ---
-const url = new URL(Astro.request.url);
-let items = [];
-try {
-  items = JSON.parse(url.searchParams.get("items") || "[]");
-} catch {}
+import BaseLayout from "../layouts/BaseLayout.astro";
 const title = "Checkout — ";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{title}Flax Lignan Health</title>
-    <meta name="robots" content="noindex">
-    <style>
-      body{font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:24px;}
-      h1{margin:0 0 16px;}
-      table{border-collapse:collapse; width:100%; max-width:800px;}
-      th, td{border:1px solid #e5e7eb; padding:8px 10px; text-align:left;}
-      tfoot td{font-weight:700;}
-      .empty{padding:12px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px;}
-      .btn{display:inline-block; margin-top:16px; padding:10px 16px; border-radius:10px; background:#111827; color:#fff; text-decoration:none;}
-    </style>
-  </head>
-  <body>
-    <h1>Checkout</h1>
+<BaseLayout>
+  <Fragment slot="title">{title}</Fragment>
 
-    {items.length === 0 ? (
-      <div class="empty">Your cart is empty.</div>
-    ) : (
-      <table>
-        <thead><tr><th>Item</th><th>Qty</th></tr></thead>
-        <tbody>
-          {items.map(i => <tr><td>{i.id}</td><td>{i.qty}</td></tr>)}
-        </tbody>
-      </table>
-    )}
+  <h1>Checkout</h1>
 
-    <a href="/products" class="btn">Continue shopping</a>
-    <!-- TODO: Replace this page with real Stripe/PayPal checkout -->
-  </body>
-</html>
+  <!-- Mount point -->
+  <div id="checkout-summary" style="margin:1rem 0;"></div>
+
+  <a href="/products" class="btn-cta" style="text-decoration:none;">Continue shopping</a>
+
+  <script>
+    (function () {
+      function fmtUSD(cents){
+        if (!Number.isFinite(cents)) return "—";
+        return (cents/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
+      }
+
+      // 1) Try sessionStorage from the cart page
+      var items = [];
+      try {
+        var rawS = sessionStorage.getItem("checkout_items");
+        if (rawS) items = JSON.parse(rawS) || [];
+      } catch(e){}
+
+      // 2) Fallback to URL param (?items=[{id,qty}])
+      if (!items.length) {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var q = params.get("items");
+          if (q) {
+            var compact = JSON.parse(decodeURIComponent(q));
+            // Map to richer shape (name + unitCents unknown here)
+            items = (compact || []).map(function(c){
+              return { id: c.id, name: c.id, qty: c.qty, unitCents: undefined };
+            });
+          }
+        } catch(e){}
+      }
+
+      // 3) Last resort: localStorage cart (same domain)
+      if (!items.length) {
+        try {
+          var rawL = localStorage.getItem("flax_cart_v1");
+          if (rawL) items = JSON.parse(rawL) || [];
+        } catch(e){}
+      }
+
+      // Render
+      var mount = document.getElementById("checkout-summary");
+      if (!mount) return;
+
+      if (!items.length) {
+        mount.innerHTML = '<div style="padding:12px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;">Your cart is empty.</div>';
+        return;
+      }
+
+      // Compute totals if we have prices
+      var havePrices = items.some(function(i){ return Number.isFinite(i.unitCents); });
+      var subtotal = items.reduce(function(n,i){
+        if (!Number.isFinite(i.unitCents)) return n;
+        return n + (i.unitCents * (i.qty||0));
+      }, 0);
+
+      // Build rows
+      var rows = items.map(function(i){
+        var name = (i.name || i.id || "").toString();
+        var qty  = Number(i.qty || 0);
+        var unit = havePrices ? fmtUSD(i.unitCents) : "—";
+        var line = havePrices ? fmtUSD((i.unitCents||0) * qty) : "—";
+        return (
+          '<tr>' +
+            '<td>'+ name +'</td>' +
+            '<td style="text-align:center;">'+ qty +'</td>' +
+            (havePrices ? '<td style="text-align:right;">'+ unit +'</td><td style="text-align:right;">'+ line +'</td>' : '') +
+          '</tr>'
+        );
+      }).join("");
+
+      // Table header
+      var thead = havePrices
+        ? '<thead><tr><th>Item</th><th style="width:80px;text-align:center;">Qty</th><th style="width:140px;text-align:right;">Unit</th><th style="width:160px;text-align:right;">Total</th></tr></thead>'
+        : '<thead><tr><th>Item</th><th style="width:80px;text-align:center;">Qty</th></tr></thead>';
+
+      // Footer
+      var tfoot = havePrices
+        ? '<tfoot><tr><td colspan="3" style="text-align:right;font-weight:700;">Subtotal</td><td style="text-align:right;font-weight:700;">'+ fmtUSD(subtotal) +'</td></tr></tfoot>'
+        : '';
+
+      // Styles local to this block
+      var tableStyle = 'border-collapse:collapse;width:100%;max-width:900px;';
+      var cellStyle  = 'border:1px solid #e5e7eb;padding:8px 10px;text-align:left;';
+      var style = [
+        '<style>',
+        '#checkout-summary table{'+tableStyle+'}',
+        '#checkout-summary th,#checkout-summary td{'+cellStyle+'}',
+        '#checkout-summary tfoot td{font-weight:700;}',
+        '</style>'
+      ].join('');
+
+      mount.innerHTML =
+        style +
+        '<table>' +
+          thead +
+          '<tbody>'+ rows +'</tbody>' +
+          tfoot +
+        '</table>' +
+        '<p style="color:#6b7280;margin-top:8px;">Taxes & shipping calculated at payment.</p>';
+    })();
+  </script>
+</BaseLayout>
