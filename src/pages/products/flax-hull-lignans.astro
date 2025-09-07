@@ -21,6 +21,10 @@ const pageTitle = 'Flax Hull Lignans — '
           />
           <h3>FHL Flax Hull Lignan (Single Jar)</h3>
           <p class="prodpg__price">$39.00</p>
+          <p class="prodpg__desc">
+            Our flagship lignan powder, MCP cold-processed for maximum SDG content. We try to get non-gmo flax for this product but can't always guarantee it. Mix into
+            smoothies, yogurt, or water. Naturally supports immune balance and overall vitality.
+          </p>
           <button
             class="btn-cta add-to-cart"
             data-sku="fhl-single"
@@ -31,25 +35,6 @@ const pageTitle = 'Flax Hull Lignans — '
           >Add to Cart</button>
         </article>
 
-        <!-- Regular Bundle (3 Jars) -->
-        <article class="prodpg__card">
-          <img
-            src="/images/flax-hull-bundle.jpg"
-            alt="Flax Hull Lignan bundle"
-            loading="lazy"
-          />
-          <h3>FHL Flax Hull Lignan Bundle (3 Jars)</h3>
-          <p class="prodpg__price">$112.50 <span class="prodpg__save">Save!</span></p>
-          <button
-            class="btn-cta add-to-cart"
-            data-sku="fhl-bundle"
-            data-name="Flax Hull Lignan Bundle (3 Jars)"
-            data-price="13495"
-            data-image="/images/flax-hull-bundle-small.jpg"
-            data-qty="1"
-          >Add Bundle</button>
-        </article>
-
         <!-- Ancient Seeds & Grains (Single Jar) -->
         <article class="prodpg__card">
           <img
@@ -57,73 +42,83 @@ const pageTitle = 'Flax Hull Lignans — '
             alt="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
             loading="lazy"
           />
-          <h3>FLH Ancient Seeds &amp; Grains Flax Hull Lignans (Single Jar)</h3>
+        <h3>FLH Ancient Seeds &amp; Grains (Single Jar)</h3>
           <p class="prodpg__price">$45.00</p>
+          <p class="prodpg__desc">
+            Flax hull lignans certified Ancient Seeds and Grains. This certification has a higher standard than "organic" and it allows zero % GMO's. Smooth taste, easy to use daily for consistent wellness support. Costs more because of the processing facility and requirements to process.
+          </p>
           <button
             class="btn-cta add-to-cart"
             data-sku="ancient-single"
             data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
             data-price="4500"
-            data-image="/images/products/ancient-single-small.png"
+            data-image="/images/ancient-single-small.png"
             data-qty="1"
           >Add to Cart</button>
-        </article>
-
-        <!-- Ancient Seeds & Grains (3 Jar Bundle) -->
-        <article class="prodpg__card">
-          <img
-            src="/images/products/ancient3jarsmall.jpg"
-            alt="FLH Ancient Seeds & Grains Flax Hull Lignans (3 Jar Bundle)"
-            loading="lazy"
-          />
-          <h3>FLH Ancient Seeds &amp; Grains Flax Hull Lignans (3 Jar Bundle)</h3>
-          <p class="prodpg__price">$132.00</p>
-          <button
-            class="btn-cta add-to-cart"
-            data-sku="ancient-bundle"
-            data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (3 Jar Bundle)"
-            data-price="13200"
-            data-image="/images/products/ancient3jarsmall.jpg"
-            data-qty="1"
-          >Add Bundle</button>
         </article>
       </div>
     </div>
   </section>
 
   <style>
-    /* match the compact layout from Products page */
-    .prodpg { padding: 0 0 48px; }
-    .prodpg__container { max-width:1100px; margin:0 auto; padding:0 16px; }
+   .prodpg { padding: 0 0 48px; }
 
-    .prodpg__grid{
-      display:grid; gap:12px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin: 10px 0 24px;
-    }
-    @media (min-width: 700px){
-      .prodpg__grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
-    @media (min-width: 1100px){
-      .prodpg__grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    }
+.prodpg__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 
-    .prodpg__card{
-      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px;
-      box-shadow:0 8px 18px rgba(0,0,0,.06);
-      display:grid; gap:.55rem; justify-items:start;
-      width:100%;
-    }
+/* High-specificity + !important so globals can't stomp it */
+section.prodpg .prodpg__grid{
+  display: grid !important;
+  grid-template-columns: 1fr;                 /* 1-up on mobile */
+  row-gap: 16px !important;
+  column-gap: 32px !important;                /* desired gutter */
+  margin: 10px 0 24px;
+}
 
-    .prodpg__card img{
-      width:100%;
-      height:170px;           /* keeps cards uniform & small */
-      object-fit:cover;
-      border-radius:10px;
-      display:block;
-    }
+@media (min-width: 800px){
+  section.prodpg .prodpg__grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 
-    .prodpg__price{ font-weight:700; }
-    .prodpg__save{ color:#16a34a; font-weight:700; margin-left:.35rem; font-size:.95rem; }
+  /* Fallback gutter if something still kills column-gap */
+  section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
+  section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
+}
+
+section.prodpg .prodpg__card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 8px 18px rgba(0,0,0,.06);
+  display:grid;
+  gap:.65rem;
+  justify-items:start;
+  width: 100%;
+  max-width: none;
+}
+
+section.prodpg .prodpg__card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:10px;
+  display:block;
+}
+
+section.prodpg .prodpg__price{
+  font-weight:700;
+  font-size:1.05rem;
+}
+section.prodpg .prodpg__desc{
+  line-height:1.5;
+  color:#374151;
+  font-size:.98rem;
+  margin:.25rem 0 .5rem;
+}
+
   </style>
 </BaseLayout>
