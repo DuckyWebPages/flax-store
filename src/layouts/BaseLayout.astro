@@ -676,6 +676,26 @@ aside.cart-drawer .qty-input{
 }
 </style>
 
+<style is:global>
+/* Cart item thumbnails (small, rounded) */
+aside.cart-drawer .cart-item{
+  display:grid;
+  grid-template-columns: 68px 1fr;
+  gap:12px;
+  align-items:center;
+}
+aside.cart-drawer .ci-thumb{
+  width:64px; height:64px;
+  border-radius:10px;
+  object-fit:cover;
+  background:#f6f6f6;
+  display:block;
+}
+@media (max-width:480px){
+  aside.cart-drawer .cart-item{ grid-template-columns:56px 1fr; }
+  aside.cart-drawer .ci-thumb{ width:56px; height:56px; }
+}
+</style>
 
   </head>
 
@@ -845,30 +865,31 @@ aside.cart-drawer .qty-input{
       if (!items.length) {
         listEl.innerHTML = '<li class="cart-item" style="border:0;padding:18px;">Your cart is empty.</li>';
       } else {
-        listEl.innerHTML = items.map(function(i){
-          return ''+
-          '<li class="cart-item" data-id="'+i.id+'">'+
-            '<div class="ci-main">'+
-              '<div class="ci-row">'+
-                '<p class="ci-title">'+i.name+'</p>'+
-                '<button class="btn-remove" data-remove="'+i.id+'" aria-label="Remove item">'+
-  '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">'+
-    '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'+
-  '</svg>'+
-'</button>'+
+    listEl.innerHTML = items.map(function(i){
+  return ''+
+  '<li class="cart-item" data-id="'+i.id+'">'+
+    (i.image ? '<img class="ci-thumb" src="'+i.image+'" alt="" loading="lazy" decoding="async">' : '')+
+    '<div class="ci-main">'+
+      '<div class="ci-row">'+
+        '<p class="ci-title">'+i.name+'</p>'+
+        '<button class="btn-remove" data-remove="'+i.id+'" aria-label="Remove item">'+
+          '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">'+
+            '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'+
+          '</svg>'+
+        '</button>'+
+      '</div>'+
+      '<div class="ci-row">'+
+        '<div class="qty" aria-label="Quantity">'+
+          '<button class="qty-btn" data-dec="'+i.id+'" aria-label="Decrease">–</button>'+
+          '<input class="qty-input" value="'+i.qty+'" inputmode="numeric" data-qty="'+i.id+'">'+
+          '<button class="qty-btn" data-inc="'+i.id+'" aria-label="Increase">+</button>'+
+        '</div>'+
+        '<div class="ci-price">'+fmt(i.unitCents * i.qty)+'</div>'+
+      '</div>'+
+    '</div>'+
+  '</li>';
+}).join("");
 
-              '</div>'+
-              '<div class="ci-row">'+
-                '<div class="qty" aria-label="Quantity">'+
-                  '<button class="qty-btn" data-dec="'+i.id+'" aria-label="Decrease">–</button>'+
-                  '<input class="qty-input" value="'+i.qty+'" inputmode="numeric" data-qty="'+i.id+'">'+
-                  '<button class="qty-btn" data-inc="'+i.id+'" aria-label="Increase">+</button>'+
-                '</div>'+
-                '<div class="ci-price">'+fmt(i.unitCents * i.qty)+'</div>'+
-              '</div>'+
-            '</div>'+
-          '</li>';
-        }).join("");
       }
     }
     if (subEl) subEl.textContent = fmt(Cart.totalCents());
