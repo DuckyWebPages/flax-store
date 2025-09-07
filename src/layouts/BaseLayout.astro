@@ -477,8 +477,192 @@ aside.cart-drawer .coupon .btn{
   padding: 10px 14px !important;
 }
 
+/* === Compact pill-shaped quantity controls === */
+aside.cart-drawer .qty{
+  border-radius: 9999px !important;
+  padding: 3px 6px !important;
+  gap: 4px !important;
+  background: #fbfbfb !important;
+  border: 1px solid #e5e7eb !important;
+}
+aside.cart-drawer .qty-btn{
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 9999px !important;
+}
+aside.cart-drawer .qty-input{
+  width: 36px !important;
+  font-size: .9rem !important;
+  background: transparent !important;
+  border: 0 !important;
+  outline: none !important;
+}
+
+/* Make the line-item remove button a neat round icon */
+aside.cart-drawer .cart-items .btn-remove{
+  width: 28px !important;
+  height: 28px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 9999px !important;
+}
+aside.cart-drawer .cart-items .btn-remove svg{
+  width: 16px !important; height: 16px !important;
+}
+
+/* === Match the Upsell button to the Checkout style (but smaller) === */
+aside.cart-drawer .upsell-card .btn-cta{
+  min-width: auto !important;
+  padding: 10px 14px !important;
+  border-radius: 12px !important;
+  background: linear-gradient(180deg, #0b7a53, #096746) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 16px rgba(11,122,83,.22) !important;
+}
+aside.cart-drawer .upsell-card .btn-cta:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(11,122,83,.28) !important;
+}
+/* Keep the green gradient ALWAYS (even when disabled) */
+aside.cart-drawer .btn-cta.btn-checkout,
+aside.cart-drawer [data-checkout]{
+  background: linear-gradient(180deg, #0b7a53, #096746) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  padding: 14px 18px !important;
+  font-weight: 700 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 8px 18px rgba(11,122,83,.28) !important;
+}
+
+aside.cart-drawer .btn-cta.btn-checkout:hover,
+aside.cart-drawer [data-checkout]:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 12px 24px rgba(11,122,83,.32) !important;
+}
+
+/* Softer disabled look: keep gradient, just fade it */
+aside.cart-drawer .btn-cta.btn-checkout:disabled,
+aside.cart-drawer [data-checkout]:disabled{
+  opacity: .7 !important;
+  filter: saturate(.9) brightness(.98);
+  cursor: not-allowed !important;
+}
+
+/* Style the coupon Apply button too */
+aside.cart-drawer .coupon .btn{
+  border-radius: 12px !important;
+  padding: 10px 14px !important;
+  border: 0 !important;
+  background: linear-gradient(180deg, #e5f4ee, #d7efe7) !important;
+  color: #0b7a53 !important;
+  font-weight: 700 !important;
+}
+aside.cart-drawer .coupon .btn:hover{
+  filter: brightness(.98);
+}
 
     </style>
+    <style is:global>
+/* ===== Global cart styles (apply to dynamically injected nodes) ===== */
+
+/* 1) Professional “X” buttons (remove & close) */
+aside.cart-drawer .cart-items .btn-remove,
+aside.cart-drawer header.cart-header > button.icon-btn[data-cart-close]{
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid #d1d5db;
+  background: linear-gradient(#ffffff, #f4f4f4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    inset 0 -1px 0 rgba(0,0,0,.03),
+    0 2px 4px rgba(0,0,0,.12);
+  transition: transform .06s ease, box-shadow .15s ease, background .15s ease;
+  color: #111; /* drives the SVG via currentColor */
+}
+aside.cart-drawer .cart-items .btn-remove:hover,
+aside.cart-drawer header.cart-header > button.icon-btn[data-cart-close]:hover{
+  background: linear-gradient(#fff, #eeeeee);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    inset 0 -1px 0 rgba(0,0,0,.04),
+    0 3px 6px rgba(0,0,0,.16);
+}
+aside.cart-drawer .cart-items .btn-remove:active,
+aside.cart-drawer header.cart-header > button.icon-btn[data-cart-close]:active{
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 1px 2px rgba(0,0,0,.08),
+    0 1px 2px rgba(0,0,0,.12);
+}
+aside.cart-drawer .cart-items .btn-remove svg,
+aside.cart-drawer header.cart-header > button.icon-btn[data-cart-close] svg{
+  width: 16px; height: 16px; display: block;
+  stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round;
+}
+
+/* 2) Quantity control: compact, pill-shaped, not a long skinny box */
+aside.cart-drawer .qty{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  background: #fbfbfb;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+aside.cart-drawer .qty-btn{
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  background: linear-gradient(#ffffff, #f4f4f4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.7),
+    inset 0 -1px 0 rgba(0,0,0,.03),
+    0 2px 4px rgba(0,0,0,.12);
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform .05s ease, background .12s ease, box-shadow .12s ease;
+}
+aside.cart-drawer .qty-btn:hover{ background: linear-gradient(#fff, #eeeeee); }
+aside.cart-drawer .qty-btn:active{ transform: translateY(1px); }
+
+aside.cart-drawer .qty-input{
+  width: 38px;           /* keeps it compact */
+  text-align: center;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: .95rem;
+  padding: 0;
+}
+
+/* 3) (Optional) Make line items look like cards */
+aside.cart-drawer .cart-items{
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+aside.cart-drawer .cart-item{
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,.05);
+  transition: box-shadow .15s ease, transform .06s ease;
+}
+aside.cart-drawer .cart-item:hover{ box-shadow: 0 10px 24px rgba(0,0,0,.07); }
+</style>
+
   </head>
 
   <body>
