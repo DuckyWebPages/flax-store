@@ -153,10 +153,6 @@ h1 {
       .qty-input { width: 42px; text-align: center; border: none; outline: none; font-size: .95rem; }
       .ci-price { font-weight: 600; }
 
-      .upsell { padding: 10px 18px 0; }
-      .upsell-card { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; padding: 10px; border: 1px solid #eee; border-radius: 14px; }
-      .upsell-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; }
-
       .cart-footer { padding: 12px 18px 18px; border-top: 1px solid #eee; position: sticky; bottom: 0; background: #fff; }
       .tot-row { display: flex; align-items: center; justify-content: space-between; margin: 8px 0; }
       .tot-row.small { font-size: .9rem; color: #555; }
@@ -510,20 +506,8 @@ aside.cart-drawer .cart-items .btn-remove svg{
   width: 16px !important; height: 16px !important;
 }
 
-/* === Match the Upsell button to the Checkout style (but smaller) === */
-aside.cart-drawer .upsell-card .btn-cta{
-  min-width: auto !important;
-  padding: 10px 14px !important;
-  border-radius: 12px !important;
-  background: linear-gradient(180deg, #0b7a53, #096746) !important;
-  color: #fff !important;
-  box-shadow: 0 6px 16px rgba(11,122,83,.22) !important;
-}
-aside.cart-drawer .upsell-card .btn-cta:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(11,122,83,.28) !important;
-}
-/* Keep the green gradient ALWAYS (even when disabled) */
+
+}* Keep the green gradient ALWAYS (even when disabled) */
 aside.cart-drawer .btn-cta.btn-checkout,
 aside.cart-drawer [data-checkout]{
   background: linear-gradient(180deg, #0b7a53, #096746) !important;
@@ -757,21 +741,7 @@ aside.cart-drawer .ci-thumb{
     <!-- Line items -->
     <ul class="cart-items" data-cart-items></ul>
 
-    <!-- Upsell (corrected bundle price) -->
-    <div class="upsell">
-      <div class="upsell-card">
-        <img src="/images/flax-hull-bundle-small.jpg" alt="Flax Hull Lignan Bundle" />
-        <div>
-          <p class="u-title">Buy the Bundle to Save</p>
-          <button class="btn-cta add-to-cart"
-            data-sku="fhl-bundle"
-            data-name="Flax Hull Lignan Bundle (3 Jars)"
-            data-price="11250"
-            data-image="/images/flax-hull-bundle-small.jpg"
-            data-qty="1">Add Bundle</button>
-        </div>
-      </div>
-    </div>
+  
 
     <!-- Footer totals -->
     <footer class="cart-footer">
