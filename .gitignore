@@ -11,18 +11,17 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# environment variables
+# environment variables (never commit real keys)
 .env
-.env.production
+.env.*
+!.env.example
 
 # macOS
 .DS_Store
 
 # IDE
 .idea/
+.vscode/
 
 # Vercel local config
-.vercel
-
-.vercel
-.env*.local
+.vercel/

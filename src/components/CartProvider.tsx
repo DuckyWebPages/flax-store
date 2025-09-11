@@ -1,13 +1,17 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { Cart, type CartItem } from "../lib/cart";
+import React, { createContext, useContext, useMemo, useState, useCallback } from "react";
 
-type Stored = ReturnType<typeof Cart.all>[number];
+export type CartItem = {
+  id: string;           // your internal id (e.g., "flax-single")
+  name: string;         // display name
+  unitCents: number;    // price in cents (e.g., 2999)
+  qty: number;          // quantity
+  priceId: string;      // Stripe price_XXXX (REQUIRED for checkout)
+};
 
-type Ctx = {
-  items: Stored[];
-  count: number;
+type CartContextType = {
+  items: CartItem[];
   totalCents: number;
-  add: (item: CartItem, qty?: number) => void;
+  addItem: (item: CartItem) => void;
   setQty: (id: string, qty: number) => void;
   remove: (id: string) => void;
   clear: () => void;
@@ -15,120 +19,59 @@ type Ctx = {
   setOpen: (v: boolean) => void;
 };
 
-const CartCtx = createContext<Ctx | null>(null);
+const CartContext = createContext<CartContextType | null>(null);
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<Stored[]>([]);
-  const [open, setOpen] = useState(false);
-
-  const sync = () => setItems(Cart.all());
-
-  useEffect(() => {
-    sync();
-    const h = () => sync();
-    window.addEventListener("cart:updated", h as EventListener);
-    return () => window.removeEventListener("cart:updated", h as EventListener);
-  }, []);
-
-  // 🔗 BRIDGE: accept DOM events & expose window.cart helper
-  useEffect(() => {
-    type Incoming =
-      | (Partial<CartItem> & {
-          /** Common alternates that buttons may send */
-          sku?: string;
-          priceId?: string;
-          quantity?: number;
-          qty?: number;
-        })
-      | { item: CartItem; quantity?: number; qty?: number };
-
-    const onAdd = (evt: Event) => {
-      const e = evt as CustomEvent<Incoming>;
-      const d = e.detail || ({} as Incoming);
-
-      // Normalize qty
-      const qty = Number.isFinite((d as any).quantity)
-        ? Number((d as any).quantity)
-        : Number.isFinite((d as any).qty)
-        ? Number((d as any).qty)
-        : 1;
-
-      // Prefer a full item if provided
-      let item: CartItem | null = (d as any).item ?? null;
-
-      if (!item) {
-        // Derive an id: prefer id → sku → priceId → name
-        const id =
-          (d as any).id ??
-          (d as any).sku ??
-          (d as any).priceId ??
-          (d as any).name;
-
-        if (!id) return; // nothing to add
-
-        item = {
-          // @ts-expect-error - we allow partials; Cart.add will validate
-          id,
-          name: (d as any).name ?? String(id),
-          unitCents:
-            typeof (d as any).unitCents === "number" ? (d as any).unitCents : 0,
-          image: (d as any).image,
-        } as CartItem;
-      }
-
-      // Use your existing cart core + open the drawer
-      Cart.add(item, qty);
-      setOpen(true);
-    };
-
-    const onOpen = () => setOpen(true);
-    const onClear = () => Cart.clear();
-
-    window.addEventListener("cart:add", onAdd as EventListener);
-    document.addEventListener("cart:add", onAdd as EventListener);
-    window.addEventListener("cart:open", onOpen as EventListener);
-    window.addEventListener("cart:clear", onClear as EventListener);
-
-    // Global helper for legacy buttons/scripts
-    (window as any).cart = {
-      add: (item: CartItem, qty: number = 1) => {
-        Cart.add(item, qty);
-        setOpen(true);
-      },
-      open: () => setOpen(true),
-      close: () => setOpen(false),
-      clear: () => Cart.clear(),
-      setQty: (id: string, qty: number) => Cart.setQty(id, qty),
-      remove: (id: string) => Cart.remove(id),
-    };
-
-    return () => {
-      window.removeEventListener("cart:add", onAdd as EventListener);
-      document.removeEventListener("cart:add", onAdd as EventListener);
-      window.removeEventListener("cart:open", onOpen as EventListener);
-      window.removeEventListener("cart:clear", onClear as EventListener);
-      // Optionally: delete (window as any).cart;
-    };
-  }, []);
-
-  const value: Ctx = {
-    items,
-    count: items.reduce((n, i) => n + i.qty, 0),
-    totalCents: items.reduce((n, i) => n + i.qty * i.unitCents, 0),
-    add: (item, qty) => Cart.add(item, qty),
-    setQty: (id, qty) => Cart.setQty(id, qty),
-    remove: (id) => Cart.remove(id),
-    clear: () => Cart.clear(),
-    open,
-    setOpen,
-  };
-
-  return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
-}
-
-// 👇 Make sure THIS export exists (the build error says it was missing)
-export const useCart = () => {
-  const ctx = useContext(CartCtx);
+export function useCart(): CartContextType {
+  const ctx = useContext(CartContext);
   if (!ctx) throw new Error("useCart must be used inside <CartProvider>");
   return ctx;
-};
+}
+
+export default function CartProvider({ children }: { children: React.ReactNode }) {
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [open, setOpen] = useState(false);
+
+  const addItem = useCallback((item: CartItem) => {
+    if (!item.priceId) {
+      console.error("addItem missing priceId for", item);
+      return;
+    }
+    setItems(prev => {
+      const existing = prev.find(i => i.id === item.id);
+      if (existing) {
+        return prev.map(i =>
+          i.id === item.id
+            ? { ...i, qty: i.qty + item.qty, unitCents: item.unitCents } // keep latest price
+            : i
+        );
+      }
+      return [...prev, item];
+    });
+    setOpen(true);
+  }, []);
+
+  const setQty = useCallback((id: string, qty: number) => {
+    setItems(prev => {
+      if (qty <= 0) return prev.filter(i => i.id !== id);
+      return prev.map(i => (i.id === id ? { ...i, qty } : i));
+    });
+  }, []);
+
+  const remove = useCallback((id: string) => {
+    setItems(prev => prev.filter(i => i.id !== id));
+  }, []);
+
+  const clear = useCallback(() => setItems([]), []);
+
+  const totalCents = useMemo(
+    () => items.reduce((sum, i) => sum + i.unitCents * i.qty, 0),
+    [items]
+  );
+
+  const value = useMemo(
+    () => ({ items, totalCents, addItem, setQty, remove, clear, open, setOpen }),
+    [items, totalCents, addItem, setQty, remove, clear, open]
+  );
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+}
