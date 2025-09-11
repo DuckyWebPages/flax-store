@@ -1,23 +1,22 @@
 // FILE: src/pages/api/price-check.ts
 export const prerender = false;
-export const config = { runtime: "nodejs" };
 
 import type { APIRoute } from "astro";
 import Stripe from "stripe";
 
-const key = String(import.meta.env.STRIPE_SECRET_KEY || "").trim();
-const stripe = new Stripe(key, { apiVersion: "2024-06-20" });
-
 // Helper: safe trim
 const clean = (s: unknown) => String(s ?? "").trim();
 
-const PRICE_FLAX  = clean(import.meta.env.STRIPE_PRICE_ID_FLAXSINGLETEST);
-const PRICE_ANCT  = clean(import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST);
+const PRICE_FLAX = clean(import.meta.env.STRIPE_PRICE_ID_FLAXSINGLETEST);
+const PRICE_ANCT = clean(import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST);
 
 export const GET: APIRoute = async ({ request }) => {
+  const key = String(import.meta.env.STRIPE_SECRET_KEY || "").trim();
   if (!key) {
-    return new Response(JSON.stringify({ error: 'STRIPE_SECRET_KEY missing' }), { status: 500 });
+    return new Response(JSON.stringify({ error: "STRIPE_SECRET_KEY missing" }), { status: 500 });
   }
+
+  const stripe = new Stripe(key, { apiVersion: "2024-06-20" });
 
   try {
     const url = new URL(request.url);
@@ -26,7 +25,7 @@ export const GET: APIRoute = async ({ request }) => {
     // Which IDs are we about to check?
     const toCheck = given ? [given] : [PRICE_FLAX, PRICE_ANCT];
 
-    const results = [];
+    const results: Array<Record<string, unknown>> = [];
     for (const id of toCheck) {
       if (!id) {
         results.push({ id, ok: false, error: "EMPTY_ID" });
