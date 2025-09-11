@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'Flax Hull Lignans — '
 
-// Pull Stripe TEST price ids from env (these are NOT secrets)
+// Pull Stripe TEST price ids from env (not secrets)
 const PRICE_FLAX = import.meta.env.STRIPE_PRICE_ID_FLAXSINGLETEST || '';
 const PRICE_ANCT = import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST || '';
 ---
@@ -29,21 +29,15 @@ const PRICE_ANCT = import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST || '';
             Our flagship lignan powder, MCP cold-processed for maximum SDG content. We try to get non-gmo flax for this product but can't always guarantee it. Mix into
             smoothies, yogurt, or water. Naturally supports immune balance and overall vitality.
           </p>
-          <div style="display:flex; gap:.5rem; flex-wrap:wrap">
-            <button
-              class="btn-cta add-to-cart"
-              data-sku="fhl-single"
-              data-name="Flax Hull Lignan (Single Jar)"
-              data-price="3900"
-              data-image="/images/products/flax-hull-single.jpg"
-              data-qty="1"
-              data-priceid={PRICE_FLAX}   <!-- helps your CartProvider know the Stripe price -->
-            >Add to Cart</button>
-
-            <button id="buy-flax" class="btn-cta" style="background:#111;color:#fff;">
-              Buy Now
-            </button>
-          </div>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="fhl-single"
+            data-name="Flax Hull Lignan (Single Jar)"
+            data-price="3900"
+            data-image="/images/products/flax-hull-single.jpg"
+            data-qty="1"
+            data-priceid={PRICE_FLAX}
+          >Add to Cart</button>
         </article>
 
         <!-- Ancient Seeds & Grains (Single Jar) -->
@@ -58,123 +52,78 @@ const PRICE_ANCT = import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST || '';
           <p class="prodpg__desc">
             Flax hull lignans certified Ancient Seeds and Grains. This certification has a higher standard than "organic" and it allows zero % GMO's. Smooth taste, easy to use daily for consistent wellness support. Costs more because of the processing facility and requirements to process.
           </p>
-          <div style="display:flex; gap:.5rem; flex-wrap:wrap">
-            <button
-              class="btn-cta add-to-cart"
-              data-sku="ancient-single"
-              data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
-              data-price="4500"
-              data-image="/images/ancient-single-small.png"
-              data-qty="1"
-              data-priceid={PRICE_ANCT}
-            >Add to Cart</button>
-
-            <button id="buy-ancient" class="btn-cta" style="background:#111;color:#fff;">
-              Buy Now
-            </button>
-          </div>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="ancient-single"
+            data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
+            data-price="4500"
+            data-image="/images/ancient-single-small.png"
+            data-qty="1"
+            data-priceid={PRICE_ANCT}
+          >Add to Cart</button>
         </article>
       </div>
     </div>
   </section>
 
-  <script type="module">
-    // Use the server-injected price IDs from env
-    const PRICE_FLAX = {PRICE_FLAX ? JSON.stringify(PRICE_FLAX) : "''"};
-    const PRICE_ANCT = {PRICE_ANCT ? JSON.stringify(PRICE_ANCT) : "''"};
-
-    // Helper to start Stripe Checkout via our API
-    async function buyNow(priceId) {
-      try {
-        if (!priceId || !priceId.startsWith('price_')) {
-          alert('Price ID is missing. Visit /api/price-check on this site and set your env vars correctly.');
-          return;
-        }
-
-        const res = await fetch('/api/create-checkout-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: [{ price: priceId, quantity: 1 }] }),
-        });
-
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data?.url) {
-          window.location.href = data.url; // redirect to Stripe Checkout
-        } else {
-          alert(data?.error || `Checkout failed (HTTP ${res.status}).`);
-        }
-      } catch (e) {
-        console.error('[buy-now] error', e);
-        alert('Checkout failed: ' + (e?.message || e));
-      }
-    }
-
-    // Wire up "Buy Now" buttons
-    const btnFlax = document.getElementById('buy-flax');
-    btnFlax?.addEventListener('click', () => buyNow(PRICE_FLAX));
-
-    const btnAnc = document.getElementById('buy-ancient');
-    btnAnc?.addEventListener('click', () => buyNow(PRICE_ANCT));
-  </script>
-
   <style>
-    .prodpg { padding: 0 0 48px; }
+   .prodpg { padding: 0 0 48px; }
 
-    .prodpg__container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
+   .prodpg__container {
+     max-width: 1100px;
+     margin: 0 auto;
+     padding: 0 16px;
+   }
 
-    /* High-specificity + !important so globals can't stomp it */
-    section.prodpg .prodpg__grid{
-      display: grid !important;
-      grid-template-columns: 1fr;                 /* 1-up on mobile */
-      row-gap: 16px !important;
-      column-gap: 32px !important;                /* desired gutter */
-      margin: 10px 0 24px;
-    }
+   /* High-specificity + !important so globals can't stomp it */
+   section.prodpg .prodpg__grid{
+     display: grid !important;
+     grid-template-columns: 1fr;                 /* 1-up on mobile */
+     row-gap: 16px !important;
+     column-gap: 32px !important;                /* desired gutter */
+     margin: 10px 0 24px;
+   }
 
-    @media (min-width: 800px){
-      section.prodpg .prodpg__grid{
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      }
+   @media (min-width: 800px){
+     section.prodpg .prodpg__grid{
+       grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+     }
 
-      /* Fallback gutter if something still kills column-gap */
-      section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
-      section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
-    }
+     /* Fallback gutter if something still kills column-gap */
+     section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
+     section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
+   }
 
-    section.prodpg .prodpg__card{
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:14px;
-      padding:16px;
-      box-shadow:0 8px 18px rgba(0,0,0,.06);
-      display:grid;
-      gap:.65rem;
-      justify-items:start;
-      width: 100%;
-      max-width: none;
-    }
+   section.prodpg .prodpg__card{
+     background:#fff;
+     border:1px solid #e5e7eb;
+     border-radius:14px;
+     padding:16px;
+     box-shadow:0 8px 18px rgba(0,0,0,.06);
+     display:grid;
+     gap:.65rem;
+     justify-items:start;
+     width: 100%;
+     max-width: none;
+   }
 
-    section.prodpg .prodpg__card img{
-      width:100%;
-      height:220px;
-      object-fit:cover;
-      border-radius:10px;
-      display:block;
-    }
+   section.prodpg .prodpg__card img{
+     width:100%;
+     height:220px;
+     object-fit:cover;
+     border-radius:10px;
+     display:block;
+   }
 
-    section.prodpg .prodpg__price{
-      font-weight:700;
-      font-size:1.05rem;
-    }
-    section.prodpg .prodpg__desc{
-      line-height:1.5;
-      color:#374151;
-      font-size:.98rem;
-      margin:.25rem 0 .5rem;
-    }
+   section.prodpg .prodpg__price{
+     font-weight:700;
+     font-size:1.05rem;
+   }
+   section.prodpg .prodpg__desc{
+     line-height:1.5;
+     color:#374151;
+     font-size:.98rem;
+     margin:.25rem 0 .5rem;
+   }
   </style>
 </BaseLayout>
