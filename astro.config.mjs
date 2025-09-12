@@ -1,16 +1,19 @@
+// astro.config.mjs
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel'; // <-- changed: no "/serverless"
 import react from '@astrojs/react';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
-  adapter: vercel(),
-  integrations: [react()],              // ✅ re-enable React/TSX
+  output: 'server',
+  adapter: vercel(), // let Vercel set the correct runtime (Node 22 via settings)
+  integrations: [react()],
   vite: {
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)), // ✅ alias stays
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
   },
 });
+
