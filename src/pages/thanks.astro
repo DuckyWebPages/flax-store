@@ -1,0 +1,96 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+const pageTitle = 'Order Complete — ';
+---
+
+<BaseLayout>
+  <Fragment slot="title">{pageTitle}</Fragment>
+
+  <section class="thanks">
+    <div class="wrap">
+      <h1>Thank you for your order! 🎉</h1>
+      <p id="status">Loading your order…</p>
+
+      <div id="summary" class="card" hidden>
+        <h2>Order Summary</h2>
+        <ul id="items"></ul>
+        <p class="total"><strong>Total:</strong> <span id="total"></span></p>
+        <div id="shipping" class="subtle"></div>
+      </div>
+
+      <p><a href="/">Back to store</a></p>
+    </div>
+  </section>
+
+  <script type="module">
+    const params = new URLSearchParams(location.search);
+    const session_id = params.get('session_id');
+
+    const statusEl = document.getElementById('status');
+    const summaryEl = document.getElementById('summary');
+    const itemsEl = document.getElementById('items');
+    const totalEl = document.getElementById('total');
+    const shippingEl = document.getElementById('shipping');
+
+    async function load() {
+      if (!session_id) {
+        statusEl.textContent = 'Missing session id.';
+        return;
+      }
+      try {
+        const res = await fetch(`/api/checkout-session?session_id=${encodeURIComponent(session_id)}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          statusEl.textContent = data?.error || `Error (HTTP ${res.status})`;
+          return;
+        }
+
+        statusEl.textContent =
+          (data.payment_status === 'paid' || data.status === 'complete') ? 'Payment received.' :
+          `Status: ${data.payment_status || data.status}`;
+
+        itemsEl.innerHTML = '';
+        for (const li of (data.line_items || [])) {
+          const name = li?.price?.product?.name || 'Item';
+          const qty = li.quantity || 1;
+          const amount = li.amount_total ?? ((li?.price?.unit_amount || 0) * qty);
+          const currency = data.currency || 'usd';
+          const row = document.createElement('li');
+          row.textContent = `${name} × ${qty} — ${(amount/100).toLocaleString(undefined, { style: 'currency', currency })}`;
+          itemsEl.appendChild(row);
+        }
+
+        const total = data.amount_total || 0;
+        const currency = data.currency || 'usd';
+        totalEl.textContent = (total/100).toLocaleString(undefined, { style: 'currency', currency });
+
+        const cd = data.customer_details || {};
+        const sd = data.shipping_details || {};
+        const addr = sd?.address || {};
+        shippingEl.innerHTML = `
+          <h3>Ship To</h3>
+          <div>${sd?.name || cd?.name || ''}</div>
+          <div>${[addr.line1, addr.line2].filter(Boolean).join('<br>')}</div>
+          <div>${[addr.city, addr.state, addr.postal_code].filter(Boolean).join(', ')}</div>
+          <div>${addr.country || ''}</div>
+          ${cd?.email ? `<div class="subtle">Email: ${cd.email}</div>` : ''}
+        `;
+
+        summaryEl.hidden = false;
+      } catch (e) {
+        statusEl.textContent = 'Could not load your order.';
+        console.error('[thanks] load error', e);
+      }
+    }
+    load();
+  </script>
+
+  <style>
+    .thanks .wrap { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
+    .card { border:1px solid #e5e7eb; border-radius:14px; padding:16px; box-shadow:0 8px 18px rgba(0,0,0,.06); }
+    ul { padding-left: 1rem; }
+    .total { margin-top: .75rem; font-size: 1.05rem; }
+    .subtle { color: #374151; margin-top: .5rem; line-height: 1.4; }
+  </style>
+</BaseLayout>
