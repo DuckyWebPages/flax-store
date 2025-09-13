@@ -1,4 +1,5 @@
 ---
+// FILE: src/pages/thank-you.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 // Grab ?session_id from the URL (client will fetch details)
@@ -6,11 +7,27 @@ const title = "Thank you!";
 ---
 
 <BaseLayout pageTitle={title}>
-  <h1>{title}</h1>
-  <p>Thank you for shopping with us! We’ve received your order. A receipt has been emailed to you. Questions? Call 817-710-6918.</p>
+  <div class="thankyou">
+    <h1>{title}</h1>
 
-  <div id="order-summary">
-    <p>Loading your order…</p>
+    <p class="lead">
+      Thank you for shopping with us! We’ve received your order. A receipt has been emailed to you.
+      Questions? Call 817-710-6918.
+    </p>
+
+    <img
+      src="/images/products/flaxgift.png"
+      alt="Shopping bag with Flax Lignans jars"
+      width="250"
+      height="auto"
+      loading="lazy"
+      decoding="async"
+      class="hero-img"
+    />
+
+    <div id="order-summary" class="order">
+      <p>Loading your order…</p>
+    </div>
   </div>
 
   <script>
@@ -61,12 +78,57 @@ const title = "Thank you!";
           <p><strong>Payment status:</strong> ${paymentStatus}</p>
           <p><strong>Email:</strong> ${email}</p>
           ${total !== null ? `<p><strong>Total:</strong> ${currency} ${total.toFixed(2)}</p>` : ""}
-          ${itemsHtml ? `<ul>${itemsHtml}</ul>` : "<p><em>No line items were returned.</em></p>"}
-          <p>Need help? Reply to your receipt email.</p>
+          ${itemsHtml ? `<ul class="items">${itemsHtml}</ul>` : "<p><em>No line items were returned.</em></p>"}
+          <p class="help">Need help? Reply to your receipt email.</p>
         `;
       } catch (e) {
         box.innerHTML = "<p>Order confirmed. We know you are going to LOVE your products!R However, IF you need to return your product, our 30 day money-back guarantee is for unopened product only. Please make sure the product seal has not been broken, and it’s in like-new condition. Pack product in original or comparable packing and email us (info@flaxlignanhealth.com) for a Return Authorization number. Once you receive your Return Authorization number by email, you’ll also have instructions included on return address on where to ship the product. Once we receive the undamaged, new and unopened product, we will refund the full price of the product, minus shipping charges from us to you. It will be your responsibility to pay for return shipping to us as well. Sorry but no refunds can be given for any product that has been opened or the seal broken on the container, or if over 30 days has passed from the original purchase date. If you have questions, call 817-710-6918 to speak with Customer Service.</p>";
       }
     })();
   </script>
+
+  <style>
+    .thankyou {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+
+    .lead {
+      max-width: 60ch;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    .hero-img {
+      display: block;
+      margin: 0.25rem auto 0.5rem;
+    }
+
+    .order {
+      max-width: 640px;
+      width: 100%;
+      margin: 0.5rem auto 0;
+      text-align: left; /* keep details readable */
+    }
+
+    .order p { margin: 0.25rem 0; }
+
+    .items {
+      list-style: none;
+      padding-left: 0;
+      margin: 0.5rem 0 0;
+    }
+
+    .items li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .help { margin-top: 0.75rem; }
+  </style>
 </BaseLayout>
