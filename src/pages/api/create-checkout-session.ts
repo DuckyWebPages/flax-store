@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
   // Prefer env vars so you never hardcode secrets in the repo
   const PRICE_MAP: Record<string, string | undefined> = {
   "fhl-single": import.meta.env.STRIPE_PRICE_ID_FLAXSINGLETEST,     // Flax Hull Lignan (Single Jar)
-  "asg-single": import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST,  // Ancient Seeds & Grains (Single Jar)
+  "ancient-single": import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST,  // Ancient Seeds & Grains (Single Jar)
 };
 
   let body: any;
