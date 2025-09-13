@@ -30,14 +30,19 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
           A great support after you have metal fillings removed from teeth.
         </p>
 
-        <button
+   <!-- $34.95 shown to users; 3495 is cents for the cart code -->
+<button
+  type="button"
   class="btn add-to-cart"
-  data-id="ocean-cleanse-single"
+  data-sku="ocean-cleanse-single"
   data-name="Ocean Cleanse (Single Jar)"
+  data-price="3495"
   data-image="/images/products/ocean-cleanse-small2.png"
+  data-qty="1"
 >
   Add to Cart
 </button>
+
 
       </div>
     </div>
