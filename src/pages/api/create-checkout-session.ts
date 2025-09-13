@@ -12,12 +12,26 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // 🔒 Central place to map your product ids -> Stripe price ids
-  // Prefer env vars so you never hardcode secrets in the repo
-  const PRICE_MAP: Record<string, string | undefined> = {
-  "fhl-single": import.meta.env.STRIPE_PRICE_ID_FLAXSINGLETEST,     // Flax Hull Lignan (Single Jar)
-  "ancient-single": import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST,  // Ancient Seeds & Grains (Single Jar)
-};
+    // 🔒 Central place to map your product ids -> Stripe price ids
+  // Switch automatically between Production (LIVE) and Preview/Dev (TEST)
+  const IS_PROD =
+    (import.meta.env.VERCEL_ENV ?? import.meta.env.MODE) === "production";
+
+  const PRICE_MAP: Record<string, string | undefined> = IS_PROD
+    ? {
+        // LIVE (Production)
+        "fhl-single": import.meta.env.STRIPE_PRICE_ID_FLAXSINGLELIVE,
+        "ancient-single": import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLELIVE,
+        "ocean-cleanse-single": import.meta.env.STRIPE_PRICE_ID_OCEANCLEANSELIVE, // NEW
+      }
+    : {
+        // TEST (Preview/Dev)
+        "fhl-single": import.meta.env.STRIPE_PRICE_ID_FLAXSINGLETEST,
+        "ancient-single": import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST,
+        // Add the test price if you ever create one; otherwise leave it out
+        // "ocean-cleanse-single": import.meta.env.STRIPE_PRICE_ID_OCEANCLEANSETEST,
+      };
+
 
   let body: any;
   try {

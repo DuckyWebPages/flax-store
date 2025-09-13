@@ -1,32 +1,127 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 const pageTitle = 'Ocean Cleanse — ';
+const PRICE_DISPLAY = '$34.95'; // visible price text; actual charge comes from Stripe Price ID
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
+  <!-- HERO -->
   <section class="prod-hero">
     <img class="bg" src="/images/oceancleanse.png" alt="" />
     <div class="inner">
       <h1>Ocean Cleanse</h1>
       <p>Mineral-rich cleanse support inspired by the sea. Gentle, effective, and simple.</p>
-      <a href="/products" class="btn">Shop Now</a>
+      <a href="#buy" class="btn">Add to Cart</a>
     </div>
   </section>
 
+  <!-- CONTENT -->
   <section class="content">
     <h2>About Ocean Cleanse</h2>
-    <p>Describe what it is, how to use it, and who it’s for. Add product cards later.</p>
+    <p>
+      OCEAN CLEANSE is a concentrated extract from the richest type of brown seaweed.
+      It’s used to help detoxify heavy metals and radioactive elements, while supporting energy and immune function.
+      Originally developed to help Chernobyl victims. 90 capsules per bottle.
+    </p>
+
+    <h3>May help you:</h3>
+    <ul>
+      <li>Support immune function</li>
+      <li>Support healthy blood sugar and cholesterol</li>
+      <li>Support thyroid health</li>
+      <li>Support healthy weight management</li>
+      <li>Improve hair and nail appearance</li>
+      <li>Support detoxification (e.g., strontium, cadmium)</li>
+    </ul>
+
+    <h3>What it delivers:</h3>
+    <ul>
+      <li><strong>Organic iodine</strong> — thyroid support</li>
+      <li><strong>Fucoxanthin</strong> — 10&nbsp;mg per capsule</li>
+      <li><strong>Alginate</strong> — binds certain heavy metals</li>
+      <li><strong>Fucoidan</strong> — supports healthy immune activity</li>
+      <li><strong>Laminarin</strong> — supports cardiovascular health</li>
+      <li>Naturally occurring trace minerals and vitamins</li>
+    </ul>
+
+    <p>It’s a clean formula you can feel good about.</p>
+  </section>
+
+  <!-- PRODUCT CARD -->
+  <section id="buy" class="content">
+    <div class="card">
+      <img
+        class="card-img"
+        src="/images/ocean-cleanse-small2.png"
+        alt="Ocean Cleanse (Single Jar)"
+        width="640"
+        height="640"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="card-body">
+        <h3 class="card-title">Ocean Cleanse (Single Jar)</h3>
+        <p class="card-price">{PRICE_DISPLAY}</p>
+        <p class="card-desc">Gentle daily support inspired by the sea.</p>
+
+        <button
+          class="btn-cta add-to-cart"
+          data-id="ocean-cleanse-single"
+          data-name="Ocean Cleanse (Single Jar)"
+          data-image="/images/ocean-cleanse-small2.png"
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
   </section>
 
   <style>
+    /* HERO */
     .prod-hero{position:relative;isolation:isolate;overflow:hidden;min-height:360px;border-radius:14px;background:#fff;margin-top:8px}
     .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.18;z-index:-1}
     .inner{padding:36px 20px 28px;max-width:900px;margin:0 auto}
     .inner h1{margin:0 0 8px;font-size:clamp(2rem,3vw,2.6rem)}
     .inner p{margin:0 0 14px;max-width:60ch}
     .btn{display:inline-flex;gap:.5rem;align-items:center;justify-content:center;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;text-decoration:none;font-weight:700}
-    .content{max-width:900px;margin:22px auto;padding:0 4px}
+
+    /* CONTENT + CARD */
+    .content{max-width:1000px;margin:22px auto;padding:0 10px}
+    .content h3{margin:1rem 0 .25rem;font-size:1.1rem}
+    .content ul{margin:.25rem 0 .75rem;padding-left:1.2rem}
+
+    .card{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    }
+    @media (min-width: 720px){
+      .card{grid-template-columns: 1fr 1fr;}
+    }
+
+    .card-img{
+      width:100%;
+      height:auto;
+      object-fit:cover;
+      background:#f8fafc;
+    }
+    .card-body{padding:18px}
+    .card-title{margin:.25rem 0 .5rem;font-size:1.25rem}
+    .card-price{margin:0 0 .5rem;font-weight:700}
+    .card-desc{margin:0 0 .75rem;line-height:1.5}
+
+    .btn-cta{
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:.5rem;padding:.6rem 1.1rem;border-radius:999px;
+      border:1px solid #d1d5db;background:#111827;color:#fff;font-weight:700;
+      cursor:pointer;
+    }
   </style>
 </BaseLayout>
