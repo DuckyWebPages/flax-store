@@ -74,15 +74,31 @@ const title = "Thank you!";
           return `<li>${name} × ${qty} — $${dollars}</li>`;
         }).join("");
 
-        box.innerHTML = `
+               box.innerHTML = `
           <p><strong>Payment status:</strong> ${paymentStatus}</p>
           <p><strong>Email:</strong> ${email}</p>
           ${total !== null ? `<p><strong>Total:</strong> ${currency} ${total.toFixed(2)}</p>` : ""}
           ${itemsHtml ? `<ul class="items">${itemsHtml}</ul>` : "<p><em>No line items were returned.</em></p>"}
           <p class="help">Need help? Reply to your receipt email.</p>
-        `;
+          <p><button type="button" class="print-btn" onclick="window.print()">Print this page</button></p>
+               `;
       } catch (e) {
-        box.innerHTML = "<p>Order confirmed. We know you are going to LOVE your products!R However, IF you need to return your product, our 30 day money-back guarantee is for unopened product only. Please make sure the product seal has not been broken, and it’s in like-new condition. Pack product in original or comparable packing and email us (info@flaxlignanhealth.com) for a Return Authorization number. Once you receive your Return Authorization number by email, you’ll also have instructions included on return address on where to ship the product. Once we receive the undamaged, new and unopened product, we will refund the full price of the product, minus shipping charges from us to you. It will be your responsibility to pay for return shipping to us as well. Sorry but no refunds can be given for any product that has been opened or the seal broken on the container, or if over 30 days has passed from the original purchase date. If you have questions, call 817-710-6918 to speak with Customer Service.</p>";
+        box.innerHTML = `
+          <div class="returns">
+            <p><strong>Order confirmed.</strong></p>
+            <p>We know you’ll love your products. If you need to return an item, our <strong>30-day money-back guarantee</strong> applies to <strong>unopened</strong> items only.</p>
+            <ul>
+              <li>Item must be new, unopened, and the seal intact.</li>
+              <li>Email <a href="mailto:info@flaxlignanhealth.com">info@flaxlignanhealth.com</a> to request a Return Authorization (RA) number before sending anything back.</li>
+              <li>Ship in the original or comparable protective packaging to the address provided with your RA.</li>
+              <li>Refund covers the product price only; original shipping is non-refundable.</li>
+              <li>Return shipping is the customer’s responsibility.</li>
+              <li>No refunds for opened items or returns more than 30 days from the purchase date.</li>
+            </ul>
+            <p>Questions? Call 817-710-6918.</p>
+            <p><button type="button" class="print-btn" onclick="window.print()">Print this page</button></p>
+          </div>
+        `;
       }
     })();
   </script>
@@ -130,5 +146,21 @@ const title = "Thank you!";
     }
 
     .help { margin-top: 0.75rem; }
+
+    /* Print button + returns list */
+    .print-btn {
+      padding: 0.5rem 0.9rem;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      cursor: pointer;
+      background: #fff;
+    }
+    @media print { .print-btn { display: none; } }
+
+    .returns ul {
+      margin: 0.5rem 0 0.25rem;
+      padding-left: 1.2rem;
+    }
+    .returns li { margin: 0.25rem 0; }
   </style>
 </BaseLayout>
