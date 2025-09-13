@@ -8,71 +8,110 @@ export const POST: APIRoute = async ({ request }) => {
   const key = (import.meta.env.STRIPE_SECRET_KEY || "").trim();
   if (!key) {
     return new Response(JSON.stringify({ error: "STRIPE_SECRET_KEY missing" }), {
-      status: 500,
-      headers: { "content-type": "application/json" },
+      status: 500, headers: { "content-type": "application/json" },
     });
   }
 
-  let body: unknown;
+    // 🔒 Central place to map your product ids -> Stripe price ids
+  // Switch automatically between Production (LIVE) and Preview/Dev (TEST)
+  const IS_PROD =
+    (import.meta.env.VERCEL_ENV ?? import.meta.env.MODE) === "production";
+
+  const PRICE_MAP: Record<string, string | undefined> = IS_PROD
+    ? {
+        // LIVE (Production)
+        "fhl-single": import.meta.env.STRIPE_PRICE_ID_FLAXSINGLELIVE,
+        "ancient-single": import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLELIVE,
+        "ocean-cleanse-single": import.meta.env.STRIPE_PRICE_ID_OCEANCLEANSELIVE, // NEW
+      }
+    : {
+        // TEST (Preview/Dev)
+        "fhl-single": import.meta.env.STRIPE_PRICE_ID_FLAXSINGLETEST,
+        "ancient-single": import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST,
+        // Add the test price if you ever create one; otherwise leave it out
+        // "ocean-cleanse-single": import.meta.env.STRIPE_PRICE_ID_OCEANCLEANSETEST,
+      };
+
+
+  let body: any;
   try {
     body = await request.json();
   } catch {
     return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
-      status: 400,
-      headers: { "content-type": "application/json" },
+      status: 400, headers: { "content-type": "application/json" },
     });
   }
 
-  const items = Array.isArray((body as any)?.items) ? (body as any).items : [];
-  // Expecting: [{ price: "price_XXXX", quantity: 1 }, ...]
+  const items = Array.isArray(body?.items) ? body.items : [];
   if (!items.length) {
     return new Response(JSON.stringify({ error: "No items provided" }), {
-      status: 400,
-      headers: { "content-type": "application/json" },
+      status: 400, headers: { "content-type": "application/json" },
     });
   }
 
-  // Basic validation of each item
-  for (const [idx, it] of items.entries()) {
-    if (!it?.price || !String(it.price).startsWith("price_")) {
-      return new Response(
-        JSON.stringify({ error: `items[${idx}].price must be a Stripe price_ id` }),
-        { status: 400, headers: { "content-type": "application/json" } }
-      );
+  // ✅ Normalize whatever the cart sends into Stripe line_items
+  const line_items = [];
+  for (let i = 0; i < items.length; i++) {
+    const it = items[i];
+    const quantity = Number(it.quantity ?? it.qty ?? 1);
+    if (!Number.isFinite(quantity) || quantity <= 0) {
+      return new Response(JSON.stringify({ error: `items[${i}].quantity must be > 0` }), {
+        status: 400, headers: { "content-type": "application/json" },
+      });
     }
-    if (!it?.quantity || Number(it.quantity) <= 0) {
-      return new Response(
-        JSON.stringify({ error: `items[${idx}].quantity must be > 0` }),
-        { status: 400, headers: { "content-type": "application/json" } }
-      );
+
+    // 1) Direct price id
+    if (it.price && String(it.price).startsWith("price_")) {
+      line_items.push({ price: String(it.price), quantity });
+      continue;
     }
+
+    // 2) Your cart's shape: { id: "fhl-single", qty: N }
+    if (it.id && PRICE_MAP[it.id]) {
+      line_items.push({ price: PRICE_MAP[it.id] as string, quantity });
+      continue;
+    }
+
+    // 3) Raw Stripe price_data (optional support)
+    if (it.price_data && typeof it.price_data === "object") {
+      line_items.push({ price_data: it.price_data, quantity });
+      continue;
+    }
+
+    return new Response(
+      JSON.stringify({
+        error:
+          `items[${i}] must include price:"price_..." OR id matching PRICE_MAP OR a valid price_data object`,
+      }),
+      { status: 400, headers: { "content-type": "application/json" } }
+    );
   }
 
-  const origin = request.headers.get("origin") ?? new URL(request.url).origin;
+  // Prefer Origin header; fallback to request URL origin
+  const originHeader = request.headers.get("origin");
+  const origin = originHeader || new URL(request.url).origin;
 
   try {
     const stripe = new Stripe(key, { apiVersion: "2024-06-20" });
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      line_items: items, // already in { price, quantity } form
+      line_items,
       allow_promotion_codes: true,
       billing_address_collection: "auto",
       shipping_address_collection: { allowed_countries: ["US", "CA"] },
-      success_url: new URL("/thanks?session_id={CHECKOUT_SESSION_ID}", origin).toString(),
-      cancel_url: new URL("/cart-cancelled", origin).toString(),
+      success_url: new URL("/thank-you?session_id={CHECKOUT_SESSION_ID}", origin).toString(),
+      cancel_url: new URL("/cart?canceled=1", origin).toString(),
       metadata: { source: "flax-store" },
     });
 
-    return new Response(JSON.stringify({ url: session.url }), {
-      status: 200,
-      headers: { "content-type": "application/json" },
+    return new Response(JSON.stringify({ id: session.id, url: session.url }), {
+      status: 200, headers: { "content-type": "application/json" },
     });
   } catch (err: any) {
     console.error("[api/create-checkout-session] error:", err?.message || err);
     return new Response(JSON.stringify({ error: err?.message || "Checkout failed" }), {
-      status: 500,
-      headers: { "content-type": "application/json" },
+      status: 500, headers: { "content-type": "application/json" },
     });
   }
 };

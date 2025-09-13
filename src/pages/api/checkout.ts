@@ -1,97 +1,50 @@
-// src/pages/api/checkout.ts
-// Must run on the server at request time (do not prerender)
+// src/pages/api/checkout-session.ts
 export const prerender = false;
 
-import type { APIRoute } from 'astro';
-import Stripe from 'stripe';
+import type { APIRoute } from "astro";
+import Stripe from "stripe";
 
-// Server-side catalog (authoritative prices/images)
-// Make sure these IDs match the ids you send from the client.
-const CATALOG: Record<string, { name: string; unit_amount: number; image: string }> = {
-  'fhl-single': {
-    name: 'Flax Hull Lignan (Single Jar)',
-    unit_amount: 3900,
-    image: '/images/products/flax-hull-single.jpg',
-  },
-  'ancient-single': {
-    name: 'FLH Ancient Seeds & Grains (Single Jar)',
-    unit_amount: 4500,
-    image: '/images/products/ancient-single-small.png',
-  },
-  // Example bundles if you reintroduce later:
-  // 'fhl-bundle': { name: 'Flax Hull Lignan Bundle (3 Jars)', unit_amount: 11250, image: '/images/flax-hull-bundle-small.jpg' },
-  // 'ancient-bundle': { name: 'Ancient Seeds & Grains (3 Jar Bundle)', unit_amount: 13200, image: '/images/products/ancient3jarsmall.jpg' },
-};
+export const GET: APIRoute = async ({ request }) => {
+  const key = (import.meta.env.STRIPE_SECRET_KEY || "").trim();
+  if (!key) {
+    return new Response(JSON.stringify({ error: "STRIPE_SECRET_KEY missing" }), { status: 500 });
+  }
 
-function absoluteUrl(origin: string, path: string) {
-  if (path.startsWith('http')) return path;
-  return new URL(path, origin).toString();
-}
+  const url = new URL(request.url);
+  const session_id = (url.searchParams.get("session_id") || "").trim();
+  if (!session_id || !session_id.startsWith("cs_")) {
+    return new Response(JSON.stringify({ error: "Invalid or missing session_id" }), { status: 400 });
+  }
 
-export const POST: APIRoute = async ({ request }) => {
   try {
-    const key = (import.meta.env.STRIPE_SECRET_KEY || '').trim();
-    if (!key) {
-      return new Response(JSON.stringify({ error: 'Missing STRIPE_SECRET_KEY on server' }), {
-        status: 500,
-        headers: { 'content-type': 'application/json' },
-      });
-    }
+    const stripe = new Stripe(key, { apiVersion: "2024-06-20" });
+    const session = await stripe.checkout.sessions.retrieve(session_id, {
+      expand: ["line_items.data.price.product", "payment_intent"],
+    });
 
-    const stripe = new Stripe(key, { apiVersion: '2024-06-20' });
-
-    // Prefer the Origin header; fallback to request URL origin
-    const origin = request.headers.get('origin') ?? new URL(request.url).origin;
-
-    const body = await request.json().catch(() => null);
-    const items: Array<{ id: string; qty: number }> = Array.isArray(body?.items) ? body!.items : [];
-
-    if (!items.length) {
-      return new Response(JSON.stringify({ error: 'No items provided' }), {
-        status: 400,
-        headers: { 'content-type': 'application/json' },
-      });
-    }
-
-    // Build line items from the secure server catalog
-    const line_items = items.map(({ id, qty }, idx) => {
-      const product = CATALOG[id];
-      if (!product) throw new Error(`Unknown item id "${id}" at index ${idx}`);
-      const quantity = Math.max(1, Number(qty || 1));
-
-      return {
-        quantity,
-        price_data: {
-          currency: 'usd',
-          unit_amount: product.unit_amount,
-          product_data: {
-            name: product.name,
-            images: [absoluteUrl(origin, product.image)],
-          },
+    return new Response(JSON.stringify({
+      id: session.id,
+      status: session.status,
+      payment_status: session.payment_status,
+      amount_total: session.amount_total,
+      currency: session.currency,
+      customer_details: session.customer_details,
+      shipping_details: session.shipping_details,
+      line_items: (session.line_items?.data || []).map((li) => ({
+        quantity: li.quantity,
+        amount_total: li.amount_total,
+        price: typeof li.price === "string" ? li.price : {
+          id: li.price?.id,
+          unit_amount: li.price?.unit_amount,
+          currency: li.price?.currency,
+          product: typeof li.price?.product === "string"
+            ? li.price?.product
+            : { id: (li.price?.product as any)?.id, name: (li.price?.product as any)?.name },
         },
-      } as Stripe.Checkout.SessionCreateParams.LineItem;
-    });
-
-    const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      line_items,
-      allow_promotion_codes: true,
-      billing_address_collection: 'auto',
-      shipping_address_collection: { allowed_countries: ['US', 'CA'] },
-      success_url: absoluteUrl(origin, '/thanks?session_id={CHECKOUT_SESSION_ID}'),
-      cancel_url: absoluteUrl(origin, '/cart-cancelled'),
-      metadata: { source: 'flax-store' },
-    });
-
-    return new Response(JSON.stringify({ url: session.url }), {
-      status: 200,
-      headers: { 'content-type': 'application/json' },
-    });
-  } catch (err: any) {
-    console.error('[api/checkout] error:', err?.message || err);
-    return new Response(JSON.stringify({ error: err?.message || 'Checkout failed' }), {
-      status: 500,
-      headers: { 'content-type': 'application/json' },
-    });
+      })),
+    }), { status: 200, headers: { "content-type": "application/json" }});
+  } catch (e: any) {
+    console.error("[api/checkout-session] error", e?.message || e);
+    return new Response(JSON.stringify({ error: e?.message || "Failed to load session" }), { status: 500 });
   }
 };

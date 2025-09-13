@@ -1,0 +1,166 @@
+---
+// FILE: src/pages/thank-you.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Grab ?session_id from the URL (client will fetch details)
+const title = "Thank you!";
+---
+
+<BaseLayout pageTitle={title}>
+  <div class="thankyou">
+    <h1>{title}</h1>
+
+    <p class="lead">
+      Thank you for shopping with us! We’ve received your order. A receipt has been emailed to you.
+      Questions? Call 817-710-6918.
+    </p>
+
+    <img
+      src="/images/products/flaxgift.png"
+      alt="Shopping bag with Flax Lignans jars"
+      width="250"
+      height="auto"
+      loading="lazy"
+      decoding="async"
+      class="hero-img"
+    />
+
+    <div id="order-summary" class="order">
+      <p>Loading your order…</p>
+    </div>
+  </div>
+
+  <script>
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get("session_id");
+      const box = document.getElementById("order-summary");
+
+      if (!sessionId) {
+        box.innerHTML = `
+          <p><strong>Order confirmed.</strong></p>
+          <p>No session details found in the URL.</p>
+        `;
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/checkout-session?session_id=${encodeURIComponent(sessionId)}`);
+        if (!res.ok) throw new Error("Failed to load session");
+        const data = await res.json();
+
+        // ✅ Work with either shape:
+        //    { session: {...} }  OR  a flat object with the fields directly on data
+        const s = data.session ?? data;
+
+        // Payment + customer info
+        const paymentStatus = s.payment_status ?? "unknown";
+        const email = s.customer_details?.email ?? "—";
+
+        // Currency/amount helpers (Stripe amounts are in cents)
+        const currency = (s.currency || s.amount_total?.currency || "usd").toString().toUpperCase();
+        const total = typeof s.amount_total === "number" ? (s.amount_total / 100) : null;
+
+        // Line items (requires your API to expand line_items)
+        const lineItems = s.line_items?.data ?? [];
+        const itemsHtml = lineItems.map((li) => {
+          const name = li.price?.product?.name || li.description || "Item";
+          const qty = li.quantity ?? 1;
+          // Prefer per-item unit amount; fall back to subtotal if present
+          const cents = (typeof li.price?.unit_amount === "number")
+            ? li.price.unit_amount
+            : (typeof li.amount_subtotal === "number" ? li.amount_subtotal : 0);
+          const dollars = (cents / 100).toFixed(2);
+          return `<li>${name} × ${qty} — $${dollars}</li>`;
+        }).join("");
+
+               box.innerHTML = `
+          <p><strong>Payment status:</strong> ${paymentStatus}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          ${total !== null ? `<p><strong>Total:</strong> ${currency} ${total.toFixed(2)}</p>` : ""}
+          ${itemsHtml ? `<ul class="items">${itemsHtml}</ul>` : "<p><em>No line items were returned.</em></p>"}
+          <p class="help">Need help? Reply to your receipt email.</p>
+          <p><button type="button" class="print-btn" onclick="window.print()">Print this page</button></p>
+               `;
+      } catch (e) {
+        box.innerHTML = `
+          <div class="returns">
+            <p><strong>Order confirmed.</strong></p>
+            <p>We know you’ll love your products. If you need to return an item, our <strong>30-day money-back guarantee</strong> applies to <strong>unopened</strong> items only.</p>
+            <ul>
+              <li>Item must be new, unopened, and the seal intact.</li>
+              <li>Email <a href="mailto:info@flaxlignanhealth.com">info@flaxlignanhealth.com</a> to request a Return Authorization (RA) number before sending anything back.</li>
+              <li>Ship in the original or comparable protective packaging to the address provided with your RA.</li>
+              <li>Refund covers the product price only; original shipping is non-refundable.</li>
+              <li>Return shipping is the customer’s responsibility.</li>
+              <li>No refunds for opened items or returns more than 30 days from the purchase date.</li>
+            </ul>
+            <p>Questions? Call 817-710-6918.</p>
+            <p><button type="button" class="print-btn" onclick="window.print()">Print this page</button></p>
+          </div>
+        `;
+      }
+    })();
+  </script>
+
+  <style>
+    .thankyou {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+      padding: 1rem;
+    }
+
+    .lead {
+      max-width: 60ch;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    .hero-img {
+      display: block;
+      margin: 0.25rem auto 0.5rem;
+    }
+
+    .order {
+      max-width: 640px;
+      width: 100%;
+      margin: 0.5rem auto 0;
+      text-align: left; /* keep details readable */
+    }
+
+    .order p { margin: 0.25rem 0; }
+
+    .items {
+      list-style: none;
+      padding-left: 0;
+      margin: 0.5rem 0 0;
+    }
+
+    .items li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .help { margin-top: 0.75rem; }
+
+    /* Print button + returns list */
+    .print-btn {
+      padding: 0.5rem 0.9rem;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      cursor: pointer;
+      background: #fff;
+    }
+    @media print { .print-btn { display: none; } }
+
+    .returns ul {
+      margin: 0.5rem 0 0.25rem;
+      padding-left: 1.2rem;
+    }
+    .returns li { margin: 0.25rem 0; }
+  </style>
+</BaseLayout>

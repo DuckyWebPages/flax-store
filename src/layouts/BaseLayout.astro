@@ -965,7 +965,7 @@ if (checkoutBtn) {
       checkoutBtn.disabled = true;
 
       // ⬇⬇⬇ REPLACE your old fetch with this block ⬇⬇⬇
-      const res = await fetch('/api/checkout', {
+      const res = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ items: skinny }),
