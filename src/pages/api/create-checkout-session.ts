@@ -24,7 +24,6 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const items = Array.isArray((body as any)?.items) ? (body as any).items : [];
-  // Expecting: [{ price: "price_XXXX", quantity: 1 }, ...]
   if (!items.length) {
     return new Response(JSON.stringify({ error: "No items provided" }), {
       status: 400,
@@ -32,7 +31,6 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // Basic validation of each item
   for (const [idx, it] of items.entries()) {
     if (!it?.price || !String(it.price).startsWith("price_")) {
       return new Response(
@@ -48,23 +46,26 @@ export const POST: APIRoute = async ({ request }) => {
     }
   }
 
-  const origin = request.headers.get("origin") ?? new URL(request.url).origin;
+  // Prefer Origin header; fallback to request URL origin
+  const originHeader = request.headers.get("origin");
+  const origin = originHeader || new URL(request.url).origin;
 
   try {
     const stripe = new Stripe(key, { apiVersion: "2024-06-20" });
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      line_items: items, // already in { price, quantity } form
+      line_items: items,
       allow_promotion_codes: true,
       billing_address_collection: "auto",
       shipping_address_collection: { allowed_countries: ["US", "CA"] },
       success_url: new URL("/thanks?session_id={CHECKOUT_SESSION_ID}", origin).toString(),
-      cancel_url: new URL("/cart-cancelled", origin).toString(),
+      cancel_url: new URL("/cart?canceled=1", origin).toString(),
       metadata: { source: "flax-store" },
     });
 
-    return new Response(JSON.stringify({ url: session.url }), {
+    // ✅ return both id and url
+    return new Response(JSON.stringify({ id: session.id, url: session.url }), {
       status: 200,
       headers: { "content-type": "application/json" },
     });

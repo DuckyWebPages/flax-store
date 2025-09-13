@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Grab ?session_id from the URL (client will fetch details)
+const title = "Thank you!";
+---
+
+<BaseLayout pageTitle={title}>
+  <h1>{title}</h1>
+  <p>Thank you for shopping with us! We’ve received your order. A receipt has been emailed to you. Questions? Call 817-710-6918.</p>
+
+  <div id="order-summary">
+    <p>Loading your order…</p>
+  </div>
+
+  <script>
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get("session_id");
+      const box = document.getElementById("order-summary");
+
+      if (!sessionId) {
+        box.innerHTML = `
+          <p><strong>Order confirmed.</strong></p>
+          <p>No session details found in the URL.</p>
+        `;
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/checkout-session?session_id=${encodeURIComponent(sessionId)}`);
+        if (!res.ok) throw new Error("Failed to load session");
+        const data = await res.json();
+
+        // ✅ Work with either shape:
+        //    { session: {...} }  OR  a flat object with the fields directly on data
+        const s = data.session ?? data;
+
+        // Payment + customer info
+        const paymentStatus = s.payment_status ?? "unknown";
+        const email = s.customer_details?.email ?? "—";
+
+        // Currency/amount helpers (Stripe amounts are in cents)
+        const currency = (s.currency || s.amount_total?.currency || "usd").toString().toUpperCase();
+        const total = typeof s.amount_total === "number" ? (s.amount_total / 100) : null;
+
+        // Line items (requires your API to expand line_items)
+        const lineItems = s.line_items?.data ?? [];
+        const itemsHtml = lineItems.map((li) => {
+          const name = li.price?.product?.name || li.description || "Item";
+          const qty = li.quantity ?? 1;
+          // Prefer per-item unit amount; fall back to subtotal if present
+          const cents = (typeof li.price?.unit_amount === "number")
+            ? li.price.unit_amount
+            : (typeof li.amount_subtotal === "number" ? li.amount_subtotal : 0);
+          const dollars = (cents / 100).toFixed(2);
+          return `<li>${name} × ${qty} — $${dollars}</li>`;
+        }).join("");
+
+        box.innerHTML = `
+          <p><strong>Payment status:</strong> ${paymentStatus}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          ${total !== null ? `<p><strong>Total:</strong> ${currency} ${total.toFixed(2)}</p>` : ""}
+          ${itemsHtml ? `<ul>${itemsHtml}</ul>` : "<p><em>No line items were returned.</em></p>"}
+          <p>Need help? Reply to your receipt email.</p>
+        `;
+      } catch (e) {
+        box.innerHTML = "<p>Order confirmed. (Couldn’t load details.)</p>";
+      }
+    })();
+  </script>
+</BaseLayout>
