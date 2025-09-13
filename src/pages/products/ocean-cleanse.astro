@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 const pageTitle = 'Ocean Cleanse — ';
-const PRICE_DISPLAY = '$34.95'; // visible price text; actual charge comes from Stripe Price ID
+
+// ✅ add it here, inside the top --- block
+const PRICE_DISPLAY = '$34.95';
 ---
 
 <BaseLayout>
@@ -12,7 +14,7 @@ const PRICE_DISPLAY = '$34.95'; // visible price text; actual charge comes from 
     <img class="bg" src="/images/oceancleanse.png" alt="" />
     <div class="inner">
       <h1>Ocean Cleanse</h1>
-      <p>Mineral-rich cleanse support inspired by the sea. Gentle, effective, and simple.</p>
+      <p>All natural source of iodine plus removes toxins. Was especially formulated to support the people of Chernobyl in removing radiation. Also removes heavy metals. A great support after you have metal fillings removed from teeth.</p>
       <a href="#buy" class="btn">Add to Cart</a>
     </div>
   </section>
@@ -62,30 +64,54 @@ const PRICE_DISPLAY = '$34.95'; // visible price text; actual charge comes from 
         decoding="async"
       />
       <div class="card-body">
-        <h3 class="card-title">Ocean Cleanse (Single Jar)</h3>
-        <p class="card-price">{PRICE_DISPLAY}</p>
-        <p class="card-desc">Gentle daily support inspired by the sea.</p>
+  <h3 class="card-title">Ocean Cleanse (Single Jar)</h3>
+  <p class="card-price">{PRICE_DISPLAY}</p>  <!-- ✅ use it here -->
+  <p class="card-desc">Gentle daily support inspired by the sea.</p>
 
-        <button
-          class="btn-cta add-to-cart"
-          data-id="ocean-cleanse-single"
-          data-name="Ocean Cleanse (Single Jar)"
-          data-image="/images/ocean-cleanse-small2.png"
-        >
-          Add to Cart
-        </button>
-      </div>
+  <button
+    class="btn-cta add-to-cart"
+    data-id="ocean-cleanse-single"
+    data-name="Ocean Cleanse (Single Jar)"
+    data-image="/images/products/ocean-cleanse-small2.png"
+  >
+    Add to Cart
+  </button>
+</div>
     </div>
   </section>
 
   <style>
-    /* HERO */
-    .prod-hero{position:relative;isolation:isolate;overflow:hidden;min-height:360px;border-radius:14px;background:#fff;margin-top:8px}
-    .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.18;z-index:-1}
-    .inner{padding:36px 20px 28px;max-width:900px;margin:0 auto}
-    .inner h1{margin:0 0 8px;font-size:clamp(2rem,3vw,2.6rem)}
-    .inner p{margin:0 0 14px;max-width:60ch}
-    .btn{display:inline-flex;gap:.5rem;align-items:center;justify-content:center;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;text-decoration:none;font-weight:700}
+   /* HERO */
+.prod-hero{
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 180px;             /* was 360px */
+  border-radius: 14px;
+  background: #fff;
+  margin-top: 8px;
+}
+.bg{
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  opacity: .18;
+  z-index: -1;
+}
+.inner{
+  padding: 20px 16px 18px;       /* was 36px 20px 28px */
+  max-width: 900px;
+  margin: 0 auto;
+}
+.inner h1{ margin: 0 0 8px; font-size: clamp(2rem,3vw,2.6rem); }
+.inner p{  margin: 0 0 14px; max-width: 60ch; }
+.btn{
+  display: inline-flex; gap: .5rem; align-items: center; justify-content: center;
+  padding: 10px 16px; border-radius: 999px; background: #111827; color: #fff;
+  text-decoration: none; font-weight: 700;
+}
 
     /* CONTENT + CARD */
     .content{max-width:1000px;margin:22px auto;padding:0 10px}
