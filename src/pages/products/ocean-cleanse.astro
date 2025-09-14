@@ -23,14 +23,15 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
         <h1 class="card-title">Ocean Cleanse (Single Jar)</h1>
         <p class="card-price">{PRICE_DISPLAY}</p>
 
-        <!-- Moved copy from the old hero -->
+                <!-- Moved copy from the old hero -->
         <p class="card-desc">
           All natural source of iodine and helps remove toxins. This formula was originally formulated to support
           the people of Chernobyl in removing radiation. Also supports the removal of heavy metals.
           A great support after you have metal fillings removed from teeth.
         </p>
 
-   <!-- $34.95 shown to users; 3495 is cents for the cart code -->
+
+<!-- $34.95 shown to users; 3495 is cents for the cart code -->
 <button
   type="button"
   class="btn add-to-cart"
@@ -42,6 +43,7 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
 >
   Add to Cart
 </button>
+
 
 
       </div>
@@ -78,6 +80,7 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
     </ul>
   </section>
 
+
   <style>
     /* CONTENT + CARD */
     .content{max-width:1000px;margin:22px auto;padding:0 10px}
@@ -109,11 +112,25 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
     .card-price{margin:0 0 .5rem;font-weight:700}
     .card-desc{margin:0 0 .9rem;line-height:1.55}
 
-    /* Button styling: match the old hero .btn */
-    .btn{
-      display:inline-flex;gap:.5rem;align-items:center;justify-content:center;
-      padding:10px 16px;border-radius:999px;background:#111827;color:#fff;
-      text-decoration:none;font-weight:700;cursor:pointer;border:0;
-    }
+    
+    /* Button styling: matches hero */
+button.btn, .btn {
+  display: inline-flex;
+  gap: .5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #111827;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+button.btn:focus { outline: 2px solid #11182722; outline-offset: 2px; }
+
   </style>
 </BaseLayout>

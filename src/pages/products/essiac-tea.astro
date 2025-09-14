@@ -1,32 +1,113 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const TITLE = 'Essiac Tea — Famous 8 Herb Recipe (Single)';
+const PRICE_DISPLAY = '$40.50';
+const PRICE_CENTS = 4050;               // 40.50 → 4050 (cart wants cents)
+const SKU = 'essiac-tea-single';
+const IMG = '/images/products/essiac-small.jpg';  // ensure this file exists
+
 const pageTitle = 'Essiac Tea — ';
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
+  <!-- HERO (half height; mirrors Ocean Cleanse) -->
   <section class="prod-hero">
-    <img class="bg" src="/images/essiac-tea.png" alt="" />
+    <img class="bg" src={IMG} alt="" />
     <div class="inner">
       <h1>Essiac Tea</h1>
-      <p>Traditional herbal blend with a long history of wellness use and gentle daily support.</p>
-      <a href="/products" class="btn">Shop Now</a>
+      <p>
+        Traditional herbal blend with a long history of wellness use and stories of supporting the body in its ability to heal.
+      </p>
+      <a href="#buy" class="btn">Add to Cart</a>
     </div>
   </section>
 
+  <!-- PRODUCT CARD AT TOP -->
+  <section id="buy" class="content">
+    <div class="card">
+      <img
+        class="card-img"
+        src={IMG}
+        alt={TITLE}
+        width="640"
+        height="640"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="card-body">
+        <h1 class="card-title">{TITLE}</h1>
+        <p class="card-price">{PRICE_DISPLAY}</p>
+        <p class="card-desc">
+          The classic 8-herb Essiac formula. Carefully blended for purity and consistency.
+          Ingredients (USA): Blessed Thistle, Burdock Root, Kelp, Red Clover, Sheep Sorrel,
+          Slippery Elm Bark, Turkish Rhubarb Root, Watercress.
+        </p>
+
+        <!-- Must use data-sku + data-price (cents) for your cart -->
+        <button
+          type="button"
+          class="btn add-to-cart"
+          data-sku={SKU}
+          data-name={TITLE}
+          data-price={String(PRICE_CENTS)}
+          data-image={IMG}
+          data-qty="1"
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LONGER COPY (optional) -->
   <section class="content">
     <h2>About Essiac Tea</h2>
-    <p>Include ingredients, preparation tips, and links to sizes or bundles when ready.</p>
+    <p>
+      This famous tea is often misrepresented online. Nurse Rene Caisse’s early 4-herb recipe is widely circulated,
+      but her later, refined 8-herb version with Dr. Charles Brusch is the one known for helping many. Our Essiac Tea follows that lineage.
+    </p>
   </section>
 
   <style>
-    .prod-hero{position:relative;isolation:isolate;overflow:hidden;min-height:360px;border-radius:14px;background:#fff;margin-top:8px}
-    .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.18;z-index:-1}
-    .inner{padding:36px 20px 28px;max-width:900px;margin:0 auto}
-    .inner h1{margin:0 0 8px;font-size:clamp(2rem,3vw,2.6rem)}
-    .inner p{margin:0 0 14px;max-width:60ch}
-    .btn{display:inline-flex;gap:.5rem;align-items:center;justify-content:center;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;text-decoration:none;font-weight:700}
-    .content{max-width:900px;margin:22px auto;padding:0 4px}
+    /* HERO (half height + tight padding) */
+    .prod-hero{
+      position:relative; isolation:isolate; overflow:hidden;
+      min-height:180px; border-radius:14px; background:#fff; margin-top:8px;
+    }
+    .bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.18; z-index:-1; }
+    .inner{ padding:20px 16px 18px; max-width:900px; margin:0 auto; }
+    .inner h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.6rem); }
+    .inner p{ margin:0 0 14px; max-width:60ch; }
+    .btn{
+      display:inline-flex; gap:.5rem; align-items:center; justify-content:center;
+      padding:10px 16px; border-radius:999px; background:#111827; color:#fff;
+      text-decoration:none; font-weight:700; cursor:pointer; border:0;
+    }
+
+    /* CONTENT + CARD */
+    .content{ max-width:1000px; margin:22px auto; padding:0 10px; }
+    .card{
+      display:grid; grid-template-columns:1fr; gap:16px; background:#fff;
+      border:1px solid #e5e7eb; border-radius:14px; overflow:hidden;
+      box-shadow:0 1px 2px rgba(0,0,0,.04);
+    }
+    @media (min-width:720px){ .card{ grid-template-columns:1fr 1fr; } }
+    .card-img{ width:100%; height:auto; object-fit:cover; background:#f8fafc; }
+    .card-body{ padding:18px; }
+    .card-title{ margin:.25rem 0 .25rem; font-size:1.6rem; }
+    .card-price{ margin:0 0 .5rem; font-weight:700; }
+    .card-desc{ margin:0 0 .9rem; line-height:1.55; }
+
+    /* Keep button style consistent with hero */
+    button.btn, .btn{
+      display:inline-flex; gap:.5rem; align-items:center; justify-content:center;
+      padding:10px 16px; border-radius:999px; background:#111827; color:#fff;
+      text-decoration:none; font-weight:700; cursor:pointer; border:0;
+      -webkit-appearance:none; appearance:none;
+    }
+    button.btn:focus{ outline:2px solid #11182722; outline-offset:2px; }
   </style>
 </BaseLayout>
