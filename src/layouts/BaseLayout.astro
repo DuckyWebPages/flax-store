@@ -743,23 +743,21 @@ aside.cart-drawer .ci-thumb{
   
 
     <!-- Footer totals -->
-    <footer class="cart-footer">
-      <div class="tot-row"><span>Subtotal</span><strong data-subtotal>$0.00</strong></div>
-      <div class="tot-row small">Taxes & shipping calculated at checkout.</div>
-      <div class="coupon">
-        <input type="text" placeholder="Promo code" data-coupon />
-        <button class="btn" data-apply-coupon>Apply</button>
-      </div>
-      <button class="btn-cta btn-checkout" data-checkout>Checkout</button>
-      <div class="trust">
-        <span class="lock">
-          <svg width="16" height="16" viewBox="0 0 24 24">
-            <path d="M6 10h12v10H6zM8 10V7a4 4 0 1 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/>
-          </svg>
-          Secure checkout
-        </span>
-      </div>
-    </footer>
+<footer class="cart-footer">
+  <div class="tot-row"><span>Subtotal</span><strong data-subtotal>$0.00</strong></div>
+  <div class="tot-row small">Taxes & shipping calculated at checkout.</div>
+
+  <!-- Single promo code field -->
+  <div class="coupon">
+    <input type="text" placeholder="Promo code" data-coupon />
+    <button class="btn" data-apply-coupon>Apply</button>
+  </div>
+
+  <button class="btn-cta btn-checkout" data-checkout>Checkout</button>
+  <div class="trust">…</div>
+</footer>
+
+
   </div>
 </aside>
 <!-- Toast -->
@@ -959,34 +957,47 @@ if (checkoutBtn) {
     }
 
     // Only send minimal data
-    var skinny = items.map(function(i){ return { id: i.id, qty: i.qty }; });
+var skinny = items.map(function (i) { return { id: i.id, qty: i.qty }; });
 
-    try {
-      checkoutBtn.disabled = true;
+// Read promo from the single field (optional)
+var couponEl = document.querySelector('[data-coupon]');
+var promoCode = couponEl ? couponEl.value.trim() : '';
 
-      // ⬇⬇⬇ REPLACE your old fetch with this block ⬇⬇⬇
-      const res = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ items: skinny }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data?.url) {
-        throw new Error(data?.error || 'Checkout failed');
-      }
-      window.location.href = data.url;
-      // ⬆⬆⬆ END replacement ⬆⬆⬆
+// Optional country selector (only include if your API uses it)
+// var countryEl = document.querySelector('[data-country]');
+// var country = countryEl ? String(countryEl.value).toUpperCase() : undefined;
 
-    } catch (err) {
-      console.error('[checkout] error:', err);
-      alert('Sorry, ' + (err?.message || 'something went wrong starting checkout.'));
-    } finally {
-      checkoutBtn.disabled = false;
-    }
+// Prevent double sessions
+checkoutBtn.disabled = true;
+
+try {
+  const payload = {
+    items: skinny,
+    promoCode: promoCode,
+    // ...(country ? { country } : {}),
+  };
+
+  const res = await fetch('/api/create-checkout-session', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload),
   });
+
+  // Read raw first to avoid JSON.parse crash if server returns HTML
+  const raw = await res.text();
+  let data = null; try { data = raw ? JSON.parse(raw) : null; } catch {}
+
+  if (!res.ok || !data || !data.url) {
+    throw new Error((data && (data.error || data.message)) || `Checkout failed (HTTP ${res.status}).`);
+  }
+
+  window.location.href = data.url; // Stripe Checkout
+} catch (err) {
+  console.error('[checkout] error:', err);
+  alert('Sorry—checkout could not start: ' + (err && err.message ? err.message : 'Unknown error'));
+} finally {
+  checkoutBtn.disabled = false;
 }
 
 
-
-})();
 </script>

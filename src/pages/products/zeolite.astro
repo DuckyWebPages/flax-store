@@ -1,32 +1,78 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-const pageTitle = 'Aftershot & Zeolite — ';
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+const pageTitle = 'AfterShot — '
+
+// Optional: Stripe TEST price id (if you map by price id server-side)
+const PRICE_AFTERSHOT = import.meta.env.STRIPE_PRICE_ID_AFTERSHOTTEST || ''
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <section class="prod-hero">
-    <img class="bg" src="/images/zeolite.png" alt="" />
-    <div class="inner">
-      <h1>Aftershot &amp; Zeolite</h1>
-      <p>Targeted cleanse support featuring zeolite. Simple daily use, clean formulation.</p>
-      <a href="/products" class="btn">Shop Now</a>
+  <section class="prodpg">
+    <div class="prodpg__container">
+      <h1 class="products-title">AfterShot</h1>
+
+      <div class="prodpg__grid">
+        <!-- AfterShot (single item) -->
+        <article class="prodpg__card">
+          <img
+            src="/images/products/aftershot-8oz.jpg"
+            alt="AfterShot Pain Relief (8 oz)"
+            loading="lazy"
+          />
+          <h3>AfterShot Pain Relief (8 oz)</h3>
+          <p class="prodpg__price">$24.99</p>
+          <p class="prodpg__desc">
+            Topical relief gel for post-workout and general aches. Cooling feel, fast absorption.
+          </p>
+          <button
+            class="btn-cta add-to-cart"
+            data-sku="aftershot-8oz"
+            data-name="AfterShot Pain Relief (8 oz)"
+            data-price="2499"                       <!-- cents -->
+            data-image="/images/products/aftershot-8oz.jpg"
+            data-qty="1"
+          >Add to Cart</button>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="content">
-    <h2>About Aftershot &amp; Zeolite</h2>
-    <p>Explain benefits, recommended timing, and pairings. Add product links later.</p>
-  </section>
-
   <style>
-    .prod-hero{position:relative;isolation:isolate;overflow:hidden;min-height:360px;border-radius:14px;background:#fff;margin-top:8px}
-    .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.18;z-index:-1}
-    .inner{padding:36px 20px 28px;max-width:900px;margin:0 auto}
-    .inner h1{margin:0 0 8px;font-size:clamp(2rem,3vw,2.6rem)}
-    .inner p{margin:0 0 14px;max-width:60ch}
-    .btn{display:inline-flex;gap:.5rem;align-items:center;justify-content:center;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;text-decoration:none;font-weight:700}
-    .content{max-width:900px;margin:22px auto;padding:0 4px}
+   .prodpg { padding: 0 0 48px; }
+
+   .prodpg__container {
+     max-width: 1100px;
+     margin: 0 auto;
+     padding: 0 16px;
+   }
+
+   /* same grid as your Flax page */
+   section.prodpg .prodpg__grid{
+     display: grid !important;
+     grid-template-columns: 1fr;
+     row-gap: 16px !important;
+     column-gap: 32px !important;
+     margin: 10px 0 24px;
+   }
+
+   @media (min-width: 800px){
+     section.prodpg .prodpg__grid{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+     section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
+     section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
+   }
+
+   section.prodpg .prodpg__card{
+     background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
+     box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
+     width:100%; max-width:none;
+   }
+   section.prodpg .prodpg__card img{
+     width:100%; height:220px; object-fit:cover; border-radius:10px; display:block;
+   }
+   section.prodpg .prodpg__price{ font-weight:700; font-size:1.05rem; }
+   section.prodpg .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
   </style>
 </BaseLayout>
