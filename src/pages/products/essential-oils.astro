@@ -1,32 +1,162 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-const pageTitle = 'Essential Oils — ';
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+const pageTitle = 'Essential Oils — '
+
+/* Base price (cents). Modifiers add to this. */
+const baseCents = 1400;
+
+// Optional price IDs if your API maps by price id (can be blank)
+const PRICE_EO_DYNAMIC = '';
+
+const oils = [
+  { key: 'lavender',     label: 'Lavender',     mod: 0 },
+  { key: 'peppermint',   label: 'Peppermint',   mod: 0 },
+  { key: 'lemon',        label: 'Lemon',        mod: 0 },
+  { key: 'tea-tree',     label: 'Tea Tree',     mod: 0 },
+  { key: 'frankincense', label: 'Frankincense', mod: 1000 }, // +$10.00
+];
+
+const sizes = [
+  { key: '10ml', label: '10 ml', mod: 0 },
+  { key: '30ml', label: '30 ml', mod: 1100 }, // +$11.00
+];
+
+const heroImage = '/images/products/essential-oils-assortment.jpg';
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <section class="prod-hero">
-    <img class="bg" src="/images/eoils.png" alt="" />
-    <div class="inner">
-      <h1>Essential Oils</h1>
-      <p>Therapeutic-grade single oils and blends for daily routines, emotional balance, and more.</p>
-      <a href="/products" class="btn">Shop Now</a>
+  <section class="prodpg">
+    <div class="prodpg__container">
+      <h1 class="products-title">Essential Oils</h1>
+
+      <div class="prodpg__grid">
+        <!-- One card with selectors (matches your card styling) -->
+        <article class="prodpg__card">
+          <img
+            src={heroImage}
+            alt="Essential Oils"
+            loading="lazy"
+          />
+          <h3>Essential Oil</h3>
+          <p id="eoPrice" class="prodpg__price">From ${(baseCents/100).toFixed(2)}</p>
+          <p class="prodpg__desc">
+            Pure essential oils. Choose your oil and bottle size.
+          </p>
+
+          <label>
+            <span style="display:block;font-weight:600;margin:0 0 .25rem">Oil</span>
+            <select id="eoOil" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
+              {oils.map(o => <option value={o.key} data-mod={o.mod}>{o.label}</option>)}
+            </select>
+          </label>
+
+          <label>
+            <span style="display:block;font-weight:600;margin:.5rem 0 .25rem">Size</span>
+            <select id="eoSize" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
+              {sizes.map(s => <option value={s.key} data-mod={s.mod}>{s.label}</option>)}
+            </select>
+          </label>
+
+          <label>
+            <span style="display:block;font-weight:600;margin:.5rem 0 .25rem">Quantity</span>
+            <input id="eoQty" type="number" min="1" value="1" style="width:86px;padding:8px;border:1px solid #ddd;border-radius:10px" />
+          </label>
+
+          <button
+            id="eoAdd"
+            class="btn-cta add-to-cart"
+            data-sku=""
+            data-name=""
+            data-price={baseCents}
+            data-image={heroImage}
+            data-qty="1"
+          >Add to Cart</button>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="content">
-    <h2>About Essential Oils</h2>
-    <p>Outline quality standards, usage safety, and popular picks. Add product cards later.</p>
-  </section>
-
   <style>
-    .prod-hero{position:relative;isolation:isolate;overflow:hidden;min-height:360px;border-radius:14px;background:#fff;margin-top:8px}
-    .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.18;z-index:-1}
-    .inner{padding:36px 20px 28px;max-width:900px;margin:0 auto}
-    .inner h1{margin:0 0 8px;font-size:clamp(2rem,3vw,2.6rem)}
-    .inner p{margin:0 0 14px;max-width:60ch}
-    .btn{display:inline-flex;gap:.5rem;align-items:center;justify-content:center;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;text-decoration:none;font-weight:700}
-    .content{max-width:900px;margin:22px auto;padding:0 4px}
+   .prodpg { padding: 0 0 48px; }
+
+   .prodpg__container {
+     max-width: 1100px;
+     margin: 0 auto;
+     padding: 0 16px;
+   }
+
+   section.prodpg .prodpg__grid{
+     display: grid !important;
+     grid-template-columns: 1fr;
+     row-gap: 16px !important;
+     column-gap: 32px !important;
+     margin: 10px 0 24px;
+   }
+
+   @media (min-width: 800px){
+     section.prodpg .prodpg__grid{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+     section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
+     section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
+   }
+
+   section.prodpg .prodpg__card{
+     background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
+     box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
+     width:100%; max-width:none;
+   }
+   section.prodpg .prodpg__card img{
+     width:100%; height:220px; object-fit:cover; border-radius:10px; display:block;
+   }
+   section.prodpg .prodpg__price{ font-weight:700; font-size:1.05rem; }
+   section.prodpg .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
   </style>
+
+  <!-- keep cart contract: update data- attributes to match current selections -->
+  <script is:inline>
+    (function(){
+      var oilSel  = document.getElementById('eoOil');
+      var sizeSel = document.getElementById('eoSize');
+      var qty     = document.getElementById('eoQty');
+      var btn     = document.getElementById('eoAdd');
+      var priceEl = document.getElementById('eoPrice');
+
+      function cents(x){ return Math.round(Number(x)||0); }
+      function modFor(sel){ return cents(sel.options[sel.selectedIndex].dataset.mod || 0); }
+
+      function update(){
+        var oilKey   = oilSel.value;
+        var oilLabel = oilSel.options[oilSel.selectedIndex].textContent || oilKey;
+        var sizeKey  = sizeSel.value;
+        var sizeLabel= sizeSel.options[sizeSel.selectedIndex].textContent || sizeKey;
+
+        var finalCents = ${baseCents} + modFor(oilSel) + modFor(sizeSel);
+
+        // Build SKU + Name
+        var sku  = "eo-" + oilKey + "-" + sizeKey;
+        var name = oilLabel + " (" + sizeLabel + ")";
+
+        // Sync to button attributes for your cart
+        btn.setAttribute('data-sku', sku);
+        btn.setAttribute('data-name', name);
+        btn.setAttribute('data-price', String(finalCents));
+        btn.setAttribute('data-qty', String(Math.max(1, parseInt(qty.value||'1',10))));
+
+        // Visible price
+        priceEl.textContent = "$" + (finalCents/100).toFixed(2);
+      }
+
+      qty.addEventListener('input', function(){
+        var n = Math.max(1, parseInt(qty.value || '1', 10));
+        qty.value = String(n);
+        btn.setAttribute('data-qty', String(n));
+      });
+      oilSel.addEventListener('change', update);
+      sizeSel.addEventListener('change', update);
+
+      update();
+    })();
+  </script>
 </BaseLayout>

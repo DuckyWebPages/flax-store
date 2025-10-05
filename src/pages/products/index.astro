@@ -53,7 +53,7 @@ const pageTitle = 'Products — ';
       <!-- Featured Products -->
       <h2 class="products-title">Featured Products</h2>
       <div class="prodpg__grid">
-        <!-- Regular Single Jar -->
+        <!-- Flax Hull Lignans (Single Jar) -->
         <article class="prodpg__card">
           <img
             src="/images/flax-single-small.jpg"
@@ -66,13 +66,11 @@ const pageTitle = 'Products — ';
             class="btn-cta add-to-cart"
             data-sku="fhl-single"
             data-name="Flax Hull Lignan (Single Jar)"
-            data-price="4995"
+            data-price="3900"                     <!-- match $39.00 -->
             data-image="/images/flax-single-small.jpg"
             data-qty="1"
           >Add to Cart</button>
         </article>
-
-        
 
         <!-- Ancient Seeds & Grains Single Jar -->
         <article class="prodpg__card">
@@ -81,54 +79,60 @@ const pageTitle = 'Products — ';
             alt="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
             loading="lazy"
           />
-          <h3>FLH Ancient Seeds &amp; Grains Flax Hull Lignans (Single Jar)</h3>
+          <h3>FLH Ancient Seeds &amp; Grains (Single Jar)</h3>
           <p class="prodpg__price">$45.00</p>
           <button
             class="btn-cta add-to-cart"
             data-sku="ancient-single"
-            data-name="FLH Ancient Seeds and Grains Flax Hull Lignans (Single Jar)"
+            data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
             data-price="4500"
             data-image="/images/ancient-single-small.png"
             data-qty="1"
           >Add to Cart</button>
         </article>
 
-         <!-- Ocean Cleanse -->
+        <!-- Ocean Cleanse -->
         <article class="prodpg__card">
           <img
             src="/images/ocean-cleanse-single-2025.jpg"
-            alt="Ocean Cleanse Heavy Metal and Toxin Detox"
+            alt="Ocean Cleanse Toxin/Radiation/Heavy Metal Detox"
             loading="lazy"
           />
           <h3>Ocean Cleanse Toxin/Radiation/Heavy Metal Detox</h3>
           <p class="prodpg__price">$34.95</p>
           <button
             class="btn-cta add-to-cart"
-            data-sku="ancient-single"
-            data-name="FLH Ancient Seeds and Grains Flax Hull Lignans (Single Jar)"
+            data-sku="ocean-cleanse-single"       <!-- was ancient-single -->
+            data-name="Ocean Cleanse Detox (Single)"
             data-price="3495"
             data-image="/images/ocean-cleanse-single-2025.jpg"
             data-qty="1"
           >Add to Cart</button>
         </article>
 
-         <!-- Zeolite-->
+        <!-- Zeolite (links to detail page) -->
         <article class="prodpg__card">
           <img
             src="/images/zeolite.png"
-            alt="Aftershow Zeolite Toxin Removal"
+            alt="Zeolite Toxin Removal"
             loading="lazy"
           />
-          <h3>Aftershot Toxin Remover Zeolite</h3>
+          <h3>Zeolite (8 oz)</h3>
           <p class="prodpg__price">$19.00</p>
-          <button
-            class="btn-cta add-to-cart"
-            data-sku="zeolite-single"
-            data-name="Aftershot Zeolite Toxin Removal"
-            data-price="1900"
-            data-image="/images/zeolite.png"
-            data-qty="1"
-          >Add to Cart</button>
+          <!-- Go to the product page; the product page also has an add-to-cart button -->
+          <a class="btn-cta" href="/products/zeolite/">View Product</a>
+        </article>
+
+        <!-- Essential Oils (variants; link to variants page) -->
+        <article class="prodpg__card">
+          <img
+            src="/images/products/essential-oils-assortment.jpg"
+            alt="Essential Oils"
+            loading="lazy"
+          />
+          <h3>Essential Oils</h3>
+          <p class="prodpg__price">From $14.00</p>
+          <a class="btn-cta" href="/products/essential-oils/">Shop Variants</a>
         </article>
       </div>
     </div>
@@ -162,36 +166,27 @@ const pageTitle = 'Products — ';
     .prodpg__label{ font-weight:700; letter-spacing:.01em; }
 
     /* Featured products grid */
-.prodpg__grid{
-  display:grid; gap:12px;                 /* slightly smaller gap */
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin: 6px 0 12px;
-}
-@media (min-width: 700px){
-  .prodpg__grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (min-width: 1100px){
-  .prodpg__grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }  /* <-- 4 across */
-}
+    .prodpg__grid{
+      display:grid; gap:12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin: 6px 0 12px;
+    }
+    @media (min-width: 700px){
+      .prodpg__grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1100px){
+      .prodpg__grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
 
-/* Cards: allow grid to control width */
-.prodpg__card{
-  background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px; /* slightly tighter */
-  box-shadow:0 8px 18px rgba(0,0,0,.06);
-  display:grid; gap:.55rem; justify-items:start;
-  width: 100%;
-  /* remove width limiter & centering that cause wrap */
-  /* max-width: 340px;  <-- remove */
-  /* margin: 0 auto;    <-- remove */
-}
-
-/* Keep image reasonable height */
-.prodpg__card img{
-  width:100%;
-  height:170px;           /* a tad shorter helps fit */
-  object-fit:cover;
-  border-radius:10px;
-}
+    .prodpg__card{
+      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px;
+      box-shadow:0 8px 18px rgba(0,0,0,.06);
+      display:grid; gap:.55rem; justify-items:start;
+      width: 100%;
+    }
+    .prodpg__card img{
+      width:100%; height:170px; object-fit:cover; border-radius:10px;
+    }
 
     .prodpg__price{ font-weight:700; }
     .prodpg__save{ color:#16a34a; font-weight:700; margin-left:.35rem; font-size:.95rem; }

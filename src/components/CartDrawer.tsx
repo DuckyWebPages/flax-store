@@ -5,68 +5,61 @@ export default function CartDrawer() {
   const { items, totalCents, setQty, remove, clear, open, setOpen } = useCart();
   const [loading, setLoading] = React.useState(false);
 
-  async function handleCheckout() {
+  const handleCheckout = async () => {
     try {
       console.log("[checkout] click; items=", items);
 
+      // Guard: empty cart
       if (!items.length) {
         alert("Your cart is empty.");
         return;
       }
 
-      // Build the payload expected by /api/create-checkout-session
-      const lineItems = items.map((i) => ({
-        price: i.priceId, // must be "price_..." (Stripe Price ID)
-        quantity: i.qty,
-      }));
+      // Read promo from the single field (optional)
+      const couponEl = document.querySelector<HTMLInputElement>('[data-coupon]');
+      const promoCode = couponEl ? couponEl.value.trim() : "";
 
-      // Quick validation to catch missing priceIds early
-      const bad = lineItems.find((li, idx) => !li.price || !String(li.price).startsWith("price_"));
-      if (bad) {
-        console.error("[checkout] missing/invalid priceId in lineItems:", lineItems);
-        alert(
-          "One or more items are missing a Stripe price ID. Please refresh the page or re-add the item. If it keeps happening, tell me."
-        );
-        return;
-      }
-
-      console.log("[checkout] posting lineItems=", lineItems);
       setLoading(true);
+
+      // Build payload for /api/create-checkout-session (SKU + qty)
+      const payload = {
+        items: items.map((i) => ({
+          id: i.id,   // e.g. "fhl-single"
+          qty: i.qty, // quantity
+        })),
+        promoCode,
+      };
+
+      console.log("[checkout] posting payload=", payload);
 
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: lineItems }),
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
       });
 
-      console.log("[checkout] HTTP status:", res.status);
+      // Read raw first to avoid JSON.parse crash if server returns HTML (e.g., 404)
+      const raw = await res.text();
       let data: any = null;
-      try {
-        data = await res.json();
-      } catch {
-        // If the server failed before sending JSON
-        console.error("[checkout] non-JSON response");
-      }
-      console.log("[checkout] response JSON:", data);
+      try { data = raw ? JSON.parse(raw) : null; } catch { /* ignore */ }
 
-      if (!res.ok) {
-        alert(data?.error || `Checkout failed (HTTP ${res.status}).`);
+      console.log("[checkout] status:", res.status, "data:", data);
+
+      if (!res.ok || !data?.url) {
+        const msg = (data && data.error) ? data.error : `Checkout failed (HTTP ${res.status}).`;
+        alert(msg);
         return;
       }
 
-      if (data?.url) {
-        // Redirect to Stripe Checkout
-        window.location.href = data.url;
-      } else {
-        alert(data?.error || "Checkout failed (no redirect URL).");
-      }
+      // Redirect to Stripe Checkout
+      window.location.href = data.url;
     } catch (err: any) {
       console.error("[checkout] error:", err);
-      alert("Checkout failed: " + (err?.message || String(err)));
+      alert("Sorry—checkout could not start: " + (err?.message || "Unknown error"));
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div
@@ -83,6 +76,9 @@ export default function CartDrawer() {
         transition: "transform .3s",
         zIndex: 9999,
       }}
+      aria-hidden={!open}
+      role="complementary"
+      aria-label="Shopping cart"
     >
       <button onClick={() => setOpen(false)}>Close</button>
       <h2>Cart</h2>

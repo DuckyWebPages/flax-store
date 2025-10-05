@@ -1,130 +1,92 @@
----
-/* FILE: src/pages/cart.astro */
-import BaseLayout from "../layouts/BaseLayout.astro";
----
-<BaseLayout pageTitle="Your Cart">
-  <h1>Your Cart</h1>
+<script type="module">
+  import { Cart } from "@/lib/cart";
 
-  <!-- Cart items will render here -->
-  <div id="cart-list"></div>
+  function render() {
+    const mount = document.getElementById("cart-list");
+    const cart = Cart.all(); // [{id,name,unitCents,image,qty}]
+    if (!cart.length) {
+      mount.innerHTML = "<p>Your cart is empty.</p>";
+      return;
+    }
 
-  <!-- Shipping country selector -->
-  <label style="display:block;margin:.75rem 0;">
-    Ship to:
-    <select id="country">
-      <option value="US" selected>United States</option>
-      <option value="CA">Canada</option>
-    </select>
-  </label>
-
-  <!-- ✅ Checkout button -->
-  <button id="checkout" class="btn-cta">Checkout</button>
-
-  <script type="module">
-    import { Cart } from "/src/lib/cart.ts";
-
-    function render() {
-      const mount = document.getElementById("cart-list");
-      const cart = Cart.all(); // [{id,name,unitCents,image,qty}]
-      if (!cart.length) { mount.innerHTML = "<p>Your cart is empty.</p>"; return; }
-
-      mount.innerHTML = cart.map(i => `
-        <div class="row" data-sku="\${i.id}">
-          <img src="\${i.image ?? ""}" alt="" style="width:64px;height:64px;object-fit:cover;margin-right:.5rem;" />
+    mount.innerHTML = cart
+      .map(
+        (i) => `
+        <div class="row" data-sku="${i.id}">
+          <img src="${i.image ?? ""}" alt="" style="width:64px;height:64px;object-fit:cover;margin-right:.5rem;" />
           <div style="flex:1;">
-            <strong>\${i.name}</strong><br />
-            $\${(i.unitCents/100).toFixed(2)}
+            <strong>${i.name}</strong><br />
+            $${(i.unitCents / 100).toFixed(2)}
           </div>
-          <input type="number" min="1" value="\${i.qty}" class="qty" style="width:64px;" />
+          <input type="number" min="1" value="${i.qty}" class="qty" style="width:64px;" />
           <button class="rm">Remove</button>
         </div>
-      `).join("");
+      `
+      )
+      .join("");
+  }
+
+  // Remove item
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    if (!(t instanceof HTMLElement)) return;
+    if (t.classList.contains("rm")) {
+      const row = t.closest(".row");
+      const sku = row?.getAttribute("data-sku");
+      if (sku) {
+        Cart.remove(sku);
+        render();
+      }
+    }
+  });
+
+  // Quantity change
+  document.addEventListener("change", (e) => {
+    const t = e.target;
+    if (!(t instanceof HTMLInputElement)) return;
+    if (t.classList.contains("qty")) {
+      const row = t.closest(".row");
+      const sku = row?.getAttribute("data-sku");
+      if (sku) {
+        const val = Math.max(1, Number(t.value) || 1);
+        Cart.setQty(sku, val);
+        render();
+      }
+    }
+  });
+
+  // Checkout
+  document.getElementById("checkout")?.addEventListener("click", async () => {
+    const items = Cart.all(); // [{id,name,unitCents,image,qty}]
+    if (!items.length) {
+      alert("Your cart is empty.");
+      return;
     }
 
-    // Remove item handler
-    document.addEventListener("click", (e) => {
-      const t = e.target;
-      if (!(t instanceof HTMLElement)) return;
-      if (t.classList.contains("rm")) {
-        const row = t.closest(".row");
-        const sku = row?.getAttribute("data-sku");
-        if (sku) { Cart.remove(sku); render(); }
-      }
-    });
+    // Optional: country dropdown (defaults to US if present)
+    const selectEl = /** @type {HTMLSelectElement|null} */ (document.getElementById("country"));
+    const country = (selectEl && selectEl.value ? String(selectEl.value) : "US").toUpperCase();
 
-    // Quantity change handler
-    document.addEventListener("change", (e) => {
-      const t = e.target;
-      if (!(t instanceof HTMLInputElement)) return;
-      if (t.classList.contains("qty")) {
-        const row = t.closest(".row");
-        const sku = row?.getAttribute("data-sku");
-        if (sku) Cart.setQty(sku, Math.max(1, Number(t.value) || 1));
-      }
-    });
+    // Optional: promo from drawer input if present on page
+    const couponEl = /** @type {HTMLInputElement|null} */ (document.querySelector("[data-coupon]"));
+    const promoCode = couponEl ? couponEl.value.trim() : "";
 
-    // ✅ CHECKOUT: create Stripe session via /api/checkout and redirect
-    document.getElementById("checkout")?.addEventListener("click", async () => {
-      const items = Cart.all(); // [{id,name,unitCents,image,qty}]
-      if (!items.length) { alert("Your cart is empty."); return; }
+    // Build payload for /api/create-checkout-session (SKU + qty)
+    const payload = {
+      items: items.map((i) => ({
+        id: i.id,   // e.g. "fhl-single"
+        qty: i.qty, // number
+      })),
+      promoCode,
+      // Include country only if you actually handle it server-side:
+      // country,
+    };
 
-      // Read selected country (defaults to US)
-      const selectEl = document.getElementById("country");
-      const country = (selectEl && selectEl.value ? selectEl.value : "US").toUpperCase();
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-      // Build payload API expects: { items: [{ price, quantity }], country? }
-+   // If cart item lacks priceId, recover it from the product button’s data-priceid
-+   const lineItems = items.map(({ id, qty, priceId }) => {
-+     let p = priceId || "";
-+     if (!p && typeof document !== "undefined") {
-+       const btn = document.querySelector(`.add-to-cart[data-sku="${id}"]`);
-+       if (btn) p = btn.getAttribute("data-priceid") || "";
-+     }
-+     return { price: p, quantity: Math.max(1, Number(qty) || 1) };
-+   });
-+   // Validate before calling API (clear message if anything’s off)
-+   const bad = lineItems.find(li => !li.price || !String(li.price).startsWith("price_") || !li.quantity);
-+   if (bad) {
-+     alert(
-+       "One or more items are missing a Stripe Price ID.\n\nFix:\n• Ensure the product button has data-priceid=\"price_...\"\n• Or remove the item and add it again.\n• Confirm valid price ids at /api/price-check on this same site."
-+     );
-+     return;
-+   }
-+   const payload = { items: lineItems, country };
-
-      try {
-        const res = await fetch("/api/create-checkout-session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        +     // Read raw first to avoid JSON.parse crash if server returns HTML (e.g., 404)
-+     const raw = await res.text();
-+     let data = null; try { data = raw ? JSON.parse(raw) : null; } catch {}
-
-
-       if (res.ok && data?.url) {
-          // Redirect to Stripe Checkout
-          window.location.href = data.url;
-        } else {
-        const msg = (data && (data.error || data.message)) || `Checkout failed (HTTP ${res.status}). Body: ${raw?.slice(0,200)}`;
-+       console.error("Checkout init failed:", res.status, data || raw);
-+       alert(msg);
-      } catch (err) {
-        console.error("Checkout request error:", err);
-        alert("Network error initializing checkout.");
-      }
-    });
-
-    // Initial render
-    render();
-  </script>
-
-  <style>
-    #cart-list .row {
-      display:flex; align-items:center; gap:.5rem;
-      padding:.5rem 0; border-bottom:1px solid #eee;
-    }
-  </style>
-</BaseLayout>
+      // Read raw first to avoid JSON.parse crash on HTML

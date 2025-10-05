@@ -957,34 +957,47 @@ if (checkoutBtn) {
     }
 
     // Only send minimal data
-var skinny = items.map(function(i){ return { id: i.id, qty: i.qty }; });
+var skinny = items.map(function (i) { return { id: i.id, qty: i.qty }; });
 
-// NEW: read promo from the single field
+// Read promo from the single field (optional)
 var couponEl = document.querySelector('[data-coupon]');
 var promoCode = couponEl ? couponEl.value.trim() : '';
 
-const res = await fetch('/api/create-checkout-session', {
-  method: 'POST',
-  headers: { 'content-type': 'application/json' },
-  body: JSON.stringify({ items: skinny, promoCode }),
-});
+// Optional country selector (only include if your API uses it)
+// var countryEl = document.querySelector('[data-country]');
+// var country = countryEl ? String(countryEl.value).toUpperCase() : undefined;
 
+// Prevent double sessions
+checkoutBtn.disabled = true;
 
-      var data = await res.json();
-      if (!res.ok || !data || !data.url) {
-        throw new Error((data && data.error) || 'Checkout failed');
-      }
-      window.location.href = data.url;
+try {
+  const payload = {
+    items: skinny,
+    promoCode: promoCode,
+    // ...(country ? { country } : {}),
+  };
 
-    } catch (err) {
-      console.error('[checkout] error:', err);
-      alert('Sorry, ' + (err && err.message ? err.message : 'something went wrong starting checkout.'));
-    } finally {
-      checkoutBtn.disabled = false;
-    }
+  const res = await fetch('/api/create-checkout-session', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload),
   });
+
+  // Read raw first to avoid JSON.parse crash if server returns HTML
+  const raw = await res.text();
+  let data = null; try { data = raw ? JSON.parse(raw) : null; } catch {}
+
+  if (!res.ok || !data || !data.url) {
+    throw new Error((data && (data.error || data.message)) || `Checkout failed (HTTP ${res.status}).`);
+  }
+
+  window.location.href = data.url; // Stripe Checkout
+} catch (err) {
+  console.error('[checkout] error:', err);
+  alert('Sorry—checkout could not start: ' + (err && err.message ? err.message : 'Unknown error'));
+} finally {
+  checkoutBtn.disabled = false;
 }
 
-})();  // closes the IIFE started above
 
 </script>
