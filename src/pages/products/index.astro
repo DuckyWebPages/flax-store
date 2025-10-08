@@ -1,31 +1,31 @@
 ---
 // FILE: src/pages/products/index.astro
 import React from "react";
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProductCard from '../../components/ProductCard'; // <-- new
-const pageTitle = 'Products — ';
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProductCard from "../../components/ProductCard";
 
-// Data for the ProductCard items (unified look/buttons)
+const pageTitle = "Products — ";
+
 const featured = [
   {
     id: "fhl-single",
     name: "Flax Hull Lignans (Single Jar)",
     priceCents: 3900,
     imageUrl: "/images/flax-single-small.jpg",
-    badge: "Featured"
+    badge: "Featured",
   },
   {
     id: "ancient-single",
     name: "FLH Ancient Seeds & Grains (Single Jar)",
     priceCents: 4500,
-    imageUrl: "/images/ancient-single-small.png"
+    imageUrl: "/images/ancient-single-small.png",
   },
   {
     id: "ocean-cleanse-single",
     name: "Ocean Cleanse Toxin/Radiation/Heavy Metal Detox",
     priceCents: 3495,
-    imageUrl: "/images/ocean-cleanse-single-2025.jpg"
-  }
+    imageUrl: "/images/ocean-cleanse-single-2025.jpg",
+  },
 ];
 ---
 
@@ -35,39 +35,41 @@ const featured = [
   <section class="prodpg">
     <div class="prodpg__container">
       <h1 class="products-title">Products by Category</h1>
-      <p class="prodpg__lead">Browse by category, or jump straight to our best sellers.</p>
+      <p class="prodpg__lead">
+        Browse by category, or jump straight to our best sellers.
+      </p>
 
-      <!-- Category Grid (unchanged) -->
+      <!-- Category Grid -->
       <div class="prodpg__cats">
-        <a class="prodpg__cat" href="/products/flax-hull-lignans" aria-label="Flax Products">
+        <a class="prodpg__cat" href="/products/flax-hull-lignans">
           <span class="prodpg__circle">
             <img src="/images/flax-small.png" alt="Flax Hull Lignans" loading="lazy" />
           </span>
           <span class="prodpg__label">Flax Products</span>
         </a>
 
-        <a class="prodpg__cat" href="/products/detox-products" aria-label="Detox Products">
+        <a class="prodpg__cat" href="/products/detox-products">
           <span class="prodpg__circle">
             <img src="/images/detox-small.png" alt="Detox Products" loading="lazy" />
           </span>
           <span class="prodpg__label">Detox Products</span>
         </a>
 
-        <a class="prodpg__cat" href="/products/brain-health" aria-label="Brain Health Products">
+        <a class="prodpg__cat" href="/products/brain-health">
           <span class="prodpg__circle">
             <img src="/images/brain-small.png" alt="Brain Health" loading="lazy" />
           </span>
           <span class="prodpg__label">Brain Products</span>
         </a>
 
-        <a class="prodpg__cat" href="/products/essential-oils" aria-label="Essential Oils">
+        <a class="prodpg__cat" href="/products/essential-oils">
           <span class="prodpg__circle">
             <img src="/images/essential-small.png" alt="Essential Oils" loading="lazy" />
           </span>
           <span class="prodpg__label">Essential Oils</span>
         </a>
 
-        <a class="prodpg__cat" href="/products/other-products" aria-label="Other Products">
+        <a class="prodpg__cat" href="/products/other-products">
           <span class="prodpg__circle">
             <img src="/images/other-small.png" alt="Other Products" loading="lazy" />
           </span>
@@ -79,32 +81,25 @@ const featured = [
       <h2 class="products-title">Featured Products</h2>
 
       <div class="prodpg__grid">
-        { /* 1–3 use the unified ProductCard with proper SKUs/prices */ }
-        {
-          featured.map((p) => (
-            <ProductCard product={p} />
-          ))
-        }
+        {featured.map((p) => (
+          <ProductCard client:load product={p} />
+        ))}
 
-        { /* 4) Zeolite (kept as link to detail page) */ }
+        <!-- Zeolite -->
         <article class="prodpg__card">
-          <img
-            src="/images/zeolite.png"
-            alt="Zeolite Toxin Removal"
-            loading="lazy"
-          />
+          <div class="product-media">
+            <img src="/images/zeolite.png" alt="Zeolite Toxin Removal" loading="lazy" />
+          </div>
           <h3>Zeolite (8 oz)</h3>
           <p class="prodpg__price">$19.00</p>
           <a class="btn-cta" href="/products/zeolite/">View Product</a>
         </article>
 
-        { /* 5) Essential Oils (variants; link to variants page) */ }
+        <!-- Essential Oils -->
         <article class="prodpg__card">
-          <img
-            src="/images/products/essential-oils-assortment.jpg"
-            alt="Essential Oils"
-            loading="lazy"
-          />
+          <div class="product-media">
+            <img src="/images/products/essential-oils-assortment.jpg" alt="Essential Oils" loading="lazy" />
+          </div>
           <h3>Essential Oils</h3>
           <p class="prodpg__price">From $14.00</p>
           <a class="btn-cta" href="/products/essential-oils/">Shop Variants</a>
@@ -114,12 +109,12 @@ const featured = [
   </section>
 
   <style>
-    /* Everything on this page is namespaced under .prodpg */
+    /* ----- PAGE STRUCTURE ----- */
     .prodpg { padding: 0 0 48px; }
     .prodpg__container { max-width:1100px; margin:0 auto; padding:0 16px; }
     .prodpg__lead { color:#334155; margin:.25rem 0 1rem; }
 
-    /* Category grid */
+    /* ----- CATEGORY GRID ----- */
     .prodpg__cats{
       display:grid; gap:14px;
       grid-template-columns: repeat(5, 1fr);
@@ -140,27 +135,40 @@ const featured = [
     .prodpg__circle img{ width:100%; height:100%; object-fit:cover; display:block; }
     .prodpg__label{ font-weight:700; letter-spacing:.01em; }
 
-    /* Featured products grid */
+    /* ----- FEATURED PRODUCTS GRID ----- */
     .prodpg__grid{
-      display:grid; gap:12px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin: 6px 0 12px;
-    }
-    @media (min-width: 700px){
-      .prodpg__grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
-    @media (min-width: 1100px){
-      .prodpg__grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin: 1rem 0 2rem;
+      align-items: start;
     }
 
+    /* Zeolite and Oils fallback cards */
     .prodpg__card{
       background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px;
       box-shadow:0 8px 18px rgba(0,0,0,.06);
-      display:grid; gap:.55rem; justify-items:start;
-      width: 100%;
+      display:flex; flex-direction:column; gap:.55rem;
     }
-    .prodpg__card img{
-      width:100%; height:170px; object-fit:cover; border-radius:10px;
+
+    .prodpg__card .product-media {
+      position: relative;
+      width: 100%;
+      background: #f9fafb;
+    }
+
+    .prodpg__card .product-media::before {
+      content: "";
+      display: block;
+      padding-top: 75%; /* 4:3 aspect ratio */
+    }
+
+    .prodpg__card .product-media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .prodpg__price{ font-weight:700; }

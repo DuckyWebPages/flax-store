@@ -1,20 +1,20 @@
-import React from "react";
+import * as React from "react";
 import { Button } from "./ui/Button";
 
 type Product = {
-  id: string;           // your SKU (what your cart code expects)
+  id: string;
   name: string;
-  priceCents: number;   // integer cents, e.g. 4499
+  priceCents: number;
   imageUrl: string;
-  badge?: string;       // "Featured", "New", etc. (optional)
-  description?: string; // optional
-  inStock?: boolean;    // default true
+  badge?: string;
+  description?: string;
+  inStock?: boolean;
 };
 
 type Props = {
   product: Product;
-  onAddToCart?: (p: Product) => void; // optional – your cart can hook into this later
-  compact?: boolean;                  // smaller layout for featured section
+  onAddToCart?: (p: Product) => void;
+  compact?: boolean;
 };
 
 export default function ProductCard({ product, onAddToCart, compact = false }: Props) {
@@ -27,16 +27,18 @@ export default function ProductCard({ product, onAddToCart, compact = false }: P
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md ${
+      className={`product-card group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md ${
         compact ? "p-3" : "p-4"
       }`}
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-slate-50">
+      {/* FIXED MEDIA BOX (no plugin required) */}
+      <div className="product-media rounded-2xl bg-slate-50 overflow-hidden">
         <img
           src={imageUrl}
           alt={name}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           loading="lazy"
+          decoding="async"
+          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
         />
         {badge && (
           <span className="absolute left-3 top-3 rounded-full bg-emerald-600/90 px-3 py-1 text-xs font-semibold text-white">
@@ -60,15 +62,15 @@ export default function ProductCard({ product, onAddToCart, compact = false }: P
       <div className="mt-3">
         <Button
           variant="primary"
-          className="w-full"
+          className="w-full add-to-cart"
           disabled={!inStock}
-          // These data-* attributes let your existing cart handler keep working.
           data-sku={id}
           data-qty={1}
           data-price={priceCents}
           data-name={name}
           onClick={() => onAddToCart?.(product)}
           aria-label={inStock ? `Add ${name} to cart` : `${name} is out of stock`}
+          type="button"
         >
           {inStock ? "Add to Cart" : "Out of Stock"}
         </Button>
