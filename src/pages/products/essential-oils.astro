@@ -132,7 +132,8 @@ const heroImage = '/images/products/essential-oils-assortment.jpg';
         var sizeKey  = sizeSel.value;
         var sizeLabel= sizeSel.options[sizeSel.selectedIndex].textContent || sizeKey;
 
-        var finalCents = ${baseCents} + modFor(oilSel) + modFor(sizeSel);
+        var finalCents = baseCents + modFor(oilSel) + modFor(sizeSel);
+
 
         // Build SKU + Name
         var sku  = "eo-" + oilKey + "-" + sizeKey;

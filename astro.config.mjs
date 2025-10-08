@@ -1,12 +1,12 @@
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel'; // <-- changed: no "/serverless"
+import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
   output: 'server',
-  adapter: vercel(), // let Vercel set the correct runtime (Node 22 via settings)
+  adapter: vercel(),
   integrations: [react()],
   vite: {
     resolve: {
@@ -14,6 +14,6 @@ export default defineConfig({
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
+    // 🚫 remove plugins: [tailwindcss()]
   },
 });
-

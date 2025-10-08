@@ -5,6 +5,8 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="/src/styles/store.css" />
+
   <meta charset="utf-8" />
   <title><slot name="title" />Flax Lignan Health</title>
 
@@ -944,60 +946,36 @@ if (checkoutBtn) checkoutBtn.disabled = count === 0;
     openDrawer();
   });
 
+ <script>
   // ESC closes drawer
-  window.addEventListener("keydown", function(e){ if (e.key === "Escape") closeDrawer(); });
-// --- Checkout handler (Stripe) ---
-var checkoutBtn = document.querySelector("[data-checkout]");
-if (checkoutBtn) {
-  checkoutBtn.addEventListener("click", async function () {
-    var items = Cart.all();
-    if (!items.length) {
-      alert("Your cart is empty.");
+  window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && typeof closeDrawer === "function") {
+      closeDrawer();
+    }
+  });
+
+  // ADD-TO-CART (delegated) — works for any element with .add-to-cart or [data-sku]
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    if (!(t instanceof Element)) return;
+
+    var btn = t.closest(".add-to-cart,[data-sku]");
+    if (!btn) return;
+
+    e.preventDefault();
+
+    var ds = btn.dataset || {};
+    var sku   = ds.sku;
+    var name  = ds.name || "Item";
+    var price = parseInt(ds.price || "0", 10);   // cents
+    var qty   = parseInt(ds.qty   || "1", 10);
+    var image = ds.image || "";
+
+    if (!sku || !price) {
+      console.warn("Missing data-sku or data-price on Add to Cart button:", btn);
+      alert("Sorry, this item is missing product info.");
       return;
     }
 
-    // Only send minimal data
-var skinny = items.map(function (i) { return { id: i.id, qty: i.qty }; });
-
-// Read promo from the single field (optional)
-var couponEl = document.querySelector('[data-coupon]');
-var promoCode = couponEl ? couponEl.value.trim() : '';
-
-// Optional country selector (only include if your API uses it)
-// var countryEl = document.querySelector('[data-country]');
-// var country = countryEl ? String(countryEl.value).toUpperCase() : undefined;
-
-// Prevent double sessions
-checkoutBtn.disabled = true;
-
-try {
-  const payload = {
-    items: skinny,
-    promoCode: promoCode,
-    // ...(country ? { country } : {}),
-  };
-
-  const res = await fetch('/api/create-checkout-session', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-
-  // Read raw first to avoid JSON.parse crash if server returns HTML
-  const raw = await res.text();
-  let data = null; try { data = raw ? JSON.parse(raw) : null; } catch {}
-
-  if (!res.ok || !data || !data.url) {
-    throw new Error((data && (data.error || data.message)) || `Checkout failed (HTTP ${res.status}).`);
-  }
-
-  window.location.href = data.url; // Stripe Checkout
-} catch (err) {
-  console.error('[checkout] error:', err);
-  alert('Sorry—checkout could not start: ' + (err && err.message ? err.message : 'Unknown error'));
-} finally {
-  checkoutBtn.disabled = false;
-}
-
-
-</script>
+    if (typeof Cart !== "undefined" && typeof Cart.add === "function") {
+      Cart.add({ id: sku, name: name,
