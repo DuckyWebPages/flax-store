@@ -27,42 +27,67 @@ export default function ProductCard({ product, onAddToCart, compact = false }: P
 
   return (
     <article
-      className={`product-card group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md ${
-        compact ? "p-3" : "p-4"
-      }`}
+      className="product-card"
+      style={{
+        // hard-enforce white card + subtle shadow (no Tailwind)
+        background: "#fff",
+        border: "1px solid #e5e7eb",
+        borderRadius: 16,
+        boxShadow: "0 1px 4px rgba(0,0,0,.06)",
+        padding: compact ? 12 : 16,
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+        gap: 8,
+        position: "relative",
+      }}
     >
-      {/* FIXED MEDIA BOX (no plugin required) */}
-      <div className="product-media rounded-2xl bg-slate-50 overflow-hidden">
+      {/* Fixed 4:3 media box */}
+      <div className="product-media" style={{ borderRadius: 12, background: "#f9fafb", overflow: "hidden" }}>
         <img
           src={imageUrl}
           alt={name}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
         />
         {badge && (
-          <span className="absolute left-3 top-3 rounded-full bg-emerald-600/90 px-3 py-1 text-xs font-semibold text-white">
+          <span
+            style={{
+              position: "absolute",
+              left: 12,
+              top: 12,
+              borderRadius: 999,
+              background: "rgba(5, 150, 105, 0.9)",
+              padding: "6px 10px",
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#fff",
+            }}
+          >
             {badge}
           </span>
         )}
       </div>
 
-      <div className="mt-3 flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className="truncate text-base font-semibold text-slate-900">{name}</h3>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <h3 title={name} style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#0f172a", lineHeight: 1.2, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+            {name}
+          </h3>
           {description && (
-            <p className="mt-1 line-clamp-2 text-sm text-slate-600">{description}</p>
+            <p style={{ margin: "6px 0 0", fontSize: 14, color: "#475569", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+              {description}
+            </p>
           )}
         </div>
-        <div className="shrink-0 text-right text-base font-semibold text-slate-900">
-          {price}
-        </div>
+        <div style={{ whiteSpace: "nowrap", fontSize: 16, fontWeight: 700, color: "#0f172a" }}>{price}</div>
       </div>
 
-      <div className="mt-3">
+      <div>
         <Button
           variant="primary"
-          className="w-full add-to-cart"
+          className="add-to-cart"
           disabled={!inStock}
           data-sku={id}
           data-qty={1}
@@ -71,6 +96,8 @@ export default function ProductCard({ product, onAddToCart, compact = false }: P
           onClick={() => onAddToCart?.(product)}
           aria-label={inStock ? `Add ${name} to cart` : `${name} is out of stock`}
           type="button"
+          // Make the button compact and NOT full-width
+          style={{ alignSelf: "flex-start", padding: "8px 14px", fontSize: 14 }}
         >
           {inStock ? "Add to Cart" : "Out of Stock"}
         </Button>

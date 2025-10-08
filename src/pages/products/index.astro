@@ -6,6 +6,8 @@ import ProductCard from "../../components/ProductCard";
 
 const pageTitle = "Products — ";
 
+// NOTE: Use your real SKUs/prices when ready for Zeolite / Essential Oils.
+// These placeholders let the Add to Cart button work consistently right now.
 const featured = [
   {
     id: "fhl-single",
@@ -22,9 +24,21 @@ const featured = [
   },
   {
     id: "ocean-cleanse-single",
-    name: "Ocean Cleanse Toxin/Radiation/Heavy Metal Detox",
+    name: "Ocean Cleanse – Heavy Metal/Radiation Detox",
     priceCents: 3495,
     imageUrl: "/images/ocean-cleanse-single-2025.jpg",
+  },
+  {
+    id: "zeolite-8oz", // replace with your live SKU
+    name: "Zeolite (8 oz)",
+    priceCents: 1900,
+    imageUrl: "/images/zeolite.png",
+  },
+  {
+    id: "essential-oils-base", // replace with a real SKU or point base variant
+    name: "Essential Oils",
+    priceCents: 1400, // base/entry variant price (adjust as needed)
+    imageUrl: "/images/products/essential-oils-assortment.jpg",
   },
 ];
 ---
@@ -84,26 +98,6 @@ const featured = [
         {featured.map((p) => (
           <ProductCard client:load product={p} />
         ))}
-
-        <!-- Zeolite -->
-        <article class="prodpg__card">
-          <div class="product-media">
-            <img src="/images/zeolite.png" alt="Zeolite Toxin Removal" loading="lazy" />
-          </div>
-          <h3>Zeolite (8 oz)</h3>
-          <p class="prodpg__price">$19.00</p>
-          <a class="btn-cta" href="/products/zeolite/">View Product</a>
-        </article>
-
-        <!-- Essential Oils -->
-        <article class="prodpg__card">
-          <div class="product-media">
-            <img src="/images/products/essential-oils-assortment.jpg" alt="Essential Oils" loading="lazy" />
-          </div>
-          <h3>Essential Oils</h3>
-          <p class="prodpg__price">From $14.00</p>
-          <a class="btn-cta" href="/products/essential-oils/">Shop Variants</a>
-        </article>
       </div>
     </div>
   </section>
@@ -143,35 +137,5 @@ const featured = [
       margin: 1rem 0 2rem;
       align-items: start;
     }
-
-    /* Zeolite and Oils fallback cards */
-    .prodpg__card{
-      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:12px;
-      box-shadow:0 8px 18px rgba(0,0,0,.06);
-      display:flex; flex-direction:column; gap:.55rem;
-    }
-
-    .prodpg__card .product-media {
-      position: relative;
-      width: 100%;
-      background: #f9fafb;
-    }
-
-    .prodpg__card .product-media::before {
-      content: "";
-      display: block;
-      padding-top: 75%; /* 4:3 aspect ratio */
-    }
-
-    .prodpg__card .product-media img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .prodpg__price{ font-weight:700; }
-    .prodpg__save{ color:#16a34a; font-weight:700; margin-left:.35rem; font-size:.95rem; }
   </style>
 </BaseLayout>
