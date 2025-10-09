@@ -553,5 +553,23 @@ if (checkoutBtn) {
 
     })();
     </script>
+    <style is:global>
+  /* Cart line layout (optional but nice) */
+  .cart-item {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* This is the important part: cap thumb size */
+  .cart-thumb {
+    width: 64px;
+    height: 64px;
+    object-fit: cover; /* use 'contain' if you prefer letterboxing */
+    border-radius: 8px;
+  }
+</style>
+
   </body>
 </html>
