@@ -1,12 +1,12 @@
 ---
-// FILE: src/layouts/BaseLayout.astro
-/* Base layout with fixed header, global styles, and cart drawer */
+/* FILE: src/layouts/BaseLayout.astro
+   Base layout with fixed header, global styles, and cart drawer */
 ---
 <!doctype html>
 <html lang="en">
   <head>
-   <link rel="stylesheet" href="/src/styles/store.css" />
-<link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="stylesheet" href="/src/styles/store.css" />
+    <link rel="stylesheet" href="/src/styles/global.css" />
 
     <meta charset="utf-8" />
     <title><slot name="title" />Flax Lignan Health</title>
@@ -182,70 +182,26 @@
         .cart-item{ grid-template-columns:56px 1fr; }
         .ci-thumb{ width:56px; height:56px; }
       }
-      /* Force the cart icon to stay tiny, even if globals say img { width:100% } */
-.main-nav .nav-cart .cart-icon{
-  width: 22px !important;
-  height: 22px !important;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  display: block;
-}
-.main-nav .nav-cart{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 8px;
-  line-height: 0;
-}
-.main-nav .nav-cart .cart-icon{
-  width: 22px !important;
-  height: 22px !important;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  display: block;
-}
-.main-nav .nav-cart{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 8px;
-  line-height: 0;
-}
-/* Drawer image safety net */
-[data-cart-drawer] img {
-  max-width: 100%;
-  height: auto;
-}
 
-/* Cart item layout */
-.cart-item {
-  display: flex;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-}
+      /* Drawer image safety net */
+      [data-cart-drawer] img { max-width: 100%; height: auto; }
 
-/* Fixed thumbnail box */
-.ci-thumb {
-  width: 84px;
-  height: 84px;
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 10px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.ci-thumb > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+      /* Cart item layout */
+      .cart-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
 
-/* Content */
-.ci-main { min-width: 0; flex: 1; }
-.ci-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.ci-title { font-size: 0.95rem; line-height: 1.2; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.ci-price { white-space: nowrap; }
+      /* Fixed thumbnail box */
+      .ci-thumb {
+        width: 84px; height: 84px;
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 10px; overflow: hidden; flex-shrink: 0;
+      }
+      .ci-thumb > img { width: 100%; height: 100%; object-fit: cover; }
 
+      /* Content */
+      .ci-main { min-width: 0; flex: 1; }
+      .ci-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+      .ci-title { font-size: 0.95rem; line-height: 1.2; margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .ci-price { white-space: nowrap; }
     </style>
   </head>
 
@@ -501,88 +457,66 @@
         if (e.key === "Escape") closeDrawer();
       });
 
-      // Checkout handler (wire to your API when ready)
-      // Checkout handler (real payload + promo code)
-// Checkout handler (SKU + qty + promo + better errors)
-if (checkoutBtn) {
-  checkoutBtn.addEventListener("click", async function () {
-    var items = Cart.all();
-    if (!items.length) { alert("Your cart is empty."); return; }
+      // Checkout handler (SKU + qty + promo + better errors)
+      if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", async function () {
+          var items = Cart.all();
+          if (!items.length) { alert("Your cart is empty."); return; }
 
-    // promo code field in the drawer
-    var codeEl = document.querySelector("[data-coupon]");
-    var promoCode = codeEl && codeEl.value ? codeEl.value.trim() : "";
+          // promo code field in the drawer
+          var codeEl = document.querySelector("[data-coupon]");
+          var promoCode = codeEl && codeEl.value ? codeEl.value.trim() : "";
 
-    // Your API maps SKU -> Stripe price via env; it only needs id + qty
-    var payloadItems = items.map(function (i) {
-      return { id: i.id, qty: i.qty };
-    });
+          // Your API maps SKU -> Stripe price via env; it only needs id + qty
+          var payloadItems = items.map(function (i) {
+            return { id: i.id, qty: i.qty };
+          });
 
-    checkoutBtn.disabled = true;
-    try {
-      var res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: payloadItems, promoCode })
-      });
+          checkoutBtn.disabled = true;
+          try {
+            var res = await fetch("/api/create-checkout-session", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ items: payloadItems, promoCode })
+            });
 
-      if (!res.ok) {
-        // surface the server message so we know which env var/issue it is
-        const text = await res.text();
-        console.error("Checkout endpoint error:", res.status, text);
-        alert("Checkout failed.");
-        return;
+            if (!res.ok) {
+              const text = await res.text();
+              console.error("Checkout endpoint error:", res.status, text);
+              alert("Checkout failed.");
+              return;
+            }
+
+            var data = await res.json();
+            if (data && data.url) {
+              window.location.href = data.url;
+            } else {
+              console.error("No URL in response:", data);
+              alert("Checkout failed.");
+            }
+          } catch (err) {
+            console.error(err);
+            alert("Checkout failed.");
+          } finally {
+            checkoutBtn.disabled = false;
+          }
+        });
       }
-
-      var data = await res.json();
-      if (data && data.url) {
-        window.location.href = data.url;
-      } else {
-        console.error("No URL in response:", data);
-        alert("Checkout failed.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Checkout failed.");
-    } finally {
-      checkoutBtn.disabled = false;
-    }
-  });
-}
-
-
     })();
     </script>
+
+    <!-- Global hard cap for cart images -->
     <style is:global>
-  /* Cart line layout (optional but nice) */
-  .cart-item {
-    display: grid;
-    grid-template-columns: 64px 1fr auto;
-    gap: 12px;
-    align-items: center;
-  }
-
-  /* This is the important part: cap thumb size */
-  .cart-thumb {
-    width: 64px;
-    height: 64px;
-    object-fit: cover; /* use 'contain' if you prefer letterboxing */
-    border-radius: 8px;
-  }
-</style>
-<style is:global>
-  /* Force any image inside the cart list to be a thumbnail */
-  [data-cart-items] img,
-  .cart-item img,
-  .cart-thumb {
-    width: 64px !important;
-    height: 64px !important;
-    object-fit: cover !important;
-    border-radius: 8px;
-    max-width: 64px !important;
-    max-height: 64px !important;
-  }
-</style>
-
+      [data-cart-items] img,
+      .cart-item img,
+      .cart-thumb {
+        width: 64px !important;
+        height: 64px !important;
+        max-width: 64px !important;
+        max-height: 64px !important;
+        object-fit: cover !important;
+        border-radius: 8px;
+      }
+    </style>
   </body>
 </html>
