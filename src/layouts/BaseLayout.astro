@@ -570,6 +570,19 @@ if (checkoutBtn) {
     border-radius: 8px;
   }
 </style>
+<style is:global>
+  /* Force any image inside the cart list to be a thumbnail */
+  [data-cart-items] img,
+  .cart-item img,
+  .cart-thumb {
+    width: 64px !important;
+    height: 64px !important;
+    object-fit: cover !important;
+    border-radius: 8px;
+    max-width: 64px !important;
+    max-height: 64px !important;
+  }
+</style>
 
   </body>
 </html>
