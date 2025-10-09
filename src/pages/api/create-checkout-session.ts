@@ -5,14 +5,41 @@ import type { APIRoute } from "astro";
 import Stripe from "stripe";
 
 export const POST: APIRoute = async ({ request }) => {
-  const key = (import.meta.env.STRIPE_SECRET_KEY || "").trim();
-  if (!key) return jsonErr(500, "STRIPE_SECRET_KEY missing");
+  // Read from BOTH import.meta.env and process.env, then trim
+  const rawKey =
+    (import.meta.env?.STRIPE_SECRET_KEY as string | undefined) ??
+    (process.env?.STRIPE_SECRET_KEY as string | undefined) ??
+    "";
+  const key = rawKey.trim();
+
+  if (!key) {
+    // Extra diagnostics so we know which env this is running in
+    const envName =
+      (import.meta.env?.VERCEL_ENV as string | undefined) ??
+      (process.env?.VERCEL_ENV as string | undefined) ??
+      (import.meta.env?.MODE as string | undefined) ??
+      "unknown";
+    return new Response(
+      JSON.stringify({ error: `STRIPE_SECRET_KEY missing (env=${envName})` }),
+      { status: 500, headers: { "content-type": "application/json" } }
+    );
+  }
 
   // Production when Vercel Production; otherwise Test/Preview/Dev
-  const IS_PROD = (import.meta.env.VERCEL_ENV ?? import.meta.env.MODE) === "production";
+  const IS_PROD =
+    ((import.meta.env?.VERCEL_ENV as string | undefined) ??
+      (process.env?.VERCEL_ENV as string | undefined) ??
+      (import.meta.env?.MODE as string | undefined)) === "production";
+
   if (IS_PROD && !key.startsWith("sk_live_")) {
-    return jsonErr(500, "Stripe key is not LIVE (sk_live_…). Check Vercel Production env.");
+    return new Response(
+      JSON.stringify({ error: "Stripe key is not LIVE (sk_live_…). Check Vercel Production env." }),
+      { status: 500, headers: { "content-type": "application/json" } }
+    );
   }
+
+  // (leave the rest of your file unchanged below this line)
+
 
   // Helper to read env safely
   const ENV = import.meta.env as unknown as Record<string, string | undefined>;
@@ -24,6 +51,8 @@ export const POST: APIRoute = async ({ request }) => {
   const PRICE_MAP: Record<string, string | undefined> = IS_PROD
     ? {
         // LIVE
+        "zeolite-8oz": get("STRIPE_PRICE_ID_ZEOLITE_LIVE") || get("STRIPE_PRICE_ID_AFTERSHOT"),
+
         "fhl-single":           get("STRIPE_PRICE_ID_FLAXSINGLELIVE")          || get("STRIPE_PRICE_ID_FLAXSINGLE"),
 
         "ancient-single":       get("STRIPE_PRICE_ID_ANCIENTSINGLELIVE")       || get("STRIPE_PRICE_ID_ANCIENTSINGLE"),
@@ -38,6 +67,8 @@ export const POST: APIRoute = async ({ request }) => {
       }
     : {
         // TEST
+        "zeolite-8oz": get("STRIPE_PRICE_ID_ZEOLITE_TEST") || get("STRIPE_PRICE_ID_AFTERSHOT_TEST"),
+
         "fhl-single":           get("STRIPE_PRICE_ID_FLAXSINGLETEST"),
 
         "ancient-single":       get("STRIPE_PRICE_ID_ANCIENTSINGLETEST"),
