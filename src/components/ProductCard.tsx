@@ -118,20 +118,22 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
       {/* ACTIONS */}
       <div className="product-actions" style={{ paddingTop: 6 }}>
         <Button
-          variant="primary"
-          className="add-to-cart"
-          disabled={!inStock}
-          data-sku={id}
-          data-qty={1}
-          data-price={priceCents}
-          data-name={name}
-          onClick={() => onAddToCart?.(product)}
-          aria-label={inStock ? `Add ${name} to cart` : `${name} is out of stock`}
-          type="button"
-          style={{ padding: "6px 12px", fontSize: 14 }}  // tighter button
-        >
-          {inStock ? "Add to Cart" : "Out of Stock"}
-        </Button>
+  variant="primary"
+  className="add-to-cart"
+  disabled={!inStock}
+  data-sku={id}
+  data-qty={1}
+  data-price={priceCents}
+  data-name={name}
+  data-image={imageUrl}   // 👈 add this line
+  onClick={() => onAddToCart?.(product)}
+  aria-label={inStock ? `Add ${name} to cart` : `${name} is out of stock`}
+  type="button"
+  style={{ padding: "6px 12px", fontSize: 14 }}
+>
+  {inStock ? "Add to Cart" : "Out of Stock"}
+</Button>
+
       </div>
     </article>
   );
