@@ -1,90 +1,111 @@
-// src/pages/api/create-checkout-session.ts
+// FILE: src/pages/api/create-checkout-session.ts
+// PURPOSE: Create a Stripe Checkout session. Includes robust env detection + helpful diagnostics.
 export const prerender = false;
-export const runtime = 'node'; // ← add this line
+export const runtime = 'node'; // ensure Node runtime so process.env works on Vercel
+
 import type { APIRoute } from "astro";
 import Stripe from "stripe";
 
+/** Helper: quick JSON error */
+function jsonErr(status: number, message: string, extra: Record<string, unknown> = {}) {
+  return new Response(JSON.stringify({ error: message, ...extra }), {
+    status,
+    headers: { "content-type": "application/json" },
+  });
+}
+
+/** Helper: env hint for missing fixed SKU mappings */
+function missingFixedEnvHint(id: string, isProd: boolean): string {
+  const FINAL = isProd ? "LIVE" : "TEST";
+  switch (id) {
+    case "fhl-single":
+      return `Missing env for ${id}. Set STRIPE_PRICE_ID_FLAXSINGLE${FINAL} or STRIPE_PRICE_ID_FLAXSINGLE.`;
+    case "ancient-single":
+      return `Missing env for ${id}. Set STRIPE_PRICE_ID_ANCIENTSINGLE${FINAL} or STRIPE_PRICE_ID_ANCIENTSINGLE.`;
+    case "ocean-cleanse-single":
+      return `Missing env for ${id}. Set STRIPE_PRICE_ID_OCEANCLEANSE${FINAL} or STRIPE_PRICE_ID_OCEANCLEANSE.`;
+    case "essiac-tea-single":
+      return isProd
+        ? `Missing env for ${id}. Set STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_LIVE or STRIPE_PRICE_ID_ESSIAC.`
+        : `Missing env for ${id}. Set STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_TEST or STRIPE_PRICE_ID_ESSIAC_TEST.`;
+    case "aftershot-8oz":
+    case "zeolite-single":
+    case "zeolite-8oz":
+      return isProd
+        ? `Missing env for ${id}. Set STRIPE_PRICE_ID_ZEOLITE_LIVE or STRIPE_PRICE_ID_AFTERSHOT.`
+        : `Missing env for ${id}. Set STRIPE_PRICE_ID_ZEOLITE_TEST or STRIPE_PRICE_ID_AFTERSHOT_TEST.`;
+    default:
+      return `Missing env for ${id}.`;
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
-  // Read from BOTH import.meta.env and process.env, then trim
+  // --- Read Stripe key from BOTH env sources ---
   const rawKey =
     (import.meta.env?.STRIPE_SECRET_KEY as string | undefined) ??
     (process.env?.STRIPE_SECRET_KEY as string | undefined) ??
     "";
   const key = rawKey.trim();
 
+  // Determine which environment the function thinks it’s running in
+  const envName =
+    (import.meta.env?.VERCEL_ENV as string | undefined) ??
+    (process.env?.VERCEL_ENV as string | undefined) ??
+    (import.meta.env?.MODE as string | undefined) ??
+    "unknown";
+
+  // If key is missing, return a VERY HELPFUL diagnostic
   if (!key) {
-    // Extra diagnostics so we know which env this is running in
-    const envName =
-      (import.meta.env?.VERCEL_ENV as string | undefined) ??
-      (process.env?.VERCEL_ENV as string | undefined) ??
-      (import.meta.env?.MODE as string | undefined) ??
-      "unknown";
-    return new Response(
-      JSON.stringify({ error: `STRIPE_SECRET_KEY missing (env=${envName})` }),
-      { status: 500, headers: { "content-type": "application/json" } }
-    );
+    const hadImport = Boolean((import.meta.env as any)?.STRIPE_SECRET_KEY);
+    const hadProcess = Boolean(process.env?.STRIPE_SECRET_KEY);
+    return jsonErr(500, `STRIPE_SECRET_KEY missing (env=${envName})`, {
+      importMetaSeen: hadImport,
+      processEnvSeen: hadProcess,
+      hint: "Set STRIPE_SECRET_KEY in Vercel > Settings > Environment Variables for the Production environment, then redeploy.",
+    });
   }
 
-  // Production when Vercel Production; otherwise Test/Preview/Dev
-  const IS_PROD =
-    ((import.meta.env?.VERCEL_ENV as string | undefined) ??
-      (process.env?.VERCEL_ENV as string | undefined) ??
-      (import.meta.env?.MODE as string | undefined)) === "production";
-
+  // Hard check for live key in production
+  const IS_PROD = envName === "production";
   if (IS_PROD && !key.startsWith("sk_live_")) {
-    return new Response(
-      JSON.stringify({ error: "Stripe key is not LIVE (sk_live_…). Check Vercel Production env." }),
-      { status: 500, headers: { "content-type": "application/json" } }
-    );
+    return jsonErr(500, "Stripe key is not LIVE (sk_live_…). Check Vercel Production env.");
   }
 
-  // (leave the rest of your file unchanged below this line)
+  // Small helper to read envs (supports both import.meta.env and process.env)
+  const ENV = {
+    get(k: string) {
+      const val =
+        ((import.meta.env as any)?.[k] as string | undefined) ??
+        (process.env as any)?.[k];
+      return (val || "").trim() || undefined;
+    },
+  };
 
-
-  // Helper to read env safely
-  const ENV = import.meta.env as unknown as Record<string, string | undefined>;
-  const get = (k: string) => (ENV[k] || "").trim() || undefined;
-
-  // -------- PRICE MAPS (fixed SKUs) ----------
-  // Support both naming styles you’ve used for env vars.
-  // Also support BOTH SKUs for AfterShot (aftershot-8oz and zeolite-single) in BOTH envs.
+  // --- FIXED PRICE MAPS (support Live and Test naming variants you used) ---
   const PRICE_MAP: Record<string, string | undefined> = IS_PROD
     ? {
         // LIVE
-        "zeolite-8oz": get("STRIPE_PRICE_ID_ZEOLITE_LIVE") || get("STRIPE_PRICE_ID_AFTERSHOT"),
-
-        "fhl-single":           get("STRIPE_PRICE_ID_FLAXSINGLELIVE")          || get("STRIPE_PRICE_ID_FLAXSINGLE"),
-
-        "ancient-single":       get("STRIPE_PRICE_ID_ANCIENTSINGLELIVE")       || get("STRIPE_PRICE_ID_ANCIENTSINGLE"),
-
-        "ocean-cleanse-single": get("STRIPE_PRICE_ID_OCEANCLEANSELIVE")        || get("STRIPE_PRICE_ID_OCEANCLEANSE"),
-
-        "essiac-tea-single":    get("STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_LIVE")  || get("STRIPE_PRICE_ID_ESSIAC"),
-
-        // AfterShot / Zeolite — support both SKUs
-        "aftershot-8oz":        get("STRIPE_PRICE_ID_AFTERSHOT")               || get("STRIPE_PRICE_ID_ZEOLITE_LIVE"),
-        "zeolite-single":       get("STRIPE_PRICE_ID_ZEOLITE_LIVE")            || get("STRIPE_PRICE_ID_AFTERSHOT"),
+        "fhl-single":           ENV.get("STRIPE_PRICE_ID_FLAXSINGLELIVE")          || ENV.get("STRIPE_PRICE_ID_FLAXSINGLE"),
+        "ancient-single":       ENV.get("STRIPE_PRICE_ID_ANCIENTSINGLELIVE")       || ENV.get("STRIPE_PRICE_ID_ANCIENTSINGLE"),
+        "ocean-cleanse-single": ENV.get("STRIPE_PRICE_ID_OCEANCLEANSELIVE")        || ENV.get("STRIPE_PRICE_ID_OCEANCLEANSE"),
+        "essiac-tea-single":    ENV.get("STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_LIVE")  || ENV.get("STRIPE_PRICE_ID_ESSIAC"),
+        // AfterShot / Zeolite — support multiple SKUs
+        "aftershot-8oz":        ENV.get("STRIPE_PRICE_ID_AFTERSHOT")               || ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE"),
+        "zeolite-single":       ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT"),
+        "zeolite-8oz":          ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT"),
       }
     : {
         // TEST
-        "zeolite-8oz": get("STRIPE_PRICE_ID_ZEOLITE_TEST") || get("STRIPE_PRICE_ID_AFTERSHOT_TEST"),
-
-        "fhl-single":           get("STRIPE_PRICE_ID_FLAXSINGLETEST"),
-
-        "ancient-single":       get("STRIPE_PRICE_ID_ANCIENTSINGLETEST"),
-
-        // Support both possible test env var names you’ve used
-        "ocean-cleanse-single": get("STRIPE_PRICE_ID_OCEAN_CLEANSE_TEST")      || get("STRIPE_PRICE_ID_OCEANCLEANSETEST"),
-
-        // Essiac test naming variants
-        "essiac-tea-single":    get("STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_TEST")  || get("STRIPE_PRICE_ID_ESSIAC_TEST"),
-
-        // AfterShot / Zeolite — support both SKUs
-        "aftershot-8oz":        get("STRIPE_PRICE_ID_AFTERSHOT_TEST")          || get("STRIPE_PRICE_ID_ZEOLITE_TEST"),
-        "zeolite-single":       get("STRIPE_PRICE_ID_ZEOLITE_TEST")            || get("STRIPE_PRICE_ID_AFTERSHOT_TEST"),
+        "fhl-single":           ENV.get("STRIPE_PRICE_ID_FLAXSINGLETEST"),
+        "ancient-single":       ENV.get("STRIPE_PRICE_ID_ANCIENTSINGLETEST"),
+        "ocean-cleanse-single": ENV.get("STRIPE_PRICE_ID_OCEAN_CLEANSE_TEST")      || ENV.get("STRIPE_PRICE_ID_OCEANCLEANSETEST"),
+        "essiac-tea-single":    ENV.get("STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_TEST")  || ENV.get("STRIPE_PRICE_ID_ESSIAC_TEST"),
+        "aftershot-8oz":        ENV.get("STRIPE_PRICE_ID_AFTERSHOT_TEST")          || ENV.get("STRIPE_PRICE_ID_ZEOLITE_TEST"),
+        "zeolite-single":       ENV.get("STRIPE_PRICE_ID_ZEOLITE_TEST")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT_TEST"),
+        "zeolite-8oz":          ENV.get("STRIPE_PRICE_ID_ZEOLITE_TEST")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT_TEST"),
       };
 
-  // -------- Read body ----------
+  // --- Read request body (expects { items: [...], promoCode?: string }) ---
   let body: any;
   try {
     body = await request.json();
@@ -94,9 +115,12 @@ export const POST: APIRoute = async ({ request }) => {
 
   const items = Array.isArray(body?.items) ? body.items : [];
   const promoCode = String(body?.promoCode || "").trim();
-  if (!items.length) return jsonErr(400, "No items provided");
 
-  // -------- Build line_items ----------
+  if (!items.length) {
+    return jsonErr(400, "No items provided");
+  }
+
+  // --- Build Stripe line_items ---
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
   for (let i = 0; i < items.length; i++) {
@@ -107,63 +131,60 @@ export const POST: APIRoute = async ({ request }) => {
       return jsonErr(400, `items[${i}].quantity must be > 0`);
     }
 
-    // 1) Direct Stripe price usage
+    // 1) Direct Stripe price (price_...)
     if (it.price && String(it.price).startsWith("price_")) {
       line_items.push({ price: String(it.price), quantity });
       continue;
     }
 
-    // 2) Map cart id/sku -> env price id
+    // 2) SKU mapping
     const rawId = it.id ?? it.sku ?? it.handle ?? it.productId ?? it.slug ?? it.code ?? null;
     const cartId = rawId ? String(rawId).toLowerCase().trim() : "";
 
-    if (cartId && cartId in PRICE_MAP) {
+    if (cartId && PRICE_MAP[cartId]) {
       const priceId = PRICE_MAP[cartId];
       if (!priceId) return jsonErr(500, missingFixedEnvHint(cartId, IS_PROD));
       line_items.push({ price: priceId, quantity });
       continue;
     }
 
-    // 3) Essential oils: eo-<short>-<size> (e.g., eo-pepp-15ml)
+    // 3) Essential oils pattern: eo-<short>-<size> (eo-pepp-15ml)
     if (cartId && cartId.startsWith("eo-")) {
       const parts = cartId.split("-");
       if (parts.length < 3) return jsonErr(400, `Bad EO SKU: ${cartId}`);
       const short = parts[1];
       const size  = parts.slice(2).join("-");
-      const eoKey = `STRIPE_PRICE_ID_EO_${short.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_${size.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_${IS_PROD ? "LIVE" : "TEST"}`;
-      const priceId = get(eoKey);
-      if (!priceId) return jsonErr(500, `Missing Stripe Price ID env for EO SKU "${cartId}". Set ${eoKey}.`);
+      const keyName = `STRIPE_PRICE_ID_EO_${short.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_${size.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_${IS_PROD ? "LIVE" : "TEST"}`;
+      const priceId = ENV.get(keyName);
+      if (!priceId) return jsonErr(500, `Missing Stripe Price ID env for EO SKU "${cartId}". Set ${keyName}.`);
       line_items.push({ price: priceId, quantity });
       continue;
     }
 
-    // 4) raw price_data support (fallback)
+    // 4) Fallback: raw price_data passthrough
     if (it.price_data && typeof it.price_data === "object") {
       line_items.push({ price_data: it.price_data, quantity });
       continue;
     }
 
-    return new Response(JSON.stringify({
-      error: `items[${i}] must include price:"price_..." OR id/sku in PRICE_MAP/EO envs OR price_data`,
+    // If we made it here, we couldn't map this item
+    return jsonErr(400, `items[${i}] must include price:"price_..." OR id/sku in PRICE_MAP/EO envs OR price_data`, {
       receivedKeys: Object.keys(it || {}),
       cartIdTried: cartId || null,
       env: IS_PROD ? "production" : "preview/dev",
-    }), { status: 400, headers: { "content-type": "application/json" } });
+    });
   }
 
-  // -------- Build URLs ----------
+  // --- Build success/cancel URLs from request origin ---
   const originHeader = request.headers.get("origin");
   const origin = originHeader || new URL(request.url).origin;
 
   try {
     const stripe = new Stripe(key, { apiVersion: "2024-06-20" });
 
-    // Discounts:
-    // - STRIPE_COUPON_99: force-apply a coupon ID (good for 99% test)
-    // - promoCode from client: attach an active Promotion Code by code
+    // Optional discounts
     const discounts: Stripe.Checkout.SessionCreateParams.Discount[] = [];
-
-    const forcedCoupon = (get("STRIPE_COUPON_99") || "").trim();
+    const forcedCoupon = ENV.get("STRIPE_COUPON_99");
     if (forcedCoupon) discounts.push({ coupon: forcedCoupon });
 
     if (promoCode) {
@@ -171,10 +192,11 @@ export const POST: APIRoute = async ({ request }) => {
       if (list.data[0]?.id) discounts.push({ promotion_code: list.data[0].id });
     }
 
+    // Create session
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items,
-      allow_promotion_codes: true, // Users can still type codes on Stripe
+      allow_promotion_codes: true,
       billing_address_collection: "auto",
       shipping_address_collection: { allowed_countries: ["US", "CA"] },
       discounts: discounts.length ? discounts : undefined,
@@ -192,35 +214,3 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonErr(500, err?.message || "Checkout failed");
   }
 };
-
-/* ---------------- helpers ---------------- */
-function jsonErr(status: number, message: string) {
-  return new Response(JSON.stringify({ error: message }), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
-}
-
-function missingFixedEnvHint(id: string, isProd: boolean): string {
-  // Shared helper: tells you exactly which env to set, based on prod vs test
-  const FINAL = isProd ? "LIVE" : "TEST";
-  switch (id) {
-    case "fhl-single":
-      return `Missing env for ${id}. Set STRIPE_PRICE_ID_FLAXSINGLE${FINAL} or STRIPE_PRICE_ID_FLAXSINGLE.`;
-    case "ancient-single":
-      return `Missing env for ${id}. Set STRIPE_PRICE_ID_ANCIENTSINGLE${FINAL} or STRIPE_PRICE_ID_ANCIENTSINGLE.`;
-    case "ocean-cleanse-single":
-      return `Missing env for ${id}. Set STRIPE_PRICE_ID_OCEANCLEANSE${FINAL} or STRIPE_PRICE_ID_OCEANCLEANSE.`;
-    case "essiac-tea-single":
-      return isProd
-        ? `Missing env for ${id}. Set STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_LIVE or STRIPE_PRICE_ID_ESSIAC.`
-        : `Missing env for ${id}. Set STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_TEST or STRIPE_PRICE_ID_ESSIAC_TEST.`;
-    case "aftershot-8oz":
-    case "zeolite-single":
-      return isProd
-        ? `Missing env for ${id}. Set STRIPE_PRICE_ID_AFTERSHOT or STRIPE_PRICE_ID_ZEOLITE_LIVE.`
-        : `Missing env for ${id}. Set STRIPE_PRICE_ID_AFTERSHOT_TEST or STRIPE_PRICE_ID_ZEOLITE_TEST.`;
-    default:
-      return `Missing env for ${id}.`;
-  }
-}
