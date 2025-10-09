@@ -47,28 +47,19 @@
 
 
 /* HERO BUTTONS (scoped + overrides any global .btn rules) */
-.btn-hero {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  /* Size — force smaller pills even if a global .btn sets big sizes */
+/* ===== HERO BUTTON EMERGENCY OVERRIDES ===== */
+.btn-hero{
   width: auto !important;
-  min-width: 120px;
-  padding: 10px 16px !important;
-  font-size: 16px !important;
-  font-weight: 700;
-  line-height: 1;
-  text-decoration: none !important;
+  min-width: 120px !important;
+  max-width: 100% !important;
+  height: auto !important;
 
-  /* Look */
-  color: #fff !important;
-  background: #121212;
-  border-radius: 9999px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  transition: transform .05s ease, opacity .15s ease;
-  border: 0;
+  padding: 10px 16px !important;
+  margin: 0 !important;
+  font: 700 16px/1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif !important;
+  text-decoration: none !important;
 }
+
 .btn-hero:hover { opacity: .92; transform: translateY(-1px); }
 
 /* Make sure no global rules make these full-width blocks */
@@ -167,5 +158,45 @@ h6 {
 .prose p {
   margin-bottom: 1.5em;
   font-size: 1.05rem;  /* ~18.9px */
+}
+/* Only scale images inside content, not UI icons */
+main img,
+.product-media > img,
+.prodpg__circle img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Force the tiny cart icon size (beats any global img rules) */
+.main-nav .nav-cart .cart-icon{
+  width: 22px !important;
+  height: 22px !important;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+}
+.main-nav .nav-cart{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  line-height: 0;
+}
+/* Drawer image safety net */
+[data-cart-drawer] img { max-width: 100%; height: auto; }
+
+/* Fixed thumbnail box */
+.ci-thumb {
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+.ci-thumb > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 

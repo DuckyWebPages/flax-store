@@ -1,20 +1,30 @@
 // FILE: /scripts/cart-drawer.js
 // Depends on window.Cart from /scripts/cart-store.js
+
 (function () {
-  const $ = (sel, root = document) => root.querySelector(sel);
+  // Per-SKU thumbnail fallbacks (use small images)
+  const THUMBS = {
+    'fhl-single':           '/images/flax-single-small.jpg',
+    'ancient-single':       '/images/ancient-single-small.png',
+    'ocean-cleanse-single': '/images/ocean-cleanse-single-2025.jpg',
+    'zeolite-8oz':          '/images/zeolite-8oz-thumb.jpg',
+    // add others…
+  };
+
+  const $  = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const drawer   = $('[data-cart-drawer]');
-  const overlay  = $('[data-cart-overlay]');
-  const itemsEl  = $('[data-cart-items]');
+  const drawer     = $('[data-cart-drawer]');
+  const overlay    = $('[data-cart-overlay]');
+  const itemsEl    = $('[data-cart-items]');
   const subtotalEl = $('[data-subtotal]');
-  const openBtn  = $('[data-cart-open]');
-  const closeBtn = $('[data-cart-close]');
+  const openBtn    = $('[data-cart-open]');
+  const closeBtn   = $('[data-cart-close]');
   const checkoutBtn = $('[data-checkout]');
 
-  // free shipping progress (optional)
+  // Free shipping progress (optional)
   const progressWrap = $('[data-ship-progress]');
-  const bar = $('[data-ship-bar]');
+  const bar  = $('[data-ship-bar]');
   const note = $('[data-ship-note]');
   const threshold = progressWrap ? parseInt(progressWrap.dataset.threshold || '0', 10) : 0;
 
@@ -32,6 +42,7 @@
       drawer.setAttribute('aria-hidden', 'false');
     });
   }
+
   function close() {
     if (!drawer || !overlay) return;
     drawer.classList.remove('is-open');
@@ -46,7 +57,7 @@
   function render() {
     if (!itemsEl || !subtotalEl) return;
 
-    const cart = window.Cart.all(); // [{id,name,unitCents,image,qty}]
+    const cart = window.Cart.all(); // [{ id, name, unitCents, image, qty }]
     if (!cart.length) {
       itemsEl.innerHTML = `<li class="cart-item" style="border:0;padding:18px">Your cart is empty.</li>`;
       subtotalEl.textContent = fmtUSD(0);
@@ -57,11 +68,18 @@
 
     itemsEl.innerHTML = cart.map(i => {
       const line = i.unitCents * i.qty;
-      const img = i.image || '/images/placeholder-84.png';
+      const safeImg = (i.image && i.image.trim()) || THUMBS[i.id] || '/images/placeholder-84.png';
       return `
         <li class="cart-item" data-id="${i.id}">
-          <img class="ci-thumb" src="${img}" alt="" 
-               style="width:84px;height:84px;object-fit:cover;display:block" />
+          <div class="ci-thumb" aria-hidden="true">
+            <img
+              src="${safeImg}"
+              alt=""
+              loading="lazy"
+              width="84"
+              height="84"
+            />
+          </div>
           <div class="ci-main">
             <div class="ci-row">
               <p class="ci-title">${i.name}</p>
@@ -75,7 +93,7 @@
               </div>
               <button class="icon-btn" data-remove aria-label="Remove">
                 <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M3 6h18M8 6v12m8-12v12M5 6l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14" 
+                  <path d="M3 6h18M8 6v12m8-12v12M5 6l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14"
                         fill="none" stroke="currentColor" stroke-width="2"/>
                 </svg>
                 Remove
@@ -156,28 +174,25 @@
     });
   }
 
-  // … keep your existing code …
+  // React to cart updates from anywhere
+  window.addEventListener('cart:updated', render);
 
-// React to cart updates from anywhere
-window.addEventListener('cart:updated', render);
+  // Allow other scripts to control the drawer
+  window.addEventListener('cart:open', () => {
+    console.log('[cart-drawer] cart:open event received');
+    open();
+  });
+  window.addEventListener('cart:close', () => {
+    console.log('[cart-drawer] cart:close event received');
+    close();
+  });
 
-// Allow other scripts to control the drawer
-window.addEventListener('cart:open', () => {
-  console.log("[cart-drawer] cart:open event received");
-  open();
-});
-window.addEventListener('cart:close', () => {
-  console.log("[cart-drawer] cart:close event received");
-  close();
-});
+  // Expose API for direct calls
+  // @ts-ignore
+  window.CartDrawer = { open, close, render };
 
-// Expose API for direct calls
-// @ts-ignore
-window.CartDrawer = { open, close, render };
+  console.log('[cart-drawer] loaded; exposing CartDrawer API');
 
-console.log("[cart-drawer] loaded; exposing CartDrawer API");
-
-// Initial
-render();
-
+  // Initial render
+  render();
 })();
