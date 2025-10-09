@@ -31,19 +31,19 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
       style={{
         background: "#fff",
         border: "1px solid #e5e7eb",
-        borderRadius: 16,
+        borderRadius: 14,
         boxShadow: "0 1px 4px rgba(0,0,0,.06)",
-        padding: compact ? 12 : 16,
+        padding: compact ? 10 : 12,            // was 12/16
         overflow: "hidden",
         display: "grid",
         gridTemplateRows: "auto 1fr auto",
-        gap: 10,
+        gap: 8,                                 // was 10
         height: "100%",
         position: "relative",
       }}
     >
-      {/* MEDIA (fixed 4:3) */}
-      <div className="product-media" style={{ borderRadius: 12, background: "#f9fafb", overflow: "hidden", marginBottom: 4 }}>
+      {/* MEDIA (fixed ratio via CSS) */}
+      <div className="product-media" style={{ borderRadius: 10, background: "#f9fafb", overflow: "hidden", marginBottom: 2 }}>
         <img
           src={imageUrl}
           alt={name}
@@ -55,12 +55,12 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
           <span
             style={{
               position: "absolute",
-              left: 12,
-              top: 12,
+              left: 10,
+              top: 10,
               borderRadius: 999,
               background: "rgba(5,150,105,.9)",
-              padding: "6px 10px",
-              fontSize: 12,
+              padding: "5px 8px",
+              fontSize: 11,
               fontWeight: 700,
               color: "#fff",
             }}
@@ -77,15 +77,15 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
           title={name}
           style={{
             margin: 0,
-            fontSize: 16,
+            fontSize: 15,                        // was 16
             fontWeight: 700,
             color: "#0f172a",
-            lineHeight: 1.25,
+            lineHeight: 1.2,
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
-            minHeight: "2.6em",
+            minHeight: "2.4em",                  // reserve ≈2 lines
           }}
         >
           {name}
@@ -96,21 +96,21 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
             className="product-desc"
             style={{
               margin: "6px 0 0",
-              fontSize: 14,
+              fontSize: 13.5,                    // was 14
               color: "#475569",
-              lineHeight: 1.35,
+              lineHeight: 1.3,
               display: "-webkit-box",
               WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
-              minHeight: "2.9em",
+              minHeight: "2.6em",                // reserve ≈2 lines
             }}
           >
             {description}
           </p>
         )}
 
-        <div style={{ marginTop: 8, fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
+        <div style={{ marginTop: 6, fontSize: 15, fontWeight: 700, color: "#0f172a" }}>
           {price}
         </div>
       </div>
@@ -128,7 +128,7 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
           onClick={() => onAddToCart?.(product)}
           aria-label={inStock ? `Add ${name} to cart` : `${name} is out of stock`}
           type="button"
-          style={{ padding: "8px 14px", fontSize: 14 }}
+          style={{ padding: "6px 12px", fontSize: 14 }}  // tighter button
         >
           {inStock ? "Add to Cart" : "Out of Stock"}
         </Button>

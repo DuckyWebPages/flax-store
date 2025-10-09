@@ -53,4 +53,13 @@ img {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
 }
+/* Make sizing predictable (prevents overflow/crowding) */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Slightly shorter media box: 3:2 instead of 4:3 */
+.product-media::before { 
+  content: ""; 
+  display: block; 
+  padding-top: 66.6667%; /* was 75% */
+}
 
