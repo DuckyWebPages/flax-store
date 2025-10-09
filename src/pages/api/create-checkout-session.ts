@@ -1,6 +1,6 @@
 // src/pages/api/create-checkout-session.ts
 export const prerender = false;
-
+export const runtime = 'node'; // ← add this line
 import type { APIRoute } from "astro";
 import Stripe from "stripe";
 
