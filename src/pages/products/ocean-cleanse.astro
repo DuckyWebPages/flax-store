@@ -2,7 +2,12 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 const pageTitle = 'Ocean Cleanse — ';
 const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe price ID
-const IMG = '/images/products/ocean-cleanse-small2.png';
+
+// Keep existing small image for HERO (lightweight)
+const IMG_HERO = '/images/products/ocean-cleanse-small2.png';
+
+// New horizontal photo for the CARD
+const IMG_CARD = '/images/products/oceancleanse-web.jpg';
 ---
 
 <BaseLayout>
@@ -10,7 +15,7 @@ const IMG = '/images/products/ocean-cleanse-small2.png';
 
   <!-- HERO: Ocean Cleanse (faded image, no CTA) -->
   <section class="prod-hero">
-    <img class="bg" src={IMG} alt="" />
+    <img class="bg" src={IMG_HERO} alt="" />
     <div class="inner">
       <h1>Ocean Cleanse</h1>
       <p>
@@ -25,10 +30,8 @@ const IMG = '/images/products/ocean-cleanse-small2.png';
     <div class="card">
       <img
         class="card-img"
-        src={IMG}
+        src={IMG_CARD}
         alt="Ocean Cleanse (Single Jar)"
-        width="640"
-        height="640"
         loading="lazy"
         decoding="async"
       />
@@ -126,6 +129,7 @@ const IMG = '/images/products/ocean-cleanse-small2.png';
       height:auto;
       object-fit:cover;
       background:#f8fafc;
+      display:block;
     }
     .card-body{padding:18px}
     .card-title{margin:.25rem 0 .25rem;font-size:1.6rem}
@@ -150,10 +154,5 @@ const IMG = '/images/products/ocean-cleanse-small2.png';
       appearance: none;
     }
     button.btn:focus { outline: 2px solid #11182722; outline-offset: 2px; }
-    .card-img {
-  width: 50%;
-  height: auto;
-}
-
   </style>
 </BaseLayout>
