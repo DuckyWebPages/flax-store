@@ -9,14 +9,18 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- HERO: AfterShot (faded image, no CTA) -->
+  <!-- HERO -->
   <section class="prod-hero">
     <img class="bg" src="/images/products/aftershot-8oz.jpg" alt="" />
     <div class="inner">
       <h1>AfterShot Zeolite</h1>
       <p>
         AfterShot Zeolite combines micronized, cleansed zeolite with humic/fulvic acids so it can
-        circulate beyond the gut—supporting whole-body detox and efficient elimination. Zeolite is recommended by natural health practitioners for removing all positively charged particles (all toxins, and heavy metals) and this product is especially recommended for detoxing after a vaccination. We have researched this particular brand and chose it because of the size of zeolite. It is just above nano, so theoretically it will trap nanoparticles within it. This is great if you are worried about graphene oxide.
+        circulate beyond the gut—supporting whole-body detox and efficient elimination. Zeolite is
+        recommended by natural health practitioners for removing all positively charged particles
+        (all toxins, and heavy metals) and this product is especially recommended for detoxing after
+        a vaccination. We chose this brand for its very fine particle size—ideal for trapping
+        nanoparticles (e.g., concern about graphene oxide).
       </p>
     </div>
   </section>
@@ -26,20 +30,19 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
       <h2 class="products-title sr-only">Products</h2>
 
       <div class="prodpg__grid">
-        <!-- AfterShot (single item) -->
+        <!-- Single bottle -->
         <article class="prodpg__card">
-          <!-- Vertical image frame -->
-          <div class="card-photo">
+          <!-- Same size frame, smaller image inside -->
+          <div class="card-photo card-photo--boxed">
             <img
               src="/images/products/aftershot-8oz.jpg"
               alt="AfterShot Zeolite Heavy Metal & Toxin Removal (8 oz)"
               loading="eager"
               decoding="async"
-              class="card-photo-img"
+              class="card-photo-img card-photo-img--shrink"
             />
           </div>
 
-          <!-- Title with forced line break for (8 oz) -->
           <h3 class="prodpg__title">
             AfterShot Zeolite Heavy Metal &amp; Toxin Removal
             <span class="unit">(8 oz)</span>
@@ -48,20 +51,16 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           <p class="prodpg__price">{PRICE_DISPLAY}</p>
 
           <p class="prodpg__desc">
-            AfterShot Zeolite combines micronized, cleansed zeolite with humic/fulvic acids so it
-            circulates beyond the gut and into your bloodstream—supporting whole-body detox.
-            Zeolite’s cage-like structure preferentially binds positively charged particles
-            (e.g., certain metals), while the humic/fulvic complex helps transport and elimination.
+            Micronized zeolite + humic/fulvic complex to support systemic detox. Cage-like structure
+            preferentially binds positively charged particles; humic/fulvic assists transport and elimination.
           </p>
 
           <ul class="prodpg__bullets">
             <li>Extremely safe &amp; non-toxic; eliminated within ~5–7 hours.</li>
-            <li>Targets toxic heavy metals including mercury, cadmium, lead, arsenic, aluminum,
-                strontium, and excess iron.</li>
-            <li>Includes Dihydroquercetin (taxifolin) to support immune response and antioxidant defenses.</li>
+            <li>Targets metals like mercury, cadmium, lead, arsenic, aluminum, strontium, excess iron.</li>
+            <li>Includes Dihydroquercetin (taxifolin) for immune and antioxidant support.</li>
           </ul>
 
-          <!-- CTA -->
           <div class="product-cta">
             <button
               class="btn-cta add-to-cart"
@@ -76,15 +75,15 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           </div>
         </article>
 
-        <!-- AfterShot (3-bottle bundle) -->
+        <!-- 3-bottle bundle -->
         <article class="prodpg__card">
-          <div class="card-photo">
+          <div class="card-photo card-photo--boxed">
             <img
               src="/images/products/aftershot3green.jpg"
               alt="AfterShot Zeolite — 3-Bottle Bundle"
               loading="eager"
               decoding="async"
-              class="card-photo-img"
+              class="card-photo-img card-photo-img--shrink"
             />
           </div>
 
@@ -96,13 +95,12 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           <p class="prodpg__price">$49.99</p>
 
           <p class="prodpg__desc">
-            Stock up and save. Three bottles of AfterShot Zeolite for one low bundle price.
-            Same micronized zeolite + humic/fulvic complex; same gentle, effective detox support.
+            Stock up and save—three bottles of AfterShot Zeolite at a discounted bundle price.
           </p>
 
           <ul class="prodpg__bullets">
-            <li>Bundle pricing for best value.</li>
-            <li>Great for families or longer protocols.</li>
+            <li>Best value for families or longer protocols.</li>
+            <li>Same gentle, effective detox support.</li>
           </ul>
 
           <div class="product-cta">
@@ -123,78 +121,57 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
   </section>
 
   <style>
-    /* ---------- HERO (faded background image) ---------- */
+    /* ---------- HERO ---------- */
     .prod-hero{
       position:relative; isolation:isolate; overflow:hidden;
       min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
     }
-    .prod-hero .bg{
-      position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; opacity:.18; z-index:-1;
-    }
-    .prod-hero .inner{
-      padding:20px 16px 18px; max-width:1100px; margin:0 auto;
-    }
+    .prod-hero .bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.18; z-index:-1; }
+    .prod-hero .inner{ padding:20px 16px 18px; max-width:1100px; margin:0 auto; }
     .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
     .prod-hero p{ margin:0; max-width:70ch; }
 
     /* ---------- PRODUCT GRID ---------- */
     .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
-
     .prodpg { padding: 0 0 48px; }
     .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+    section.prodpg .prodpg__grid { display:grid !important; grid-template-columns:1fr; row-gap:16px !important; column-gap:32px !important; margin:10px 0 24px; }
+    @media (min-width:800px){ section.prodpg .prodpg__grid{ grid-template-columns:repeat(2,minmax(0,1fr)) !important; } section.prodpg .prodpg__card{ margin:0; box-sizing:border-box; } section.prodpg .prodpg__card:nth-child(odd){ margin-right:32px; } }
 
-    section.prodpg .prodpg__grid {
-      display: grid !important;
-      grid-template-columns: 1fr;
-      row-gap: 16px !important;
-      column-gap: 32px !important;
-      margin: 10px 0 24px;
-    }
-    @media (min-width: 800px) {
-      section.prodpg .prodpg__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-      section.prodpg .prodpg__card { margin: 0; box-sizing: border-box; }
-      section.prodpg .prodpg__card:nth-child(odd) { margin-right: 32px; }
+    section.prodpg .prodpg__card{
+      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
+      box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
+      width:100%; max-width:none;
     }
 
-    section.prodpg .prodpg__card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
-      display: grid;
-      gap: .65rem;
-      justify-items: start;
-      width: 100%;
-      max-width: none;
-    }
-
-    /* Vertical card image: 3:4 frame that always crops wide photos nicely */
+    /* Frame stays same; image shrinks inside a black box */
     .card-photo{
-      width: 100%;
-      aspect-ratio: 3 / 4;      /* vertical */
-      overflow: hidden;
-      border-radius: 10px;
-      background: #f7f7f7;
-      box-shadow: 0 8px 18px rgba(0,0,0,.05);
+      width:100%; aspect-ratio:3/4; overflow:hidden; border-radius:10px;
+      background:#0b0b0b; /* black box */
+      box-shadow:0 8px 18px rgba(0,0,0,.05);
+      display:grid; place-items:center; /* center the inner image */
+    }
+    .card-photo--boxed{ /* optional extra padding to emphasize shrink */
+      padding:10px;
     }
     .card-photo-img{
-      width: 100%; height: 100%; display: block;
-      object-fit: cover;          /* fill the frame; side-crop horizontals */
-      object-position: center;    /* try 'center top' if you want a higher crop */
+      width:100%; height:100%; object-fit:cover; object-position:center; display:block;
+    }
+    /* Shrink to ~50% visual size without cropping */
+    .card-photo-img--shrink{
+      width:50% !important;     /* half the width of the frame */
+      height:auto !important;   /* keep proportions */
+      object-fit:contain !important;
     }
 
-    .prodpg__title{ margin: .25rem 0 0; line-height: 1.2; }
+    .prodpg__title{ margin:.25rem 0 0; line-height:1.2; }
     .prodpg__title .unit{ display:block; font-weight:600; }
+    section.prodpg .prodpg__price{ font-weight:700; font-size:1.05rem; }
+    section.prodpg .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
+    .prodpg__bullets{ margin:0 0 .5rem; padding-left:1.1rem; }
+    .prodpg__bullets li{ margin:.25rem 0; }
 
-    section.prodpg .prodpg__price { font-weight: 700; font-size: 1.05rem; }
-    section.prodpg .prodpg__desc { line-height: 1.5; color: #374151; font-size: .98rem; margin: .25rem 0 .5rem; }
-    .prodpg__bullets { margin: 0 0 .5rem; padding-left: 1.1rem; }
-    .prodpg__bullets li { margin: .25rem 0; }
-
-    /* Keep CTA tidy and the button compact */
-    .product-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .product-cta{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
     .product-cta .add-to-cart{
       display:inline-flex !important; width:auto !important; min-width:160px;
       align-items:center; justify-content:center; white-space:nowrap; align-self:start;
