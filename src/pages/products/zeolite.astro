@@ -34,16 +34,38 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
             <li>Includes Dihydroquercetin (taxifolin), a researched bioflavonoid that supports immune response and antioxidant defenses.</li>
           </ul>
 
-          <button
-            class="btn btn-cta add-to-cart"
-            data-sku="zeolite-8oz"
-            data-price={String(PRICE_CENTS)}            <!-- FIX: no angle brackets -->
-            data-qty="1"
-            data-name="AfterShot Zeolite (8 oz)"
-            data-image="/images/products/aftershot-8oz.jpg"   <!-- ensures cart uses the small public image -->
-          >
-            Add to Cart
-          </button>
+  <!-- CTA -->
+<div class="product-cta">
+  <button
+    class="btn-cta add-to-cart"
+    data-sku="zeolite-8oz"
+    data-price={String(PRICE_CENTS)}
+    data-qty="1"
+    data-name="AfterShot Zeolite (8 oz)"
+    data-image="/images/products/aftershot-8oz.jpg"
+  >
+    Add to Cart
+  </button>
+</div>
+<!-- noop: force git change -->
+
+<style>
+  /* Keep CTA tidy and the button compact */
+  .product-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+  .product-cta .add-to-cart {
+    display: inline-flex !important;
+    width: auto !important;
+    min-width: 160px;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    align-self: start;
+  }
+</style>
+
+
+
         </article>
       </div>
     </div>
