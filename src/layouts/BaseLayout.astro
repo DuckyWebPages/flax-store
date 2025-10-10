@@ -464,8 +464,7 @@
           if (!items.length) { alert("Your cart is empty."); return; }
 
           // promo code field in the drawer
-          var codeEl = document.querySelector("[data-coupon]");
-          var promoCode = codeEl && codeEl.value ? codeEl.value.trim() : "";
+          var promoCode = "";
 
           // Your API maps SKU -> Stripe price via env; it only needs id + qty
           var payloadItems = items.map(function (i) {
