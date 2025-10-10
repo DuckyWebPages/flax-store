@@ -1,9 +1,8 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const pageTitle = 'Essential Oils - '
+const pageTitle = 'Essential Oils - ';
 
-// Flat items list: each entry is a single SKU (oil + size) with exact price in CENTS
 const items = [
   { key: 'lavender-15ml',           label: 'Lavender (15 ml)',           cents: 3651 },
   { key: 'thieves-15ml',            label: 'Thieves (15 ml)',            cents: 5230 },
@@ -13,10 +12,9 @@ const items = [
   { key: 'tea-tree-15ml',           label: 'Tea Tree (15 ml)',           cents: 4013 },
   { key: 'sacred-frankincense-5ml', label: 'Sacred Frankincense (5 ml)', cents: 4975 },
   { key: 'panaway-5ml',             label: 'PanAway (5 ml)',             cents: 4175 },
-  { key: 'idaho-blue-spruce-5ml',   label: 'Idaho Blue Spruce (5 ml)',   cents: 4474 },
+  { key: 'idaho-blue-spruce-5ml',   label: 'Idaho Blue Spruce (5 ml)',   cents: 4474 }
 ];
 
-// Card image (ensure this exists under /public)
 const heroImage = '/images/products/oilsgreen.png';
 ---
 
@@ -32,14 +30,12 @@ const heroImage = '/images/products/oilsgreen.png';
           <img src={heroImage} alt="Essential Oils" loading="lazy" />
           <h3>Essential Oil</h3>
 
-          <!-- Live price -->
           <p id="eoPrice" class="prodpg__price">From $0.00</p>
 
           <p class="prodpg__desc">
             Pure essential oils. Choose your oil (size is built into the option).
           </p>
 
-          <!-- Single select (oil+size combined) -->
           <label>
             <span style="display:block;font-weight:600;margin:0 0 .25rem">Oil</span>
             <select id="eoItem" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
@@ -49,13 +45,11 @@ const heroImage = '/images/products/oilsgreen.png';
             </select>
           </label>
 
-          <!-- Quantity -->
           <label>
             <span style="display:block;font-weight:600;margin:.5rem 0 .25rem">Quantity</span>
             <input id="eoQty" type="number" min="1" value="1" style="width:86px;padding:8px;border:1px solid #ddd;border-radius:10px" />
           </label>
 
-          <!-- Add to Cart -->
           <button
             id="eoAdd"
             class="btn-cta add-to-cart"
@@ -73,7 +67,6 @@ const heroImage = '/images/products/oilsgreen.png';
   <style>
    .prodpg { padding: 0 0 48px; }
    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-
    section.prodpg .prodpg__grid{
      display: grid !important;
      grid-template-columns: 1fr;
@@ -86,7 +79,6 @@ const heroImage = '/images/products/oilsgreen.png';
      section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
      section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
    }
-
    section.prodpg .prodpg__card{
      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
      box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
@@ -101,7 +93,6 @@ const heroImage = '/images/products/oilsgreen.png';
 
   <script is:inline>
     (function(){
-      // Mirror the items list here for the client JS
       var items = {
         "lavender-15ml":           3651,
         "thieves-15ml":            5230,
@@ -124,13 +115,11 @@ const heroImage = '/images/products/oilsgreen.png';
         var label = sel.options[sel.selectedIndex].textContent || key;
         var cents = Number(sel.options[sel.selectedIndex].dataset.cents || items[key] || 0);
 
-        // Set cart data
         btn.setAttribute('data-sku', "eo-" + key);
         btn.setAttribute('data-name', label);
         btn.setAttribute('data-price', String(cents));
         btn.setAttribute('data-qty', String(Math.max(1, parseInt(qty.value||'1',10))));
 
-        // Visible price
         priceEl.textContent = "$" + (cents/100).toFixed(2);
       }
 
@@ -141,7 +130,6 @@ const heroImage = '/images/products/oilsgreen.png';
         btn.setAttribute('data-qty', String(n));
       });
 
-      // Initialize on first render
       update();
     })();
   </script>

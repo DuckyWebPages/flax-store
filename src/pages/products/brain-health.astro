@@ -1,12 +1,17 @@
 ---
-// FILE: src/pages/products/flax-oil-lignans.astro
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
-const pageTitle = 'Flax Hull Lignans — '
-const PRICE_FHL_CENTS = 3900
-const PRICE_FHL_DISPLAY = `$${(PRICE_FHL_CENTS / 100).toFixed(2)}`
-const PRICE_ANCIENT_CENTS = 4500
-const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
+const pageTitle = 'Brain Products — '
+
+// ---- Prices in cents (update as needed)
+const PRICE_NITRO = 4995   // <-- TODO: set your real price
+const PRICE_FHL   = 3900   // $39.00 (matches your FHL page)
+
+// ---- Images (update paths/filenames if different)
+const IMG_HERO   = '/images/brain-small.png'
+const IMG_NITRO  = '/images/products/ninja-nitro.jpg'     // <-- TODO: add this image
+const IMG_FHL    = '/images/products/flaxingield.jpg'      // existing
+
 ---
 
 <BaseLayout>
@@ -14,27 +19,67 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
 
   <!-- HERO -->
   <section class="prod-hero">
-    <img class="bg" src="/images/products/FHLSingleGreen.png" alt="" />
+    <img class="bg" src={IMG_HERO} alt="" />
     <div class="inner">
-      <h1>Flax Hull Lignans</h1>
+      <h1>Brain Products</h1>
       <p>
-        Concentrated SDG lignans from flax hulls to support hormone balance, healthy
-        inflammation response, and everyday immune wellness. Easy to add to smoothies,
-        yogurt, or water.
+        Focused support for brain energy, clarity, and daily vitality—clean formulas that fit real life.
       </p>
     </div>
   </section>
 
   <section class="prodpg">
     <div class="prodpg__container">
-      <h2 class="products-title sr-only">Products</h2>
+      <h2 class="products-title sr-only">Brain Products</h2>
 
       <div class="prodpg__grid">
-        <!-- Card: Flax Hull Lignans (Single Jar) -->
+        <!-- Card: NingXia Nitro -->
         <article class="prodpg__card">
           <div class="card-photo">
             <img
-              src="/images/products/flaxingield.jpg"
+              src={IMG_NITRO}
+              alt="NingXia Nitro"
+              loading="eager"
+              decoding="async"
+              class="card-photo-img"
+            />
+          </div>
+
+          <h3 class="prodpg__title">NingXia Nitro <span class="unit">(Single Box)</span></h3>
+          <p class="prodpg__price">${(PRICE_NITRO/100).toFixed(2)}</p>
+
+          <ul class="prodpg__bullets">
+            <li>On-the-go brain & energy support</li>
+            <li>Green tea + essential oil blend</li>
+            <li>No artificial colors or flavors</li>
+            <li>Convenient single-serve tubes</li>
+          </ul>
+
+          <p class="prodpg__desc">
+            Clean, portable pick-me-up for busy days—supports focus and steady energy without the crash.
+          </p>
+
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              data-sku="ningxia-nitro-box"
+              data-price={String(PRICE_NITRO)}
+              data-qty="1"
+              data-name="NingXia Nitro (Single Box)"
+              data-image={IMG_NITRO}
+            >
+              Add to Cart
+            </button>
+            <!-- Optional: link to a detail page later -->
+            <!-- <a class="btn btn-link" href="/products/ningxia-nitro/">Learn more</a> -->
+          </div>
+        </article>
+
+        <!-- Card: Flax Hull Lignans (for brain support, too) -->
+        <article class="prodpg__card">
+          <div class="card-photo">
+            <img
+              src={IMG_FHL}
               alt="Flax Hull Lignans (Single Jar)"
               loading="eager"
               decoding="async"
@@ -43,76 +88,31 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
           </div>
 
           <h3 class="prodpg__title">Flax Hull Lignans <span class="unit">(Single Jar)</span></h3>
-          <p class="prodpg__price">{PRICE_FHL_DISPLAY}</p>
+          <p class="prodpg__price">${(PRICE_FHL/100).toFixed(2)}</p>
 
           <ul class="prodpg__bullets">
-            <li>Very high in antioxidants</li>
-            <li>Great in cereal, yogurt, or baking</li>
+            <li>Rich plant lignans & antioxidants</li>
+            <li>Daily scoop for foundational wellness</li>
+            <li>Easy in smoothies, yogurt, or water</li>
             <li>No chemicals used in processing</li>
-            <li>150–300 mg SDG per 1.5 tsp serving</li>
-            <li>Full-spectrum 17 lignans present</li>
-            <li>~220 mg ALA (alpha-linolenic acid) per scoop</li>
           </ul>
 
           <p class="prodpg__desc">
-            Concentrated SDG lignans from brown flax hulls—your simple daily scoop for foundational
-            wellness and immune support.
+            Concentrated SDG lignans from flax hulls—simple daily nutrition that pairs well with brain-health routines.
           </p>
 
           <div class="product-cta">
             <button
               class="btn-cta add-to-cart"
               data-sku="fhl-single"
-              data-price={String(PRICE_FHL_CENTS)}
+              data-price={String(PRICE_FHL)}
               data-qty="1"
               data-name="Flax Hull Lignans (Single Jar)"
-              data-image="/images/products/flaxingield.jpg"
+              data-image={IMG_FHL}
             >
               Add to Cart
             </button>
-          </div>
-        </article>
-
-        <!-- Card: Ancient Seeds & Grains (Single Jar) -->
-        <article class="prodpg__card">
-          <div class="card-photo">
-            <img
-              src="/images/products/flaxsinglefield.jpg"
-              alt="FLH Ancient Seeds &amp; Grains (Single Jar)"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img"
-            />
-          </div>
-
-          <h3 class="prodpg__title">FLH Ancient Seeds &amp; Grains <span class="unit">(Single Jar)</span></h3>
-          <p class="prodpg__price">{PRICE_ANCIENT_DISPLAY}</p>
-
-          <ul class="prodpg__bullets">
-            <li>Very high in antioxidants</li>
-            <li>Great in cereal, yogurt, or baking</li>
-            <li>No chemicals used in processing</li>
-            <li>150–300 mg SDG per 1.5 tsp serving</li>
-            <li>Full-spectrum 17 lignans present</li>
-            <li>~220 mg ALA (alpha-linolenic acid) per scoop</li>
-          </ul>
-
-          <p class="prodpg__desc">
-            MCP-processed, non-GMO flax hull lignans with stricter sourcing than today’s “organic”
-            label. Same product quality—new certification paperwork.
-          </p>
-
-          <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              data-sku="ancient-single"
-              data-price={String(PRICE_ANCIENT_CENTS)}
-              data-qty="1"
-              data-name="FLH Ancient Seeds & Grains (Single Jar)"
-              data-image="/images/products/flaxsinglefield.jpg"
-            >
-              Add to Cart
-            </button>
+            <a class="btn btn-link" href="/products/flax-oil-lignans/">Learn more</a>
           </div>
         </article>
       </div>
@@ -120,7 +120,7 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
   </section>
 
   <style>
-    /* ---------- HERO (faded background image) ---------- */
+    /* ---------- HERO ---------- */
     .prod-hero{
       position:relative; isolation:isolate; overflow:hidden;
       min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
@@ -129,15 +129,12 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
       position:absolute; inset:0; width:100%; height:100%;
       object-fit:cover; opacity:.18; z-index:-1;
     }
-    .prod-hero .inner{
-      padding:20px 16px 18px; max-width:1100px; margin:0 auto;
-    }
+    .prod-hero .inner{ padding:20px 16px 18px; max-width:1100px; margin:0 auto; }
     .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
     .prod-hero p{ margin:0; max-width:70ch; }
 
     /* ---------- PRODUCT GRID ---------- */
     .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
-
     .prodpg { padding: 0 0 48px; }
     .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
 
@@ -155,14 +152,8 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
     }
 
     section.prodpg .prodpg__card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
-      display: grid;
-      gap: .55rem;
-      justify-items: start;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.06); display: grid; gap: .55rem; justify-items: start;
       width: 100%;
     }
 
@@ -179,6 +170,9 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
     .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .35rem; }
 
     .product-cta{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:.25rem; }
-    .product-cta .add-to-cart{ display:inline-flex !important; width:auto !important; min-width:160px; align-items:center; justify-content:center; white-space:nowrap; align-self:start; }
+    .product-cta .add-to-cart{ display:inline-flex !important; width:auto !important; min-width:160px;
+      align-items:center; justify-content:center; white-space:nowrap; align-self:start; }
+    .btn{ display:inline-flex; align-items:center; gap:.4rem; padding:8px 14px; border-radius:999px; text-decoration:none; font-weight:700; }
+    .btn-link{ background:transparent; color:#1f2937; }
   </style>
 </BaseLayout>
