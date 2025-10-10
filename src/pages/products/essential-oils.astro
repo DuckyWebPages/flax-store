@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'Essential Oils — '
 
-// Exact prices in CENTS. Keys MUST match the <select> values below.
+// Exact prices in CENTS
 const priceTable = {
   // 15 ml
   lavender:              { '15ml': 3651 },
@@ -19,7 +19,6 @@ const priceTable = {
   'idaho-blue-spruce':   { '5ml': 4474 },
 };
 
-// Display lists (values must match priceTable keys/sizes)
 const oils = [
   { key: 'lavender',             label: 'Lavender' },
   { key: 'thieves',              label: 'Thieves' },
@@ -37,9 +36,9 @@ const sizes = [
   { key: '15ml', label: '15 ml' },
 ];
 
-// Card image (ensure file/path/case exist under /public)
 const heroImage = '/images/products/oilsgreen.png';
 ---
+
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
