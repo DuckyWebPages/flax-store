@@ -1,5 +1,5 @@
 // FILE: src/pages/api/create-checkout-session.ts
-// PURPOSE: Create a Stripe Checkout session. Includes robust env detection + helpful diagnostics.
+// PURPOSE: Create a Stripe Checkout session. Robust env detection + helpful diagnostics.
 export const prerender = false;
 export const runtime = 'node'; // ensure Node runtime so process.env works on Vercel
 
@@ -47,14 +47,14 @@ export const POST: APIRoute = async ({ request }) => {
     "";
   const key = rawKey.trim();
 
-  // Determine which environment the function thinks it’s running in
+  // Which environment is this deployment?
   const envName =
     (import.meta.env?.VERCEL_ENV as string | undefined) ??
     (process.env?.VERCEL_ENV as string | undefined) ??
     (import.meta.env?.MODE as string | undefined) ??
     "unknown";
 
-  // If key is missing, return a VERY HELPFUL diagnostic
+  // If key is missing, return a diagnostic (no secrets leaked)
   if (!key) {
     const hadImport = Boolean((import.meta.env as any)?.STRIPE_SECRET_KEY);
     const hadProcess = Boolean(process.env?.STRIPE_SECRET_KEY);
@@ -65,13 +65,12 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  // Hard check for live key in production
   const IS_PROD = envName === "production";
   if (IS_PROD && !key.startsWith("sk_live_")) {
     return jsonErr(500, "Stripe key is not LIVE (sk_live_…). Check Vercel Production env.");
   }
 
-  // Small helper to read envs (supports both import.meta.env and process.env)
+  // Safe env getter (supports both import.meta.env and process.env)
   const ENV = {
     get(k: string) {
       const val =
@@ -81,7 +80,7 @@ export const POST: APIRoute = async ({ request }) => {
     },
   };
 
-  // --- FIXED PRICE MAPS (support Live and Test naming variants you used) ---
+  // --- FIXED PRICE MAPS ---
   const PRICE_MAP: Record<string, string | undefined> = IS_PROD
     ? {
         // LIVE
@@ -89,7 +88,7 @@ export const POST: APIRoute = async ({ request }) => {
         "ancient-single":       ENV.get("STRIPE_PRICE_ID_ANCIENTSINGLELIVE")       || ENV.get("STRIPE_PRICE_ID_ANCIENTSINGLE"),
         "ocean-cleanse-single": ENV.get("STRIPE_PRICE_ID_OCEANCLEANSELIVE")        || ENV.get("STRIPE_PRICE_ID_OCEANCLEANSE"),
         "essiac-tea-single":    ENV.get("STRIPE_PRICE_ID_ESSIAC_TEA_SINGLE_LIVE")  || ENV.get("STRIPE_PRICE_ID_ESSIAC"),
-        // AfterShot / Zeolite — support multiple SKUs
+        // AfterShot / Zeolite
         "aftershot-8oz":        ENV.get("STRIPE_PRICE_ID_AFTERSHOT")               || ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE"),
         "zeolite-single":       ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT"),
         "zeolite-8oz":          ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT"),
@@ -116,9 +115,7 @@ export const POST: APIRoute = async ({ request }) => {
   const items = Array.isArray(body?.items) ? body.items : [];
   const promoCode = String(body?.promoCode || "").trim();
 
-  if (!items.length) {
-    return jsonErr(400, "No items provided");
-  }
+  if (!items.length) return jsonErr(400, "No items provided");
 
   // --- Build Stripe line_items ---
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
@@ -167,7 +164,7 @@ export const POST: APIRoute = async ({ request }) => {
       continue;
     }
 
-    // If we made it here, we couldn't map this item
+    // Could not map this item
     return jsonErr(400, `items[${i}] must include price:"price_..." OR id/sku in PRICE_MAP/EO envs OR price_data`, {
       receivedKeys: Object.keys(it || {}),
       cartIdTried: cartId || null,
@@ -182,14 +179,30 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const stripe = new Stripe(key, { apiVersion: "2024-06-20" });
 
-    // Optional discounts
+    // -------- Discounts (safe & robust) --------
     const discounts: Stripe.Checkout.SessionCreateParams.Discount[] = [];
-    const forcedCoupon = ENV.get("STRIPE_COUPON_99");
+
+    // Only allow a forced coupon in PREVIEW/DEV, never in Production
+    const forcedCoupon = !IS_PROD ? ENV.get("STRIPE_COUPON_99") : undefined;
+    // IMPORTANT: forcedCoupon must be a real Coupon ID (like "Z4i0..."), not a human promo code such as "TEST1"
     if (forcedCoupon) discounts.push({ coupon: forcedCoupon });
 
     if (promoCode) {
-      const list = await stripe.promotionCodes.list({ code: promoCode, active: true, limit: 1 });
-      if (list.data[0]?.id) discounts.push({ promotion_code: list.data[0].id });
+      // Try exact code first; if not found, try a no-spaces variant
+      const findPromo = async (code: string) => {
+        const res = await stripe.promotionCodes.list({ code, active: true, limit: 1 });
+        return res.data[0]?.id;
+      };
+
+      let promoId = await findPromo(promoCode);
+      if (!promoId) {
+        const noSpace = promoCode.replace(/\s+/g, "");
+        if (noSpace && noSpace.toLowerCase() !== promoCode.toLowerCase()) {
+          promoId = await findPromo(noSpace);
+        }
+      }
+      if (promoId) discounts.push({ promotion_code: promoId });
+      // If still not found, we proceed without discounts (no error)
     }
 
     // Create session
