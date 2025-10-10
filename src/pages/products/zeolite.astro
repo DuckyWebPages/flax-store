@@ -2,9 +2,8 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'AfterShot — '
-
-// Optional: Stripe TEST price id (if you map by price id server-side)
-const PRICE_AFTERSHOT = import.meta.env.STRIPE_PRICE_ID_AFTERSHOTTEST || ''
+const PRICE_CENTS = 1999
+const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
 ---
 
 <BaseLayout>
@@ -19,64 +18,85 @@ const PRICE_AFTERSHOT = import.meta.env.STRIPE_PRICE_ID_AFTERSHOTTEST || ''
         <article class="prodpg__card">
           <img
             src="/images/products/aftershot-8oz.jpg"
-            alt="AfterShot Pain Relief (8 oz)"
+            alt="AfterShot Zeolite Heavy Metal & Toxin Removal (8 oz)"
             loading="lazy"
           />
-          <h3>AfterShot Pain Relief (8 oz)</h3>
-          <p class="prodpg__price">$24.99</p>
-          <p class="prodpg__desc">
-            Topical relief gel for post-workout and general aches. Cooling feel, fast absorption.
-          </p>
-          <button
-  class="btn-cta add-to-cart"
-  data-sku="zeolite-single"
-  data-name="AfterShot Pain Relief (8 oz)"
-  data-price="2499"
-  data-image="/images/products/aftershot-8oz.jpg"
-  data-qty="1"
->
-  Add to Cart
-</button>
-<!-- cents -->
+          <h3>AfterShot Zeolite Heavy Metal &amp; Toxin Removal (8 oz)</h3>
+          <p class="prodpg__price">{PRICE_DISPLAY}</p>
 
+          <p class="prodpg__desc">
+            AfterShot Zeolite combines micronized, cleansed zeolite with humic/fulvic acids so it circulates beyond the gut and into your bloodstream—supporting whole-body detox. Zeolite’s cage-like structure preferentially binds positively charged particles (e.g., certain metals), while the humic/fulvic complex helps transport and elimination.
+          </p>
+
+          <ul class="prodpg__bullets">
+            <li>Extremely safe &amp; non-toxic; eliminated within ~5–7 hours.</li>
+            <li>Targets toxic heavy metals including mercury, cadmium, lead, arsenic, aluminum, strontium, and excess iron.</li>
+            <li>Includes Dihydroquercetin (taxifolin), a researched bioflavonoid that supports immune response and antioxidant defenses.</li>
+          </ul>
+
+          <button
+            class="btn btn-cta add-to-cart"
+            data-sku="zeolite-8oz"
+            data-price={String(PRICE_CENTS)}            <!-- FIX: no angle brackets -->
+            data-qty="1"
+            data-name="AfterShot Zeolite (8 oz)"
+            data-image="/images/products/aftershot-8oz.jpg"   <!-- ensures cart uses the small public image -->
+          >
+            Add to Cart
+          </button>
         </article>
       </div>
     </div>
   </section>
 
   <style>
-   .prodpg { padding: 0 0 48px; }
+    .prodpg { padding: 0 0 48px; }
 
-   .prodpg__container {
-     max-width: 1100px;
-     margin: 0 auto;
-     padding: 0 16px;
-   }
+    .prodpg__container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
 
-   /* same grid as your Flax page */
-   section.prodpg .prodpg__grid{
-     display: grid !important;
-     grid-template-columns: 1fr;
-     row-gap: 16px !important;
-     column-gap: 32px !important;
-     margin: 10px 0 24px;
-   }
+    /* same grid as your Flax page */
+    section.prodpg .prodpg__grid {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      row-gap: 16px !important;
+      column-gap: 32px !important;
+      margin: 10px 0 24px;
+    }
 
-   @media (min-width: 800px){
-     section.prodpg .prodpg__grid{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-     section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
-     section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
-   }
+    @media (min-width: 800px) {
+      section.prodpg .prodpg__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      section.prodpg .prodpg__card { margin: 0; box-sizing: border-box; }
+      section.prodpg .prodpg__card:nth-child(odd) { margin-right: 32px; }
+    }
 
-   section.prodpg .prodpg__card{
-     background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
-     box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
-     width:100%; max-width:none;
-   }
-   section.prodpg .prodpg__card img{
-     width:100%; height:220px; object-fit:cover; border-radius:10px; display:block;
-   }
-   section.prodpg .prodpg__price{ font-weight:700; font-size:1.05rem; }
-   section.prodpg .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
+    section.prodpg .prodpg__card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
+      display: grid;
+      gap: .65rem;
+      justify-items: start;
+      width: 100%;
+      max-width: none;
+    }
+
+    section.prodpg .prodpg__card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+    }
+
+    section.prodpg .prodpg__price { font-weight: 700; font-size: 1.05rem; }
+    section.prodpg .prodpg__desc { line-height: 1.5; color: #374151; font-size: .98rem; margin: .25rem 0 .5rem; }
+    .prodpg__bullets { margin: 0 0 .5rem; padding-left: 1.1rem; }
+    .prodpg__bullets li { margin: .25rem 0; }
   </style>
 </BaseLayout>
