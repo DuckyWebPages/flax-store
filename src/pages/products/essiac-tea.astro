@@ -13,19 +13,19 @@ const pageTitle = 'Essiac Tea — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- HERO (half height; mirrors Ocean Cleanse) -->
+  <!-- HERO (half height; faded background image; NO add-to-cart here) -->
   <section class="prod-hero">
     <img class="bg" src={IMG} alt="" />
     <div class="inner">
       <h1>Essiac Tea</h1>
       <p>
-        Traditional herbal blend with a long history of wellness use and stories of supporting the body in its ability to heal.
+        Traditional herbal blend with a long history of wellness use and stories of supporting the body’s ability to heal.
       </p>
-      <a href="#buy" class="btn">Add to Cart</a>
+      <!-- intentionally no hero CTA -->
     </div>
   </section>
 
-  <!-- PRODUCT CARD AT TOP -->
+  <!-- PRODUCT CARD -->
   <section id="buy" class="content">
     <div class="card">
       <img
@@ -46,7 +46,7 @@ const pageTitle = 'Essiac Tea — ';
           Slippery Elm Bark, Turkish Rhubarb Root, Watercress.
         </p>
 
-        <!-- Must use data-sku + data-price (cents) for your cart -->
+        <!-- cart button (kept here on the card, not in the hero) -->
         <button
           type="button"
           class="btn add-to-cart"
@@ -67,7 +67,9 @@ const pageTitle = 'Essiac Tea — ';
     <h2>About Essiac Tea</h2>
     <p>
       This famous tea is often misrepresented online. Nurse Rene Caisse’s early 4-herb recipe is widely circulated,
-      but her later, refined 8-herb version with Dr. Charles Brusch is the one known for helping many. Our Essiac Tea follows that lineage. This tea has helped many people to support their body's own ability to heal from numerous serious health challenges. Taste is described similar to cold coffee. You keep it chilled in the refrigerator. The instructions are printed on the bag.
+      but her later, refined 8-herb version with Dr. Charles Brusch is the one known for helping many. Our Essiac Tea
+      follows that lineage. This tea has helped many people support their body’s own ability to heal from numerous
+      serious health challenges. Taste is similar to cold coffee. Keep it chilled in the refrigerator. Instructions are printed on the bag.
     </p>
   </section>
 
@@ -81,11 +83,6 @@ const pageTitle = 'Essiac Tea — ';
     .inner{ padding:20px 16px 18px; max-width:900px; margin:0 auto; }
     .inner h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.6rem); }
     .inner p{ margin:0 0 14px; max-width:60ch; }
-    .btn{
-      display:inline-flex; gap:.5rem; align-items:center; justify-content:center;
-      padding:10px 16px; border-radius:999px; background:#111827; color:#fff;
-      text-decoration:none; font-weight:700; cursor:pointer; border:0;
-    }
 
     /* CONTENT + CARD */
     .content{ max-width:1000px; margin:22px auto; padding:0 10px; }
@@ -101,7 +98,7 @@ const pageTitle = 'Essiac Tea — ';
     .card-price{ margin:0 0 .5rem; font-weight:700; }
     .card-desc{ margin:0 0 .9rem; line-height:1.55; }
 
-    /* Keep button style consistent with hero */
+    /* Buttons used on the card (not in hero) */
     button.btn, .btn{
       display:inline-flex; gap:.5rem; align-items:center; justify-content:center;
       padding:10px 16px; border-radius:999px; background:#111827; color:#fff;
