@@ -1,130 +1,155 @@
 ---
+// FILE: src/pages/products/flax-hull-lignans.astro
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'Flax Hull Lignans — '
-
-// Pull Stripe TEST price ids from env (not secrets)
-const PRICE_FLAX = import.meta.env.STRIPE_PRICE_ID_FLAXSINGLETEST || '';
-const PRICE_ANCT = import.meta.env.STRIPE_PRICE_ID_ANCIENTSINGLETEST || '';
+const PRICE_CENTS = 3900
+const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
+  <!-- HERO: Flax Hull Lignans (faded image, no CTA) -->
+  <section class="prod-hero">
+    <img class="bg" src="/images/flax-single-small.jpg" alt="" />
+    <div class="inner">
+      <h1>Flax Hull Lignans</h1>
+      <p>
+        Our most popular immune-support superfood, concentrated from the hulls of golden flaxseed.
+        Naturally rich in <em>secoisolariciresinol diglucoside (SDG)</em> lignans and fiber to support
+        hormone balance, healthy inflammation response, and everyday wellness. Pure, potent, and easy
+        to add to smoothies, yogurt, or water.
+      </p>
+    </div>
+  </section>
+
   <section class="prodpg">
     <div class="prodpg__container">
-      <h1 class="products-title">Flax Hull Lignans</h1>
+      <h2 class="products-title sr-only">Products</h2>
 
       <div class="prodpg__grid">
-        <!-- Regular Single Jar -->
+        <!-- Single Jar -->
         <article class="prodpg__card">
-          <img
-            src="/images/products/flax-hull-single.jpg"
-            alt="Flax Hull Lignan single jar"
-            loading="lazy"
-          />
-          <h3>FHL Flax Hull Lignan (Single Jar)</h3>
-          <p class="prodpg__price">$39.00</p>
-          <p class="prodpg__desc">
-            Our flagship lignan powder, MCP cold-processed for maximum SDG content. We try to get non-gmo flax for this product but can't always guarantee it. Mix into
-            smoothies, yogurt, or water. Naturally supports immune balance and overall vitality.
-          </p>
-          <button
-  class="btn-cta add-to-cart"
-  data-sku="fhl-single"
-  data-name="Flax Hull Lignan (Single Jar)"
-  data-price="3900"
-  data-image="/images/products/flax-hull-single.jpg"
-  data-qty="1"
->
-  Add to Cart
-</button>
+          <div class="card-photo">
+            <img
+              src="/images/flax-single-small.jpg"
+              alt="Flax Hull Lignans (Single Jar)"
+              loading="eager"
+              decoding="async"
+              class="card-photo-img"
+            />
+          </div>
 
-        </article>
+          <h3 class="prodpg__title">
+            Flax Hull Lignans
+            <span class="unit">(Single Jar)</span>
+          </h3>
 
-        <!-- Ancient Seeds & Grains (Single Jar) -->
-        <article class="prodpg__card">
-          <img
-            src="/images/ancient-single-small.png"
-            alt="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
-            loading="lazy"
-          />
-          <h3>FLH Ancient Seeds &amp; Grains (Single Jar)</h3>
-          <p class="prodpg__price">$45.00</p>
+          <p class="prodpg__price">{PRICE_DISPLAY}</p>
+
           <p class="prodpg__desc">
-            Flax hull lignans certified Ancient Seeds and Grains. This certification has a higher standard than "organic" and it allows zero % GMO's. Smooth taste, easy to use daily for consistent wellness support. Costs more because of the processing facility and requirements to process.
+            Concentrated SDG lignans from flax hulls—simple daily scoop for foundational wellness.
           </p>
-          <button
-            class="btn-cta add-to-cart"
-            data-sku="ancient-single"
-            data-name="FLH Ancient Seeds & Grains Flax Hull Lignans (Single Jar)"
-            data-price="4500"
-            data-image="/images/ancient-single-small.png"
-            data-qty="1"
-          >Add to Cart</button>
+
+          <ul class="prodpg__bullets">
+            <li>Concentrated <strong>SDG lignans</strong> from flax hulls</li>
+            <li>Easy to mix into smoothies, yogurt, or water</li>
+            <li>Gently processed; no fillers</li>
+          </ul>
+
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              data-sku="fhl-single"
+              data-price={String(PRICE_CENTS)}
+              data-qty="1"
+              data-name="Flax Hull Lignans (Single Jar)"
+              data-image="/images/flax-single-small.jpg"
+            >
+              Add to Cart
+            </button>
+          </div>
         </article>
       </div>
     </div>
   </section>
 
   <style>
-   .prodpg { padding: 0 0 48px; }
+    /* ---------- HERO (faded background image) ---------- */
+    .prod-hero{
+      position:relative; isolation:isolate; overflow:hidden;
+      min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
+    }
+    .prod-hero .bg{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; opacity:.18; z-index:-1;
+    }
+    .prod-hero .inner{
+      padding:20px 16px 18px; max-width:1100px; margin:0 auto;
+    }
+    .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
+    .prod-hero p{ margin:0; max-width:70ch; }
 
-   .prodpg__container {
-     max-width: 1100px;
-     margin: 0 auto;
-     padding: 0 16px;
-   }
+    /* ---------- PRODUCT GRID ---------- */
+    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
 
-   /* High-specificity + !important so globals can't stomp it */
-   section.prodpg .prodpg__grid{
-     display: grid !important;
-     grid-template-columns: 1fr;                 /* 1-up on mobile */
-     row-gap: 16px !important;
-     column-gap: 32px !important;                /* desired gutter */
-     margin: 10px 0 24px;
-   }
+    .prodpg { padding: 0 0 48px; }
+    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
 
-   @media (min-width: 800px){
-     section.prodpg .prodpg__grid{
-       grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-     }
+    section.prodpg .prodpg__grid {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      row-gap: 16px !important;
+      column-gap: 32px !important;
+      margin: 10px 0 24px;
+    }
+    @media (min-width: 800px) {
+      section.prodpg .prodpg__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      section.prodpg .prodpg__card { margin: 0; box-sizing: border-box; }
+      section.prodpg .prodpg__card:nth-child(odd) { margin-right: 32px; }
+    }
 
-     /* Fallback gutter if something still kills column-gap */
-     section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
-     section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
-   }
+    section.prodpg .prodpg__card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
+      display: grid;
+      gap: .65rem;
+      justify-items: start;
+      width: 100%;
+      max-width: none;
+    }
 
-   section.prodpg .prodpg__card{
-     background:#fff;
-     border:1px solid #e5e7eb;
-     border-radius:14px;
-     padding:16px;
-     box-shadow:0 8px 18px rgba(0,0,0,.06);
-     display:grid;
-     gap:.65rem;
-     justify-items:start;
-     width: 100%;
-     max-width: none;
-   }
+    /* Vertical card image: 3:4 frame that crops wide photos nicely */
+    .card-photo{
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #f7f7f7;
+      box-shadow: 0 8px 18px rgba(0,0,0,.05);
+    }
+    .card-photo-img{
+      width: 100%; height: 100%; display: block;
+      object-fit: cover;
+      object-position: center;
+    }
 
-   section.prodpg .prodpg__card img{
-     width:100%;
-     height:220px;
-     object-fit:cover;
-     border-radius:10px;
-     display:block;
-   }
+    .prodpg__title{ margin: .25rem 0 0; line-height: 1.2; }
+    .prodpg__title .unit{ display:block; font-weight:600; }
 
-   section.prodpg .prodpg__price{
-     font-weight:700;
-     font-size:1.05rem;
-   }
-   section.prodpg .prodpg__desc{
-     line-height:1.5;
-     color:#374151;
-     font-size:.98rem;
-     margin:.25rem 0 .5rem;
-   }
+    section.prodpg .prodpg__price { font-weight: 700; font-size: 1.05rem; }
+    section.prodpg .prodpg__desc { line-height: 1.5; color: #374151; font-size: .98rem; margin: .25rem 0 .5rem; }
+    .prodpg__bullets { margin: 0 0 .5rem; padding-left: 1.1rem; }
+    .prodpg__bullets li { margin: .25rem 0; }
+
+    .product-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .product-cta .add-to-cart{
+      display:inline-flex !important; width:auto !important; min-width:160px;
+      align-items:center; justify-content:center; white-space:nowrap; align-self:start;
+    }
   </style>
 </BaseLayout>
