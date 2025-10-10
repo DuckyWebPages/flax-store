@@ -3,34 +3,41 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'Essential Oils — '
 
-// Remove baseCents / mod fields and use a matrix:
+// Exact prices in CENTS. Keys MUST match the <select> values below.
 const priceTable = {
-  Lavender:     {  '15ml': 3651 },
-  Thieves:       {  '15ml': 52.30},
-  Peppermint:   {  '15ml': 3322 },
-  Orange:        {  '15ml': 1678 },
-  Grapefruit:   {  '15ml': 2632 },
-  Tea-tree:   {  '15ml': 4013 },
-  Sacred Frankincense: {  '05ml': 4975 },
-  Panaway : {  '05ml': 4175 },
-  Idaho Blue Spruce: {  '05ml': 4474 },
+  // 15 ml
+  lavender:              { '15ml': 3651 },
+  thieves:               { '15ml': 5230 },
+  peppermint:            { '15ml': 3322 },
+  orange:                { '15ml': 1678 },
+  grapefruit:            { '15ml': 2632 },
+  'tea-tree':            { '15ml': 4013 },
+
+  // 5 ml
+  'sacred-frankincense': { '5ml': 4975 },
+  panaway:               { '5ml': 4175 },
+  'idaho-blue-spruce':   { '5ml': 4474 },
 };
 
-// Keep simple display lists (no mods needed)
+// Display lists (values must match priceTable keys/sizes)
 const oils = [
-  { key: 'lavender', label: 'Lavender' },
-  { key: 'peppermint', label: 'Peppermint' },
-  { key: 'lemon', label: 'Lemon' },
-  { key: 'tea-tree', label: 'Tea Tree' },
-  { key: 'frankincense', label: 'Frankincense' },
+  { key: 'lavender',             label: 'Lavender' },
+  { key: 'thieves',              label: 'Thieves' },
+  { key: 'peppermint',           label: 'Peppermint' },
+  { key: 'orange',               label: 'Orange' },
+  { key: 'grapefruit',           label: 'Grapefruit' },
+  { key: 'tea-tree',             label: 'Tea Tree' },
+  { key: 'sacred-frankincense',  label: 'Sacred Frankincense' },
+  { key: 'panaway',              label: 'PanAway' },
+  { key: 'idaho-blue-spruce',    label: 'Idaho Blue Spruce' },
 ];
 
 const sizes = [
-  { key: '5ml', label: '5 ml' },
+  { key: '5ml',  label: '5 ml'  },
   { key: '15ml', label: '15 ml' },
 ];
 
-
+// Card image (ensure file/path/case exist under /public)
 const heroImage = '/images/products/oilsgreen.png';
 ---
 
@@ -42,15 +49,10 @@ const heroImage = '/images/products/oilsgreen.png';
       <h1 class="products-title">Essential Oils</h1>
 
       <div class="prodpg__grid">
-        <!-- One card with selectors (matches your card styling) -->
         <article class="prodpg__card">
-          <img
-            src={heroImage}
-            alt="Essential Oils"
-            loading="lazy"
-          />
+          <img src={heroImage} alt="Essential Oils" loading="lazy" />
           <h3>Essential Oil</h3>
-          <p id="eoPrice" class="prodpg__price">From ${(baseCents/100).toFixed(2)}</p>
+          <p id="eoPrice" class="prodpg__price">From $0.00</p>
           <p class="prodpg__desc">
             Pure essential oils. Choose your oil and bottle size.
           </p>
@@ -58,14 +60,14 @@ const heroImage = '/images/products/oilsgreen.png';
           <label>
             <span style="display:block;font-weight:600;margin:0 0 .25rem">Oil</span>
             <select id="eoOil" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
-              {oils.map(o => <option value={o.key} data-mod={o.mod}>{o.label}</option>)}
+              {oils.map(o => <option value={o.key}>{o.label}</option>)}
             </select>
           </label>
 
           <label>
             <span style="display:block;font-weight:600;margin:.5rem 0 .25rem">Size</span>
             <select id="eoSize" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
-              {sizes.map(s => <option value={s.key} data-mod={s.mod}>{s.label}</option>)}
+              {sizes.map(s => <option value={s.key}>{s.label}</option>)}
             </select>
           </label>
 
@@ -79,7 +81,7 @@ const heroImage = '/images/products/oilsgreen.png';
             class="btn-cta add-to-cart"
             data-sku=""
             data-name=""
-            data-price={baseCents}
+            data-price="0"
             data-image={heroImage}
             data-qty="1"
           >Add to Cart</button>
@@ -90,12 +92,7 @@ const heroImage = '/images/products/oilsgreen.png';
 
   <style>
    .prodpg { padding: 0 0 48px; }
-
-   .prodpg__container {
-     max-width: 1100px;
-     margin: 0 auto;
-     padding: 0 16px;
-   }
+   .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
 
    section.prodpg .prodpg__grid{
      display: grid !important;
@@ -104,7 +101,6 @@ const heroImage = '/images/products/oilsgreen.png';
      column-gap: 32px !important;
      margin: 10px 0 24px;
    }
-
    @media (min-width: 800px){
      section.prodpg .prodpg__grid{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
      section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
@@ -123,17 +119,36 @@ const heroImage = '/images/products/oilsgreen.png';
    section.prodpg .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
   </style>
 
-  <!-- keep cart contract: update data- attributes to match current selections -->
   <script is:inline>
     (function(){
+      var priceTable = {
+        "lavender":{"15ml":3651},
+        "thieves":{"15ml":5230},
+        "peppermint":{"15ml":3322},
+        "orange":{"15ml":1678},
+        "grapefruit":{"15ml":2632},
+        "tea-tree":{"15ml":4013},
+        "sacred-frankincense":{"5ml":4975},
+        "panaway":{"5ml":4175},
+        "idaho-blue-spruce":{"5ml":4474}
+      };
+
       var oilSel  = document.getElementById('eoOil');
       var sizeSel = document.getElementById('eoSize');
       var qty     = document.getElementById('eoQty');
       var btn     = document.getElementById('eoAdd');
       var priceEl = document.getElementById('eoPrice');
 
-      function cents(x){ return Math.round(Number(x)||0); }
-      function modFor(sel){ return cents(sel.options[sel.selectedIndex].dataset.mod || 0); }
+      function findPriceCents(oilKey, sizeKey){
+        var row = priceTable[oilKey] || {};
+        var cents = row[sizeKey];
+        // Fallback: lowest available for that oil (so "From $X" always shows something)
+        if (typeof cents !== 'number') {
+          var vals = Object.values(row).filter(v => typeof v === 'number');
+          if (vals.length) cents = Math.min.apply(Math, vals);
+        }
+        return typeof cents === 'number' ? cents : 0;
+      }
 
       function update(){
         var oilKey   = oilSel.value;
@@ -141,20 +156,16 @@ const heroImage = '/images/products/oilsgreen.png';
         var sizeKey  = sizeSel.value;
         var sizeLabel= sizeSel.options[sizeSel.selectedIndex].textContent || sizeKey;
 
-        var finalCents = baseCents + modFor(oilSel) + modFor(sizeSel);
+        var finalCents = findPriceCents(oilKey, sizeKey);
 
-
-        // Build SKU + Name
         var sku  = "eo-" + oilKey + "-" + sizeKey;
         var name = oilLabel + " (" + sizeLabel + ")";
 
-        // Sync to button attributes for your cart
         btn.setAttribute('data-sku', sku);
         btn.setAttribute('data-name', name);
         btn.setAttribute('data-price', String(finalCents));
         btn.setAttribute('data-qty', String(Math.max(1, parseInt(qty.value||'1',10))));
 
-        // Visible price
         priceEl.textContent = "$" + (finalCents/100).toFixed(2);
       }
 
@@ -166,6 +177,7 @@ const heroImage = '/images/products/oilsgreen.png';
       oilSel.addEventListener('change', update);
       sizeSel.addEventListener('change', update);
 
+      // Initialize
       update();
     })();
   </script>
