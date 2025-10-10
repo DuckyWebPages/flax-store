@@ -1,223 +1,136 @@
 ---
-// FILE: src/pages/products/flax-hull-lignans.astro
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const pageTitle = 'Flax Hull Lignans — '
-const PRICE_FHL_CENTS = 3900
-const PRICE_FHL_DISPLAY = `$${(PRICE_FHL_CENTS / 100).toFixed(2)}`
-const PRICE_ANCIENT_CENTS = 4500
-const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
+const pageTitle = 'Essential Oils - ';
+
+const items = [
+  { key: 'lavender-15ml',           label: 'Lavender (15 ml)',           cents: 3651 },
+  { key: 'thieves-15ml',            label: 'Thieves (15 ml)',            cents: 5230 },
+  { key: 'peppermint-15ml',         label: 'Peppermint (15 ml)',         cents: 3322 },
+  { key: 'orange-15ml',             label: 'Orange (15 ml)',             cents: 1678 },
+  { key: 'grapefruit-15ml',         label: 'Grapefruit (15 ml)',         cents: 2632 },
+  { key: 'tea-tree-15ml',           label: 'Tea Tree (15 ml)',           cents: 4013 },
+  { key: 'sacred-frankincense-5ml', label: 'Sacred Frankincense (5 ml)', cents: 4975 },
+  { key: 'panaway-5ml',             label: 'PanAway (5 ml)',             cents: 4175 },
+  { key: 'idaho-blue-spruce-5ml',   label: 'Idaho Blue Spruce (5 ml)',   cents: 4474 }
+];
+
+const heroImage = '/images/products/oilsgreen.png';
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- HERO -->
-  <section class="prod-hero">
-    <img class="bg" src="/images/products/FHLSingleGreen.png" alt="" />
-    <div class="inner">
-      <h1>Flax Hull Lignans</h1>
-      <p>
-        Concentrated SDG lignans from flax hulls to support hormone balance, healthy inflammation
-        response, and everyday immune wellness. Pure, potent, and easy to add to smoothies, yogurt,
-        or water.
-      </p>
-    </div>
-  </section>
-
   <section class="prodpg">
     <div class="prodpg__container">
-      <h2 class="products-title sr-only">Products</h2>
+      <h1 class="products-title">Essential Oils</h1>
 
       <div class="prodpg__grid">
-        <!-- Card: Flax Hull Lignans (Single Jar) -->
         <article class="prodpg__card">
-          <div class="card-photo">
-            <img
-              src="/images/products/flaxfield.jpg"
-              alt="Flax Hull Lignans (Single Jar)"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img"
-            />
-          </div>
+          <img src={heroImage} alt="Essential Oils" loading="lazy" />
+          <h3>Essential Oil</h3>
 
-          <h3 class="prodpg__title">
-            Flax Hull Lignans <span class="unit">(Single Jar)</span>
-          </h3>
-          <p class="prodpg__price">{PRICE_FHL_DISPLAY}</p>
-
-          <ul class="prodpg__bullets">
-            <li>Very high in antioxidants</li>
-            <li>Great in cereal, yogurt, or baking</li>
-            <li>No chemicals used in processing</li>
-            <li>150–300 mg SDG per 1.5 tsp serving</li>
-            <li>Full-spectrum 17 lignans present</li>
-            <li>~220 mg ALA (alpha-linolenic acid) per scoop</li>
-          </ul>
+          <p id="eoPrice" class="prodpg__price">From $0.00</p>
 
           <p class="prodpg__desc">
-            Now you can strengthen your immune system from within with the concentrated superfood extract Flax Hull Lignans. Studies show that consuming 1/2 to 1 scoop of Flax Hull Lignans a day will significantly increase your CD4 counts (measurement of immune system in the blood) within 30 days of taking them daily.
-
-These are the “Original” Flax Hull Lignans used in trials worldwide and especially to help immune system challenged children in 3rd world countries.
-
-Lignans are extracted through the “MCP Process” which guarantees no chemicals used during the extraction process.
-
-    Flax Hull Lignans support multiple body systems, especially brain, prostate, digestive and breast tissue. 
-    They are very high in anti-oxidants, they have an ORAC value of 19,600!
-    They are tiny particles found in the shell of flax seed, extracted and concentrated.
-    FHL is 8% oil and fat, and 55% of that fat is ALA (Alpha-Linolenic Acid).  If a person were to consume 2.5g (3/4 tsp) daily of FHL, they would be consuming approximately 110mg ALA (the daily recommended amount for women, a little less than the daily amount for men).
-    There is 2.1g of dietary fiber and 1.4g of protein in each scoop of Flax Hull Lignans
-    There are no chemicals used in extracting the lignans from the shell and therefore, no chemicals in our Flax Hull Lignans! ALL liquid forms of Flax Hull Lignans have used chemical extraction and should be avoided.
-
-One 5.3oz jar is a one month supply for adults, two month supply for children.
+            Pure essential oils. Choose your oil (size is built into the option).
           </p>
 
-          <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              data-sku="fhl-single"
-              data-price={String(PRICE_FHL_CENTS)}
-              data-qty="1"
-              data-name="Flax Hull Lignans (Single Jar)"
-              data-image="/images/products/flaxfield.jpg"
-            >
-              Add to Cart
-            </button>
-          </div>
-        </article>
+          <label>
+            <span style="display:block;font-weight:600;margin:0 0 .25rem">Oil</span>
+            <select id="eoItem" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
+              {items.map(i => (
+                <option value={i.key} data-cents={i.cents}>{i.label}</option>
+              ))}
+            </select>
+          </label>
 
-        <!-- Card: Ancient Seeds & Grains (Single Jar) -->
-        <article class="prodpg__card">
-          <div class="card-photo">
-            <img
-              src="/images/products/flaxsinglefield.jpg"
-              alt="FLH Ancient Seeds &amp; Grains (Single Jar)"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img"
-            />
-          </div>
+          <label>
+            <span style="display:block;font-weight:600;margin:.5rem 0 .25rem">Quantity</span>
+            <input id="eoQty" type="number" min="1" value="1" style="width:86px;padding:8px;border:1px solid #ddd;border-radius:10px" />
+          </label>
 
-          <h3 class="prodpg__title">
-            FLH Ancient Seeds &amp; Grains <span class="unit">(Single Jar)</span>
-          </h3>
-          <p class="prodpg__price">{PRICE_ANCIENT_DISPLAY}</p>
-
-          <ul class="prodpg__bullets">
-            <li>Wholesome heritage seeds &amp; grains</li>
-            <li>Easy to add to yogurt, cereal, or baking</li>
-            <li>No artificial additives</li>
-          </ul>
-
-          <p class="prodpg__desc">
-            Ancient Seeds and Grains version is better than organic, as no GMO's are allowed. Now you can strengthen your immune system from within with the concentrated superfood extract Flax Hull Lignans. Studies show that consuming 1/2 to 1 scoop of Flax Hull Lignans a day will significantly increase your CD4 counts (measurement of immune system in the blood) within 30 days of taking them daily.
-
-These are the “Original” Flax Hull Lignans used in trials worldwide and especially to help immune system challenged children in 3rd world countries.
-
-Lignans are extracted through the “MCP Process” which guarantees no chemicals used during the extraction process.
-
-    Flax Hull Lignans support multiple body systems, especially brain, prostate, digestive and breast tissue. 
-    They are very high in anti-oxidants, they have an ORAC value of 19,600!
-    They are tiny particles found in the shell of flax seed, extracted and concentrated.
-    FHL is 8% oil and fat, and 55% of that fat is ALA (Alpha-Linolenic Acid).  If a person were to consume 2.5g (3/4 tsp) daily of FHL, they would be consuming approximately 110mg ALA (the daily recommended amount for women, a little less than the daily amount for men).
-    There is 2.1g of dietary fiber and 1.4g of protein in each scoop of Flax Hull Lignans
-    There are no chemicals used in extracting the lignans from the shell and therefore, no chemicals in our Flax Hull Lignans! ALL liquid forms of Flax Hull Lignans have used chemical extraction and should be avoided.
-
-One 5.3oz jar is a one month supply for adults, two month supply for children.
-          </p>
-
-          <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              data-sku="ancient-single"
-              data-price={String(PRICE_ANCIENT_CENTS)}
-              data-qty="1"
-              data-name="FLH Ancient Seeds & Grains (Single Jar)"
-              data-image="/images/products/flaxsinglefield.jpg"
-            >
-              Add to Cart
-            </button>
-          </div>
+          <button
+            id="eoAdd"
+            class="btn-cta add-to-cart"
+            data-sku=""
+            data-name=""
+            data-price="0"
+            data-image={heroImage}
+            data-qty="1"
+          >Add to Cart</button>
         </article>
       </div>
     </div>
   </section>
 
   <style>
-    /* ---------- HERO (faded background image) ---------- */
-    .prod-hero{
-      position:relative; isolation:isolate; overflow:hidden;
-      min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
-    }
-    .prod-hero .bg{
-      position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; opacity:.18; z-index:-1;
-    }
-    .prod-hero .inner{
-      padding:20px 16px 18px; max-width:1100px; margin:0 auto;
-    }
-    .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
-    .prod-hero p{ margin:0; max-width:70ch; }
-
-    /* ---------- PRODUCT GRID ---------- */
-    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
-    .prodpg { padding: 0 0 48px; }
-    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-
-    section.prodpg .prodpg__grid {
-      display: grid !important;
-      grid-template-columns: 1fr;
-      row-gap: 16px !important;
-      column-gap: 32px !important;
-      margin: 10px 0 24px;
-    }
-    @media (min-width: 800px) {
-      section.prodpg .prodpg__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-      section.prodpg .prodpg__card { margin: 0; box-sizing: border-box; }
-      section.prodpg .prodpg__card:nth-child(odd) { margin-right: 32px; }
-    }
-
-    section.prodpg .prodpg__card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
-      display: grid;
-      gap: .65rem;
-      justify-items: start;
-      width: 100%;
-      max-width: none;
-    }
-
-    /* Vertical card image: 3:4 frame that crops wide photos nicely */
-    .card-photo{
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      overflow: hidden;
-      border-radius: 10px;
-      background: #f7f7f7;
-      box-shadow: 0 8px 18px rgba(0,0,0,.05);
-    }
-    .card-photo-img{
-      width: 100%; height: 100%; display: block;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .prodpg__title{ margin: .25rem 0 0; line-height: 1.2; }
-    .prodpg__title .unit{ display:block; font-weight:600; }
-
-    section.prodpg .prodpg__price { font-weight: 700; font-size: 1.05rem; }
-    section.prodpg .prodpg__desc { line-height: 1.5; color: #374151; font-size: .98rem; margin: .25rem 0 .5rem; }
-    .prodpg__bullets { margin: 0 0 .5rem; padding-left: 1.1rem; }
-    .prodpg__bullets li { margin: .25rem 0; }
-
-    .product-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .product-cta .add-to-cart{
-      display:inline-flex !important; width:auto !important; min-width:160px;
-      align-items:center; justify-content:center; white-space:nowrap; align-self:start;
-    }
+   .prodpg { padding: 0 0 48px; }
+   .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+   section.prodpg .prodpg__grid{
+     display: grid !important;
+     grid-template-columns: 1fr;
+     row-gap: 16px !important;
+     column-gap: 32px !important;
+     margin: 10px 0 24px;
+   }
+   @media (min-width: 800px){
+     section.prodpg .prodpg__grid{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+     section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
+     section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
+   }
+   section.prodpg .prodpg__card{
+     background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
+     box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
+     width:100%; max-width:none;
+   }
+   section.prodpg .prodpg__card img{
+     width:100%; height:220px; object-fit:cover; border-radius:10px; display:block;
+   }
+   section.prodpg .prodpg__price{ font-weight:700; font-size:1.05rem; }
+   section.prodpg .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
   </style>
+
+  <script is:inline>
+    (function(){
+      var items = {
+        "lavender-15ml":           3651,
+        "thieves-15ml":            5230,
+        "peppermint-15ml":         3322,
+        "orange-15ml":             1678,
+        "grapefruit-15ml":         2632,
+        "tea-tree-15ml":           4013,
+        "sacred-frankincense-5ml": 4975,
+        "panaway-5ml":             4175,
+        "idaho-blue-spruce-5ml":   4474
+      };
+
+      var sel = document.getElementById('eoItem');
+      var qty = document.getElementById('eoQty');
+      var btn = document.getElementById('eoAdd');
+      var priceEl = document.getElementById('eoPrice');
+
+      function update(){
+        var key   = sel.value;
+        var label = sel.options[sel.selectedIndex].textContent || key;
+        var cents = Number(sel.options[sel.selectedIndex].dataset.cents || items[key] || 0);
+
+        btn.setAttribute('data-sku', "eo-" + key);
+        btn.setAttribute('data-name', label);
+        btn.setAttribute('data-price', String(cents));
+        btn.setAttribute('data-qty', String(Math.max(1, parseInt(qty.value||'1',10))));
+
+        priceEl.textContent = "$" + (cents/100).toFixed(2);
+      }
+
+      sel.addEventListener('change', update);
+      qty.addEventListener('input', function(){
+        var n = Math.max(1, parseInt(qty.value || '1', 10));
+        qty.value = String(n);
+        btn.setAttribute('data-qty', String(n));
+      });
+
+      update();
+    })();
+  </script>
 </BaseLayout>
