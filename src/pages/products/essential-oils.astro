@@ -3,42 +3,22 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'Essential Oils — '
 
-// Exact prices in CENTS
-const priceTable = {
-  // 15 ml
-  lavender:              { '15ml': 3651 },
-  thieves:               { '15ml': 5230 },
-  peppermint:            { '15ml': 3322 },
-  orange:                { '15ml': 1678 },
-  grapefruit:            { '15ml': 2632 },
-  'tea-tree':            { '15ml': 4013 },
-
-  // 5 ml
-  'sacred-frankincense': { '5ml': 4975 },
-  panaway:               { '5ml': 4175 },
-  'idaho-blue-spruce':   { '5ml': 4474 },
-};
-
-const oils = [
-  { key: 'lavender',             label: 'Lavender' },
-  { key: 'thieves',              label: 'Thieves' },
-  { key: 'peppermint',           label: 'Peppermint' },
-  { key: 'orange',               label: 'Orange' },
-  { key: 'grapefruit',           label: 'Grapefruit' },
-  { key: 'tea-tree',             label: 'Tea Tree' },
-  { key: 'sacred-frankincense',  label: 'Sacred Frankincense' },
-  { key: 'panaway',              label: 'PanAway' },
-  { key: 'idaho-blue-spruce',    label: 'Idaho Blue Spruce' },
+// Flat items list: each entry is a single SKU (oil + size) with exact price in CENTS
+const items = [
+  { key: 'lavender-15ml',           label: 'Lavender (15 ml)',           cents: 3651 },
+  { key: 'thieves-15ml',            label: 'Thieves (15 ml)',            cents: 5230 },
+  { key: 'peppermint-15ml',         label: 'Peppermint (15 ml)',         cents: 3322 },
+  { key: 'orange-15ml',             label: 'Orange (15 ml)',             cents: 1678 },
+  { key: 'grapefruit-15ml',         label: 'Grapefruit (15 ml)',         cents: 2632 },
+  { key: 'tea-tree-15ml',           label: 'Tea Tree (15 ml)',           cents: 4013 },
+  { key: 'sacred-frankincense-5ml', label: 'Sacred Frankincense (5 ml)', cents: 4975 },
+  { key: 'panaway-5ml',             label: 'PanAway (5 ml)',             cents: 4175 },
+  { key: 'idaho-blue-spruce-5ml',   label: 'Idaho Blue Spruce (5 ml)',   cents: 4474 },
 ];
 
-const sizes = [
-  { key: '5ml',  label: '5 ml'  },
-  { key: '15ml', label: '15 ml' },
-];
-
+// Card image (ensure this exists under /public)
 const heroImage = '/images/products/oilsgreen.png';
 ---
-
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
@@ -51,30 +31,31 @@ const heroImage = '/images/products/oilsgreen.png';
         <article class="prodpg__card">
           <img src={heroImage} alt="Essential Oils" loading="lazy" />
           <h3>Essential Oil</h3>
+
+          <!-- Live price -->
           <p id="eoPrice" class="prodpg__price">From $0.00</p>
+
           <p class="prodpg__desc">
-            Pure essential oils. Choose your oil and bottle size.
+            Pure essential oils. Choose your oil (size is built into the option).
           </p>
 
+          <!-- Single select (oil+size combined) -->
           <label>
             <span style="display:block;font-weight:600;margin:0 0 .25rem">Oil</span>
-            <select id="eoOil" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
-              {oils.map(o => <option value={o.key}>{o.label}</option>)}
+            <select id="eoItem" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
+              {items.map(i => (
+                <option value={i.key} data-cents={i.cents}>{i.label}</option>
+              ))}
             </select>
           </label>
 
-          <label>
-            <span style="display:block;font-weight:600;margin:.5rem 0 .25rem">Size</span>
-            <select id="eoSize" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
-              {sizes.map(s => <option value={s.key}>{s.label}</option>)}
-            </select>
-          </label>
-
+          <!-- Quantity -->
           <label>
             <span style="display:block;font-weight:600;margin:.5rem 0 .25rem">Quantity</span>
             <input id="eoQty" type="number" min="1" value="1" style="width:86px;padding:8px;border:1px solid #ddd;border-radius:10px" />
           </label>
 
+          <!-- Add to Cart -->
           <button
             id="eoAdd"
             class="btn-cta add-to-cart"
@@ -120,63 +101,47 @@ const heroImage = '/images/products/oilsgreen.png';
 
   <script is:inline>
     (function(){
-      var priceTable = {
-        "lavender":{"15ml":3651},
-        "thieves":{"15ml":5230},
-        "peppermint":{"15ml":3322},
-        "orange":{"15ml":1678},
-        "grapefruit":{"15ml":2632},
-        "tea-tree":{"15ml":4013},
-        "sacred-frankincense":{"5ml":4975},
-        "panaway":{"5ml":4175},
-        "idaho-blue-spruce":{"5ml":4474}
+      // Mirror the items list here for the client JS
+      var items = {
+        "lavender-15ml":           3651,
+        "thieves-15ml":            5230,
+        "peppermint-15ml":         3322,
+        "orange-15ml":             1678,
+        "grapefruit-15ml":         2632,
+        "tea-tree-15ml":           4013,
+        "sacred-frankincense-5ml": 4975,
+        "panaway-5ml":             4175,
+        "idaho-blue-spruce-5ml":   4474
       };
 
-      var oilSel  = document.getElementById('eoOil');
-      var sizeSel = document.getElementById('eoSize');
-      var qty     = document.getElementById('eoQty');
-      var btn     = document.getElementById('eoAdd');
+      var sel = document.getElementById('eoItem');
+      var qty = document.getElementById('eoQty');
+      var btn = document.getElementById('eoAdd');
       var priceEl = document.getElementById('eoPrice');
 
-      function findPriceCents(oilKey, sizeKey){
-        var row = priceTable[oilKey] || {};
-        var cents = row[sizeKey];
-        // Fallback: lowest available for that oil (so "From $X" always shows something)
-        if (typeof cents !== 'number') {
-          var vals = Object.values(row).filter(v => typeof v === 'number');
-          if (vals.length) cents = Math.min.apply(Math, vals);
-        }
-        return typeof cents === 'number' ? cents : 0;
-      }
-
       function update(){
-        var oilKey   = oilSel.value;
-        var oilLabel = oilSel.options[oilSel.selectedIndex].textContent || oilKey;
-        var sizeKey  = sizeSel.value;
-        var sizeLabel= sizeSel.options[sizeSel.selectedIndex].textContent || sizeKey;
+        var key   = sel.value;
+        var label = sel.options[sel.selectedIndex].textContent || key;
+        var cents = Number(sel.options[sel.selectedIndex].dataset.cents || items[key] || 0);
 
-        var finalCents = findPriceCents(oilKey, sizeKey);
-
-        var sku  = "eo-" + oilKey + "-" + sizeKey;
-        var name = oilLabel + " (" + sizeLabel + ")";
-
-        btn.setAttribute('data-sku', sku);
-        btn.setAttribute('data-name', name);
-        btn.setAttribute('data-price', String(finalCents));
+        // Set cart data
+        btn.setAttribute('data-sku', "eo-" + key);
+        btn.setAttribute('data-name', label);
+        btn.setAttribute('data-price', String(cents));
         btn.setAttribute('data-qty', String(Math.max(1, parseInt(qty.value||'1',10))));
 
-        priceEl.textContent = "$" + (finalCents/100).toFixed(2);
+        // Visible price
+        priceEl.textContent = "$" + (cents/100).toFixed(2);
       }
 
+      sel.addEventListener('change', update);
       qty.addEventListener('input', function(){
         var n = Math.max(1, parseInt(qty.value || '1', 10));
         qty.value = String(n);
         btn.setAttribute('data-qty', String(n));
       });
-      oilSel.addEventListener('change', update);
-      sizeSel.addEventListener('change', update);
 
-      // Initialize
+      // Initialize on first render
       update();
     })();
   </script>
