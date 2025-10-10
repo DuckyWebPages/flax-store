@@ -1,0 +1,179 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+const pageTitle = 'Detox Products — '
+
+// Prices in cents
+const PRICE_OCEAN_CLEANSE = 3495
+const PRICE_AFTERSHOT = 2995
+
+// Images (adjust paths/names if yours differ)
+const IMG_OCEAN = '/images/products/oceancleanse-web.jpg'  // new horizontal
+const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot image
+---
+
+<BaseLayout>
+  <Fragment slot="title">{pageTitle}</Fragment>
+
+  <!-- HERO -->
+  <section class="prod-hero">
+    <img class="bg" src={IMG_OCEAN} alt="" />
+    <div class="inner">
+      <h1>Detox Products</h1>
+      <p>
+        Targeted support for detox and gentle cleansing: seaweed concentrates, mineral binders,
+        and daily-use formulas that help your body clear what it doesn’t need.
+      </p>
+    </div>
+  </section>
+
+  <section class="prodpg">
+    <div class="prodpg__container">
+      <h2 class="products-title sr-only">Detox Products</h2>
+
+      <div class="prodpg__grid">
+        <!-- Card: Ocean Cleanse -->
+        <article class="prodpg__card">
+          <div class="card-photo">
+            <img
+              src={IMG_OCEAN}
+              alt="Ocean Cleanse"
+              loading="eager"
+              decoding="async"
+              class="card-photo-img"
+            />
+          </div>
+
+          <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(90 capsules)</span></h3>
+          <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
+
+          <ul class="prodpg__bullets">
+            <li>Concentrated brown-seaweed extract</li>
+            <li>Natural iodine; supports thyroid & energy</li>
+            <li>Alginate binds certain heavy metals</li>
+            <li>Fucoidan & fucoxanthin for immune support</li>
+          </ul>
+
+          <p class="prodpg__desc">
+            A focused seaweed complex used traditionally to support detox of certain heavy metals
+            and radioactive elements, while supporting thyroid balance and everyday vitality.
+          </p>
+
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              data-sku="ocean-cleanse-single"
+              data-price={String(PRICE_OCEAN_CLEANSE)}
+              data-qty="1"
+              data-name="Ocean Cleanse – Heavy Metal/Radiation Detox"
+              data-image={IMG_OCEAN}
+            >
+              Add to Cart
+            </button>
+            <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
+          </div>
+        </article>
+
+        <!-- Card: AfterShot -->
+        <article class="prodpg__card">
+          <div class="card-photo">
+            <img
+              src={IMG_AFTERSHOT}
+              alt="AfterShot (8 oz)"
+              loading="eager"
+              decoding="async"
+              class="card-photo-img"
+            />
+          </div>
+
+          <h3 class="prodpg__title">AfterShot <span class="unit">(8 oz)</span></h3>
+          <p class="prodpg__price">${(PRICE_AFTERSHOT/100).toFixed(2)}</p>
+
+          <ul class="prodpg__bullets">
+            <li>Gentle daily detox support</li>
+            <li>Pairs well with Ocean Cleanse</li>
+            <li>No artificial colors or flavors</li>
+            <li>Easy to mix or take straight</li>
+          </ul>
+
+          <p class="prodpg__desc">
+            A simple, everyday companion formula used to support the body’s natural detox processes.
+            Smooth taste and designed to fit into real life—mix with water or take on its own.
+          </p>
+
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              data-sku="aftershot-8oz"
+              data-price={String(PRICE_AFTERSHOT)}
+              data-qty="1"
+              data-name="AfterShot (8 oz)"
+              data-image={IMG_AFTERSHOT}
+            >
+              Add to Cart
+            </button>
+            <!-- If you have a detail page later, link it here -->
+            <!-- <a class="btn btn-link" href="/products/aftershot/">Learn more</a> -->
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* ---------- HERO ---------- */
+    .prod-hero{
+      position:relative; isolation:isolate; overflow:hidden;
+      min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
+    }
+    .prod-hero .bg{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; opacity:.18; z-index:-1;
+    }
+    .prod-hero .inner{ padding:20px 16px 18px; max-width:1100px; margin:0 auto; }
+    .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
+    .prod-hero p{ margin:0; max-width:70ch; }
+
+    /* ---------- PRODUCT GRID ---------- */
+    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+    .prodpg { padding: 0 0 48px; }
+    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+    section.prodpg .prodpg__grid {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      row-gap: 16px !important;
+      column-gap: 32px !important;
+      margin: 10px 0 24px;
+    }
+    @media (min-width: 800px) {
+      section.prodpg .prodpg__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      section.prodpg .prodpg__card { margin: 0; box-sizing: border-box; }
+      section.prodpg .prodpg__card:nth-child(odd) { margin-right: 32px; }
+    }
+
+    section.prodpg .prodpg__card {
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.06); display: grid; gap: .55rem; justify-items: start;
+      width: 100%;
+    }
+
+    .card-photo{ width:100%; aspect-ratio: 3 / 4; overflow:hidden; border-radius:10px; background:#f7f7f7; box-shadow:0 8px 18px rgba(0,0,0,.05); }
+    .card-photo-img{ width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
+
+    .prodpg__title{ margin:.35rem 0 0; line-height:1.15; font-weight:700; }
+    .prodpg__title .unit{ display:block; font-weight:600; }
+    .prodpg__price{ font-weight:800; font-size:1.05rem; margin:.15rem 0 .25rem; }
+
+    .prodpg__bullets{ margin:.1rem 0 .45rem; padding-left:1.1rem; }
+    .prodpg__bullets li{ margin:.18rem 0; }
+
+    .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .35rem; }
+
+    .product-cta{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:.25rem; }
+    .product-cta .add-to-cart{ display:inline-flex !important; width:auto !important; min-width:160px;
+      align-items:center; justify-content:center; white-space:nowrap; align-self:start; }
+    .btn{ display:inline-flex; align-items:center; gap:.4rem; padding:8px 14px; border-radius:999px; text-decoration:none; font-weight:700; }
+    .btn-link{ background:transparent; color:#1f2937; }
+  </style>
+</BaseLayout>
