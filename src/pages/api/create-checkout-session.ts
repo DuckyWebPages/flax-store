@@ -92,6 +92,9 @@ export const POST: APIRoute = async ({ request }) => {
         "aftershot-8oz":        ENV.get("STRIPE_PRICE_ID_AFTERSHOT")               || ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE"),
         "zeolite-single":       ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT"),
         "zeolite-8oz":          ENV.get("STRIPE_PRICE_ID_ZEOLITE_LIVE")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT"),
+        "zeolite-3pack": ENV.get("STRIPE_PRICE_ID_ZEOLITE_3PACK_LIVE") || ENV.get("STRIPE_PRICE_ID_AFTERSHOT3PACK"),
+
+
       }
     : {
         // TEST
@@ -102,6 +105,9 @@ export const POST: APIRoute = async ({ request }) => {
         "aftershot-8oz":        ENV.get("STRIPE_PRICE_ID_AFTERSHOT_TEST")          || ENV.get("STRIPE_PRICE_ID_ZEOLITE_TEST"),
         "zeolite-single":       ENV.get("STRIPE_PRICE_ID_ZEOLITE_TEST")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT_TEST"),
         "zeolite-8oz":          ENV.get("STRIPE_PRICE_ID_ZEOLITE_TEST")            || ENV.get("STRIPE_PRICE_ID_AFTERSHOT_TEST"),
+    "zeolite-3pack": ENV.get("STRIPE_PRICE_ID_ZEOLITE_3PACK_TEST") || ENV.get("STRIPE_PRICE_ID_AFTERSHOT3PACK_TEST"),
+
+
       };
 
   // --- Read request body (expects { items: [...], promoCode?: string }) ---
