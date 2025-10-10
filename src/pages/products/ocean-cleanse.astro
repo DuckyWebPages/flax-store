@@ -2,17 +2,30 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 const pageTitle = 'Ocean Cleanse — ';
 const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe price ID
+const IMG = '/images/products/ocean-cleanse-small2.png';
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- PRODUCT CARD (now at the top) -->
+  <!-- HERO: Ocean Cleanse (faded image, no CTA) -->
+  <section class="prod-hero">
+    <img class="bg" src={IMG} alt="" />
+    <div class="inner">
+      <h1>Ocean Cleanse</h1>
+      <p>
+        Concentrated brown-seaweed extract used to support detoxification of certain heavy metals
+        and radioactive elements—while supporting thyroid, energy, and immune function.
+      </p>
+    </div>
+  </section>
+
+  <!-- PRODUCT CARD -->
   <section id="buy" class="content">
     <div class="card">
       <img
         class="card-img"
-        src="/images/products/ocean-cleanse-small2.png"
+        src={IMG}
         alt="Ocean Cleanse (Single Jar)"
         width="640"
         height="640"
@@ -23,7 +36,6 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
         <h1 class="card-title">Ocean Cleanse (Single Jar)</h1>
         <p class="card-price">{PRICE_DISPLAY}</p>
 
-                <!-- Moved copy from the old hero -->
         <p class="card-desc">
           All natural source of iodine and helps remove toxins. This formula was originally formulated to support
           the people of Chernobyl in removing radiation. Also supports the removal of heavy metals.
@@ -31,24 +43,20 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
         </p>
 
         <!-- $34.95 in cents -->
-<button class="btn btn-cta add-to-cart"
-  data-sku="ocean-cleanse-single"
-  data-price="3495"
-  data-qty="1"
-  data-name="Ocean Cleanse – Heavy Metal/Radiation Detox">
-  Add to Cart
-</button>
-
-
-
-
-
-
+        <button
+          class="btn btn-cta add-to-cart"
+          data-sku="ocean-cleanse-single"
+          data-price="3495"
+          data-qty="1"
+          data-name="Ocean Cleanse – Heavy Metal/Radiation Detox"
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- Additional content below the card (keep or edit as you like) -->
+  <!-- Additional content -->
   <section class="content">
     <h2>About Ocean Cleanse</h2>
     <p>
@@ -78,9 +86,23 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
     </ul>
   </section>
 
-
   <style>
-    /* CONTENT + CARD */
+    /* ---------- HERO (faded image) ---------- */
+    .prod-hero{
+      position:relative; isolation:isolate; overflow:hidden;
+      min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
+    }
+    .prod-hero .bg{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; opacity:.18; z-index:-1;
+    }
+    .prod-hero .inner{
+      padding:20px 16px 18px; max-width:1000px; margin:0 auto;
+    }
+    .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
+    .prod-hero p{ margin:0; max-width:70ch; }
+
+    /* ---------- CONTENT + CARD ---------- */
     .content{max-width:1000px;margin:22px auto;padding:0 10px}
     .content h3{margin:1rem 0 .25rem;font-size:1.1rem}
     .content ul{margin:.25rem 0 .75rem;padding-left:1.2rem}
@@ -110,25 +132,28 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
     .card-price{margin:0 0 .5rem;font-weight:700}
     .card-desc{margin:0 0 .9rem;line-height:1.55}
 
-    
-    /* Button styling: matches hero */
-button.btn, .btn {
-  display: inline-flex;
-  gap: .5rem;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: #111827;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-  cursor: pointer;
-  border: 0;
-  -webkit-appearance: none;
-  appearance: none;
+    /* Button styling: compact & consistent */
+    button.btn, .btn {
+      display: inline-flex;
+      gap: .5rem;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #111827;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+      border: 0;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    button.btn:focus { outline: 2px solid #11182722; outline-offset: 2px; }
+    .card-img {
+  width: 50%;
+  height: auto;
 }
-button.btn:focus { outline: 2px solid #11182722; outline-offset: 2px; }
 
   </style>
 </BaseLayout>
