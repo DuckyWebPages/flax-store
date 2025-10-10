@@ -1,4 +1,4 @@
----
+﻿---
 /* FILE: src/layouts/BaseLayout.astro
    Base layout with fixed header, global styles, and cart drawer */
 ---
@@ -239,7 +239,7 @@
 
     <main><slot /></main>
 
-    <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
+    <footer>Â© {new Date().getFullYear()} Flax Lignan Health</footer>
 
     <!-- =======================
          Cart Drawer
@@ -270,7 +270,7 @@
           </div>
 
           <button class="btn-cta btn-checkout" data-checkout disabled>Checkout</button>
-          <div class="trust">…</div>
+          <div class="trust">â€¦</div>
         </footer>
       </div>
     </aside>
@@ -363,7 +363,7 @@
                   '</div>'+
                   '<div class="ci-row">'+
                     '<div class="qty" aria-label="Quantity">'+
-                      '<button class="qty-btn" data-dec="'+i.id+'" aria-label="Decrease">–</button>'+
+                      '<button class="qty-btn" data-dec="'+i.id+'" aria-label="Decrease">â€“</button>'+
                       '<input class="qty-input" value="'+i.qty+'" inputmode="numeric" data-qty="'+i.id+'">'+
                       '<button class="qty-btn" data-inc="'+i.id+'" aria-label="Increase">+</button>'+
                     '</div>'+
@@ -410,7 +410,7 @@
           var currI = (Cart.all().find(function(i){ return i.id===idI; }) || { qty:1 }).qty;
           Cart.setQty(idI, currI + 1); return;
         }
-        // Qty –
+        // Qty â€“
         var dec = el.closest("[data-dec]"); if (dec) {
           var idD = dec.getAttribute("data-dec");
           var currD = (Cart.all().find(function(i){ return i.id===idD; }) || { qty:1 }).qty;

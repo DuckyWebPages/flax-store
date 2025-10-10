@@ -1,4 +1,4 @@
----
+﻿---
 // FILE: src/pages/thank-you.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -11,7 +11,7 @@ const title = "Thank you!";
     <h1>{title}</h1>
 
     <p class="lead">
-      Thank you for shopping with us! We’ve received your order. A receipt has been emailed to you.
+      Thank you for shopping with us! Weâ€™ve received your order. A receipt has been emailed to you.
       Questions? Call 817-710-6918.
     </p>
 
@@ -26,7 +26,7 @@ const title = "Thank you!";
     />
 
     <div id="order-summary" class="order">
-      <p>Loading your order…</p>
+      <p>Loading your orderâ€¦</p>
     </div>
   </div>
 
@@ -55,7 +55,7 @@ const title = "Thank you!";
       const s = data.session ?? data;
 
       const paymentStatus = s.payment_status ?? "unknown";
-      const email = s.customer_details?.email ?? "—";
+      const email = s.customer_details?.email ?? "â€”";
       const currency = (typeof s.currency === "string" ? s.currency : "usd").toUpperCase();
       const total = typeof s.amount_total === "number" ? (s.amount_total / 100) : null;
 
@@ -73,7 +73,7 @@ const title = "Thank you!";
             : (typeof li.amount_subtotal === "number" ? Math.round(li.amount_subtotal / (qty || 1)) : 0);
 
         const dollars = (unitCents / 100).toFixed(2);
-        return `<li>${name} × ${qty} — $${dollars}</li>`;
+        return `<li>${name} Ã— ${qty} â€” $${dollars}</li>`;
       }).join("");
 
       box.innerHTML = `
@@ -89,13 +89,13 @@ const title = "Thank you!";
       box.innerHTML = `
         <div class="returns">
           <p><strong>Order confirmed.</strong></p>
-          <p>We know you’ll love your products. If you need to return an item, our <strong>30-day money-back guarantee</strong> applies to <strong>unopened</strong> items only.</p>
+          <p>We know youâ€™ll love your products. If you need to return an item, our <strong>30-day money-back guarantee</strong> applies to <strong>unopened</strong> items only.</p>
           <ul>
             <li>Item must be new, unopened, and the seal intact.</li>
             <li>Email <a href="mailto:info@flaxlignanhealth.com">info@flaxlignanhealth.com</a> to request a Return Authorization (RA) number before sending anything back.</li>
             <li>Ship in the original or comparable protective packaging to the address provided with your RA.</li>
             <li>Refund covers the product price only; original shipping is non-refundable.</li>
-            <li>Return shipping is the customer’s responsibility.</li>
+            <li>Return shipping is the customerâ€™s responsibility.</li>
             <li>No refunds for opened items or returns more than 30 days from the purchase date.</li>
           </ul>
           <p>Questions? Call 817-710-6918.</p>

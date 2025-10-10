@@ -1,6 +1,6 @@
----
+﻿---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const title = "Checkout — ";
+const title = "Checkout â€” ";
 ---
 
 <BaseLayout>
@@ -16,7 +16,7 @@ const title = "Checkout — ";
   <script>
     (function () {
       function fmtUSD(cents){
-        if (!Number.isFinite(cents)) return "—";
+        if (!Number.isFinite(cents)) return "â€”";
         return (cents/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
       }
 
@@ -70,8 +70,8 @@ const title = "Checkout — ";
       var rows = items.map(function(i){
         var name = (i.name || i.id || "").toString();
         var qty  = Number(i.qty || 0);
-        var unit = havePrices ? fmtUSD(i.unitCents) : "—";
-        var line = havePrices ? fmtUSD((i.unitCents||0) * qty) : "—";
+        var unit = havePrices ? fmtUSD(i.unitCents) : "â€”";
+        var line = havePrices ? fmtUSD((i.unitCents||0) * qty) : "â€”";
         return (
           '<tr>' +
             '<td>'+ name +'</td>' +

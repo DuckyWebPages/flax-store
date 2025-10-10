@@ -1,4 +1,4 @@
----
+﻿---
 export interface Props {
   showLabel?: boolean; // set to true if you want the "Cart" text next to the icon
 }
@@ -45,10 +45,10 @@ const { showLabel = false } = Astro.props;
         // badge.style.display = count>0 ? '' : 'none';
       }
 
-      // Primary: listen for your cart system’s count broadcast
+      // Primary: listen for your cart systemâ€™s count broadcast
       window.addEventListener('cart:count', (e)=> render(e.detail?.count));
 
-      // Fallbacks: if your cart doesn’t emit cart:count yet, bump on add/remove
+      // Fallbacks: if your cart doesnâ€™t emit cart:count yet, bump on add/remove
       document.addEventListener('click', (e)=>{
         const add = e.target.closest('.add-to-cart');
         if(add){ render(count + 1); }

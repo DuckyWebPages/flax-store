@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
@@ -7,11 +7,11 @@ export const prerender = true;
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const title = 'Blog — Flax Lignan Health';
+const title = 'Blog â€” Flax Lignan Health';
 ---
 
 <BaseLayout>
-  <Fragment slot="title">{title} — </Fragment>
+  <Fragment slot="title">{title} â€” </Fragment>
 
   <header class="blog-header">
     <h1>Blog</h1>
@@ -29,7 +29,7 @@ const title = 'Blog — Flax Lignan Health';
           </h2>
           <p class="meta">
             {post.data.date.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })}
-            {post.data.tags?.length ? ` • ${post.data.tags.join(', ')}` : ''}
+            {post.data.tags?.length ? ` â€¢ ${post.data.tags.join(', ')}` : ''}
           </p>
           {post.data.description && <p class="excerpt">{post.data.description}</p>}
         </article>
