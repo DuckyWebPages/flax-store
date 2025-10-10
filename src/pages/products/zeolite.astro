@@ -64,46 +64,48 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
             </button>
           </div>
         </article>
+
         <!-- AfterShot (3-bottle bundle) -->
-<article class="prodpg__card">
-  <div class="card-photo">
-    <img
-      src="/images/products/aftershot3green.jpg"
-      alt="AfterShot Zeolite — 3-Bottle Bundle"
-      loading="eager"
-      decoding="async"
-      class="card-photo-img"
-    />
-  </div>
+        <article class="prodpg__card">
+          <div class="card-photo">
+            <img
+              src="/images/products/aftershot3green.jpg"
+              alt="AfterShot Zeolite — 3-Bottle Bundle"
+              loading="eager"
+              decoding="async"
+              class="card-photo-img"
+            />
+          </div>
 
-  <h3 class="prodpg__title">
-    AfterShot Zeolite
-    <span class="unit">3-Bottle Bundle</span>
-  </h3>
+          <h3 class="prodpg__title">
+            AfterShot Zeolite
+            <span class="unit">3-Bottle Bundle</span>
+          </h3>
 
-  <p class="prodpg__price">$49.99</p>
+          <p class="prodpg__price">$49.99</p>
 
-  <p class="prodpg__desc">
-    Stock up and save. Three bottles of AfterShot Zeolite for one low bundle price.
-  </p>
+          <p class="prodpg__desc">
+            Stock up and save. Three bottles of AfterShot Zeolite for one low bundle price.
+          </p>
 
-  <ul class="prodpg__bullets">
-    <li>Same micronized zeolite + humic/fulvic complex.</li>
-    <li>Bundle pricing for best value.</li>
-  </ul>
+          <ul class="prodpg__bullets">
+            <li>Same micronized zeolite + humic/fulvic complex.</li>
+            <li>Bundle pricing for best value.</li>
+          </ul>
 
-  <div class="product-cta">
-    <button
-      class="btn-cta add-to-cart"
-      data-sku="zeolite-3pack"
-      data-price={String(4999)}      <!-- $49.99 total -->
-      data-qty="1"
-      data-name="AfterShot Zeolite — 3-Bottle Bundle"
-      data-image="/images/products/aftershot3green.jpg"
-      Add to Cart
-    </button>
-  </div>
-</article>
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              data-sku="zeolite-3pack"
+              data-price={String(4999)}
+              data-qty="1"
+              data-name="AfterShot Zeolite — 3-Bottle Bundle"
+              data-image="/images/products/aftershot3green.jpg"
+            >
+              Add to Cart
+            </button>
+          </div>
+        </article>
 
       </div>
     </div>
@@ -168,7 +170,7 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
       line-height: 1.2;
     }
     .prodpg__title .unit{
-      display: block;            /* forces (8 oz) onto its own line */
+      display: block;            /* forces (8 oz) or “3-Bottle Bundle” onto its own line */
       font-weight: 600;
     }
 
