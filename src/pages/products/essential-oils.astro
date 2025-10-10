@@ -3,26 +3,35 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'Essential Oils — '
 
-/* Base price (cents). Modifiers add to this. */
-const baseCents = 1400;
+// Remove baseCents / mod fields and use a matrix:
+const priceTable = {
+  Lavender:     {  '15ml': 3651 },
+  Thieves:       {  '15ml': 52.30},
+  Peppermint:   {  '15ml': 3322 },
+  Orange:        {  '15ml': 1678 },
+  Grapefruit:   {  '15ml': 2632 },
+  Tea-tree:   {  '15ml': 4013 },
+  Sacred Frankincense: {  '05ml': 4975 },
+  Panaway : {  '05ml': 4175 },
+  Idaho Blue Spruce: {  '05ml': 4474 },
+};
 
-// Optional price IDs if your API maps by price id (can be blank)
-const PRICE_EO_DYNAMIC = '';
-
+// Keep simple display lists (no mods needed)
 const oils = [
-  { key: 'lavender',     label: 'Lavender',     mod: 0 },
-  { key: 'peppermint',   label: 'Peppermint',   mod: 0 },
-  { key: 'lemon',        label: 'Lemon',        mod: 0 },
-  { key: 'tea-tree',     label: 'Tea Tree',     mod: 0 },
-  { key: 'frankincense', label: 'Frankincense', mod: 1000 }, // +$10.00
+  { key: 'lavender', label: 'Lavender' },
+  { key: 'peppermint', label: 'Peppermint' },
+  { key: 'lemon', label: 'Lemon' },
+  { key: 'tea-tree', label: 'Tea Tree' },
+  { key: 'frankincense', label: 'Frankincense' },
 ];
 
 const sizes = [
-  { key: '10ml', label: '10 ml', mod: 0 },
-  { key: '30ml', label: '30 ml', mod: 1100 }, // +$11.00
+  { key: '5ml', label: '5 ml' },
+  { key: '15ml', label: '15 ml' },
 ];
 
-const heroImage = '/images/products/essential-oils-assortment.jpg';
+
+const heroImage = '/images/products/oilsgreen.png';
 ---
 
 <BaseLayout>
