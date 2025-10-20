@@ -6,161 +6,104 @@ const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2023-10-16",
 });
 
-// DEBUG: confirm which Stripe key mode the server is using
+// Helps avoid TEST/LIVE mixups in logs
 const keyPrefix = (import.meta.env.STRIPE_SECRET_KEY || "").slice(0, 7);
 console.log("[stripe] key mode:", keyPrefix.startsWith("sk_live") ? "LIVE" : "TEST");
 
-// Optional fallback map. ONLY fill entries that don't have lookup_key set in Stripe.
-
-// Example: "fhl-single": "price_1Pxxxxxxx"
-const HARDCODED: Record<string, string> = {
-  "fhl-single": "price_1S5d2YEBOCXQH1bcbs0n7mW5",
-  // add others here only if needed, e.g.:
-  // "ancient-single": "price_live_ABCDEFG",
-  "methylene-blue":
-    import.meta.env.STRIPE_PRICE_ID_MBLUELIVE || "price_1SK7YrEBOCXQH1bcKPcdY56O",
+// ───────────────────────────────────────────────────────────────────────────────
+// HARD-CODED PRICE IDS
+// Keys MUST match your <button data-sku="..."> on product pages.
+const PRICE_MAP: Record<string, string> = {
+  "BLM": "price_1SKAVdEBOCXQH1bcamiEg344",
+  "dandelion-tea": "price_1SKCR1EBOCXQH1bcsMWwThUb",
+  "methylene-blue": "price_1SK7YrEBOCXQH1bcKPcdY56O",
 };
+// ───────────────────────────────────────────────────────────────────────────────
 
-type IncomingItem = { id: string; qty: number };
-type Payload = { items: IncomingItem[]; promoCode?: string };
+function envPriceIdForSku(sku: string): string | undefined {
+  const envKey = "STRIPE_PRICE_ID_" + sku.replace(/[^a-zA-Z0-9]/g, "_").toUpperCase();
+  return (import.meta.env as any)[envKey];
+}
 
-// Resolve your internal id (e.g., "fhl-single") to a real Stripe price_... id.
-async function priceIdForInternalId(internalId: string): Promise<string> {
-  console.log("[stripe] resolving:", internalId);
+function getPriceIdForSku(sku: string): string | undefined {
+  return envPriceIdForSku(sku) || PRICE_MAP[sku];
+}
 
-  // 1) Try Prices by lookup_key (BEST: set lookup_key in Stripe UI to your internal id)
+function looksLikePriceId(v: string | undefined): v is string {
+  return !!v && v.startsWith("price_");
+}
+
+async function findPromotionCodeIdByCode(code?: string) {
+  if (!code) return undefined;
   try {
-    const byLookup = await stripe.prices.list({
-      lookup_keys: [internalId],
-      active: true,
-      limit: 1,
-      expand: ["data.product"],
-    });
-
-    // 🔎 DEBUG: log what Stripe returned for the lookup_key
-    console.log(
-      "[stripe] lookup_keys result for",
-      internalId,
-      "=>",
-      byLookup.data.map((p) => ({
-        id: p.id,
-        lookup_key: p.lookup_key,
-        active: p.active,
-        currency: p.currency,
-        product: typeof p.product === "object" ? p.product?.name : p.product,
-      }))
-    );
-
-    if (byLookup.data.length) {
-      const picked = byLookup.data[0];
-      console.log("[stripe] using price from lookup_key:", picked.id);
-      return picked.id;
-    }
+    const list = await stripe.promotionCodes.list({ code, active: true, limit: 1 });
+    return list?.data?.[0]?.id;
   } catch (e) {
-    console.warn("[stripe] prices.list lookup_key failed:", e);
+    console.warn("[stripe] promo lookup failed:", (e as Error).message);
+    return undefined;
   }
-
-  // 2) Try Product metadata.sku or metadata.id == internalId
-  try {
-    const prods = await stripe.products.list({ active: true, limit: 100 });
-
-    const match = prods.data.find((p) => {
-      const sku = (p.metadata?.sku || "").trim();
-      const idm = (p.metadata?.id || "").trim();
-      return sku === internalId || idm === internalId;
-    });
-
-    // 🔎 DEBUG: show if a product matched by metadata
-    console.log(
-      "[stripe] product metadata match for",
-      internalId,
-      "=>",
-      match ? { id: match.id, name: match.name } : "none"
-    );
-
-    if (match) {
-      const prices = await stripe.prices.list({
-        product: match.id,
-        active: true,
-        limit: 10,
-      });
-
-      // 🔎 DEBUG: show candidate prices
-      console.log(
-        "[stripe] prices for product",
-        match.id,
-        "=>",
-        prices.data.map((pr) => ({
-          id: pr.id,
-          recurring: !!pr.recurring,
-          active: pr.active,
-          currency: pr.currency,
-        }))
-      );
-
-      const oneTime = prices.data.find((pr) => !pr.recurring) || prices.data[0];
-      if (oneTime) {
-        console.log("[stripe] using price from product list:", oneTime.id);
-        return oneTime.id;
-      }
-    }
-  } catch (e) {
-    console.warn("[stripe] products.list/price fetch failed:", e);
-  }
-
-  // 3) Fallback hardcoded map
-  if (HARDCODED[internalId]) {
-    console.log(
-      "[stripe] using HARDCODED price id for",
-      internalId,
-      "=>",
-      HARDCODED[internalId]
-    );
-    return HARDCODED[internalId];
-  }
-
-  // Nothing matched: clear, actionable error
-  throw new Error(
-    `Unknown product id "${internalId}". Set Stripe Price.lookup_key to "${internalId}" (in the SAME mode as your key) OR add it to HARDCODED.`
-  );
 }
 
 export const POST: APIRoute = async ({ request, url }) => {
   try {
-    const body = (await request.json()) as Payload;
-    const items = Array.isArray(body.items) ? body.items : [];
+    const body = await request.json().catch(() => ({}));
+    const items: Array<{ id: string; qty?: number }> = Array.isArray(body?.items) ? body.items : [];
+    const promoCode: string | undefined = body?.promoCode;
 
     if (!items.length) {
-      return new Response(JSON.stringify({ error: "No items." }), { status: 400 });
+      return new Response(JSON.stringify({ error: "No items provided." }), { status: 400 });
     }
 
-    // DEBUG: log what the client sent
-    console.log("[checkout] incoming items:", items);
+    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-    const line_items: { price: string; quantity: number }[] = [];
-    for (const i of items) {
-      const priceId = await priceIdForInternalId(String(i.id));
-      const quantity = Math.max(1, Math.min(99, Number(i.qty || 1)));
-      line_items.push({ price: priceId, quantity });
+    for (const it of items) {
+      const sku = String(it.id || "").trim();
+      const qty = Math.max(1, Number(it.qty || 1));
+
+      const priceId = getPriceIdForSku(sku);
+      if (!looksLikePriceId(priceId)) {
+        return new Response(
+          JSON.stringify({ error: `Missing or invalid Price ID for SKU "${sku}".` }),
+          { status: 400 }
+        );
+      }
+
+      line_items.push({
+        price: priceId,
+        quantity: qty,
+        adjustable_quantity: { enabled: true, minimum: 1, maximum: 99 },
+      });
     }
 
-    // DEBUG: verify we’re about to hit Stripe with valid price ids
-    console.log("[checkout] line_items:", line_items);
+    const origin = import.meta.env.SITE_URL || url.origin;
+    const success_url = `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancel_url = `${origin}/checkout/cancelled`;
 
-    const session = await stripe.checkout.sessions.create({
+    const promotion_code_id = await findPromotionCodeIdByCode(promoCode);
+
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
       mode: "payment",
       line_items,
+      success_url,
+      cancel_url,
+      billing_address_collection: "auto",
       allow_promotion_codes: true,
-      success_url: `${url.origin}/thanks?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${url.origin}/cart?canceled=1`,
-    });
+      discounts: promotion_code_id ? [{ promotion_code: promotion_code_id }] : undefined,
 
-    return new Response(JSON.stringify({ url: session.url }), { status: 200 });
-  } catch (err: any) {
-    console.error("[create-checkout-session] error:", err);
+      // Apple Pay / Google Pay ride on "card" if enabled + domain verified
+      payment_method_types: ["card", "cashapp"],
+
+      customer_creation: "if_required",
+      automatic_tax: { enabled: false },
+    };
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
+    return new Response(JSON.stringify({ id: session.id, url: session.url }), { status: 200 });
+  } catch (err) {
+    console.error("[stripe] create-checkout-session error:", err);
     return new Response(
-      JSON.stringify({ error: err?.message || "Checkout failed" }),
-      { status: 400 }
+      JSON.stringify({ error: (err as Error).message ?? "Unknown error" }),
+      { status: 500 }
     );
   }
 };

@@ -1,7 +1,5 @@
 ﻿---
-
 import CartApp from "../components/CartApp.tsx";
-
 ---
 
 <!doctype html>
@@ -42,10 +40,7 @@ import CartApp from "../components/CartApp.tsx";
           url('/images/backgroundw.jpg') center top / cover no-repeat fixed;
       }
 
-      h1,
-      h2,
-      h3,
-      h4 {
+      h1, h2, h3, h4 {
         font-family: var(--font-head);
         letter-spacing: -0.01em;
       }
@@ -103,8 +98,7 @@ import CartApp from "../components/CartApp.tsx";
         background: #f3f4f6;
       }
 
-      main,
-      footer {
+      main, footer {
         max-width: 1100px;
         margin: 0 auto;
       }
@@ -235,9 +229,55 @@ import CartApp from "../components/CartApp.tsx";
 
     <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
 
-<!-- 🚫 Temporarily disabled CartApp (replaced by StoreApp) 
-import CartApp from "../components/CartApp.tsx";
-...
-<CartApp client:load />
--->
+    <!-- ✅ FRONT-END CHECKOUT REDIRECT (added) -->
+    <script type="module">
+      // Click any .add-to-cart button → call our API → redirect to Stripe Checkout URL
+      document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.add-to-cart');
+        if (!btn) return;
 
+        // Support data-sku or plain sku attribute
+        const sku =
+          btn.dataset.sku ||
+          btn.getAttribute('sku') ||
+          btn.getAttribute('data-id') ||
+          '';
+
+        const qty = Math.max(1, Number(btn.dataset.qty || btn.getAttribute('data-qty') || 1));
+
+        if (!sku) {
+          console.warn('[checkout] Missing SKU on button', btn);
+          alert('This item is not configured for checkout yet.');
+          return;
+        }
+
+        try {
+          const res = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ items: [{ id: sku, qty }] })
+          });
+          const data = await res.json();
+
+          if (!res.ok || !data?.url) {
+            console.error('[checkout] API error:', data);
+            alert(data?.error || 'Checkout failed.');
+            return;
+          }
+
+          // Go to hosted Stripe Checkout
+          window.location.href = data.url;
+        } catch (err) {
+          console.error('[checkout] Network error:', err);
+          alert('Network error starting checkout.');
+        }
+      });
+    </script>
+
+    <!-- 🚫 Temporarily disabled CartApp (replaced by StoreApp) 
+    import CartApp from "../components/CartApp.tsx";
+    ...
+    <CartApp client:load />
+    -->
+  </body>
+</html>
