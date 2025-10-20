@@ -1,12 +1,12 @@
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel/serverless'; // ✅ use the serverless adapter
+import vercel from '@astrojs/vercel';   // ✅ root import (not /serverless)
 import react from '@astrojs/react';
 import { fileURLToPath } from 'node:url';
 
 export default defineConfig({
-  output: 'server',         // ✅ required for server/SSR on Vercel
-  adapter: vercel(),        // ✅ serverless runtime
+  output: 'server',          // SSR on Vercel
+  adapter: vercel(),         // ✅ Vercel adapter
   integrations: [react()],
   vite: {
     resolve: {
@@ -14,6 +14,6 @@ export default defineConfig({
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
-    // 🚫 keep Tailwind out of Vite plugins here (we're using the @tailwindcss/vite package already)
+    // no extra vite plugins here
   },
 });
