@@ -131,38 +131,41 @@ const featured = [
       align-items: stretch;
     }
   </style>
+    </style>
+
   <style is:global>
-/* Match any Add-to-Cart rendered in the Featured grid */
-.prodpg__container button.add-to-cart,
-.prodpg__container a.add-to-cart,
-.prodpg__container button[data-sku],
-.prodpg__container a[data-sku] {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  /* Match any Add-to-Cart rendered in the Featured grid */
+  .prodpg__container button.add-to-cart,
+  .prodpg__container a.add-to-cart,
+  .prodpg__container button[data-sku],
+  .prodpg__container a[data-sku] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-  height: var(--cart-btn-h, 44px) !important;
-  padding: 0 var(--cart-btn-px, 16px) !important;
-  line-height: 1 !important;
-  font-size: var(--cart-btn-fs, 16px) !important;
-  font-weight: var(--cart-btn-weight, 400) !important; /* lighter label */
-  letter-spacing: .01em !important;
+    height: var(--cart-btn-h, 44px) !important;
+    padding: 0 var(--cart-btn-px, 16px) !important;
+    line-height: 1 !important;
+    font-size: var(--cart-btn-fs, 16px) !important;
+    font-weight: var(--cart-btn-weight, 400) !important; /* lighter label */
+    letter-spacing: .01em !important;
 
-  white-space: nowrap !important;
-  box-sizing: border-box !important;
-  border: 0 !important;
-  color: var(--cart-btn-fg, #111) !important;         /* ← changed to black */
-  background: var(--cart-btn-bg, #c7cdd6) !important; /* light gray */
-  border-radius: var(--cart-btn-radius, 10px) !important;
-  transition: background-color .15s ease, transform .05s ease !important;
-}
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+    border: 0 !important;
+    color: var(--cart-btn-fg, #111) !important;          /* black text */
+    background: var(--cart-btn-bg, #c7cdd6) !important;  /* light gray */
+    border-radius: var(--cart-btn-radius, 10px) !important;
+    transition: background-color .15s ease, transform .05s ease !important;
+  }
 
-.prodpg__container button.add-to-cart:hover,
-.prodpg__container a.add-to-cart:hover,
-.prodpg__container button[data-sku]:hover,
-.prodpg__container a[data-sku]:hover {
-  background: var(--cart-btn-bg-hover,
-
-
+  .prodpg__container button.add-to-cart:hover,
+  .prodpg__container a.add-to-cart:hover,
+  .prodpg__container button[data-sku]:hover,
+  .prodpg__container a[data-sku]:hover {
+    background: var(--cart-btn-bg-hover, #aeb6c1) !important;
+  }
+  </style>
 
 </BaseLayout>
+
