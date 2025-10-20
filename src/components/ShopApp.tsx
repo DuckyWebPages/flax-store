@@ -1,4 +1,6 @@
 import React from "react";
+import CartProvider from "./CartProvider.tsx";
+
 
 type P = {
   id: string;
@@ -12,7 +14,9 @@ const fmt = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 
 export default function ShopApp({ products }: { products: P[] }) {
-  return (
+    const { addItem, setOpen } = useCart();
+
+return (
     <div
       style={{
         display: "grid",
@@ -69,16 +73,22 @@ export default function ShopApp({ products }: { products: P[] }) {
               {/* ✅ Add to Cart button (cartStore.js will catch this) */}
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <button
-                  className="btn-cta add-to-cart"
-                  data-sku={p.id}
-                  data-name={p.name}
-                  data-price={unitCents}
-                  data-image={p.image}
-                  data-qty="1"
-                  aria-label={`Add ${p.name} to cart`}
-                >
-                  Add to Cart
-                </button>
+  className="btn-cta"
+  onClick={() => {
+    addItem({
+      id: p.id,
+      name: p.name,
+      unitCents,
+      qty: 1,
+      priceId: p.id, // temporary placeholder until Stripe IDs are mapped
+    });
+    setOpen(true); // this makes the drawer slide open immediately
+  }}
+  aria-label={`Add ${p.name} to cart`}
+>
+  Add to Cart
+</button>
+
               </div>
             </div>
           </article>

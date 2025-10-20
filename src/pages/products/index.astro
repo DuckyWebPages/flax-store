@@ -1,12 +1,11 @@
 ﻿---
-// FILE: src/pages/products/index.astro
-import React from "react";
+/* FILE: src/pages/products/index.astro */
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import ProductCard from "../../components/ProductCard";
+import StoreApp from "../../components/StoreApp.tsx";
 
-const pageTitle = "Products â€” ";
+const pageTitle = "Products — ";
 
-// NOTE: Essiac now uses /images/essiac-small.jpg (from public/images)
+// Keep all JS inside frontmatter!
 const featured = [
   {
     id: "fhl-single",
@@ -23,7 +22,7 @@ const featured = [
   },
   {
     id: "ocean-cleanse-single",
-    name: "Ocean Cleanse â€“ Heavy Metal/Radiation Detox",
+    name: "Ocean Cleanse – Heavy Metal/Radiation Detox",
     priceCents: 3495,
     imageUrl: "/images/ocean-cleanse-single-2025.jpg",
   },
@@ -90,14 +89,9 @@ const featured = [
         </a>
       </div>
 
-      <!-- Featured Products -->
+      <!-- Featured Products (React island with shared CartProvider + Drawer) -->
       <h2 class="products-title">Featured Products</h2>
-
-      <div class="prodpg__grid">
-        {featured.map((p) => (
-          <ProductCard client:load product={p} />
-        ))}
-      </div>
+      <StoreApp client:load products={featured} />
     </div>
   </section>
 
@@ -130,12 +124,45 @@ const featured = [
 
     /* ----- FEATURED PRODUCTS GRID ----- */
     .prodpg__grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  margin: 1rem 0 2rem;
-  align-items: stretch;     /* ensures each row's cards are equal height */
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 1rem 0 2rem;
+      align-items: stretch;
+    }
+  </style>
+  <style is:global>
+/* Match any Add-to-Cart rendered in the Featured grid */
+.prodpg__container button.add-to-cart,
+.prodpg__container a.add-to-cart,
+.prodpg__container button[data-sku],
+.prodpg__container a[data-sku] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  height: var(--cart-btn-h, 44px) !important;
+  padding: 0 var(--cart-btn-px, 16px) !important;
+  line-height: 1 !important;
+  font-size: var(--cart-btn-fs, 16px) !important;
+  font-weight: var(--cart-btn-weight, 400) !important; /* lighter label */
+  letter-spacing: .01em !important;
+
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+  color: var(--cart-btn-fg, #111) !important;         /* ← changed to black */
+  background: var(--cart-btn-bg, #c7cdd6) !important; /* light gray */
+  border-radius: var(--cart-btn-radius, 10px) !important;
+  transition: background-color .15s ease, transform .05s ease !important;
 }
 
-  </style>
+.prodpg__container button.add-to-cart:hover,
+.prodpg__container a.add-to-cart:hover,
+.prodpg__container button[data-sku]:hover,
+.prodpg__container a[data-sku]:hover {
+  background: var(--cart-btn-bg-hover,
+
+
+
 </BaseLayout>

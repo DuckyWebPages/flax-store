@@ -1,36 +1,38 @@
+// FILE: src/components/CartDrawer.tsx
 import React from "react";
-import { useCart } from "./CartProvider";
+import CartProvider, { useCart } from "./CartProvider.tsx";
+import "./cart-drawer.css"; // keep this; inline style below is just a safety net
 
 export default function CartDrawer() {
   const { items, totalCents, setQty, remove, clear, open, setOpen } = useCart();
   const [loading, setLoading] = React.useState(false);
 
+  // Debug: see "open" state flip; add window.cartOpen()/cartClose() helpers
+  React.useEffect(() => {
+    console.log("[CartDrawer] open =", open);
+    (window as any).cartOpen = () => setOpen(true);
+    (window as any).cartClose = () => setOpen(false);
+  }, [open, setOpen]);
+
+  const updateQty = (id: string, next: number) => {
+    const q = Math.max(1, Number.isFinite(next) ? Math.floor(next) : 1);
+    setQty(id, q);
+  };
+
   const handleCheckout = async () => {
     try {
-      console.log("[checkout] click; items=", items);
-
-      // Guard: empty cart
       if (!items.length) {
         alert("Your cart is empty.");
         return;
       }
-
-      // Read promo from the single field (optional)
-      const couponEl = document.querySelector<HTMLInputElement>('[data-coupon]');
+      const couponEl = document.querySelector<HTMLInputElement>("[data-coupon]");
       const promoCode = couponEl ? couponEl.value.trim() : "";
-
       setLoading(true);
 
-      // Build payload for /api/create-checkout-session (SKU + qty)
       const payload = {
-        items: items.map((i) => ({
-          id: i.id,   // e.g. "fhl-single"
-          qty: i.qty, // quantity
-        })),
+        items: items.map((i) => ({ id: i.id, qty: i.qty })),
         promoCode,
       };
-
-      console.log("[checkout] posting payload=", payload);
 
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
@@ -38,12 +40,9 @@ export default function CartDrawer() {
         body: JSON.stringify(payload),
       });
 
-      // Read raw first to avoid JSON.parse crash if server returns HTML (e.g., 404)
       const raw = await res.text();
       let data: any = null;
-      try { data = raw ? JSON.parse(raw) : null; } catch { /* ignore */ }
-
-      console.log("[checkout] status:", res.status, "data:", data);
+      try { data = raw ? JSON.parse(raw) : null; } catch {}
 
       if (!res.ok || !data?.url) {
         const msg = (data && data.error) ? data.error : `Checkout failed (HTTP ${res.status}).`;
@@ -51,7 +50,6 @@ export default function CartDrawer() {
         return;
       }
 
-      // Redirect to Stripe Checkout
       window.location.href = data.url;
     } catch (err: any) {
       console.error("[checkout] error:", err);
@@ -62,67 +60,136 @@ export default function CartDrawer() {
   };
 
   return (
-    <div
+    <aside
+      className={`cart-drawer ${open ? "open" : ""}`}
+      aria-hidden={!open}
+      role="complementary"
+      aria-label="Shopping cart"
+      // Inline fallback so it works even if CSS didn't load
       style={{
         position: "fixed",
         top: 0,
         right: 0,
-        width: "320px",
+        width: "360px",
+        maxWidth: "92vw",
         height: "100%",
         background: "#fff",
-        boxShadow: "-2px 0 8px rgba(0,0,0,.2)",
-        padding: 16,
+        boxShadow: "-2px 0 24px rgba(0,0,0,.2)",
         transform: open ? "translateX(0)" : "translateX(100%)",
-        transition: "transform .3s",
-        zIndex: 9999,
+        transition: "transform .28s ease",
+        zIndex: 999999
       }}
-      aria-hidden={!open}
-      role="complementary"
-      aria-label="Shopping cart"
     >
-      <button onClick={() => setOpen(false)}>Close</button>
-      <h2>Cart</h2>
+      <div className="cart-shell">
+        <header className="header">
+          <h2>Cart</h2>
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={() => setOpen(false)}
+            aria-label="Close cart"
+            title="Close"
+          >
+            ×
+          </button>
+        </header>
 
-      {items.length === 0 ? (
-        <p>Empty</p>
-      ) : (
-        <ul>
-          {items.map((i) => (
-            <li key={i.id} style={{ marginBottom: 8 }}>
-              {i.name} x{i.qty} = ${(i.unitCents * i.qty / 100).toFixed(2)}{" "}
-              <button onClick={() => setQty(i.id, Math.max(0, i.qty - 1))} disabled={loading}>-</button>
-              <button onClick={() => setQty(i.id, i.qty + 1)} disabled={loading}>+</button>
-              <button onClick={() => remove(i.id)} disabled={loading}>Remove</button>
-            </li>
-          ))}
-        </ul>
-      )}
+        {items.length === 0 ? (
+          <div className="empty">Your cart is empty.</div>
+        ) : (
+          <ul className="items" role="list">
+            {items.map((i) => (
+              <li key={i.id} className="cart-row">
+                <div className="thumb">
+                  <img
+                    src={(i as any).image || "/images/products/placeholder.jpg"}
+                    alt={i.name}
+                    loading="lazy"
+                  />
+                </div>
 
-      <div style={{ marginTop: 12, fontWeight: 700 }}>
-        Total: ${(totalCents / 100).toFixed(2)}
+                <div className="meta">
+                  <div className="title">{i.name}</div>
+                  <div className="price">${(i.unitCents / 100).toFixed(2)}</div>
+                </div>
+
+                <div className="controls">
+                  <div className="stepper" role="group" aria-label={`Quantity for ${i.name}`}>
+                    <button
+                      type="button"
+                      className="step"
+                      onClick={() => updateQty(i.id, i.qty - 1)}
+                      aria-label="Decrease quantity"
+                      disabled={loading}
+                    >
+                      –
+                    </button>
+                    <input
+                      type="number"
+                      inputMode="numeric"
+                      pattern="\d*"
+                      min={1}
+                      value={i.qty}
+                      onChange={(e) => updateQty(i.id, Number(e.currentTarget.value || 1))}
+                      aria-label={`Quantity for ${i.name}`}
+                      disabled={loading}
+                    />
+                    <button
+                      type="button"
+                      className="step"
+                      onClick={() => updateQty(i.id, i.qty + 1)}
+                      aria-label="Increase quantity"
+                      disabled={loading}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="remove"
+                    onClick={() => remove(i.id)}
+                    title="Remove"
+                    aria-label={`Remove ${i.name}`}
+                    disabled={loading}
+                  >
+                    ×
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <footer className="footer">
+          <div className="totals">
+            <span>Total</span>
+            <strong>${(totalCents / 100).toFixed(2)}</strong>
+          </div>
+
+          <div className="actions">
+            <button
+              type="button"
+              className="btn btn-clear"
+              onClick={clear}
+              disabled={loading || !items.length}
+              title="Clear cart"
+            >
+              Clear
+            </button>
+
+            <button
+              type="button"
+              className="btn btn-checkout"
+              onClick={handleCheckout}
+              disabled={loading || !items.length}
+              title="Proceed to checkout"
+            >
+              {loading ? "Starting…" : "Checkout"}
+            </button>
+          </div>
+        </footer>
       </div>
-
-      <button onClick={clear} style={{ marginTop: 8 }} disabled={loading}>
-        Clear
-      </button>
-
-      {items.length > 0 && (
-        <button
-          onClick={handleCheckout}
-          disabled={loading}
-          style={{
-            marginTop: 12,
-            padding: "8px 16px",
-            background: loading ? "#666" : "black",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            cursor: loading ? "default" : "pointer",
-          }}
-        >
-          {loading ? "Starting checkout..." : "Checkout"}
-        </button>
-      )}
-    </div>
+    </aside>
   );
 }

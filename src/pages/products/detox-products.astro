@@ -1,14 +1,19 @@
 ﻿---
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import CartBridge from '../../components/CartBridge.tsx';
 
-const pageTitle = 'Detox Products â€” '
+
+const pageTitle = 'Detox Products — '
 
 // Prices in cents
 const PRICE_OCEAN_CLEANSE = 3495
 const PRICE_AFTERSHOT = 2995
+const PRICE_AFTERSHOT_3PAK = 4999
+const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg'
+
 
 // Images (adjust paths/names if yours differ)
-const IMG_OCEAN = '/images/products/oceancleanse-web.jpg'  // new horizontal
+const IMG_OCEAN = '/images/products/ocean-cleanse-square.png'
 const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot image
 ---
 
@@ -21,8 +26,7 @@ const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot ima
     <div class="inner">
       <h1>Detox Products</h1>
       <p>
-        Targeted support for detox and gentle cleansing: seaweed concentrates that chelate metals and toxins,
-        and daily-use formulas that help your body clear what it doesnâ€™t need.
+        Targeted support for both heavy detox and gentle cleansing. These products are natural and not hard on your system, but yet effective at removing toxins.
       </p>
     </div>
   </section>
@@ -55,8 +59,7 @@ const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot ima
           </ul>
 
           <p class="prodpg__desc">
-            A focused seaweed complex used traditionally to support detox of certain heavy metals
-            and radioactive elements, while supporting thyroid balance and everyday vitality.
+            A focused seaweed (Laminaria Japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. This product has a synergetic combinatoin of ionic iodine, laminarin, alginates, and selenium - the perfect group of elements, present in a single natural source. There is a patented process of physical extraction and low-temperature evaporation that removes the seaweed's outer fiber and extracts only the inner, water-soluble part of the Laminaria leaf. This enhances availability of minerals, vitamins, and polysaccharides for easier digestion and better results. Forty pounds of raw seaweed are needed to make one pound of Ocean Cleanse. Organic Iodine in this product feeds the thyroid gland. Laminarin is a polysaccharide that supports cardiovascular health. Alginate is a natural absorbent of radioactive elements, heavy metals, and free radicals. It binds them and removes them safely from the body.
           </p>
 
           <div class="product-cta">
@@ -65,7 +68,7 @@ const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot ima
               data-sku="ocean-cleanse-single"
               data-price={String(PRICE_OCEAN_CLEANSE)}
               data-qty="1"
-              data-name="Ocean Cleanse â€“ Heavy Metal/Radiation Detox"
+              data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
               data-image={IMG_OCEAN}
             >
               Add to Cart
@@ -79,26 +82,33 @@ const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot ima
           <div class="card-photo">
             <img
               src={IMG_AFTERSHOT}
-              alt="AfterShot (8 oz)"
+              alt="AfterShot 1-oz"
               loading="eager"
               decoding="async"
               class="card-photo-img"
             />
           </div>
 
-          <h3 class="prodpg__title">AfterShot <span class="unit">(8 oz)</span></h3>
+          <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
           <p class="prodpg__price">${(PRICE_AFTERSHOT/100).toFixed(2)}</p>
 
           <ul class="prodpg__bullets">
+            <li>Removes toxins and heavy metals</li>
+            <li>Is an antioxidant</li>
+            <li>pH balanced</li>
+            <li>Detox after a vaccination - great for military!</li>
             <li>Gentle daily detox support</li>
             <li>Pairs well with Ocean Cleanse</li>
             <li>No artificial colors or flavors</li>
-            <li>Easy to mix or take straight</li>
+            <li>MRNA do have positive charged cell receptor sites. Theoretically, this zeolite may grab onto them.</li>
+            <li>Combined with humic acid/fulvic acid that transports the zeolite through blood vessels (other zeolites may only work in intestines)</li>
+            <li>May support the body's ability to kill viruses and bacteria</li>
+            <li>May improve energy levels</li>
           </ul>
 
           <p class="prodpg__desc">
-            A simple, everyday companion formula used to support the bodyâ€™s natural detox processes.
-            Smooth taste and designed to fit into real lifeâ€”mix with water or take on its own.
+            A simple, everyday companion formula used to support the body's natural detox processes. Particle size is just above nano. Attracts positiviely charged particles (all toxins and heavy metals are positiviely charged) into cage-like structure and moves them out with urine.
+            A little bitter tasting. You can mix with water or take on its own.
           </p>
 
           <div class="product-cta">
@@ -116,64 +126,326 @@ const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot ima
             <!-- <a class="btn btn-link" href="/products/aftershot/">Learn more</a> -->
           </div>
         </article>
+        <!-- Card: AfterShot 3-Pak -->
+<article class="prodpg__card">
+  <div class="card-photo">
+    <img
+      src={IMG_AFTERSHOT_3PAK}
+      alt="AfterShot 3-Pak (3 Bottles)"
+      loading="eager"
+      decoding="async"
+      class="card-photo-img"
+    />
+  </div>
+
+  <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 Bottles)</span></h3>
+  <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
+
+  <ul class="prodpg__bullets">
+    <li>Three-bottle value bundle</li>
+    <li>Removes toxins and heavy metals</li>
+            <li>Is an antioxidant</li>
+            <li>pH balanced</li>
+            <li>Detox after a vaccination - great for military!</li>
+            <li>Gentle daily detox support</li>
+            <li>Pairs well with Ocean Cleanse</li>
+            <li>No artificial colors or flavors</li>
+            <li>MRNA do have positive charged cell receptor sites. Theoretically, this zeolite may grab onto them.</li>
+            <li>Combined with humic acid/fulvic acid that transports the zeolite through blood vessels (other zeolites may only work in intestines)</li>
+            <li>May support the body's ability to kill viruses and bacteria</li>
+            <li>May improve energy levels</li>
+  </ul>
+
+  <p class="prodpg__desc">
+    Three-bottle value bundle; same micronized zeolite plus humic/fulvic pairing designed for circulation—not just the gut. Finds toxic metals and residues and captures free radicals for safe elimination.
+  </p>
+
+  <div class="product-cta">
+    <button
+      class="btn-cta add-to-cart"
+      data-sku="aftershot-3pak"
+      data-price={String(PRICE_AFTERSHOT_3PAK)}
+      data-qty="1"
+      data-name="AfterShot 3-Pak Natural Chelation and Detoxifier (3 Bottles)"
+      data-image={IMG_AFTERSHOT_3PAK}
+    >
+      Add to Cart
+    </button>
+  </div>
+</article>
+
       </div>
     </div>
   </section>
 
-  <style>
+      <style>
+        :root { --card-price-gap: 10px; } /* space between price and button */
+/* Make each product card stack and fill vertically */
+.prodpg__card{
+  display: flex;              /* was grid */
+  flex-direction: column;
+  gap: .35rem;
+  height: 100%;
+}
+
+/* Price sits just above the button with consistent spacing */
+.prodpg__price{
+  order: 90;
+  margin-top: auto;                 /* pushes price to the bottom area */
+  margin-bottom: var(--card-price-gap);
+}
+
+/* CTA stays at the very bottom of the card */
+.product-cta{
+  order: 100;
+  margin-top: 0;
+}
+:root{
+  --card-price-gap: 10px;   /* desired visual space between price and button */
+  --card-row-gap: .35rem;   /* whatever your .prodpg__card gap is */
+}
+
+/* Make cards flex columns (you already did this) */
+.prodpg__card{
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-row-gap);
+  height: 100%;
+}
+
+/* Normalize any old margins on price/CTA, then set exact spacing */
+.prodpg__price{
+  order: 90;
+  margin: 0 !important;                    /* wipe earlier .1/.2rem margins */
+  margin-top: auto !important;             /* push price down */
+  /* Remove the card's row gap between price and CTA so net gap = --card-price-gap */
+  margin-bottom: calc(var(--card-price-gap) - var(--card-row-gap)) !important;
+}
+
+/* Guard: if someone changes the row gap bigger than the price gap, never go negative */
+@supports (margin-bottom: max(0px, 1px)) {
+  .prodpg__price{
+    margin-bottom: max(0px, calc(var(--card-price-gap) - var(--card-row-gap))) !important;
+  }
+}
+
+.product-cta{
+  order: 100;
+  margin-top: 0 !important;                /* ensure no extra space above button */
+}
+
+
     /* ---------- HERO ---------- */
-    .prod-hero{
-      position:relative; isolation:isolate; overflow:hidden;
-      min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
+    .prod-hero {
+      position: relative; isolation: isolate; overflow: hidden;
+      min-height: 150px; border-radius: 14px; background: #fff;
+      margin: 8px auto 18px; max-width: 950px;
     }
-    .prod-hero .bg{
-      position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; opacity:.18; z-index:-1;
+    .prod-hero .bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: .18; z-index: -1;
     }
-    .prod-hero .inner{ padding:20px 16px 18px; max-width:1100px; margin:0 auto; }
-    .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
-    .prod-hero p{ margin:0; max-width:70ch; }
+    .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
+    .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
+    .prod-hero p { margin: 0; max-width: 60ch; }
 
     /* ---------- PRODUCT GRID ---------- */
-    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
-    .prodpg { padding: 0 0 48px; }
-    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+    .prodpg { padding: 0 0 36px; }
+    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; } /* was 950px */
 
-    section.prodpg .prodpg__grid {
-      display: grid !important;
-      grid-template-columns: 1fr;
-      row-gap: 16px !important;
-      column-gap: 32px !important;
-      margin: 10px 0 24px;
+.prodpg__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Force exactly 3 columns on desktop */
+@media (min-width: 900px) {
+  .prodpg__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.prodpg__card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+  display: grid;
+  gap: .35rem;
+  justify-items: start;
+  /* max-width: 340px;  <-- REMOVE this so cards can size to the grid */
+  margin: 0;
+  transition: transform .15s ease;
+}
+
+    .prodpg__card:hover { transform: translateY(-2px); }
+
+   /* Container owns the size so all titles start at the same Y */
+.card-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;              /* fixed, equal height across cards */
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;                  /* clean white behind all images */
+  box-shadow: 0 3px 6px rgba(0,0,0,.04);
+  display: block;
+}
+
+/* Image fits inside; extra shadows/whitespace won't change container height */
+.card-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;               /* show full bottle, consistent framing */
+  object-position: center;
+  padding: 8px;                      /* same inner breathing room for all */
+  display: block;
+  border-radius: 8px;                /* optional, keeps the same rounded look */
+}
+
+
+
+    .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
+    .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
+    .prodpg__price { font-weight: 800; font-size: .9rem; margin: .1rem 0 .2rem; }
+
+    .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
+    .prodpg__bullets li { margin: .08rem 0; }
+
+    .prodpg__desc {
+      line-height: 1.4; color: #374151;
+      font-size: .85rem; margin: .15rem 0 .25rem;
     }
-    @media (min-width: 800px) {
-      section.prodpg .prodpg__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-      section.prodpg .prodpg__card { margin: 0; box-sizing: border-box; }
-      section.prodpg .prodpg__card:nth-child(odd) { margin-right: 32px; }
+
+    .product-cta {
+      display: flex; align-items: center; gap: 10px;
+      flex-wrap: wrap; margin-top: .15rem;
     }
+    .product-cta .add-to-cart {
+  display: inline-flex;
+  padding: 10px 16px;
+  font-size: .95rem;
+  border-radius: 0;        /* rectangle */
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  border: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.product-cta .add-to-cart:hover { background: #222; }
+.product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
 
-    section.prodpg .prodpg__card {
-      background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 16px;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06); display: grid; gap: .55rem; justify-items: start;
-      width: 100%;
-    }
 
-    .card-photo{ width:100%; aspect-ratio: 3 / 4; overflow:hidden; border-radius:10px; background:#f7f7f7; box-shadow:0 8px 18px rgba(0,0,0,.05); }
-    .card-photo-img{ width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
+    .btn-link { background: transparent; color: #1f2937; font-size: .85rem; }
+    /* ===== Testimonials (full-bleed band) ===== */
+.tbox--bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  background: #fafafa;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+  padding: 28px 0 40px;
+}
+.tbox__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+.tbox h2 {
+  margin: 0 0 6px;
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+}
+.tbox__lead {
+  margin: 0 0 14px;
+  color: #475569;
+  font-size: .95rem;
+}
 
-    .prodpg__title{ margin:.35rem 0 0; line-height:1.15; font-weight:700; }
-    .prodpg__title .unit{ display:block; font-weight:600; }
-    .prodpg__price{ font-weight:800; font-size:1.05rem; margin:.15rem 0 .25rem; }
+/* Grid for testimonials: 1 col on mobile, 2 cols from tablet up */
+.tlist {
+  display: grid;
+  grid-template-columns: 1fr;   /* mobile */
+  gap: 14px;
+}
 
-    .prodpg__bullets{ margin:.1rem 0 .45rem; padding-left:1.1rem; }
-    .prodpg__bullets li{ margin:.18rem 0; }
+@media (min-width: 820px) {
+  .tlist { 
+    grid-template-columns: 1fr 1fr;  /* two columns */
+  }
+}
 
-    .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .35rem; }
+/* (Optional) keep items same height feel */
+.tquote {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+}
+.tquote blockquote {
+  margin: 0 0 8px;
+  position: relative;
+  padding-left: 12px;
+  color: #0f172a;
+  line-height: 1.5;
+}
+.tquote blockquote::before {
+  content: "“";
+  position: absolute;
+  left: -4px;
+  top: -6px;
+  font-size: 2rem;
+  line-height: 1;
+  opacity: .2;
+}
+.tquote figcaption {
+  font-size: .9rem;
+  color: #475569;
+}
 
-    .product-cta{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:.25rem; }
-    .product-cta .add-to-cart{ display:inline-flex !important; width:auto !important; min-width:160px;
-      align-items:center; justify-content:center; white-space:nowrap; align-self:start; }
-    .btn{ display:inline-flex; align-items:center; gap:.4rem; padding:8px 14px; border-radius:999px; text-decoration:none; font-weight:700; }
-    .btn-link{ background:transparent; color:#1f2937; }
+
   </style>
+
+<!-- Full-width Testimonials band -->
+<section class="tbox tbox--bleed" aria-labelledby="detox-testimonials-heading">
+  <div class="tbox__container">
+    <h2 id="detox-testimonials-heading">Customer Testimonials</h2>
+    <p class="tbox__lead">Real experiences with Ocean Cleanse & AfterShot. Thank you for sharing your testimonies. Because of the cost of true medical trials, natural products like these will never be tested to that degree. We need the community to share their results to help others see the results they are getting. Email your testimonials to: Wendy@flaxlignanhealth.com.</p>
+</p>
+
+    <div class="tlist tlist--four">
+      <!-- Testimonial 1 -->
+      <figure class="tquote">
+        <blockquote><p>“After having all the metal removed from my teeth, my natural dentist and naturopath agreed for me to chelate. Every couple of months I would have a "metal dump" where my organs apparently dumped excess stored heavy metals into my bloodstream to detox. I would wake up with crippling pain in my joints. I'd take 2 Ocean Cleanse 3x a day and by the third day would be back to normal. Before Ocean Cleanse I tried other metal detox supplements and it would take 2 weeks to get the same results.”</p></blockquote>
+        <figcaption>— W.S., Colorado</figcaption>
+      </figure>
+
+      <!-- Testimonial 2 -->
+      <figure class="tquote">
+        <blockquote><p>“Hello! My name is Theo Eberly. When I joined the military I wasn’t expecting to have to get the covid 19 vaccine. Against my wishes I received the vaccine. A few days after the shot I felt low energy and sluggish. I took Ocean Cleanse and Aftershot and felt energized and so much better within a day or two. I was so grateful to have an option to be in control of my health, after having a vaccine against my will.”</p></blockquote>
+        <figcaption>— T.E., Colorado</figcaption>
+      </figure>
+
+      <!-- Testimonial 3 -->
+      <figure class="tquote">
+        <blockquote><p>Note from the manufacturer of this product: "This product is a winner when detoxing, because the detox or healing crisis effect is very mild. So yes, if you use our product in a situation where one is contaminated, like off-chart PPM levels of mercury, lead, uranium or strontium -- especially those metals that do not belong to the nutritional table of metals -- using this product for about three to four months, in a quantity of six capsules a day for an average-size body, will make people clean.”</p></blockquote>
+        <figcaption>— S.Z., California</figcaption>
+      </figure>
+
+      <!-- Testimonial 4 -->
+      <figure class="tquote">
+        <blockquote><p>“I am worried about the nano-technology that Swiss physicians say to have found in the Covid shots... With the AfterShot Zeolite being just a little larger than nano, I am hoping it traps nano particles within it's cagelike structure. Either way, I am happy that it pulls the positively charged metals and toxins and who knows what that was in that shot out!”</p></blockquote>
+        <figcaption>— P.T., Idaho</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+  <CartBridge client:load />
+
 </BaseLayout>

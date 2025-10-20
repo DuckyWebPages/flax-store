@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart } from "./CartProvider";
+import { useCart } from "./CartProvider.tsx";
 import type { CartItem } from "../lib/cart";
 
 type Props = (CartItem & { qty?: number }) &

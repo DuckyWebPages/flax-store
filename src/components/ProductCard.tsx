@@ -1,5 +1,6 @@
+// FILE: src/components/ProductCard.tsx
 import React from "react";
-import { Button } from "./ui/Button";
+import { useCart } from "./CartProvider.tsx";
 
 export type Product = {
   id: string;
@@ -13,12 +14,25 @@ export type Product = {
 
 type Props = {
   product: Product;
-  onAddToCart?: (p: Product) => void;
   compact?: boolean;
 };
 
-const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false }) => {
+const ProductCard: React.FC<Props> = ({ product, compact = false }) => {
+  const { addItem, setOpen } = useCart();
   const { id, name, priceCents, imageUrl, badge, description, inStock = true } = product;
+
+  const handleAdd = () => {
+    console.log("[ProductCard] Add clicked:", { id, priceCents });
+    addItem({
+      id,
+      name,
+      unitCents: priceCents,
+      qty: 1,
+      priceId: id,      // required by CartProvider
+      image: imageUrl,  // carry product image
+    });
+    setOpen(true);
+  };
 
   const price = (priceCents / 100).toLocaleString(undefined, {
     style: "currency",
@@ -33,17 +47,26 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
         border: "1px solid #e5e7eb",
         borderRadius: 14,
         boxShadow: "0 1px 4px rgba(0,0,0,.06)",
-        padding: compact ? 10 : 12,            // was 12/16
+        padding: compact ? 10 : 12,
         overflow: "hidden",
         display: "grid",
         gridTemplateRows: "auto 1fr auto",
-        gap: 8,                                 // was 10
+        gap: 8,
         height: "100%",
         position: "relative",
       }}
     >
-      {/* MEDIA (fixed ratio via CSS) */}
-      <div className="product-media" style={{ borderRadius: 10, background: "#f9fafb", overflow: "hidden", marginBottom: 2 }}>
+      {/* IMAGE */}
+      <div
+        className="product-media"
+        style={{
+          borderRadius: 10,
+          background: "#f9fafb",
+          overflow: "hidden",
+          marginBottom: 2,
+          position: "relative",
+        }}
+      >
         <img
           src={imageUrl}
           alt={name}
@@ -70,14 +93,14 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
         )}
       </div>
 
-      {/* BODY */}
+      {/* TEXT */}
       <div className="product-body" style={{ minHeight: 0 }}>
         <h3
           className="product-title"
           title={name}
           style={{
             margin: 0,
-            fontSize: 15,                        // was 16
+            fontSize: 15,
             fontWeight: 700,
             color: "#0f172a",
             lineHeight: 1.2,
@@ -85,7 +108,7 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
-            minHeight: "2.4em",                  // reserve ≈2 lines
+            minHeight: "2.4em",
           }}
         >
           {name}
@@ -96,44 +119,47 @@ const ProductCard: React.FC<Props> = ({ product, onAddToCart, compact = false })
             className="product-desc"
             style={{
               margin: "6px 0 0",
-              fontSize: 13.5,                    // was 14
+              fontSize: 13.5,
               color: "#475569",
               lineHeight: 1.3,
               display: "-webkit-box",
               WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
-              minHeight: "2.6em",                // reserve ≈2 lines
+              minHeight: "2.6em",
             }}
           >
             {description}
           </p>
         )}
 
-        <div style={{ marginTop: 6, fontSize: 15, fontWeight: 700, color: "#0f172a" }}>
+        <div
+          style={{
+            marginTop: 6,
+            fontSize: 15,
+            fontWeight: 700,
+            color: "#0f172a",
+          }}
+        >
           {price}
         </div>
       </div>
 
-      {/* ACTIONS */}
+      {/* BUTTON */}
       <div className="product-actions" style={{ paddingTop: 6 }}>
-        <Button
-  variant="primary"
-  className="add-to-cart"
-  disabled={!inStock}
-  data-sku={id}
-  data-qty={1}
-  data-price={priceCents}
-  data-name={name}
-  data-image={imageUrl}   // 👈 add this line
-  onClick={() => onAddToCart?.(product)}
-  aria-label={inStock ? `Add ${name} to cart` : `${name} is out of stock`}
-  type="button"
-  style={{ padding: "6px 12px", fontSize: 14 }}
->
-  {inStock ? "Add to Cart" : "Out of Stock"}
-</Button>
-
+        <button
+          className="btn-cta add-to-cart"
+          onClick={handleAdd}
+          disabled={!inStock}
+          type="button"
+          aria-label={inStock ? `Add ${name} to cart` : `${name} is out of stock`}
+          // ⬇️ remove inline padding/fontSize so global.css controls size & weight
+          style={{
+            cursor: inStock ? "pointer" : "not-allowed",
+          }}
+        >
+          {inStock ? "Add to Cart" : "Out of Stock"}
+        </button>
       </div>
     </article>
   );

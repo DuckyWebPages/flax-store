@@ -1,13 +1,14 @@
+// FILE: src/components/CartIsland.tsx
 import React from "react";
-import { CartProvider } from "./CartProvider";
-import CartButton from "./CartButton";
-import CartDrawer from "./CartDrawer";
-import AddToCart from "./AddToCart";
+import CartProvider from "./CartProvider.tsx";
+import CartButton   from "./CartButton.tsx";
+import CartDrawer   from "./CartDrawer.tsx";
+import AddToCart    from "./AddToCart.tsx";
 
 type Product = {
   id: string;
   name: string;
-  price: number;
+  price: number;           // dollars
   image?: string;
   description?: string;
   stripePaymentLink?: string;
@@ -16,12 +17,12 @@ type Product = {
 export default function CartIsland({ products }: { products: Product[] }) {
   return (
     <CartProvider>
-      {/* Header cart button */}
+      {/* header/right cart button */}
       <div style={{ display: "flex", justifyContent: "flex-end", margin: "12px 0" }}>
         <CartButton />
       </div>
 
-      {/* Product grid (rendered inside the same React tree so context is available) */}
+      {/* product grid */}
       <div
         style={{
           display: "grid",
@@ -32,6 +33,7 @@ export default function CartIsland({ products }: { products: Product[] }) {
         {products.map((p) => {
           const unitCents = Math.round((p.price ?? 0) * 100);
           const item = { id: p.id, name: p.name, unitCents, image: p.image };
+
           return (
             <article
               key={p.id}
@@ -59,10 +61,13 @@ export default function CartIsland({ products }: { products: Product[] }) {
                   }}
                 />
               ) : null}
+
               <div style={{ fontWeight: 700, margin: "10px 0 4px" }}>{p.name}</div>
+
               {p.description ? (
                 <div style={{ fontSize: 14, color: "#475569" }}>{p.description}</div>
               ) : null}
+
               <div
                 style={{
                   display: "flex",
@@ -74,6 +79,7 @@ export default function CartIsland({ products }: { products: Product[] }) {
                 }}
               >
                 <div style={{ fontWeight: 800 }}>${(p.price ?? 0).toFixed(2)}</div>
+
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                   <AddToCart {...item} />
                   {p.stripePaymentLink ? (
@@ -101,9 +107,8 @@ export default function CartIsland({ products }: { products: Product[] }) {
         })}
       </div>
 
-      {/* Drawer mounted once */}
+      {/* mount drawer once inside the same island/context */}
       <CartDrawer />
     </CartProvider>
   );
 }
-

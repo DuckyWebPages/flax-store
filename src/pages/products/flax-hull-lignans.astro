@@ -1,12 +1,13 @@
 ﻿---
-// FILE: src/pages/products/flax-oil-lignans.astro
-import BaseLayout from '@/layouts/BaseLayout.astro'
+/* FILE: src/pages/products/flax-oil-lignans.astro */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CartBridge from "../../components/CartBridge.tsx";
 
-const pageTitle = 'Flax Hull Lignans â€” '
-const PRICE_FHL_CENTS = 3900
-const PRICE_FHL_DISPLAY = `$${(PRICE_FHL_CENTS / 100).toFixed(2)}`
-const PRICE_ANCIENT_CENTS = 4500
-const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
+const pageTitle = "Flax Hull Lignans — ";
+const PRICE_FHL_CENTS = 3900;
+const PRICE_FHL_DISPLAY = `$${(PRICE_FHL_CENTS / 100).toFixed(2)}`;
+const PRICE_ANCIENT_CENTS = 4500;
+const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`;
 ---
 
 <BaseLayout>
@@ -19,7 +20,7 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
       <h1>Flax Hull Lignans</h1>
       <p>
         Concentrated SDG lignans from flax hulls to support hormone balance, healthy
-        inflammation response, and everyday immune wellness. Used in foundational strategies to support the body's fight against damaged DNA. Easy to add to smoothies,
+        inflammation response, and everyday immune wellness. Used in foundational strategies to support the body's fight against damaged DNA. See our "Blog" tab to learn more about the research. Easy to add to smoothies,
         yogurt, or any food. Light, nutty flavor.
       </p>
     </div>
@@ -47,7 +48,7 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
 
           <ul class="prodpg__bullets">
             <li>Very high in antioxidants</li>
-            <li>Great in cereal, yogurt, or baking</li>
+            <li>Great in cereal, yogurt, or baking - heat doesn't hurt lignan activity</li>
             <li>No chemicals used in processing</li>
             <li>150-300 mg SDG per 1.5 tsp serving</li>
             <li>Full-spectrum 17 lignans present</li>
@@ -55,8 +56,8 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
           </ul>
 
           <p class="prodpg__desc">
-            Concentrated SDG lignans from brown flax hulls. Take 1/2 - 1 scoop (provided) a day for foundational
-            wellness and immune support.
+            MCP-processed, concentrated SDG lignans from brown flax hulls. Take 1/2 - 1 scoop (provided) a day for foundational
+            wellness and immune support. Farmer still uses strict sourcing standards, but depending on what is available, cannot guarantee non-GMO.
           </p>
 
           <div class="product-cta">
@@ -90,7 +91,7 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
 
           <ul class="prodpg__bullets">
             <li>Very high in antioxidants</li>
-            <li>Great in cereal, yogurt, or baking</li>
+            <li>Great in cereal, yogurt, or baking - heat doesn't hurt lignan activity</li>
             <li>No chemicals used in processing</li>
             <li>150-300 mg SDG per 1.5 tsp serving</li>
             <li>Full-spectrum 17 lignans present</li>
@@ -118,67 +119,240 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`
       </div>
     </div>
   </section>
+  <!-- Full-width Testimonials band -->
+<section class="tbox tbox--bleed" aria-labelledby="flax-testimonials-heading">
+  <div class="tbox__container">
+    <h2 id="flax-testimonials-heading">Customer Testimonials</h2>
+    <p class="tbox__lead">Real experiences with Flax Hull Lignans. Thank you for sharing your testimonies. Because of the cost of true medical trials, natural products like these will never be tested to that degree. We need the community to share their results to help others see the results they are getting. Email your testimonials to: Wendy@flaxlignanhealth.com.</p>
 
-  <style>
-    /* ---------- HERO (faded background image) ---------- */
-    .prod-hero{
-      position:relative; isolation:isolate; overflow:hidden;
-      min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
+    <div class="tlist">
+      <!-- EXAMPLES — replace with your own -->
+
+      
+      
+     <figure class="tquote">
+        <blockquote><p>Approximately 8 years ago I was diagnosed with three nodules on my lungs.  I researched to see if there was anything I could do to get rid of them. I didn't get a biopsy because I really didn't want to be diagnosed with lung cancer. I took the Flax Hull Lignans just in case since I read about them helping to eliminate lung cancer. I began using a scoop daily in my protein drink for breakfast and never missed a day.
+My doctor had me get a CT scan every three months for one year.  After taking the Flax Hull Lignans daily, my doctor reported after each CT scan the nodules were shrinking. After one year and 4 CT scans, my doctor said they were completely gone and I didn't need to come back.  Before he left the room, he asked me "What is it that you are taking?" because he knew I was taking something to help but he wasn't really interested in the beginning and sort of poo-pooed it.   
+I am a true believer Flax Hull Lignans made all the difference in the world! I would rather prevent cancer than try to eliminate it.  <figcaption>— M.D., Texas</figcaption>
+      </figure> 
+      <figure class="tquote">
+        <blockquote><p>FLH Customer A.P. had high cholesterol for 25 years.  She has been on the lignans for one year and her cholesterol is in the normal range for the first time in 25 years.  FHL Flax Lignans are the only thing she has done different.”</p></blockquote>
+        <figcaption>— A.P, North Carolina</figcaption>
+      </figure>
+            <figure class="tquote">
+        <blockquote><p>T.B. - was diagnosed with stage 4 lung cancer (fast growing one) 14 months ago.  Docs told her that she would be dead in 6 months.  Three months after starting the lignans she called to order more and said that the docs are amazed that she is still alive and that the tumors have stopped growing!  They are still there but not growing at all!  She contributes it to the lignans!”</p></blockquote>
+        <figcaption>— T.B., Kansas</figcaption>
+      </figure>
+      <figure class="tquote">
+        <blockquote><p>“I have diabetes and have been able to reduce my insulin. I feel like a different person health wise. Thank you!”</p></blockquote>
+        <figcaption>— J.W., Georgia</figcaption>
+      </figure>
+      <figure class="tquote">
+        <blockquote><p>“I have an PhD in Immunology from Berkley. I put patients with breast cancer on this product and have seen amazing results, as almost all of them reduce their cancer if not eliminate it with the amount of 1/10th a teaspoon daily for 2 months.”</p></blockquote>
+        <figcaption>— Dr. Steve, California</figcaption>
+      </figure>
+<figure class="tquote">
+        <blockquote><p>“The "Mama's" in the orphanages we work with that have HIV/AIDS have seen their CD4 counts go up week by week that they are taking the Flax Hull Lignans. They are so encouraged and see their strength increase as well, which is important because they each take care of a group of children.” </p></blockquote>
+        <figcaption>— D.D., A.R.A.I. Staff</figcaption>
+      </figure>
+      <figure class="tquote">
+        <blockquote><p>“I have a few testimonies to report from the Flax Lignans that were sent to us: One lady with a cancer growth went for the operation that was scheduled to remove the growth, but the improvement was so dramatic that the doctor decided not to operate. A man with severe diabetes is starting to reduce his medicines, and the little girl age six that has full blown HIV/AIDS. Her VL count was into the 300,000 range. You yourself were there and heard the tragic story about this dying little orphan girl. You saw the little shadow of a human being she had been reduced to. Well, under the supervision of the local pastor and the medical doctor, this girl has picked up two pounds of weight in less than three weeks!.” </p></blockquote>
+        <figcaption>— J.S. South Africa coordinator</figcaption>
+      </figure>
+      </figure>
+      <figure class="tquote">
+        <blockquote><p>“I am HIV+ and viral load was off the charts (338,000). I was told that I was dying. Started taking flax hull lignans. Diarrhea was worse at first. Within a month no diarrhea, energy better and I gained strength in muscles. A year later I am going off most medications (doctors taking me off). I no longer need a personal caregiver. My health is consistently improving.” </p></blockquote>
+        <figcaption>— K.P., Missouri</figcaption>
+      </figure>
+      </figure>
+      <figure class="tquote">
+        <blockquote><p>“Since starting on the Concentrated Flax Hull Lignans I have noticed a slight energy increase, but without the rush or jitteriness associated with many other medications. It hasn’t been a sudden jolt, and didn’t even start right after starting it, just a gradual increase in energy. I have had psoriasis on my elbows and one wrist for a long time. I wasn’t really even thinking about a change with that but I have been pleasantly surprised in finding new skin forming and fewer flakes of skin.” <figcaption>— -W.V., HIV+</figcaption>
+      </figure>
+      <figure class="tquote">
+        <blockquote><p>Our customer service rep said: "J.P. called and he said he "became a believer of the flax years ago when he found a BB size lump in his breast. It grew to about the size of a pea and that's when he started taking the flax.  He's not sure exactly when it totally dissolved but he took notice at the four month mark that it was totally gone. So at the max it took four months and the 'mass' was completely gone from his body. He actually started taking the flax to reduce his PSA count but this was a benefit he wasn't expecting.
+      
+” <figcaption>— -J.P., Nevada</figcaption>
+      </figure>
+
+
+      <!-- Duplicate this block per testimonial -->
+      <!--
+      <figure class="tquote">
+        <blockquote><p>“Your testimonial text…”</p></blockquote>
+        <figcaption>— Name, City</figcaption>
+      </figure>
+      -->
+    </div>
+  </div>
+</section>
+
+
+  <!-- React bridge that wires .add-to-cart buttons on this page to the React cart -->
+  <CartBridge client:load />
+
+    <style>
+    /* ---------- HERO ---------- */
+    .prod-hero {
+      position: relative; isolation: isolate; overflow: hidden;
+      min-height: 150px; border-radius: 14px; background: #fff;
+      margin: 8px auto 18px; max-width: 950px;
     }
-    .prod-hero .bg{
-      position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; opacity:.18; z-index:-1;
+    .prod-hero .bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: .18; z-index: -1;
     }
-    .prod-hero .inner{
-      padding:20px 16px 18px; max-width:1100px; margin:0 auto;
-    }
-    .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
-    .prod-hero p{ margin:0; max-width:70ch; }
+    .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
+    .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
+    .prod-hero p { margin: 0; max-width: 60ch; }
 
     /* ---------- PRODUCT GRID ---------- */
-    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
-
-    .prodpg { padding: 0 0 48px; }
-    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-
-    section.prodpg .prodpg__grid {
-      display: grid !important;
-      grid-template-columns: 1fr;
-      row-gap: 16px !important;
-      column-gap: 32px !important;
-      margin: 10px 0 24px;
-    }
-    @media (min-width: 800px) {
-      section.prodpg .prodpg__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-      section.prodpg .prodpg__card { margin: 0; box-sizing: border-box; }
-      section.prodpg .prodpg__card:nth-child(odd) { margin-right: 32px; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
     }
 
-    section.prodpg .prodpg__card {
+    .prodpg { padding: 0 0 36px; }
+    .prodpg__container { max-width: 950px; margin: 0 auto; padding: 0 12px; }
+
+    .prodpg__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .prodpg__card {
       background: #fff;
       border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.05);
       display: grid;
-      gap: .55rem;
+      gap: .35rem;
       justify-items: start;
+      max-width: 340px;
+      margin: 0 auto;
+      transition: transform .15s ease;
+    }
+    .prodpg__card:hover { transform: translateY(-2px); }
+
+    .card-photo {
       width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #f7f7f7;
+      box-shadow: 0 3px 6px rgba(0,0,0,.04);
     }
 
-    .card-photo{ width:100%; aspect-ratio: 3 / 4; overflow:hidden; border-radius:10px; background:#f7f7f7; box-shadow:0 8px 18px rgba(0,0,0,.05); }
-    .card-photo-img{ width:100%; height:100%; display:block; object-fit:cover; object-position:center; }
+    /* Use same proportional image style as Detox Products */
+    .card-photo-img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;     /* keeps consistent square */
+      object-fit: cover;       /* crops slightly if needed */
+      border-radius: 8px;
+      display: block;
+    }
 
-    .prodpg__title{ margin:.35rem 0 0; line-height:1.15; font-weight:700; }
-    .prodpg__title .unit{ display:block; font-weight:600; }
-    .prodpg__price{ font-weight:800; font-size:1.05rem; margin:.15rem 0 .25rem; }
+    .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
+    .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
+    .prodpg__price { font-weight: 800; font-size: .9rem; margin: .1rem 0 .2rem; }
 
-    .prodpg__bullets{ margin:.1rem 0 .45rem; padding-left:1.1rem; }
-    .prodpg__bullets li{ margin:.18rem 0; }
+    .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
+    .prodpg__bullets li { margin: .08rem 0; }
 
-    .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .35rem; }
+    .prodpg__desc {
+      line-height: 1.4; color: #374151;
+      font-size: .85rem; margin: .15rem 0 .25rem;
+    }
 
-    .product-cta{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:.25rem; }
-    .product-cta .add-to-cart{ display:inline-flex !important; width:auto !important; min-width:160px; align-items:center; justify-content:center; white-space:nowrap; align-self:start; }
+  .product-cta .add-to-cart {
+  display: inline-flex;
+  height: var(--cart-btn-h, 44px);
+  padding: 0 var(--cart-btn-px, 16px);   /* horizontal only; height controls vertical */
+  line-height: 1;
+  font-size: var(--cart-btn-fs, 16px);
+  font-weight: var(--cart-btn-weight, 400);  /* thin */
+  letter-spacing: .01em;
+
+  border-radius: var(--cart-btn-radius, 10px);  /* or 0/9999px as you prefer */
+  background: var(--cart-btn-bg, #c7cdd6);      /* light gray to match site */
+  color: var(--cart-btn-fg, #111);              /* BLACK text */
+
+  border: 0;
+  text-decoration: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: background-color .15s ease, transform .05s ease;
+}
+
+.product-cta .add-to-cart:hover {
+  background: var(--cart-btn-bg-hover, #aeb6c1);
+}
+
+
+    /* ===== Testimonials (full-bleed band) ===== */
+.tbox--bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  background: #fafafa;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+  padding: 28px 0 40px;
+}
+.tbox__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.tbox h2 {
+  margin: 0 0 6px;
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+}
+.tbox__lead {
+  margin: 0 0 14px;
+  color: #475569;
+  font-size: .95rem;
+}
+.tlist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 820px) {
+  .tlist { grid-template-columns: 1fr 1fr; } /* two columns on desktop */
+}
+.tquote {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+}
+.tquote blockquote {
+  margin: 0 0 8px;
+  position: relative;
+  padding-left: 12px;
+  color: #0f172a;
+  line-height: 1.5;
+}
+.tquote blockquote::before {
+  content: "“";
+  position: absolute;
+  left: -4px;
+  top: -6px;
+  font-size: 2rem;
+  line-height: 1;
+  opacity: .2;
+}
+.tquote figcaption {
+  font-size: .9rem;
+  color: #475569;
+}
+
   </style>
+
 </BaseLayout>

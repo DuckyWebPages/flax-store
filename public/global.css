@@ -48,6 +48,7 @@
 
 /* HERO BUTTONS (scoped + overrides any global .btn rules) */
 /* ===== HERO BUTTON EMERGENCY OVERRIDES ===== */
+
 .btn-hero{
   width: auto !important;
   min-width: 120px !important;
@@ -56,12 +57,11 @@
 
   padding: 10px 16px !important;
   margin: 0 !important;
-  font: 700 16px/1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif !important;
+  font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
   text-decoration: none !important;
 }
 
 .btn-hero:hover { opacity: .92; transform: translateY(-1px); }
-
 /* Make sure no global rules make these full-width blocks */
 
 
@@ -199,4 +199,217 @@ main img,
   height: 100%;
   object-fit: cover;
 }
+/* === Global Add-to-Cart (uniform: black, rectangular) === */
+.add-to-cart,
+.btn-cta.add-to-cart {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 
+  height: var(--cart-btn-h, 44px) !important;
+  padding: 0 var(--cart-btn-px, 16px) !important;
+  line-height: 1 !important;
+  font-size: var(--cart-btn-fs, 16px) !important;
+  font-weight: var(--cart-btn-weight, 500) !important; /* lighter weight */
+  letter-spacing: .01em; /* subtle, helps light weight read clean */
+
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+
+  background: #c7cdd6 !important;         /* light gray (a bit darker so white text has contrast) */
+  color: #fff !important;                  /* white text */
+  border-radius: var(--cart-btn-radius, 10px) !important;
+  transition: background-color .15s ease, transform .05s ease !important;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.add-to-cart:hover,
+.btn-cta.add-to-cart:hover {
+  background: #aeb6c1 !important;         /* darker on hover for contrast */
+}
+.add-to-cart:active,
+.btn-cta.add-to-cart:active {
+  transform: translateY(1px);
+}
+.add-to-cart:focus-visible,
+.btn-cta.add-to-cart:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 2px;
+}
+:root {
+  --cart-btn-weight: 500;     /* set 400 for extra light */
+  --cart-btn-fs: 16px;
+  --cart-btn-h: 44px;
+  --cart-btn-radius: 0;       /* set 10px or 9999px if you switch shapes later */
+}
+
+.add-to-cart,
+.btn-cta.add-to-cart {
+  font-weight: var(--cart-btn-weight) !important;
+  font-size: var(--cart-btn-fs) !important;
+  height: var(--cart-btn-h) !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+:root {
+  --cart-btn-h: 44px;
+  --cart-btn-fs: 16px;
+  --cart-btn-px: 16px;
+  --cart-btn-weight: 500;      /* 400 = extra light, 500 = medium-light */
+  --cart-btn-radius: 10px;     /* 0 = rectangle, 9999px = pill */
+  --cart-btn-bg: #c7cdd6;      /* light gray */
+  --cart-btn-bg-hover: #aeb6c1;/* slightly darker hover */
+}
+
+.add-to-cart,
+.btn-cta.add-to-cart {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  height: var(--cart-btn-h) !important;
+  padding: 0 var(--cart-btn-px) !important;
+  line-height: 1 !important;
+  font-size: var(--cart-btn-fs) !important;
+  font-weight: var(--cart-btn-weight) !important;
+  letter-spacing: .01em;
+
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+
+  background: var(--cart-btn-bg) !important;
+  color: #fff !important;
+  border-radius: var(--cart-btn-radius) !important;
+
+  transition: background-color .15s ease, transform .05s ease !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.add-to-cart:hover,
+.btn-cta.add-to-cart:hover { background: var(--cart-btn-bg-hover) !important; }
+
+.add-to-cart:active,
+.btn-cta.add-to-cart:active { transform: translateY(1px); }
+
+.add-to-cart:focus-visible,
+.btn-cta.add-to-cart:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 2px;
+}
+/* Force lighter Add-to-Cart labels everywhere */
+:root { --cart-btn-weight: 400; }  /* 400 = normal, 500 = medium-light */
+
+button.add-to-cart,
+.btn-cta.add-to-cart,
+.product-cta button.add-to-cart,
+.prodpg__card .product-cta .btn-cta.add-to-cart {
+  font-weight: var(--cart-btn-weight) !important;
+  letter-spacing: .02em !important;  /* helps “lighter” read clean */
+  text-transform: none !important;    /* prevent accidental all-caps heaviness */
+  -webkit-text-stroke: 0 !important;  /* nuke any accidental stroke */
+}
+// FILE: src/pages/api/create-checkout-session.ts
+import type { APIRoute } from "astro";
+import Stripe from "stripe";
+
+const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2023-10-16",
+});
+
+// Optional fallback map. ONLY fill entries that don't have lookup_key set in Stripe.
+// Example: "fhl-single": "price_1Pxxxxxxx"
+const HARDCODED: Record<string, string> = {
+  "fhl-single": "price_1S5d2YEBOCXQH1bcbs0n7mW5",
+  // add others here only if needed, e.g.:
+  // "ancient-single": "price_live_ABCDEFG",
+  "methylene-blue":
+    import.meta.env.STRIPE_PRICE_ID_MBLUELIVE || "price_1SK7YrEBOCXQH1bcKPcdY56O",
+};
+
+type IncomingItem = { id: string; qty: number };
+type Payload = { items: IncomingItem[]; promoCode?: string };
+
+// Resolve your internal id (e.g., "fhl-single") to a real Stripe price_... id.
+async function priceIdForInternalId(internalId: string): Promise<string> {
+  // 1) Try Prices by lookup_key (BEST: set lookup_key in Stripe UI to your internal id)
+  try {
+    const byLookup = await stripe.prices.list({
+      lookup_keys: [internalId],
+      active: true,
+      limit: 1,
+      expand: ["data.product"],
+    });
+    if (byLookup.data.length) return byLookup.data[0].id;
+  } catch (e) {
+    console.warn("[stripe] prices.list lookup_key failed:", e);
+  }
+
+  // 2) Try Product metadata.sku or metadata.id == internalId
+  try {
+    const prods = await stripe.products.list({ active: true, limit: 100 });
+    for (const p of prods.data) {
+      const sku = (p.metadata?.sku || p.metadata?.id || "").trim();
+      if (sku && sku === internalId) {
+        const prices = await stripe.prices.list({
+          product: p.id,
+          active: true,
+          limit: 10,
+        });
+        if (prices.data.length) {
+          const oneTime = prices.data.find((pr) => !pr.recurring) || prices.data[0];
+          return oneTime.id;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("[stripe] products.list/price fetch failed:", e);
+  }
+
+  // 3) Fallback hardcoded map
+  if (HARDCODED[internalId]) return HARDCODED[internalId];
+
+  throw new Error(
+    `Unknown product id "${internalId}". Set Stripe Price.lookup_key to "${internalId}" OR add it to HARDCODED.`
+  );
+}
+
+export const POST: APIRoute = async ({ request, url }) => {
+  try {
+    const body = (await request.json()) as Payload;
+    const items = Array.isArray(body.items) ? body.items : [];
+
+    if (!items.length) {
+      return new Response(JSON.stringify({ error: "No items." }), { status: 400 });
+    }
+
+    console.log("[checkout] incoming items:", items);
+
+    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    for (const i of items) {
+      const priceId = await priceIdForInternalId(String(i.id));
+      const quantity = Math.max(1, Math.min(99, Number(i.qty || 1)));
+      line_items.push({ price: priceId, quantity });
+    }
+
+    console.log("[checkout] line_items:", line_items);
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      line_items,
+      allow_promotion_codes: true,
+      success_url: `${url.origin}/thanks?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${url.origin}/cart?canceled=1`,
+    });
+
+    return new Response(JSON.stringify({ url: session.url }), { status: 200 });
+  } catch (err: any) {
+    console.error("[create-checkout-session] error:", err);
+    return new Response(JSON.stringify({ error: err?.message || "Checkout failed" }), {
+      status: 400,
+    });
+  }
+};

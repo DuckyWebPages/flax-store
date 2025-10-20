@@ -1,11 +1,5 @@
-// FILE: src/components/CartProvider.tsx
-import React, {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-  useCallback,
-} from "react";
+// FILE: src/components/CartStore.tsx
+import React, { createContext, useContext, useMemo, useState, useCallback } from "react";
 
 export type CartItem = {
   id: string;
@@ -13,7 +7,7 @@ export type CartItem = {
   unitCents: number;
   qty: number;
   priceId: string;
-  image?: string; // 👈 allows product images
+  image?: string;
 };
 
 type CartContextType = {
@@ -44,34 +38,29 @@ export default function CartProvider({ children }: { children: React.ReactNode }
       console.error("addItem missing priceId for", item);
       return;
     }
-    setItems((prev) => {
-      const existing = prev.find((i) => i.id === item.id);
+    setItems(prev => {
+      const existing = prev.find(i => i.id === item.id);
       if (existing) {
-        return prev.map((i) =>
+        return prev.map(i =>
           i.id === item.id
-            ? {
-                ...i,
-                qty: i.qty + item.qty,
-                unitCents: item.unitCents,
-                image: i.image || item.image || "", // 👈 keep or update image
-              }
+            ? { ...i, qty: i.qty + item.qty, unitCents: item.unitCents, image: item.image ?? i.image }
             : i
         );
       }
-      return [...prev, { ...item }]; // 👈 new item carries its image
+      return [...prev, item];
     });
     setOpen(true);
   }, []);
 
   const setQty = useCallback((id: string, qty: number) => {
-    setItems((prev) => {
-      if (qty <= 0) return prev.filter((i) => i.id !== id);
-      return prev.map((i) => (i.id === id ? { ...i, qty } : i));
+    setItems(prev => {
+      if (qty <= 0) return prev.filter(i => i.id !== id);
+      return prev.map(i => (i.id === id ? { ...i, qty } : i));
     });
   }, []);
 
   const remove = useCallback((id: string) => {
-    setItems((prev) => prev.filter((i) => i.id !== id));
+    setItems(prev => prev.filter(i => i.id !== id));
   }, []);
 
   const clear = useCallback(() => setItems([]), []);

@@ -1,7 +1,9 @@
 ﻿---
+// FILE: src/pages/products/essential-oils.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import CartBridge from '@/components/CartBridge.tsx';
 
-const pageTitle = 'Essential Oils - ';
+const pageTitle = 'Essential Oils — ';
 
 const items = [
   { key: 'lavender-15ml',           label: 'Lavender (15 ml)',           cents: 3651 },
@@ -16,29 +18,64 @@ const items = [
 ];
 
 const heroImage = '/images/products/oilsgreen.png';
+const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png'; // <-- exact case
 ---
-
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
   <section class="prodpg">
     <div class="prodpg__container">
       <h1 class="products-title">Essential Oils</h1>
+      <p class="products-subtitle">
+        Distilled in surgical stainless steel vats (no heavy metal <em>leaching</em>), non-GMO plants, no pesticides—clean and pure; safe for inhalation, topical use, or ingestion (when labeled for ingestion).
+      </p>
 
       <div class="prodpg__grid">
+        <!-- SELECT-BASED PRODUCT CARD -->
         <article class="prodpg__card">
-          <img src={heroImage} alt="Essential Oils" loading="lazy" />
-          <h3>Essential Oil</h3>
+          <img src={heroImage} alt="Essential oils assortment" loading="lazy" class="hero-img" />
+          <h3 class="prodpg__title">Essential Oils - Varying prices. See Drop Down Menu.</h3>
 
-          <p id="eoPrice" class="prodpg__price">From $0.00</p>
-
+          <!-- DESCRIPTIVE COPY -->
           <p class="prodpg__desc">
-            Pure essential oils. Choose your oil (size is built into the option).
+            Pure essential oils. Choose your oil (size is built into the option). We keep a selection of popular oils in stock. If you need a different oil or size, call our customer service at
+            <a href="tel:18177106918">817-710-6918</a>. We can get a different oil for you with our next warehouse order, or you can open your own Young Living account (use link below). <br>
+            <strong>Lavender:</strong> Calming, relaxing, skin repair; relieves the discomfort of minor burns and sun irritation.
+            <br>
+            <strong>Thieves:</strong> Immune support, cleansing, purifying, mold prevention. Apply to bottoms of feet every hour at the first sign of illness; diffuse to purify air.
+            <br>
+            <strong>Peppermint:</strong> Energizing, cooling; relieves occasional stomach upset; helps with head discomfort—apply around the hairline and rest in a cool, dark room when experiencing head tension.
+            <br>
+            <strong>Orange:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene, a powerful antioxidant.
+            <br>
+            <strong>Grapefruit:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene.
+            <br>
+            <strong>Tea Tree (Melaleuca):</strong> Cleansing, purifying, skin support. Apply to minor skin irritations; apply to toothbrush to help with oral hygiene.
+            <br>
+            <strong>Sacred Frankincense:</strong> Grounding, centering; exquisite skin & immune support. Apply to skin to help reduce the appearance of blemishes; use during meditation or prayer.
+            <br>
+            <strong>PanAway:</strong> Soothing, cooling, comforting. Apply to sore muscles and joints after activity.
+            <br>
+            <strong>Idaho Blue Spruce:</strong> Grounding, centering, uplifting. Apply to neck and shoulders to help relieve tension. Men can apply a few drops along with a carrier oil topically for better sexual function. 
           </p>
 
+          <p class="prodpg__desc">
+            If you need a capsule filling tray to make your own capsules with oils, we recommend this one: 
+            <a href="https://amzn.to/46ZYaYJ" target="_blank" rel="noopener">View Capsule Filling Tray on Amazon</a>.
+            <br><br>
+            To order economically (if you are ordering large amounts of oil or on a regular basis), we recommend creating your own wholesale account with Young Living. Use code <strong>SHAREYL</strong> at checkout for 10% off orders of $50/50pv or more. You must place a $100/100pv initial order to get wholesale pricing with them. 
+            <br><br>
+            <br>
+            <a href="https://www.youngliving.com/us/en/referral/1218526" target="_blank" rel="noopener">Open your own Young Living account</a>
+          </p>
+
+          <!-- LIVE PRICE directly under the link, above the dropdown -->
+          <p id="eoPrice" class="prodpg__price" aria-live="polite">$0.00</p>
+
+          <!-- SELECTION + QTY + ADD -->
           <label>
-            <span style="display:block;font-weight:600;margin:0 0 .25rem">Oil</span>
-            <select id="eoItem" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
+            <span class="lbl">Oil</span>
+            <select id="eoItem" class="select">
               {items.map(i => (
                 <option value={i.key} data-cents={i.cents}>{i.label}</option>
               ))}
@@ -46,49 +83,189 @@ const heroImage = '/images/products/oilsgreen.png';
           </label>
 
           <label>
-            <span style="display:block;font-weight:600;margin:.5rem 0 .25rem">Quantity</span>
-            <input id="eoQty" type="number" min="1" value="1" style="width:86px;padding:8px;border:1px solid #ddd;border-radius:10px" />
+            <span class="lbl">Quantity</span>
+            <input id="eoQty" type="number" min="1" value="1" class="qty" />
           </label>
 
-          <button
-            id="eoAdd"
-            class="btn-cta add-to-cart"
-            data-sku=""
-            data-name=""
-            data-price="0"
-            data-image={heroImage}
-            data-qty="1"
-          >Add to Cart</button>
+          <div class="product-cta">
+  <button
+    id="eoAdd"
+    class="btn-cta add-to-cart"
+    data-sku=""
+    data-name=""
+    data-price="0"
+    data-image={heroImage}
+    data-qty="1"
+    type="button"
+  >
+    Add to Cart
+  </button>
+</div>
+
+        </article>
+
+        <!-- INFO-ONLY CARD: Orange Oil Protocol -->
+        <article class="prodpg__card prodpg__card--info">
+          <div class="card-photo card-photo--info">
+            <img
+              src={IMG_ORANGE_PROTOCOL}
+              alt="Orange Oil Protocol"
+              class="card-photo-img"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <h3 class="prodpg__title">Orange Oil Protocol</h3>
+          <p class="prodpg__desc">
+            If you’re following the Orange Oil protocol recommended by some natural health coaches, you’ll go through a lot of Orange quickly. This protocol includes consuming 10&nbsp;ml of orange oil daily for 30 days. The d-limonene is the constituent (antioxidant) you are taking it for.
+            We cannot recommend or not recommend or make any claims regarding this product or protocol. Consider putting it in capsules and taking with a beverage to dilute it.
+            To save money, we recommend opening a Young Living account so you can order economically and consistently. Use code “SHAREYL” at the Young Living checkout (not our checkout) for 10% off orders $50/50pv or more. You need (20) 15 ml bottles to complete the protocol. The 5 ml (white label) and 15 ml bottles contain the same oil; the label color differs.
+            If you prefer not to create an account and want to order through us, call customer service so we can place a bulk order for you. It will take longer to get to you that way.
+            Retail via us: $16.78/bottle for 15ml; with a Young Living wholesale account (first order ≥$100): ~$12.75/bottle for 15ml.
+          </p>
+          <ul class="prodpg__bullets">
+            <li>Suggested: 10&nbsp;ml/day for 30 days; many split doses throughout the day.</li>
+            <li>We are not physicians and cannot advise whether you should follow this protocol.</li>
+            <li>Create a Young Living account to order Orange and other oils directly.</li>
+            <li>Use code “SHAREYL” at checkout for 10% off eligible orders.</li>
+          </ul>
+          <div class="product-cta">
+            <a
+              class="btn-cta"
+              href="https://www.youngliving.com/us/en/referral/1218526"
+              target="_blank" rel="noopener"
+            >
+              Get a Young Living Account
+            </a>
+          </div>
         </article>
       </div>
     </div>
   </section>
 
+  <!-- Full-width Testimonials band (2×2 on desktop) -->
+  <section class="tbox tbox--bleed" aria-labelledby="eo-testimonials-heading">
+    <div class="tbox__container">
+      <h2 id="eo-testimonials-heading">Customer Testimonials</h2>
+      <p class="tbox__lead">Stories from the community using core oils.</p>
+
+      <div class="tlist">
+        <figure class="tquote">
+          <blockquote><p>“Lavender has been my nighttime go-to—gentle and consistent. My kids call it the ‘sleepy oil’!”</p></blockquote>
+          <figcaption>— C.H., Nebraska</figcaption>
+        </figure>
+
+        <figure class="tquote">
+          <blockquote><p>“Peppermint helps me stay alert during long work sessions and eases my son’s headaches.”</p></blockquote>
+          <figcaption>— R.B., Texas</figcaption>
+        </figure>
+
+        <figure class="tquote">
+          <blockquote><p>“Sacred Frankincense is a staple for my routine now. I had a scary skin diagnosis on my arm and used Sacred Frankincense for 6 weeks. The spot went from the size of a quarter to GONE!!!”</p></blockquote>
+          <figcaption>— T.D., Arizona</figcaption>
+        </figure>
+
+        <figure class="tquote">
+          <blockquote><p>“PanAway smells amazing and helps with my post-workout aches. It also has helichrysum in it. Did you know that helichrysum can be used in an emergency if you are bleeding? It stops bleeding almost emergency. So besides making my muscles feel better, it is my secret weapon for emergencies.”</p></blockquote>
+          <figcaption>— L.M., Idaho</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Wire buttons → React cart -->
+  <CartBridge client:load />
+
   <style>
-   .prodpg { padding: 0 0 48px; }
-   .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-   section.prodpg .prodpg__grid{
-     display: grid !important;
-     grid-template-columns: 1fr;
-     row-gap: 16px !important;
-     column-gap: 32px !important;
-     margin: 10px 0 24px;
-   }
-   @media (min-width: 800px){
-     section.prodpg .prodpg__grid{ grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-     section.prodpg .prodpg__card{ margin: 0; box-sizing: border-box; }
-     section.prodpg .prodpg__card:nth-child(odd){ margin-right: 32px; }
-   }
-   section.prodpg .prodpg__card{
-     background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
-     box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
-     width:100%; max-width:none;
-   }
-   section.prodpg .prodpg__card img{
-     width:100%; height:220px; object-fit:cover; border-radius:10px; display:block;
-   }
-   section.prodpg .prodpg__price{ font-weight:700; font-size:1.05rem; }
-   section.prodpg .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
+    /* Page container */
+    .prodpg { padding: 0 0 48px; }
+    .prodpg__container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+    /* Title + subtitle */
+    .products-subtitle{
+      margin: 4px 0 14px;
+      font-weight: 600;
+      color: #475569;
+      line-height: 1.45;
+      font-size: clamp(1rem, 1.6vw, 1.125rem);
+      max-width: 80ch;
+    }
+
+    /* ALWAYS single-column stack, center cards, cap width */
+    .prodpg__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      margin: 16px 0 28px;
+    }
+    .prodpg__card{
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:20px;
+      box-shadow:0 8px 18px rgba(0,0,0,.06);
+      display:grid; gap:.65rem; justify-items:start;
+    }
+
+    /* Select card hero image */
+    .hero-img{ width:100%; height:300px; object-fit:cover; border-radius:10px; display:block; }
+
+    /* Info card image (Orange) — capped size */
+    .prodpg__card--info .card-photo {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      max-height: 280px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #fff7ec;
+      border: 1px dashed #f59e0b;
+    }
+    .prodpg__card--info .card-photo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Form bits */
+    .lbl{ display:block; font-weight:600; margin:.5rem 0 .25rem; }
+    .select{ width:100%; padding:10px; border:1px solid #ddd; border-radius:10px; }
+    .qty{ width:86px; padding:8px; border:1px solid #ddd; border-radius:10px; }
+
+    .prodpg__title { margin:.25rem 0 0; font-weight:700; font-size:.95rem; }
+    .prodpg__price { font-weight:700; font-size:1.05rem; margin:.25rem 0 .25rem; } /* tightened for new spot */
+    .prodpg__desc { line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
+    .prodpg__bullets { margin:.1rem 0 .3rem; padding-left:1.1rem; font-size:.9rem; }
+    .prodpg__bullets li { margin:.08rem 0; }
+    .product-cta .add-to-cart {
+  display: inline-flex;
+  padding: 10px 16px;
+  font-size: .95rem;
+  border-radius: 0;        /* rectangle */
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  border: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.product-cta .add-to-cart:hover { background: #222; }
+.product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
+
+
+    /* Testimonials band */
+    .tbox--bleed { width:100vw; margin-left:50%; transform:translateX(-50%); background:#fafafa;
+      border-top:1px solid #ececec; border-bottom:1px solid #ececec; padding:28px 0 40px; }
+    .tbox__container { max-width:1100px; margin:0 auto; padding:0 12px; }
+    .tbox h2 { margin:0 0 6px; font-size:clamp(1.2rem, 2.2vw, 1.5rem); }
+    .tbox__lead { margin:0 0 14px; color:#475569; font-size:.95rem; }
+    .tlist { display:grid; grid-template-columns:1fr; gap:14px; }
+    @media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
+    .tquote { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; box-shadow:0 4px 10px rgba(0,0,0,.05); }
+    .tquote blockquote { margin:0 0 8px; position:relative; padding-left:12px; color:#0f172a; line-height:1.5; }
+    .tquote blockquote::before { content:"“"; position:absolute; left:-4px; top:-6px; font-size:2rem; line-height:1; opacity:.2; }
+    .tquote figcaption { font-size:.9rem; color:#475569; }
   </style>
 
   <script is:inline>
@@ -112,13 +289,16 @@ const heroImage = '/images/products/oilsgreen.png';
 
       function update(){
         var key   = sel.value;
-        var label = sel.options[sel.selectedIndex].textContent || key;
-        var cents = Number(sel.options[sel.selectedIndex].dataset.cents || items[key] || 0);
+        var opt   = sel.options[sel.selectedIndex];
+        var label = opt.textContent || key;
+        var cents = Number(opt.dataset.cents || items[key] || 0);
+        var n     = Math.max(1, parseInt(qty.value||'1',10));
 
+        // eo-<short>-<size> required by your API for EO prices
         btn.setAttribute('data-sku', "eo-" + key);
         btn.setAttribute('data-name', label);
         btn.setAttribute('data-price', String(cents));
-        btn.setAttribute('data-qty', String(Math.max(1, parseInt(qty.value||'1',10))));
+        btn.setAttribute('data-qty', String(n));
 
         priceEl.textContent = "$" + (cents/100).toFixed(2);
       }

@@ -1,32 +1,168 @@
 ﻿---
+// FILE: src/pages/products/other.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
-const pageTitle = 'Other Products â€” ';
+import CartBridge from '@/components/CartBridge.tsx';
+
+const pageTitle = 'Other Products — ';
+
+// cents = 0 => shows “Price shown at checkout” but still works via SKU.
+const items = [
+  {
+    sku: 'dandelion-tea',
+    name: 'Dandelion Root Tea for the Liver',
+    cents: 1300, // $13.00
+    image: '/images/products/DandelionTea.png',
+    desc: `LIVER SUPPORT! Earthy, roasted, and grounding — this organic loose-leaf dandelion root tea from Foster Farm Botanicals in Vermont is a time-honored herbal staple for daily wellness. Naturally caffeine-free, it supports healthy digestion, regular elimination, and normal liver function.* Dandelion root has long been used to help the body process fats and flush toxins gently through the liver and kidneys. Brew a cup after meals for a smooth, nutty flavor that soothes and restores—perfect for cleansing and balance in every season.*`
+  },
+  {
+    sku: 'hibiscus-tea',
+    name: 'Hibiscus Tea for the Heart',
+    cents: 699,
+    image: '/images/products/Hibiscustea.jpg',
+    desc: `Bright, tart, ruby-red tea rich in anthocyanins—enjoyed for cardiovascular wellness and antioxidant support.* Multiple clinical studies show hibiscus tea can support healthy systolic and diastolic blood pressure naturally. Best results seen with 2–3 cups daily for several weeks. It also supports the body's ability to lower LDL cholesterol and triglycerides while raising HDL in some studies. The antioxidants help protect arterial walls too. Additionally hibiscus supports liver detoxification enzymes and can improve insulin sensitivity.`
+  },
+  {
+    sku: 'BLM',
+    name: 'BLM (Bones, Ligaments, & Muscles) capsules - Young Living',
+    cents: 6579,
+    image: '/images/products/BLMgymsmall.jpg',
+    desc: `Support joint mobility, flexibility, and overall comfort (relief) with Young Living’s BLM™ supplement. This advanced formula combines glucosamine sulfate, hydrolyzed collagen, MSM, and manganese citrate to nourish bones, ligaments, and muscles from within. BLM promotes healthy cartilage formation and supports elasticity in connective tissues. Each bottle contains 90 capsules, offering nutritional reinforcement for active lifestyles, athletes, or anyone seeking greater joint comfort and freedom of movement. Combine with Sulfurzyme for additional joint and inflammatory support.*.`
+  },
+  {
+    sku: 'Sulfurzyme',
+    name: 'Sulfurzyme Capsules - Young Living',
+    cents: 8947,
+    image: '/images/products/Sulfurzymesmaller.jpg',
+    desc: `Young Living Sulfurzyme (300 capsules) with MSM and Ningxia wolfberry powder—supports joints, skin, hair, and overall wellness. Supports the body's normal inflammatory response. Is not the same as sulpha drugs. Many are sulfur deficient (because of current farming practices), and sulfur helps you regulate inflammation.  Joint Protocol includes taking 4 Sulfurzyme and 2 BLM a day for 6-8 weeks minimum to see joint improvement and relief.`
+  },
+];
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
   <section class="prod-hero">
-    <img class="bg" src="/images/otherprods.png" alt="" />
+   
     <div class="inner">
       <h1>Other Products</h1>
-      <p>Accessories, kits, and extras that round out a healthy lifestyle.</p>
-      <a href="/products" class="btn">Shop Now</a>
+      <p>Products that may come or go depending on season or popularity. Grab them while you can!</p>
+     
     </div>
   </section>
 
   <section class="content">
-    <h2>About These Products</h2>
-    <p>Quick overview and links to sub-categories or featured SKUs.</p>
+    <h2>Featured Items</h2>
+    <p>Quick links to helpful supporting products.</p>
+
+    <div class="grid">
+      {items.map((p) => (
+        <article class="card">
+          <div class="photo">
+            <img
+              src={p.image}
+              alt={p.name}
+              class="img"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+
+          <h3 class="title">{p.name}</h3>
+
+          {p.desc && (
+            <p class="desc" set:html={p.desc}></p>
+          )}
+
+          {p.cents > 0 ? (
+            <p class="price">
+              {(p.cents/100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+            </p>
+          ) : (
+            <p class="price">Price shown at checkout</p>
+          )}
+
+          <div class="cta">
+            <button
+              class="btn-cta add-to-cart"
+              data-sku={p.sku}
+              data-price={String(p.cents || 0)}
+              data-qty="1"
+              data-name={p.name}
+              data-image={p.image}
+              type="button"
+              aria-label={`Add ${p.name} to cart`}
+            >
+              Add to Cart
+            </button>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="fineprint">
+      *Statements on this page have not been evaluated by the FDA. These products are not intended to diagnose, treat, cure, or prevent any disease.
+    </p>
   </section>
 
-  <style>
-    .prod-hero{position:relative;isolation:isolate;overflow:hidden;min-height:360px;border-radius:14px;background:#fff;margin-top:8px}
-    .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.18;z-index:-1}
-    .inner{padding:36px 20px 28px;max-width:900px;margin:0 auto}
-    .inner h1{margin:0 0 8px;font-size:clamp(2rem,3vw,2.6rem)}
-    .inner p{margin:0 0 14px;max-width:60ch}
-    .btn{display:inline-flex;gap:.5rem;align-items:center;justify-content:center;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;text-decoration:none;font-weight:700}
-    .content{max-width:900px;margin:22px auto;padding:0 4px}
-  </style>
+  <CartBridge client:load />
+
+<style>
+  :root{
+    --card-price-gap: 10px;          /* space between price and button */
+  }
+
+  .prod-hero{position:relative;isolation:isolate;overflow:hidden;min-height:360px;border-radius:14px;background:#fff;margin-top:8px}
+  .bg{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.18;z-index:-1}
+  .inner{padding:36px 20px 28px;max-width:900px;margin:0 auto}
+  .inner h1{margin:0 0 8px;font-size:clamp(2rem,3vw,2.6rem)}
+  .inner p{margin:0 0 14px;max-width:60ch}
+  .btn{display:inline-flex;gap:.5rem;align-items:center;justify-content:center;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;text-decoration:none;font-weight:700}
+
+  .content{max-width:1100px;margin:22px auto;padding:0 12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:12px}
+
+  /* ⬇️ Make every card a flex column so we can pin price+button at the bottom */
+  .card{
+    background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.06);
+    padding:12px;display:flex;flex-direction:column;gap:.5rem;height:100%;
+  }
+
+  .photo{width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:10px;background:#f7f7f7;box-shadow:0 3px 6px rgba(0,0,0,.04)}
+  .img{width:100%;height:100%;object-fit:cover;display:block}
+  .title{margin:.25rem 0 0;font-weight:700;font-size:.95rem;line-height:1.25rem}
+
+  /* ⬇️ Let description eat free space so price+CTA drop to the bottom */
+  .desc{margin:.15rem 0 .25rem;color:#374151;font-size:.95rem;line-height:1.45;margin-bottom:auto}
+
+  /* ⬇️ Price sits just above the button with a consistent gap */
+  .price{font-weight:800;font-size:.95rem;margin:0 0 var(--card-price-gap)}
+
+  .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:0}
+
+  /* ⬇️ Do NOT override global button colors/weights here.
+        Use your global variables to keep it consistent with Featured */
+  .btn-cta.add-to-cart{
+    display:inline-flex;
+    min-width:148px;
+    height:var(--cart-btn-h,44px);
+    padding:0 var(--cart-btn-px,16px);
+    line-height:1;
+    font-size:var(--cart-btn-fs,16px);
+    font-weight:var(--cart-btn-weight,400);        /* thin label, like Featured */
+    letter-spacing:.01em;
+
+    background:var(--cart-btn-bg,#c7cdd6);
+    color:var(--cart-btn-fg,#111);                 /* black text */
+    border:0;
+    border-radius:var(--cart-btn-radius,10px);
+    cursor:pointer;
+    text-decoration:none;
+    transition:background-color .15s ease, transform .05s ease;
+  }
+  .btn-cta.add-to-cart:hover{ background:var(--cart-btn-bg-hover,#aeb6c1); }
+  .btn-cta.add-to-cart:focus-visible{ outline:3px solid #60a5fa; outline-offset:2px; }
+
+  .fineprint{margin:18px 0 0;color:#6b7280;font-size:.8rem}
+</style>
+
 </BaseLayout>

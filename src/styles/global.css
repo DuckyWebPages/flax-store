@@ -62,4 +62,85 @@ img {
   display: block; 
   padding-top: 66.6667%; /* was 75% */
 }
+/* === Uniform Add-to-Cart sizing (sitewide) === */
+:root {
+  --cart-btn-h: 44px;     /* choose 44–48px if you want taller */
+  --cart-btn-fs: 16px;    /* 15–16px is a good UI size */
+  --cart-btn-px: 16px;    /* horizontal padding */
+}
+.add-to-cart,
+.btn-cta.add-to-cart {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 
+  height: var(--cart-btn-h, 44px) !important;     /* uniform height */
+  padding: 0 var(--cart-btn-px, 16px) !important; /* horizontal padding only */
+  line-height: 1 !important;
+  font-size: var(--cart-btn-fs, 16px) !important;
+  font-weight: 600 !important;
+
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+  background: #d1d5db !important;                 /* light gray (Tailwind gray-300) */
+  color: #111 !important;                         /* dark text for contrast */
+  border-radius: 10px !important;                 /* slightly rounded */
+  transition: background-color .15s ease !important;
+}
+
+.add-to-cart:hover,
+.btn-cta.add-to-cart:hover {
+  background: #9ca3af !important;                 /* medium gray hover */
+}
+
+.add-to-cart:focus-visible,
+.btn-cta.add-to-cart:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 2px;
+}
+.add-to-cart:disabled { opacity: .6 !important; cursor: not-allowed !important; }
+:root {
+  --cart-btn-h: 44px;
+  --cart-btn-fs: 16px;
+  --cart-btn-px: 16px;
+
+  --cart-btn-weight: 400;      /* ← thin label everywhere */
+  --cart-btn-radius: 10px;     /* adjust if you want */
+
+  --cart-btn-bg: #c7cdd6;      /* light gray background */
+  --cart-btn-bg-hover: #aeb6c1;
+  --cart-btn-fg: #111;         /* ← BLACK TEXT */
+}
+
+.add-to-cart,
+.btn-cta.add-to-cart {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  height: var(--cart-btn-h) !important;
+  padding: 0 var(--cart-btn-px) !important;
+  line-height: 1 !important;
+  font-size: var(--cart-btn-fs) !important;
+  font-weight: var(--cart-btn-weight) !important;  /* thin */
+  letter-spacing: .01em !important;
+
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+
+  background: var(--cart-btn-bg) !important;
+  color: var(--cart-btn-fg) !important;            /* ← black text */
+  border-radius: var(--cart-btn-radius) !important;
+
+  transition: background-color .15s ease, transform .05s ease !important;
+  -webkit-text-stroke: 0 !important;               /* guard against “heavy” look */
+}
+.add-to-cart:hover,
+.btn-cta.add-to-cart:hover { background: var(--cart-btn-bg-hover) !important; }
+.add-to-cart:active,
+.btn-cta.add-to-cart:active { transform: translateY(1px); }
+.add-to-cart:focus-visible,
+.btn-cta.add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
+.add-to-cart:disabled { opacity: .6 !important; cursor: not-allowed !important; }
