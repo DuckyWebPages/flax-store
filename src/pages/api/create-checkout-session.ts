@@ -121,37 +121,7 @@ async function priceIdForInternalId(internalId: string): Promise<string> {
 
   // Nothing matched: clear, actionable error
   throw new Error(
-    `Unknown product id "${internalId}". Set Stripe Price.lookup_key to "${internalId}" (LIVE mode) OR add it to HARDCODED.`
-  );
-}
-
-
-  // 2) Try Product metadata.sku or metadata.id == internalId
-  try {
-    const prods = await stripe.products.list({ active: true, limit: 100 });
-    for (const p of prods.data) {
-      const sku = (p.metadata?.sku || p.metadata?.id || "").trim();
-      if (sku && sku === internalId) {
-        const prices = await stripe.prices.list({
-          product: p.id,
-          active: true,
-          limit: 10,
-        });
-        if (prices.data.length) {
-          const oneTime = prices.data.find((pr) => !pr.recurring) || prices.data[0];
-          return oneTime.id;
-        }
-      }
-    }
-  } catch (e) {
-    console.warn("[stripe] products.list/price fetch failed:", e);
-  }
-
-  // 3) Fallback hardcoded map
-  if (HARDCODED[internalId]) return HARDCODED[internalId];
-
-  throw new Error(
-    `Unknown product id "${internalId}". Set Stripe Price.lookup_key to "${internalId}" OR add it to HARDCODED.`
+    `Unknown product id "${internalId}". Set Stripe Price.lookup_key to "${internalId}" (in the SAME mode as your key) OR add it to HARDCODED.`
   );
 }
 
@@ -164,15 +134,17 @@ export const POST: APIRoute = async ({ request, url }) => {
       return new Response(JSON.stringify({ error: "No items." }), { status: 400 });
     }
 
+    // DEBUG: log what the client sent
     console.log("[checkout] incoming items:", items);
 
-    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    const line_items: { price: string; quantity: number }[] = [];
     for (const i of items) {
       const priceId = await priceIdForInternalId(String(i.id));
       const quantity = Math.max(1, Math.min(99, Number(i.qty || 1)));
       line_items.push({ price: priceId, quantity });
     }
 
+    // DEBUG: verify we’re about to hit Stripe with valid price ids
     console.log("[checkout] line_items:", line_items);
 
     const session = await stripe.checkout.sessions.create({
@@ -186,8 +158,9 @@ export const POST: APIRoute = async ({ request, url }) => {
     return new Response(JSON.stringify({ url: session.url }), { status: 200 });
   } catch (err: any) {
     console.error("[create-checkout-session] error:", err);
-    return new Response(JSON.stringify({ error: err?.message || "Checkout failed" }), {
-      status: 400,
-    });
+    return new Response(
+      JSON.stringify({ error: err?.message || "Checkout failed" }),
+      { status: 400 }
+    );
   }
 };
