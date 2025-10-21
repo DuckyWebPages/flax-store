@@ -1,6 +1,7 @@
 ﻿---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-const pageTitle = 'Ocean Cleanse â€” ';
+const pageTitle = 'Ocean Cleanse'
+ ';
 const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe price ID
 
 // Keep existing small image for HERO (lightweight)
@@ -19,8 +20,8 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
     <div class="inner">
       <h1>Ocean Cleanse</h1>
       <p>
-        Concentrated brown-seaweed extract used to support detoxification of certain heavy metals
-        and radioactive elementsâ€”while supporting thyroid, energy, and immune function.
+        Concentrated brown-seaweed extract used to support detoxification of heavy metals
+        and radioactive elements while supporting thyroid, energy, and immune function.
       </p>
     </div>
   </section>
@@ -47,16 +48,22 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
         </p>
 
         <!-- $34.95 in cents -->
-        <button
-          class="btn btn-cta add-to-cart"
-          data-sku="ocean-cleanse-single"
-          data-price="3495"
-          data-qty="1"
-          data-name="Ocean Cleanse â€“ Heavy Metal/Radiation Detox"
-        >
-          Add to Cart
-        </button>
-      </div>
+       <!-- CTA -->
+<div class="product-cta">
+  <button
+    class="btn-cta add-to-cart"
+    type="button"
+    data-sku="ocean-cleanse-single"
+    data-qty="1"
+    data-name="Ocean Cleanse"
+    data-image="/images/products/ocean-cleanse-square.png"
+    data-price="3499"
+    aria-label="Add Ocean Cleanse to cart"
+  >
+    Add to Cart
+  </button>
+</div>
+
     </div>
   </section>
 
@@ -65,7 +72,7 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
     <h2>About Ocean Cleanse</h2>
     <p>
       OCEAN CLEANSE is a concentrated extract from the richest type of brown seaweed.
-      Itâ€™s used to help detoxify and chelate heavy metals as well as radioactive elements, while supporting energy and immune function.
+      It's used to help detoxify and chelate heavy metals as well as radioactive elements, while supporting energy and immune function.
       90 capsules per bottle.
     </p>
 
@@ -81,11 +88,11 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
 
     <h3>What it delivers:</h3>
     <ul>
-      <li><strong>Organic iodine</strong> â€” thyroid support</li>
-      <li><strong>Fucoxanthin</strong> â€” 10&nbsp;mg per capsule</li>
-      <li><strong>Alginate</strong> â€” binds certain heavy metals</li>
-      <li><strong>Fucoidan</strong> â€” supports healthy immune activity</li>
-      <li><strong>Laminarin</strong> â€” supports cardiovascular health</li>
+      <li><strong>Organic iodine</strong> - thyroid support</li>
+      <li><strong>Fucoxanthin</strong> - 10&nbsp;mg per capsule</li>
+      <li><strong>Alginate</strong> - binds certain heavy metals</li>
+      <li><strong>Fucoidan</strong> - supports healthy immune activity</li>
+      <li><strong>Laminarin</strong> - supports cardiovascular health</li>
       <li>Naturally occurring trace minerals and vitamins</li>
     </ul>
   </section>

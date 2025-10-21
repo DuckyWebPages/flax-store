@@ -40,11 +40,11 @@ export default function CartProvider({ children }: { children: React.ReactNode }
   const [open, setOpen] = useState(false);
 
   const addItem = useCallback((item: CartItem) => {
-    if (!item.priceId) {
-      console.error("addItem missing priceId for", item);
-      return;
-    }
-    setItems((prev) => {
+  if (!item.priceId) {
+  console.warn("addItem: missing priceId; adding anyway", item);
+}
+
+  setItems((prev) => {
       const existing = prev.find((i) => i.id === item.id);
       if (existing) {
         return prev.map((i) =>

@@ -1,7 +1,7 @@
 ﻿---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
-const pageTitle = 'AfterShot â€” '
+const pageTitle = 'AfterShot'
 const PRICE_CENTS = 1999
 const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
 ---
@@ -180,4 +180,12 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
       align-items:center; justify-content:center; white-space:nowrap; align-self:start;
     }
   </style>
+  <style>
+  .product-cta .btn-cta {
+    min-width: 220px;
+    width: 100%;
+    justify-content: center;
+  }
+</style>
+
 </BaseLayout>

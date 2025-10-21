@@ -14,47 +14,121 @@ const pageTitle = 'Welcome — ';
       <div class="bs-wrap">
         <h2 class="home-products-title">Best Selling Products</h2>
 
-
-        <div class="bs-grid">
+<div class="bs-grid">
   <!-- 1) Flax Products -->
-  <a class="bs-card" href="/products/flax-hull-lignans" aria-label="Flax Products">
-    <span class="circle">
-      <img src="/images/products/fhlsinglegreen.png" alt="Flax Hull Lignans" loading="lazy" decoding="async" />
-    </span>
-    <span class="label">Flax Products</span>
-  </a>
+  <div class="bs-card">
+    <a class="bs-link" href="/products/flax-hull-lignans" aria-label="Flax Products">
+      <span class="circle">
+        <img src="/images/products/fhlsinglegreen.png" alt="Flax Hull Lignans" loading="lazy" decoding="async" />
+      </span>
+      <span class="label">Flax Products</span>
+    </a>
+
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-sku="fhl-single"
+      data-qty="1"
+      data-name="Flax Hull Lignans (Single Jar)"
+      data-image="/images/products/fhlsinglegreen.png"
+      data-price="3900"
+      aria-label="Add Flax Hull Lignans (Single Jar) to cart"
+    >
+      Add to Cart
+    </button>
+  </div>
 
   <!-- 2) Ocean Cleanse -->
-  <a class="bs-card" href="/products/ocean-cleanse" aria-label="Ocean Cleanse">
-    <span class="circle">
-      <img src="/images/ocean-cleanse-square.png" alt="Ocean Cleanse" loading="lazy" decoding="async" />
-    </span>
-    <span class="label">Ocean Cleanse</span>
-  </a>
+  <div class="bs-card">
+    <a class="bs-link" href="/products/ocean-cleanse" aria-label="Ocean Cleanse">
+      <span class="circle">
+        <img src="/images/products/ocean-cleanse-square.png" alt="Ocean Cleanse" loading="lazy" decoding="async" />
+      </span>
+      <span class="label">Ocean Cleanse</span>
+    </a>
 
-  <!-- 3) Aftershot Zeolite -->
-  <a class="bs-card" href="/products/zeolite" aria-label="Aftershot Zeolite">
-    <span class="circle">
-      <img src="/images/aftershot3green.jpg" alt="Aftershot Zeolite" loading="lazy" decoding="async" />
-    </span>
-    <span class="label">Aftershot Zeolite</span>
-  </a>
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-sku="ocean-cleanse-single"
+      data-qty="1"
+      data-name="Ocean Cleanse"
+      data-image="/images/products/ocean-cleanse-square.png"
+      data-price="3499"
+      aria-label="Add Ocean Cleanse to cart"
+    >
+      Add to Cart
+    </button>
+  </div>
+
+  <!-- 3) AfterShot Zeolite -->
+  <div class="bs-card">
+    <a class="bs-link" href="/products/zeolite" aria-label="Aftershot Zeolite">
+      <span class="circle">
+        <img src="/images/products/aftershot3green.jpg" alt="Aftershot Zeolite" loading="lazy" decoding="async" />
+      </span>
+      <span class="label">Aftershot Zeolite</span>
+    </a>
+
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-sku="zeolite-8oz"                       <!-- or "Zeolite-80Z" if you kept that alias -->
+      data-qty="1"
+      data-name="AfterShot Zeolite (1 oz)"
+      data-image="/images/products/aftershot-8oz.jpg"
+      data-price="1999"
+      aria-label="Add AfterShot Zeolite (1 oz) to cart"
+    >
+      Add to Cart
+    </button>
+  </div>
 
   <!-- 4) Essiac Tea -->
-  <a class="bs-card" href="/products/essiac-tea" aria-label="Essiac Tea">
-    <span class="circle">
-      <img src="/images/essiac-small.jpg" alt="Essiac Tea" loading="lazy" decoding="async" />
-    </span>
-    <span class="label">Essiac Tea</span>
-  </a>
+  <div class="bs-card">
+    <a class="bs-link" href="/products/essiac-tea" aria-label="Essiac Tea">
+      <span class="circle">
+        <img src="/images/essiac-small.jpg" alt="Essiac Tea" loading="lazy" decoding="async" />
+      </span>
+      <span class="label">Essiac Tea</span>
+    </a>
 
-  <!-- 5) Essential Oils -->
-  <a class="bs-card" href="/products/essential-oils" aria-label="Essential Oils">
-    <span class="circle">
-      <img src="/images/products/oilsgreen.png" alt="Essential Oils" loading="lazy" decoding="async" />
-    </span>
-    <span class="label">Essential Oils</span>
-  </a>
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-sku="essiac-tea"
+      data-qty="1"
+      data-name="Essiac Tea — Famous 8 Herb Recipe"
+      data-image="/images/essiac-small.jpg"
+      data-price="3499"
+      aria-label="Add Essiac Tea to cart"
+    >
+      Add to Cart
+    </button>
+  </div>
+
+  <!-- 5) Essential Oils (example uses BLM as featured) -->
+  <div class="bs-card">
+    <a class="bs-link" href="/products/essential-oils" aria-label="Essential Oils">
+      <span class="circle">
+        <img src="/images/products/oilsgreen.png" alt="Essential Oils" loading="lazy" decoding="async" />
+      </span>
+      <span class="label">Essential Oils</span>
+    </a>
+
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-sku="BLM"
+      data-qty="1"
+      data-name="BLM (Bones, Ligaments, Muscles)"
+      data-image="/images/products/oilsgreen.png"
+      data-price="4199"
+      aria-label="Add BLM to cart"
+    >
+      Add to Cart
+    </button>
+  </div>
 </div>
 
 
@@ -193,4 +267,10 @@ const pageTitle = 'Welcome — ';
     }
     .coupon-img:hover{ transform: scale(1.02); }
   </style>
+  <style>
+  .bs-card { display: grid; gap: 10px; place-items: center; }
+  .bs-card .bs-link { text-decoration: none; color: inherit; display: grid; gap: 8px; place-items: center; }
+  .bs-card .btn-cta { width: 100%; min-width: 0; justify-content: center; }
+</style>
+
 </BaseLayout>

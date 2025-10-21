@@ -234,87 +234,167 @@ import CartApp from "../components/CartApp.tsx";
 
     <!-- Cart bridge: persists to localStorage, updates badge, and enforces add-to-cart vs buy-now -->
     <script>
-      const CART_KEYS = ["flh_cart_v1", "cart", "cartItems"];
-      function loadCart() {
-        for (const k of CART_KEYS) {
-          try { const raw = localStorage.getItem(k); if (raw) return JSON.parse(raw); } catch {}
+  // ==== UNIVERSAL CART BRIDGE ====
+  // Single source of truth (in-memory) + mirrored to localStorage in multiple shapes
+  const CART_KEYS = ["flh_cart_v1", "cart", "cartItems"];
+
+  function loadCart() {
+    // Try our preferred key first, then fallbacks
+    for (const k of CART_KEYS) {
+      try {
+        const raw = localStorage.getItem(k);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === "object") {
+            // support either {items:[...]} or [...]
+            if (Array.isArray(parsed)) return { items: parsed };
+            if (Array.isArray(parsed.items)) return { items: parsed.items };
+          }
         }
-        return { items: [] };
+      } catch {}
+    }
+    return { items: [] };
+  }
+
+  function toUniversalItem(raw) {
+    // Normalize incoming fields
+    const sku   = String(raw.sku ?? raw.id ?? "").trim();
+    const name  = String(raw.name ?? raw.title ?? "");
+    const image = String(raw.image ?? raw.imageUrl ?? "");
+    const price = raw.price != null ? Number(raw.price) : undefined;
+    const qty   = Math.max(1, Number(raw.qty ?? raw.quantity ?? 1));
+    return { id: sku, sku, qty, quantity: qty, name, title: name, image, imageUrl: image, price };
+  }
+
+  function uniqueMerge(items) {
+    const bySku = new Map();
+    for (const it of items) {
+      const key = it.sku || it.id;
+      if (!key) continue;
+      if (bySku.has(key)) {
+        const prev = bySku.get(key);
+        const q = Number(prev.qty || 0) + Number(it.qty || 0);
+        prev.qty = prev.quantity = q;
+        bySku.set(key, prev);
+      } else {
+        bySku.set(key, { ...it });
       }
-      function saveCart(cart) {
-        const json = JSON.stringify(cart);
-        for (const k of CART_KEYS) { try { localStorage.setItem(k, json); } catch {} }
-        window.dispatchEvent(new CustomEvent("flh:cart:updated", { detail: { cart } }));
-        try { localStorage.setItem("__cart_touch", String(Date.now())); } catch {}
-      }
-      function renderBadge(cart) {
-        const badge = document.getElementById("cart-badge");
-        if (!badge) return;
-        const total = (cart.items || []).reduce((n, it) => n + (Number(it.qty)||0), 0);
-        badge.textContent = String(total);
-        badge.style.display = total > 0 ? "inline-block" : "none";
-      }
-      function addItem(raw) {
-        const cart = loadCart();
-        const sku   = String(raw.sku || "").trim();
-        const qty   = Math.max(1, Number(raw.qty || 1));
-        const name  = String(raw.name || "");
-        const image = String(raw.image || "");
-        const price = raw.price != null ? Number(raw.price) : undefined;
+    }
+    return Array.from(bySku.values());
+  }
 
-        const item = { id: sku, sku, qty, name, image, price };
-        const idx = (cart.items || []).findIndex(it => it.sku === sku);
-        if (idx >= 0) cart.items[idx].qty += qty;
-        else (cart.items || (cart.items = [])).push(item);
+  function saveCart(cart) {
+    // Mirror in multiple formats so different carts can read it
+    const arr = Array.isArray(cart.items) ? cart.items : [];
+    const objShape = JSON.stringify({ items: arr });
+    const arrShape = JSON.stringify(arr);
 
-        saveCart(cart);
-        renderBadge(cart);
-        return cart;
-      }
+    try { localStorage.setItem("flh_cart_v1", objShape); } catch {}
+    try { localStorage.setItem("cart", objShape); } catch {}
+    try { localStorage.setItem("cartItems", arrShape); } catch {}
 
-      // initial badge render
-      renderBadge(loadCart());
+    // Globals some carts read
+    window.cartItems = arr;
 
-      // Site-wide click handling:
-      document.addEventListener("click", (e) => {
-        const btn = e.target.closest("button, a");
-        if (!btn) return;
+    // Notify listeners (various event names)
+    const detail = { cart: { items: arr } };
+    window.dispatchEvent(new CustomEvent("flh:cart:updated", { detail }));
+    window.dispatchEvent(new CustomEvent("cart:updated", { detail }));
+    window.dispatchEvent(new CustomEvent("cart-updated", { detail }));
 
-        // ADD TO CART: never checkout here
-        if (btn.classList.contains("add-to-cart")) {
-          e.preventDefault(); e.stopPropagation();
-          addItem({
-            sku:   btn.getAttribute("data-sku"),
-            qty:   btn.getAttribute("data-qty") || "1",
-            name:  btn.getAttribute("data-name") || "",
-            image: btn.getAttribute("data-image") || "",
-            price: btn.getAttribute("data-price")
-          });
-          if (window.cartOpen) window.cartOpen();
-          return;
-        }
+    // Nudge listeners that rely on storage events
+    try { localStorage.setItem("__cart_touch", String(Date.now())); } catch {}
+  }
 
-        // BUY NOW: explicit only
-        const isBuyNow = btn.classList.contains("buy-now") || btn.getAttribute("data-buynow") === "1";
-        if (isBuyNow) {
-          e.preventDefault(); e.stopPropagation();
-          const sku = btn.getAttribute("data-sku") || "";
-          const qty = Number(btn.getAttribute("data-qty") || "1");
-          fetch("/api/create-checkout-session", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ items: [{ id: sku, qty }] })
-          })
-          .then(r => r.json())
-          .then(data => {
-            if (data?.url) window.location.href = data.url;
-            else alert(data?.error || "Checkout error");
-          })
-          .catch(() => alert("Network error"));
-          return;
-        }
-      }, { capture: true });
-    </script>
+  function renderBadge(cart) {
+    const badge = document.getElementById("cart-badge");
+    if (!badge) return;
+    const total = (cart.items || []).reduce((n, it) => n + (Number(it.qty)||0), 0);
+    badge.textContent = String(total);
+    badge.style.display = total > 0 ? "inline-block" : "none";
+  }
+
+  function addItem(raw) {
+    const cart = loadCart();
+    const item = toUniversalItem(raw);
+    cart.items = uniqueMerge([...(cart.items || []).map(toUniversalItem), item]);
+    saveCart(cart);
+    renderBadge(cart);
+    return cart;
+  }
+
+  // Expose helpers
+  window.getCart = loadCart;
+  window.setCart = (itemsOrCart) => {
+    const cart = Array.isArray(itemsOrCart) ? { items: itemsOrCart.map(toUniversalItem) }
+                                            : { items: (itemsOrCart.items || []).map(toUniversalItem) };
+    saveCart(cart);
+    renderBadge(cart);
+    return cart;
+  };
+
+  // Initial badge
+  renderBadge(loadCart());
+
+  // Global click handling:
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("button, a");
+    if (!btn) return;
+
+    // ADD TO CART
+if (btn.classList.contains("add-to-cart")) {
+  e.preventDefault(); e.stopPropagation();
+
+  const sku   = btn.getAttribute("data-sku") || btn.getAttribute("sku") || "";
+  const qty   = btn.getAttribute("data-qty") || "1";
+  const name  = btn.getAttribute("data-name") || btn.textContent?.trim() || "";
+  const image = btn.getAttribute("data-image") || "";
+  const price = btn.getAttribute("data-price");        // cents (optional)
+  const priceId = btn.getAttribute("data-price-id") || ""; // optional
+
+  // ✅ call React provider so the drawer updates
+  if (window.FLH_ADD) {
+    window.FLH_ADD({
+      id: sku,
+      name,
+      qty: Number(qty),
+      unitCents: price ? Number(price) : 0,
+      priceId,
+      image
+    });
+  }
+
+  // keep your localStorage badge logic (optional)
+  addItem({ id: sku, sku, qty, name, image, price });
+
+  if (window.cartOpen) window.cartOpen();
+  return;
+}
+
+    // BUY NOW (explicit only)
+    const isBuyNow = btn.classList.contains("buy-now") || btn.getAttribute("data-buynow") === "1";
+    if (isBuyNow) {
+      e.preventDefault(); e.stopPropagation();
+      const sku = btn.getAttribute("data-sku") || btn.getAttribute("sku") || "";
+      const qty = Number(btn.getAttribute("data-qty") || "1");
+      fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ items: [{ id: sku, qty }] })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data?.url) window.location.href = data.url;
+        else alert(data?.error || "Checkout error");
+      })
+      .catch(() => alert("Network error"));
+      return;
+    }
+  }, { capture: true });
+  
+
+</script>
+
   </body>
 </html>
 
