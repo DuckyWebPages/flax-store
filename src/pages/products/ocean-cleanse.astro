@@ -1,7 +1,8 @@
 ﻿---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-const pageTitle = 'Ocean Cleanse'
- ';
+
+// ✅ fixed quotes (all single quotes)
+const pageTitle = 'Ocean Cleanse - Natural Radiation and Metals Detox and Chelator';
 const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe price ID
 
 // Keep existing small image for HERO (lightweight)
@@ -47,23 +48,22 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
           Great for anyone with high exposure to heavy metals, radiation, environmental toxins or vaccines.
         </p>
 
-        <!-- $34.95 in cents -->
-       <!-- CTA -->
-<div class="product-cta">
-  <button
-    class="btn-cta add-to-cart"
-    type="button"
-    data-sku="ocean-cleanse-single"
-    data-qty="1"
-    data-name="Ocean Cleanse"
-    data-image="/images/products/ocean-cleanse-square.png"
-    data-price="3499"
-    aria-label="Add Ocean Cleanse to cart"
-  >
-    Add to Cart
-  </button>
-</div>
-
+        <!-- CTA -->
+        <div class="product-cta">
+          <button
+            class="btn-cta add-to-cart"
+            type="button"
+            data-sku="ocean-cleanse-single"
+            data-qty="1"
+            data-name="Ocean Cleanse"
+            data-image="/images/products/ocean-cleanse-square.png"
+            data-price="3499"
+            aria-label="Add Ocean Cleanse to cart"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -145,6 +145,11 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
     .card-desc{margin:0 0 .9rem;line-height:1.55}
 
     /* Button styling: compact & consistent */
+    .product-cta .btn-cta {
+      min-width: 220px;
+      width: 100%;
+      justify-content: center;
+    }
     button.btn, .btn {
       display: inline-flex;
       gap: .5rem;
