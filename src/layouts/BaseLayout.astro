@@ -199,8 +199,7 @@ import CartApp from "../components/CartApp.tsx";
               : undefined}
             >Contact Us</a
           >
-
-          <!-- Cart Button -->
+        <!-- Cart Button -->
           <button
             class="nav-link nav-cart"
             aria-label="Open cart"
@@ -229,55 +228,92 @@ import CartApp from "../components/CartApp.tsx";
 
     <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
 
-    <!-- ✅ FRONT-END CHECKOUT REDIRECT (added) -->
-    <script type="module">
-      // Click any .add-to-cart button → call our API → redirect to Stripe Checkout URL
-      document.addEventListener('click', async (e) => {
-        const btn = e.target.closest('.add-to-cart');
+    {/* Mount ONE cart UI */}
+    <CartApp client:load />
+
+    <!-- Cart bridge: persists to localStorage, updates badge, and enforces add-to-cart vs buy-now -->
+    <script>
+      const CART_KEYS = ["flh_cart_v1", "cart", "cartItems"];
+      function loadCart() {
+        for (const k of CART_KEYS) {
+          try { const raw = localStorage.getItem(k); if (raw) return JSON.parse(raw); } catch {}
+        }
+        return { items: [] };
+      }
+      function saveCart(cart) {
+        const json = JSON.stringify(cart);
+        for (const k of CART_KEYS) { try { localStorage.setItem(k, json); } catch {} }
+        window.dispatchEvent(new CustomEvent("flh:cart:updated", { detail: { cart } }));
+        try { localStorage.setItem("__cart_touch", String(Date.now())); } catch {}
+      }
+      function renderBadge(cart) {
+        const badge = document.getElementById("cart-badge");
+        if (!badge) return;
+        const total = (cart.items || []).reduce((n, it) => n + (Number(it.qty)||0), 0);
+        badge.textContent = String(total);
+        badge.style.display = total > 0 ? "inline-block" : "none";
+      }
+      function addItem(raw) {
+        const cart = loadCart();
+        const sku   = String(raw.sku || "").trim();
+        const qty   = Math.max(1, Number(raw.qty || 1));
+        const name  = String(raw.name || "");
+        const image = String(raw.image || "");
+        const price = raw.price != null ? Number(raw.price) : undefined;
+
+        const item = { id: sku, sku, qty, name, image, price };
+        const idx = (cart.items || []).findIndex(it => it.sku === sku);
+        if (idx >= 0) cart.items[idx].qty += qty;
+        else (cart.items || (cart.items = [])).push(item);
+
+        saveCart(cart);
+        renderBadge(cart);
+        return cart;
+      }
+
+      // initial badge render
+      renderBadge(loadCart());
+
+      // Site-wide click handling:
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("button, a");
         if (!btn) return;
 
-        // Support data-sku or plain sku attribute
-        const sku =
-          btn.dataset.sku ||
-          btn.getAttribute('sku') ||
-          btn.getAttribute('data-id') ||
-          '';
-
-        const qty = Math.max(1, Number(btn.dataset.qty || btn.getAttribute('data-qty') || 1));
-
-        if (!sku) {
-          console.warn('[checkout] Missing SKU on button', btn);
-          alert('This item is not configured for checkout yet.');
+        // ADD TO CART: never checkout here
+        if (btn.classList.contains("add-to-cart")) {
+          e.preventDefault(); e.stopPropagation();
+          addItem({
+            sku:   btn.getAttribute("data-sku"),
+            qty:   btn.getAttribute("data-qty") || "1",
+            name:  btn.getAttribute("data-name") || "",
+            image: btn.getAttribute("data-image") || "",
+            price: btn.getAttribute("data-price")
+          });
+          if (window.cartOpen) window.cartOpen();
           return;
         }
 
-        try {
-          const res = await fetch('/api/create-checkout-session', {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
+        // BUY NOW: explicit only
+        const isBuyNow = btn.classList.contains("buy-now") || btn.getAttribute("data-buynow") === "1";
+        if (isBuyNow) {
+          e.preventDefault(); e.stopPropagation();
+          const sku = btn.getAttribute("data-sku") || "";
+          const qty = Number(btn.getAttribute("data-qty") || "1");
+          fetch("/api/create-checkout-session", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
             body: JSON.stringify({ items: [{ id: sku, qty }] })
-          });
-          const data = await res.json();
-
-          if (!res.ok || !data?.url) {
-            console.error('[checkout] API error:', data);
-            alert(data?.error || 'Checkout failed.');
-            return;
-          }
-
-          // Go to hosted Stripe Checkout
-          window.location.href = data.url;
-        } catch (err) {
-          console.error('[checkout] Network error:', err);
-          alert('Network error starting checkout.');
+          })
+          .then(r => r.json())
+          .then(data => {
+            if (data?.url) window.location.href = data.url;
+            else alert(data?.error || "Checkout error");
+          })
+          .catch(() => alert("Network error"));
+          return;
         }
-      });
+      }, { capture: true });
     </script>
-
-    <!-- 🚫 Temporarily disabled CartApp (replaced by StoreApp) 
-    import CartApp from "../components/CartApp.tsx";
-    ...
-    <CartApp client:load />
-    -->
   </body>
 </html>
+
