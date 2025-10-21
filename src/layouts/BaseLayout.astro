@@ -229,7 +229,8 @@ import CartApp from "../components/CartApp.tsx";
     <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
 
     {/* Mount ONE cart UI */}
-    <CartApp client:load />
+    <CartApp client:only="react" />
+
 
     <!-- Cart bridge: persists to localStorage, updates badge, and enforces add-to-cart vs buy-now -->
     <script>
