@@ -150,22 +150,17 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
       width: 100%;
       justify-content: center;
     }
-    button.btn, .btn {
-      display: inline-flex;
-      gap: .5rem;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: #111827;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      cursor: pointer;
-      border: 0;
-      -webkit-appearance: none;
-      appearance: none;
-    }
+    .btn-cta.add-to-cart{
+  display: inline-flex;
+  align-items: center;        /* ⬅ vertical centering */
+  justify-content: center;    /* ⬅ horizontal centering */
+  box-sizing: border-box;     /* avoid height/padding mismatch */
+  height: var(--cart-btn-h, 44px);
+  padding: 0 var(--cart-btn-px, 16px);
+  line-height: 1;             /* fine now that flex is centering */
+  white-space: nowrap;        /* prevent awkward wrapping */
+}
+
     button.btn:focus { outline: 2px solid #11182722; outline-offset: 2px; }
   </style>
 </BaseLayout>
