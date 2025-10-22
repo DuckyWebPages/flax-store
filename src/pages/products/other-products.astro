@@ -148,24 +148,59 @@ const items = [
   /* ⬇️ Let description eat free space so price+CTA drop to the bottom */
   .desc{margin:.15rem 0 .25rem; color:#374151; font-size:.95rem; line-height:1.45; margin-bottom:auto}
 
-  /* ⬇️ Price sits just above the button with a consistent gap */
-  .price{font-weight:800; font-size:.95rem; margin:0 0 var(--card-price-gap)}
+ /* ⬇️ Price sits just above the button with a consistent gap */
+.price{
+  font-weight:800;
+  font-size:.95rem;
+  margin:0 0 var(--card-price-gap);
+}
 
-  .cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:0}
+/* CTA row: keep buttons vertically centered with the price */
+.cta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:0;
+  align-items:center;   /* ⬅ add this here */
+}
 
-  /* Keep global CTA look consistent */
-  .btn-cta.add-to-cart{
-    display:inline-flex; min-width:148px; height:var(--cart-btn-h,44px);
-    padding:0 var(--cart-btn-px,16px); line-height:1; font-size:var(--cart-btn-fs,16px);
-    font-weight:var(--cart-btn-weight,400); letter-spacing:.01em;
-    background:var(--cart-btn-bg,#c7cdd6); color:var(--cart-btn-fg,#111);
-    border:0; border-radius:var(--cart-btn-radius,10px); cursor:pointer; text-decoration:none;
-    transition:background-color .15s ease, transform .05s ease;
-  }
-  .btn-cta.add-to-cart:hover{ background:var(--cart-btn-bg-hover,#aeb6c1); }
-  .btn-cta.add-to-cart:focus-visible{ outline:3px solid #60a5fa; outline-offset:2px; }
+/* Keep global CTA look consistent; center label inside button */
+.btn-cta.add-to-cart{
+  display:inline-flex;
+  align-items:center;        /* vertical centering */
+  justify-content:center;    /* horizontal centering */
+  box-sizing:border-box;     /* include padding in height */
+  white-space:nowrap;        /* avoid wrapping */
+  line-height:1;             /* normalize */
+  min-width:148px;
+  height:var(--cart-btn-h,44px);
+  padding:0 var(--cart-btn-px,16px);
+  font-size:var(--cart-btn-fs,16px);
+  font-weight:var(--cart-btn-weight,400);
+  letter-spacing:.01em;
+  background:var(--cart-btn-bg,#c7cdd6);
+  color:var(--cart-btn-fg,#111);
+  border:0;
+  border-radius:var(--cart-btn-radius,10px);
+  cursor:pointer;
+  text-decoration:none;
+  transition:background-color .15s ease, transform .05s ease;
+}
 
-  .fineprint{margin:18px 0 0; color:#6b7280; font-size:.8rem}
+.btn-cta.add-to-cart:hover{
+  background:var(--cart-btn-bg-hover,#aeb6c1);
+}
+.btn-cta.add-to-cart:focus-visible{
+  outline:3px solid #60a5fa;
+  outline-offset:2px;
+}
+
+.fineprint{
+  margin:18px 0 0;
+  color:#6b7280;
+  font-size:.8rem;
+}
+
 </style>
 
 
