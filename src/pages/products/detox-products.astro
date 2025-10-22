@@ -9,14 +9,14 @@ const pageTitle = 'Detox Products — '
 const PRICE_OCEAN_CLEANSE = 3495
 const PRICE_AFTERSHOT = 2995
 const PRICE_AFTERSHOT_3PAK = 4999
+
+// Images (served from /public)
+const IMG_OCEAN_CARD = '/images/products/oceancleanse-web.jpg'
+const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg'
 const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg'
 
-
-// Images (adjust paths/names if yours differ)
-const IMG_HERO = null; // keep hero white (no image)
-const IMG_OCEAN_CARD = '/images/products/oceancleanse-web.jpg'; // ✅ the product photo
-const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg';
-const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg';
+// Keep the hero white (no background image)
+const IMG_HERO = null
 
 ---
 
@@ -57,14 +57,15 @@ const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg';
 
   <div class="product-cta">
     <button
-      class="btn-cta add-to-cart"
-      type="button"
-      data-sku="ocean-cleanse-single"
-      data-price={String(PRICE_OCEAN_CLEANSE)}
-      data-qty="1"
-      data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
-      data-image={IMG_OCEAN_CARD}   <!-- ✅ correct thumbnail in cart -->
-    >
+  class="btn-cta add-to-cart"
+  type="button"
+  data-sku="ocean-cleanse-single"
+  data-price={String(PRICE_OCEAN_CLEANSE)}
+  data-qty="1"
+  data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
+  data-image={IMG_OCEAN_CARD}
+>
+
       Add to Cart
     </button>
     <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
@@ -178,58 +179,63 @@ const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg';
       <style>
         :root { --card-price-gap: 10px; } /* space between price and button */
 /* Make each product card stack and fill vertically */
-.prodpg__card{
-  display: flex;              /* was grid */
-  flex-direction: column;
-  gap: .35rem;
-  height: 100%;
-}
+:root { --card-price-gap: 10px; --card-row-gap: .35rem; } /* spacing controls */
 
-/* Price sits just above the button with consistent spacing */
-.prodpg__price{
-  order: 90;
-  margin-top: auto;                 /* pushes price to the bottom area */
-  margin-bottom: var(--card-price-gap);
-}
-
-/* CTA stays at the very bottom of the card */
-.product-cta{
-  order: 100;
-  margin-top: 0;
-}
-:root{
-  --card-price-gap: 10px;   /* desired visual space between price and button */
-  --card-row-gap: .35rem;   /* whatever your .prodpg__card gap is */
-}
-
-/* Make cards flex columns (you already did this) */
+/* Make each product card stack and fill vertically */
 .prodpg__card{
   display: flex;
   flex-direction: column;
   gap: var(--card-row-gap);
   height: 100%;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+  margin: 0;
+  transition: transform .15s ease;
 }
+.prodpg__card:hover { transform: translateY(-2px); }
 
-/* Normalize any old margins on price/CTA, then set exact spacing */
+/* Price sits just above the button with consistent spacing */
 .prodpg__price{
   order: 90;
-  margin: 0 !important;                    /* wipe earlier .1/.2rem margins */
-  margin-top: auto !important;             /* push price down */
-  /* Remove the card's row gap between price and CTA so net gap = --card-price-gap */
+  margin: 0 !important;
+  margin-top: auto !important;
   margin-bottom: calc(var(--card-price-gap) - var(--card-row-gap)) !important;
 }
-
-/* Guard: if someone changes the row gap bigger than the price gap, never go negative */
 @supports (margin-bottom: max(0px, 1px)) {
   .prodpg__price{
     margin-bottom: max(0px, calc(var(--card-price-gap) - var(--card-row-gap))) !important;
   }
 }
 
+/* CTA stays at the very bottom of the card */
 .product-cta{
   order: 100;
-  margin-top: 0 !important;                /* ensure no extra space above button */
+  margin-top: 0 !important;
 }
+
+/* Image container + image behavior */
+.card-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 3px 6px rgba(0,0,0,.04);
+  display: block;
+}
+.card-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 8px;
+  display: block;
+  border-radius: 8px;
+}
+
 
 
     /* ---------- HERO ---------- */
