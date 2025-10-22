@@ -13,8 +13,11 @@ const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg'
 
 
 // Images (adjust paths/names if yours differ)
-const IMG_OCEAN = '/images/products/oceanfloor.png'
-const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot image
+const IMG_HERO = null; // keep hero white (no image)
+const IMG_OCEAN_CARD = '/images/products/oceancleanse-web.jpg'; // ✅ the product photo
+const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg';
+const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg';
+
 ---
 
 <BaseLayout>
@@ -22,7 +25,6 @@ const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot ima
 
   <!-- HERO -->
   <section class="prod-hero">
-    <img class="bg" src={IMG_OCEAN} alt="" />
     <div class="inner">
       <h1>Detox Products</h1>
       <p>
@@ -37,46 +39,38 @@ const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot ima
 
       <div class="prodpg__grid">
         <!-- Card: Ocean Cleanse -->
-        <article class="prodpg__card">
-          <div class="card-photo">
-            <img
-              src={IMG_OCEAN}
-              alt="Ocean Cleanse"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img"
-            />
-          </div>
+<article class="prodpg__card">
+  <div class="card-photo">
+    <img
+      src={IMG_OCEAN_CARD}
+      alt="Ocean Cleanse"
+      loading="eager"
+      decoding="async"
+      class="card-photo-img"
+    />
+  </div>
 
-          <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(90 capsules)</span></h3>
-          <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
+  <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(90 capsules)</span></h3>
+  <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
 
-          <ul class="prodpg__bullets">
-            <li>Concentrated brown-seaweed extract</li>
-            <li>Natural iodine; supports thyroid & energy</li>
-            <li>Alginate binds certain heavy metals</li>
-            <li>Fucoidan & fucoxanthin for immune support</li>
-          </ul>
+  <!-- ... bullets & desc ... -->
 
-          <p class="prodpg__desc">
-            A focused seaweed (Laminaria Japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. This product has a synergetic combinatoin of ionic iodine, laminarin, alginates, and selenium - the perfect group of elements, present in a single natural source. There is a patented process of physical extraction and low-temperature evaporation that removes the seaweed's outer fiber and extracts only the inner, water-soluble part of the Laminaria leaf. This enhances availability of minerals, vitamins, and polysaccharides for easier digestion and better results. Forty pounds of raw seaweed are needed to make one pound of Ocean Cleanse. Organic Iodine in this product feeds the thyroid gland. Laminarin is a polysaccharide that supports cardiovascular health. Alginate is a natural absorbent of radioactive elements, heavy metals, and free radicals. It binds them and removes them safely from the body.
-          </p>
+  <div class="product-cta">
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-sku="ocean-cleanse-single"
+      data-price={String(PRICE_OCEAN_CLEANSE)}
+      data-qty="1"
+      data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
+      data-image={IMG_OCEAN_CARD}   <!-- ✅ correct thumbnail in cart -->
+    >
+      Add to Cart
+    </button>
+    <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
+  </div>
+</article>
 
-          <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              type="button"
-              data-sku="ocean-cleanse-single"
-              data-price={String(PRICE_OCEAN_CLEANSE)}
-              data-qty="1"
-              data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
-              data-image={IMG_OCEAN}
-            >
-              Add to Cart
-            </button>
-            <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
-          </div>
-        </article>
 
         <!-- Card: AfterShot -->
         <article class="prodpg__card">
@@ -418,7 +412,7 @@ const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg' // your AfterShot ima
 <section class="tbox tbox--bleed" aria-labelledby="detox-testimonials-heading">
   <div class="tbox__container">
     <h2 id="detox-testimonials-heading">Customer Testimonials</h2>
-    <p class="tbox__lead">Real experiences with Ocean Cleanse & AfterShot. Thank you for sharing your testimonies. Because of the cost of true medical trials, natural products like these will never be tested to that degree. We need the community to share their results to help others see the results they are getting. Email your testimonials to: Wendy@flaxlignanhealth.com.</p>
+    <p class="tbox__lead">Real experiences with Ocean Cleanse & AfterShot. Thank you for sharing your testimonies. Because of the cost of true medical trials, natural products like these will never be tested to that degree. We need the community to share their results to help others see the results they are getting. Email your testimonials to: Wendy@flaxlignanhealth.com.
 </p>
 
     <div class="tlist tlist--four">
