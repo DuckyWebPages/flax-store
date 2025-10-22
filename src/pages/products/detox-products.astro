@@ -53,64 +53,38 @@ const IMG_HERO = null
   <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(90 capsules)</span></h3>
   <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
 
- <ul class="prodpg__bullets">
-            <li>Supports the immune system</li>
-            <li>Supports the thyroid</li>
-            <li>Can improve thyroid function</li>
-            <li>Improves structure of hair and nails</li>
-            <li>Gentle daily detox support</li>
-            <li>Pairs well with Aftershot Zeolite</li>
-            <li>No artificial colors or flavors</li>
-            <li>Detoxifies smokers from strontium and cadmium</li>
-            <li>Removes radiations from body</li>
-            <li>Removes heavy metals from the body</li>
-            <li>May promote weight loss and healthy blood sugar levels.</li>
-          </ul>
-
-          <p class="prodpg__desc">
-            Brown Seaweed Extract was developed by Russian scientists who worked in the State Rehabilitation Institute, where victims of the Chernobyl nuclear catastrophe underwent treatment. 
-<section class="content">
-  <h2>About Ocean Cleanse</h2>
-  <p>
-    Ocean Cleanse is a concentrated extract of <strong>organic brown seaweed (Laminaria)</strong>—a
-    natural source of iodine, fucoxanthin, alginate, and fucoidan. Originally developed by
-    <strong>Russian scientists</strong> to help detoxify Chernobyl victims, this rare seaweed binds and
-    removes <strong>heavy metals, radiation, and toxins</strong> from the body while supporting
-    <strong>thyroid and immune health</strong>.
-  </p>
-
-  <ul>
-    <li>Supports thyroid and immune function</li>
-    <li>Promotes gentle daily detox and heavy-metal chelation</li>
-    <li>May aid healthy weight and blood sugar levels</li>
-    <li>Improves hair, nails, and overall vitality</li>
-    <li>Pairs well with <strong>AfterShot Zeolite</strong> for deeper detox</li>
+  <ul class="prodpg__bullets">
+    <li>Supports the immune system</li>
+    <li>Supports the thyroid</li>
+    <li>Can improve thyroid function</li>
+    <li>Improves structure of hair and nails</li>
+    <li>Gentle daily detox support</li>
+    <li>Pairs well with Aftershot Zeolite</li>
     <li>No artificial colors or flavors</li>
+    <li>Detoxifies smokers from strontium and cadmium</li>
+    <li>Removes radiation from body</li>
+    <li>Removes heavy metals from the body</li>
+    <li>May promote weight loss and healthy blood sugar levels.</li>
   </ul>
 
-  <p>
-    Each serving delivers <strong>high-purity Laminaria extract</strong> with organic iodine, fucoxanthin
-    (10 mg per capsule), alginates, fucoidan, laminarin, and 72 trace minerals—all processed at
-    low temperature for maximum bioavailability.
+  <p class="prodpg__desc">
+    Ocean Cleanse is a concentrated extract of <strong>organic brown seaweed (Laminaria)</strong>—a natural
+    source of iodine, fucoxanthin, alginate, and fucoidan. Originally developed by
+    <strong>Russian scientists</strong> to help detoxify Chernobyl victims, this seaweed binds and removes
+    <strong>heavy metals, radiation, and toxins</strong> while supporting <strong>thyroid and immune health</strong>.
   </p>
-
-  <p class="fineprint">
-    *These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat,
-    cure, or prevent any disease.
-  </p>
-</section>
 
   <div class="product-cta">
     <button
-  class="btn-cta add-to-cart"
-  type="button"
-  data-sku="ocean-cleanse-single"
-  data-price={String(PRICE_OCEAN_CLEANSE)}
-  data-qty="1"
-  data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
-  data-image={IMG_OCEAN_CARD}
->
-
+      class="btn-cta add-to-cart"
+      type="button"
+      data-sku="ocean-cleanse-single"
+      data-price={String(PRICE_OCEAN_CLEANSE)}
+      data-qty="1"
+      data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
+      data-image={IMG_OCEAN_CARD}
+      aria-label="Add Ocean Cleanse to cart"
+    >
       Add to Cart
     </button>
     <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
@@ -118,62 +92,60 @@ const IMG_HERO = null
 </article>
 
 
+
         <!-- Card: AfterShot -->
         <article class="prodpg__card">
-          <div class="card-photo">
-            <img
-              src={IMG_AFTERSHOT}
-              alt="AfterShot 1-oz"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img"
-            />
-          </div>
+  <div class="card-photo">
+    <img
+      src={IMG_AFTERSHOT}
+      alt="AfterShot 1-oz"
+      loading="eager"
+      decoding="async"
+      class="card-photo-img"
+    />
+  </div>
 
-          <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
-          <p class="prodpg__price">${(PRICE_AFTERSHOT/100).toFixed(2)}</p>
+  <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
+  <p class="prodpg__price">${(PRICE_AFTERSHOT/100).toFixed(2)}</p>
 
-          <ul class="prodpg__bullets">
-            <li>Removes toxins and heavy metals</li>
-            <li>Is an antioxidant</li>
-            <li>pH balanced</li>
-            <li>Detox after a vaccination - great for military!</li>
-            <li>Gentle daily detox support</li>
-            <li>Pairs well with Ocean Cleanse</li>
-            <li>No artificial colors or flavors</li>
-            <li>MRNA do have positive charged cell receptor sites. Theoretically, this zeolite may grab onto them.</li>
-            <li>Combined with humic acid/fulvic acid that transports the zeolite through blood vessels (other zeolites may only work in intestines)</li>
-            <li>May support the body's ability to kill viruses and bacteria</li>
-            <li>May improve energy levels</li>
-          </ul>
+  <ul class="prodpg__bullets">
+    <li>Helps remove toxins and heavy metals</li>
+    <li>Acts as a natural antioxidant</li>
+    <li>pH balanced for whole-body wellness</li>
+    <li>Supports detox after vaccinations — excellent for military or frequent travelers</li>
+    <li>Gentle daily detox support</li>
+    <li>Pairs well with <strong>Ocean Cleanse</strong></li>
+    <li>No artificial colors or flavors</li>
+    <li>Micronized zeolite + <strong>humic/fulvic acids</strong> for full-body transport</li>
+    <li>Theoretically binds positively charged particles (including certain metals)</li>
+    <li>May support natural defenses and healthy energy</li>
+  </ul>
 
-          <p class="prodpg__desc">
-            A simple, everyday companion formula used to support the body's natural detox processes. Particle size is just above nano. Attracts positiviely charged particles (all toxins and heavy metals are positiviely charged) into cage-like structure and moves them out with urine.
-            A little bitter tasting. You can mix with water or take on its own.
-          </p>
+  <p class="prodpg__desc">
+    <strong>AfterShot™ Micronized Zeolite</strong> supports the body’s natural detox, binding positively
+    charged toxins and assisting safe elimination. Slightly bitter; take alone or mixed with water.
+  </p>
 
-          <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              type="button"
-              data-sku="aftershot-8oz"
-              data-price={String(PRICE_AFTERSHOT)}
-              data-qty="1"
-              data-name="AfterShot (1 oz)"
-              data-image={IMG_AFTERSHOT}
-            >
-              Add to Cart
-            </button>
-            <!-- If you have a detail page later, link it here -->
-            <!-- <a class="btn btn-link" href="/products/aftershot/">Learn more</a> -->
-          </div>
-        </article>
-        <!-- Card: AfterShot 3-Pak -->
-<article class="prodpg__card">
+  <div class="product-cta">
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-sku="aftershot-single"
+      data-price={String(PRICE_AFTERSHOT)}
+      data-qty="1"
+      data-name="AfterShot Micronized Zeolite (1 oz)"
+      data-image={IMG_AFTERSHOT}
+      aria-label="Add AfterShot 1 oz to cart"
+    >
+      Add to Cart
+    </button>
+  </div>
+</article>
+  <article class="prodpg__card">
   <div class="card-photo">
     <img
       src={IMG_AFTERSHOT_3PAK}
-      alt="AfterShot 3-Pak (3 Bottles)"
+      alt="AfterShot 3-Pak"
       loading="eager"
       decoding="async"
       class="card-photo-img"
@@ -184,22 +156,15 @@ const IMG_HERO = null
   <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
 
   <ul class="prodpg__bullets">
-    <li>Three-bottle value bundle</li>
-    <li>Removes toxins and heavy metals</li>
-            <li>Is an antioxidant</li>
-            <li>pH balanced</li>
-            <li>Detox after a vaccination - great for military!</li>
-            <li>Gentle daily detox support</li>
-            <li>Pairs well with Ocean Cleanse</li>
-            <li>No artificial colors or flavors</li>
-            <li>MRNA do have positive charged cell receptor sites. Theoretically, this zeolite may grab onto them.</li>
-            <li>Combined with humic acid/fulvic acid that transports the zeolite through blood vessels (other zeolites may only work in intestines)</li>
-            <li>May support the body's ability to kill viruses and bacteria</li>
-            <li>May improve energy levels</li>
+    <li>Helps remove toxins and heavy metals</li>
+    <li>Acts as a natural antioxidant</li>
+    <li>pH balanced for whole-body wellness</li>
+    <li>Gentle daily detox support; pairs well with <strong>Ocean Cleanse</strong></li>
+    <li>Micronized zeolite + <strong>humic/fulvic acids</strong> for full-body transport</li>
   </ul>
 
   <p class="prodpg__desc">
-    Three-bottle value bundle; same micronized zeolite plus humic/fulvic pairing designed for circulation—not just the gut. Finds toxic metals and residues and captures free radicals for safe elimination.
+    Three bottles of <strong>AfterShot™ Micronized Zeolite</strong> for ongoing detox support.
   </p>
 
   <div class="product-cta">
@@ -211,11 +176,13 @@ const IMG_HERO = null
       data-qty="1"
       data-name="AfterShot 3-Pak Natural Chelation and Detoxifier (3 Bottles)"
       data-image={IMG_AFTERSHOT_3PAK}
+      aria-label="Add AfterShot 3-Pak to cart"
     >
       Add to Cart
     </button>
   </div>
 </article>
+
 
       </div>
     </div>
