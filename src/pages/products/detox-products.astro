@@ -41,15 +41,22 @@ const IMG_HERO = null
       <div class="prodpg__grid">
         <!-- Card: Ocean Cleanse -->
 <article class="prodpg__card">
-  <div class="card-photo">
-    <img
-      src={IMG_OCEAN_CARD}
-      alt="Ocean Cleanse"
-      loading="eager"
-      decoding="async"
-      class="card-photo-img"
-    />
-  </div>
+  <!-- replace the IMG block with this VIDEO block -->
+<div class="card-photo">
+  <video
+    class="card-photo-img"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster={IMG_OCEAN_CARD}   /* fallback frame while it loads */
+  >
+    <source src="/videos/OceanCleansevideofish.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>
+
 
   <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(30 capsules)</span></h3>
   <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
@@ -291,6 +298,14 @@ const IMG_HERO = null
   display: block;
   border-radius: 8px;
 }
+.card-photo video.card-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: inherit;
+}
+
 
 
 
