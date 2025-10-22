@@ -2,6 +2,9 @@
 // FILE: src/pages/index.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 const pageTitle = 'Welcome — ';
+import Fineprint from '@/components/Fineprint.astro';
+---
+<Fineprint />
 
 ---
 
@@ -197,9 +200,6 @@ const pageTitle = 'Welcome — ';
   .bs-card .bs-link { text-decoration: none; color: inherit; display: grid; gap: 8px; place-items: center; }
   .bs-card .btn-cta { width: 100%; min-width: 0; justify-content: center; }
 </style>
----
-import Fineprint from '@/components/Fineprint.astro';
----
-<Fineprint />
+
 
 </BaseLayout>
