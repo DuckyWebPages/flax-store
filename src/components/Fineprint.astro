@@ -1,0 +1,6 @@
+---
+// FILE: src/components/Fineprint.astro
+const { children } = Astro.props;
+const text = children ?? `*Statements on this page have not been evaluated by the FDA. These products are not intended to diagnose, treat, cure, or prevent any disease.`;
+---
+<p class="fineprint">{text}</p>
