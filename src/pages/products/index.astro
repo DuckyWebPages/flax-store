@@ -1,6 +1,6 @@
 ﻿---
+// FILE: src/pages/products/index.astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import StoreApp from "../../components/StoreApp.tsx";
 
 const pageTitle = "Products — ";
 ---
@@ -8,21 +8,7 @@ const pageTitle = "Products — ";
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- HERO -->
-  <section class="products-hero">
-    <div class="overlay">
-      <h1>Flax Lignan Health</h1>
-      <p>Heavily researched products to support your health, wellness, and vitality.</p>
-    </div>
-    <img
-      src="/images/products/Products3.png"
-      alt="Flax Lignan Health Products"
-      loading="lazy"
-      decoding="async"
-    />
-  </section>
-
-  <!-- CATEGORY GRID -->
+  <!-- CATEGORY GRID (shown first) -->
   <section class="prodpg">
     <div class="prodpg__container">
       <h1 class="products-title">Products by Category</h1>
@@ -37,24 +23,28 @@ const pageTitle = "Products — ";
           </span>
           <span class="prodpg__label">Flax Products</span>
         </a>
+
         <a class="prodpg__cat" href="/products/detox-products">
           <span class="prodpg__circle">
             <img src="/images/detox-small.png" alt="Detox Products" loading="lazy" />
           </span>
           <span class="prodpg__label">Detox Products</span>
         </a>
+
         <a class="prodpg__cat" href="/products/brain-health">
           <span class="prodpg__circle">
             <img src="/images/brain-small.png" alt="Brain Health" loading="lazy" />
           </span>
           <span class="prodpg__label">Brain Products</span>
         </a>
+
         <a class="prodpg__cat" href="/products/essential-oils">
           <span class="prodpg__circle">
             <img src="/images/essential-small.png" alt="Essential Oils" loading="lazy" />
           </span>
           <span class="prodpg__label">Essential Oils</span>
         </a>
+
         <a class="prodpg__cat" href="/products/other-products">
           <span class="prodpg__circle">
             <img src="/images/other-small.png" alt="Other Products" loading="lazy" />
@@ -65,52 +55,34 @@ const pageTitle = "Products — ";
     </div>
   </section>
 
-  <!-- CATEGORY BANNER -->
+  <!-- HERO BANNER (shown below categories) -->
+  <section class="products-hero" aria-label="Products hero">
+    <div class="overlay">
+      <h1>Flax Lignan Health</h1>
+      <p>Heavily Resourced Natural Products for Health, Vitality, and Immune System Support.</p>
+    </div>
+    <img
+      src="/images/products/Products1.jpg"
+      alt="Flax Lignan Health Products"
+      loading="lazy"
+      decoding="async"
+    />
+  </section>
+
+  <!-- (Optional) category banner below hero; remove if not needed
   <section class="category-banner">
     <img src="/images/products-banner-800x250.png" alt="All product collage" loading="lazy" />
   </section>
+  -->
 
   <style>
-    /* HERO */
-    .products-hero {
-      position: relative;
-      max-width: 1100px;
-      margin: 0 auto 2rem;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      background: #0b0b0b; /* visible even if image missing */
-    }
-    .products-hero img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .products-hero .overlay {
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 100px;
-      background: rgba(0,0,0,0.45);
-      color: #fff;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-    }
-    .products-hero h1 { font-size: 1.8rem; font-weight: 700; margin: 0; }
-    .products-hero p { font-size: 1rem; margin: 4px 0 0; opacity: .9; }
-    @media (max-width:600px){
-      .products-hero .overlay{ height: 120px; }
-      .products-hero h1{ font-size: 1.4rem; }
-      .products-hero p{ font-size: .9rem; }
-    }
-
-    /* PAGE STRUCTURE */
+    /* ===== PAGE STRUCTURE ===== */
     .prodpg { padding: 0 0 48px; }
     .prodpg__container { max-width:1100px; margin:0 auto; padding:0 16px; }
     .products-title { margin: 0 0 .25rem; }
     .prodpg__lead { color:#334155; margin:.25rem 0 1rem; }
 
-    /* CATEGORY GRID */
+    /* ===== CATEGORY GRID ===== */
     .prodpg__cats{
       display:grid; gap:14px;
       grid-template-columns: repeat(5, 1fr);
@@ -127,49 +99,49 @@ const pageTitle = "Products — ";
     }
     .prodpg__cat:hover{ background:#f8fafc; transform: translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.05); }
 
-    .prodpg__circle{ width:150px; height:150px; border-radius:50%; overflow:hidden; display:block; background:#f8fafc; border:6px solid #f1f5f9; }
+    .prodpg__circle{
+      width:150px; height:150px; border-radius:50%;
+      overflow:hidden; display:block; background:#f8fafc; border:6px solid #f1f5f9;
+    }
     .prodpg__circle img{ width:100%; height:100%; object-fit:cover; display:block; }
     .prodpg__label{ font-weight:700; letter-spacing:.01em; }
 
-    /* CATEGORY BANNER */
+    /* ===== PRODUCTS HERO IMAGE (below categories) ===== */
+    .products-hero {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      background: #0b0b0b; /* visible if image missing */
+    }
+    .products-hero img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .products-hero .overlay {
+      position: absolute;
+      inset: 0 0 auto 0;           /* top overlay */
+      height: 100px;               /* semi-transparent 100px bar */
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 0 12px;
+    }
+    .products-hero h1 { font-size: 1.8rem; font-weight: 700; margin: 0; }
+    .products-hero p { font-size: 1rem; margin: 4px 0 0; opacity: .95; }
+    @media (max-width:600px){
+      .products-hero .overlay{ height: 120px; }
+      .products-hero h1{ font-size: 1.4rem; }
+      .products-hero p{ font-size: .9rem; }
+    }
+
+    /* ===== OPTIONAL CATEGORY BANNER ===== */
     .category-banner{ max-width:1200px; margin:24px auto 48px; }
     .category-banner img{ display:block; width:100%; height:auto; border-radius:8px; }
-  <style>
-  /* 🔧 Force the category grid + icon sizing back to normal */
-  .prodpg .prodpg__cats{
-    display:grid !important;
-    grid-template-columns: repeat(5, minmax(0,1fr)) !important;
-    gap:14px !important;
-    align-items:start !important;
-    margin:12px 0 28px !important;
-  }
-  @media (max-width:980px){
-    .prodpg .prodpg__cats{ grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
-  }
-  @media (max-width:520px){
-    .prodpg .prodpg__cats{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
-  }
-
-  .prodpg .prodpg__cat{
-    display:grid !important; gap:8px !important; place-items:center !important; text-align:center !important;
-    padding:12px !important; border-radius:12px !important; text-decoration:none !important; color:inherit !important;
-    background:#fff !important; border:1px solid #e5e7eb !important; box-shadow:0 8px 18px rgba(0,0,0,.06) !important;
-  }
-
-  /* Circle image size locked */
-  .prodpg .prodpg__circle{
-    width:150px !important; height:150px !important;
-    border-radius:50% !important; overflow:hidden !important;
-    background:#f8fafc !important; border:6px solid #f1f5f9 !important;
-    display:block !important; margin:0 auto !important;
-  }
-  .prodpg .prodpg__circle img{
-    width:100% !important; height:100% !important; object-fit:cover !important; display:block !important;
-  }
-
-  /* Label */
-  .prodpg .prodpg__label{ font-weight:700 !important; letter-spacing:.01em !important; }
-</style>
-
   </style>
 </BaseLayout>
