@@ -133,7 +133,14 @@ const items = [
   }
 
   .content{max-width:1100px; margin:22px auto; padding:0 12px}
-  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; margin-top:12px}
+  .grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+  margin-top:12px;
+  margin-bottom:24px;   /* ⬅ add this */
+}
+
 
   /* ⬇️ Make every card a flex column so we can pin price+button at the bottom */
   .card{
@@ -196,10 +203,15 @@ const items = [
 }
 
 .fineprint{
-  margin:18px 0 0;
+  display:block;
+  clear:both;           /* ⬅ ensure it sits below the grid */
+  margin:24px 0 0;      /* ⬅ more space from cards */
+  padding-top:8px;      /* ⬅ optional breathing room */
   color:#6b7280;
   font-size:.8rem;
+  border-top:1px solid #e5e7eb; /* optional subtle divider */
 }
+
 
 </style>
 
