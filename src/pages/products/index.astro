@@ -1,44 +1,28 @@
 ﻿---
-/* FILE: src/pages/products/index.astro */
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import StoreApp from "../../components/StoreApp.tsx";
 
 const pageTitle = "Products — ";
-
-// Keep all JS inside frontmatter!
-const featured = [
-  {
-    id: "fhl-single",
-    name: "Flax Hull Lignans (Single Jar)",
-    priceCents: 3900,
-    imageUrl: "/images/flax-single-small.jpg",
-    badge: "Featured",
-  },
-  {
-    id: "ancient-single",
-    name: "FLH Ancient Seeds & Grains (Single Jar)",
-    priceCents: 4500,
-    imageUrl: "/images/ancient-single-small.png",
-  },
-  {
-    id: "ocean-cleanse-single",
-    name: "Ocean Cleanse – Heavy Metal/Radiation Detox",
-    priceCents: 3495,
-    imageUrl: "/images/ocean-cleanse-single-2025.jpg",
-  },
-
-  {
-    id: "essiac-tea",
-    name: "Essiac Tea",
-    priceCents: 4050,
-    imageUrl: "/images/essiac-small.jpg",
-  },
-];
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
+  <!-- HERO -->
+  <section class="products-hero">
+    <div class="overlay">
+      <h1>Flax Lignan Health</h1>
+      <p>Heavily researched products to support your health, wellness, and vitality.</p>
+    </div>
+    <img
+      src="/images/products/Products3.png"
+      alt="Flax Lignan Health Products"
+      loading="lazy"
+      decoding="async"
+    />
+  </section>
+
+  <!-- CATEGORY GRID -->
   <section class="prodpg">
     <div class="prodpg__container">
       <h1 class="products-title">Products by Category</h1>
@@ -46,7 +30,6 @@ const featured = [
         Browse by category, or jump straight to our best sellers.
       </p>
 
-      <!-- Category Grid -->
       <div class="prodpg__cats">
         <a class="prodpg__cat" href="/products/flax-hull-lignans">
           <span class="prodpg__circle">
@@ -54,28 +37,24 @@ const featured = [
           </span>
           <span class="prodpg__label">Flax Products</span>
         </a>
-
         <a class="prodpg__cat" href="/products/detox-products">
           <span class="prodpg__circle">
             <img src="/images/detox-small.png" alt="Detox Products" loading="lazy" />
           </span>
           <span class="prodpg__label">Detox Products</span>
         </a>
-
         <a class="prodpg__cat" href="/products/brain-health">
           <span class="prodpg__circle">
             <img src="/images/brain-small.png" alt="Brain Health" loading="lazy" />
           </span>
           <span class="prodpg__label">Brain Products</span>
         </a>
-
         <a class="prodpg__cat" href="/products/essential-oils">
           <span class="prodpg__circle">
             <img src="/images/essential-small.png" alt="Essential Oils" loading="lazy" />
           </span>
           <span class="prodpg__label">Essential Oils</span>
         </a>
-
         <a class="prodpg__cat" href="/products/other-products">
           <span class="prodpg__circle">
             <img src="/images/other-small.png" alt="Other Products" loading="lazy" />
@@ -83,227 +62,75 @@ const featured = [
           <span class="prodpg__label">Other Products</span>
         </a>
       </div>
-<!-- PRODUCTS HERO IMAGE SECTION -->
-<section class="products-hero">
-  <div class="overlay">
-    <h1>Flax Lignan Health</h1>
-    <p>Heavily researched products to support your health, wellness, and vitality.</p>
-  </div>
-  <img src="/images/products/Products3.png" alt="Flax Lignan Health Products" loading="lazy" decoding="async" />
-</section>
-
-<style>
-  /* ----- PRODUCTS HERO IMAGE SECTION ----- */
-  .products-hero {
-    position: relative;
-    max-width: 1100px;
-    margin: 0 auto 2rem;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  }
-
-  .products-hero img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .products-hero .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100px; /* the semi-transparent banner */
-    background: rgba(0,0,0,0.45);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .products-hero h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin: 0;
-  }
-
-  .products-hero p {
-    font-size: 1rem;
-    margin: 4px 0 0;
-    opacity: 0.9;
-  }
-
-  @media (max-width:600px) {
-    .products-hero .overlay { height: 120px; }
-    .products-hero h1 { font-size: 1.4rem; }
-    .products-hero p { font-size: 0.9rem; }
-  }
-</style>
-
     </div>
   </section>
 
+  <!-- CATEGORY BANNER -->
+  <section class="category-banner">
+    <img src="/images/products-banner-800x250.png" alt="All product collage" />
+  </section>
+
   <style>
-    /* ----- PAGE STRUCTURE ----- */
-    .prodpg { padding: 0 0 48px; }
-    .prodpg__container { max-width:1100px; margin:0 auto; padding:0 16px; }
-    .prodpg__lead { color:#334155; margin:.25rem 0 1rem; }
-
-    /* ----- CATEGORY GRID ----- */
-    .prodpg__cats{
-      display:grid; gap:14px;
-      grid-template-columns: repeat(5, 1fr);
-      margin: 12px 0 28px;
+    /* HERO */
+    .products-hero {
+      position: relative;
+      max-width: 1100px;
+      margin: 0 auto 2rem;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
-    @media (max-width: 980px){ .prodpg__cats{ grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 520px){ .prodpg__cats{ grid-template-columns: repeat(2, 1fr); } }
-
-    .prodpg__cat{
-      display:grid; gap:8px; place-items:center; text-align:center;
-      padding:12px; border-radius:12px; text-decoration:none; color:inherit;
-      background:#fff; border:1px solid #e5e7eb; box-shadow:0 8px 18px rgba(0,0,0,.06);
-      transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
+    .products-hero img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
-    .prodpg__cat:hover{ background:#f8fafc; transform: translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.05); }
+    .products-hero .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: rgba(0, 0, 0, 0.45);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .products-hero h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .products-hero p {
+      font-size: 1rem;
+      margin: 4px 0 0;
+      opacity: 0.9;
+    }
+    @media (max-width: 600px) {
+      .products-hero .overlay {
+        height: 120px;
+      }
+      .products-hero h1 {
+        font-size: 1.4rem;
+      }
+      .products-hero p {
+        font-size: 0.9rem;
+      }
+    }
 
-    .prodpg__circle{ width:150px; height:150px; border-radius:50%; overflow:hidden; display:block; background:#f8fafc; border:6px solid #f1f5f9; }
-    .prodpg__circle img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .prodpg__label{ font-weight:700; letter-spacing:.01em; }
-
-    /* ----- FEATURED PRODUCTS GRID ----- */
-    .prodpg__grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin: 1rem 0 2rem;
-      align-items: stretch;
+    /* CATEGORY BANNER */
+    .category-banner {
+      max-width: 1200px;
+      margin: 24px auto 48px;
+    }
+    .category-banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
     }
   </style>
-
-  <style is:global>
-  /* Match any Add-to-Cart rendered in the Featured grid */
-  .prodpg__container button.add-to-cart,
-  .prodpg__container a.add-to-cart,
-  .prodpg__container button[data-sku],
-  .prodpg__container a[data-sku] {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    height: var(--cart-btn-h, 44px) !important;
-    padding: 0 var(--cart-btn-px, 16px) !important;
-    line-height: 1 !important;
-    font-size: var(--cart-btn-fs, 16px) !important;
-    font-weight: var(--cart-btn-weight, 400) !important; /* lighter label */
-    letter-spacing: .01em !important;
-
-    white-space: nowrap !important;
-    box-sizing: border-box !important;
-    border: 0 !important;
-    color: var(--cart-btn-fg, #111) !important;          /* black text */
-    background: var(--cart-btn-bg, #c7cdd6) !important;  /* light gray */
-    border-radius: var(--cart-btn-radius, 10px) !important;
-    transition: background-color .15s ease, transform .05s ease !important;
-  }
-
-  .prodpg__container button.add-to-cart:hover,
-  .prodpg__container a.add-to-cart:hover,
-  .prodpg__container button[data-sku]:hover,
-  .prodpg__container a[data-sku]:hover {
-    background: var(--cart-btn-bg-hover, #aeb6c1) !important;
-  }
-  </style>
-<style>
-  /* ===== Featured Product Card Styles (for StoreApp) ===== */
-  .prodpg__grid{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 12px;
-    margin: 1rem 0 2rem;
-    align-items: stretch;
-  }
-
-  .feat-card{
-    display:grid;
-    gap: 10px;
-    place-items:center;
-    text-align:center;
-    background:#fff;
-    border:1px solid #e5e7eb;
-    border-radius:12px;
-    padding:12px;
-    box-shadow:0 8px 18px rgba(0,0,0,.06);
-    transition: transform .08s ease, box-shadow .15s ease, background .15s ease;
-  }
-  .feat-card:hover{ background:#f8fafc; transform: translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.05); }
-
-  .feat-link{
-    display:grid;
-    gap:8px;
-    place-items:center;
-    text-decoration:none;
-    color:inherit;
-    width:100%;
-  }
-
-  .feat-imgwrap{
-    position:relative;
-    width:150px;
-    height:150px;
-    border-radius:12px;
-    overflow:hidden;
-    background:#f8fafc;
-    border:6px solid #f1f5f9;
-  }
-
-  .feat-imgwrap img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-  }
-
-  .feat-badge{
-    position:absolute;
-    top:8px; left:8px;
-    background:#0b7a53;
-    color:#fff;
-    font-size:12px;
-    line-height:1;
-    padding:4px 8px;
-    border-radius:999px;
-  }
-
-  .feat-title{ font-weight:700; letter-spacing:.01em; }
-  .feat-price{ color:#334155; font-weight:600; }
-
-  .feat-card .btn-cta{
-    width:100%;
-    min-width:0;
-    justify-content:center;
-    height:44px;
-  }
-
-  /* Make huge product photos behave on narrow viewports */
-  @media (max-width:560px){
-    .feat-imgwrap{ width:130px; height:130px; }
-  }
-  /* Put in your stylesheet */
-.category-banner{
-  max-width: 1200px;
-  margin: 24px auto 48px;
-}
-.category-banner img{
-  display:block;
-  width:100%;
-  height:auto;             /* keeps aspect ratio */
-  border-radius:8px;
-}
-
-</style>
-
 </BaseLayout>
-
