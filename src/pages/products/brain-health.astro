@@ -2,7 +2,6 @@
 // FILE: src/pages/products/brain-health.astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-
 const pageTitle = "Brain Products — ";
 
 // Prices (in cents)
@@ -15,14 +14,21 @@ const IMG_NITRO  = "/images/products/NingxiaNitro.jpg";
 const IMG_MBLUE  = "/images/products/MethBlueonwood.jpg";
 const IMG_FHL    = "/images/products/fhlsinglegreen.png";
 
-// Local videos in /public/videos (leave '' to fall back to image)
-const VIDEO_NITRO_SRC = '/videos/ninjanitro.mp4';          // e.g. '/videos/nitro.mp4'
-const VIDEO_MBLUE_SRC = '/videos/methbluestir.mp4';          // e.g. '/videos/methylene-blue.mp4'
-const VIDEO_FHL_SRC   = '/videos/FlaxLignanVideowave.mp4';          // e.g. '/videos/fhl.mp4'
+// Local videos in /public/videos
+const VIDEO_NITRO_SRC = "/videos/ninjanitro.mp4";
+const VIDEO_MBLUE_SRC = "/videos/methbluestir.mp4";
+const VIDEO_FHL_SRC   = "/videos/FlaxLignanVideowave.mp4";
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
+
+  <!-- Preload the videos so autoplay starts fast and avoids any image/poster flash -->
+  <Fragment slot="head">
+    <link rel="preload" as="video" href={VIDEO_NITRO_SRC} type="video/mp4" />
+    <link rel="preload" as="video" href={VIDEO_MBLUE_SRC} type="video/mp4" />
+    <link rel="preload" as="video" href={VIDEO_FHL_SRC} type="video/mp4" />
+  </Fragment>
 
   <section class="prodpg">
     <div class="prodpg__container">
@@ -41,8 +47,7 @@ const VIDEO_FHL_SRC   = '/videos/FlaxLignanVideowave.mp4';          // e.g. '/vi
                 muted
                 loop
                 playsinline
-                preload="metadata"
-                poster={IMG_NITRO}
+                preload="auto"
               />
             ) : (
               <img
@@ -94,8 +99,7 @@ const VIDEO_FHL_SRC   = '/videos/FlaxLignanVideowave.mp4';          // e.g. '/vi
                 muted
                 loop
                 playsinline
-                preload="metadata"
-                poster={IMG_MBLUE}
+                preload="auto"
               />
             ) : (
               <img
@@ -150,8 +154,7 @@ const VIDEO_FHL_SRC   = '/videos/FlaxLignanVideowave.mp4';          // e.g. '/vi
                 muted
                 loop
                 playsinline
-                preload="metadata"
-                poster={IMG_FHL}
+                preload="auto"
               />
             ) : (
               <img
@@ -232,15 +235,12 @@ const VIDEO_FHL_SRC   = '/videos/FlaxLignanVideowave.mp4';          // e.g. '/vi
     </div>
   </section>
 
-  <!-- Wire plain buttons to React cart provider/drawer -->
-
-
   <style>
     .prodpg { padding: 0 0 48px; }
     .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
     .prodpg__lead { color:#334155; margin:.25rem 0 1rem; }
 
-    /* Detox-like grid: 3-across on desktop */
+    /* 3-up grid on desktop */
     .prodpg__grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -272,7 +272,7 @@ const VIDEO_FHL_SRC   = '/videos/FlaxLignanVideowave.mp4';          // e.g. '/vi
       aspect-ratio: 1 / 1;
       overflow:hidden;
       border-radius:10px;
-      background:#f7f7f7;
+      background:#000; /* dark backdrop avoids white flash pre-autoplay */
       box-shadow: 0 3px 6px rgba(0,0,0,.04);
     }
     .card-media {
