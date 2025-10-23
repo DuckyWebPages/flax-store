@@ -130,13 +130,18 @@ const IMG_HERO = null
         <!-- Card: AfterShot -->
         <article class="prodpg__card">
   <div class="card-photo">
-    <img
-      src={IMG_AFTERSHOT}
-      alt="AfterShot 1-oz"
-      loading="eager"
-      decoding="async"
-      class="card-photo-img"
-    />
+  <video
+    class="card-photo-img"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster={IMG_OCEAN_CARD}   /* fallback frame while it loads */
+  >
+    <source src="/videos/aftershotvideo.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
   </div>
 
   <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
