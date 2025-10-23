@@ -1,6 +1,6 @@
 ﻿---
+// FILE: src/pages/products/detox.astro
 import BaseLayout from '@/layouts/BaseLayout.astro'
-
 
 const pageTitle = 'Detox Products — '
 
@@ -25,6 +25,13 @@ const IMG_HERO = null
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
+
+  <!-- Preload videos to avoid image/poster flash -->
+  <Fragment slot="head">
+    <link rel="preload" as="video" href={VIDEO_OCEAN_SRC} type="video/mp4" />
+    <link rel="preload" as="video" href={VIDEO_AFTERSHOT_SRC} type="video/mp4" />
+    <link rel="preload" as="video" href={VIDEO_AFTERSHOT_3PAK_SRC} type="video/mp4" />
+  </Fragment>
 
   <!-- HERO (white, no bg) -->
   <section class="prod-hero">
@@ -51,8 +58,7 @@ const IMG_HERO = null
               muted
               loop
               playsinline
-              preload="metadata"
-              poster={IMG_OCEAN_CARD}
+              preload="auto"
             />
           </div>
 
@@ -66,7 +72,7 @@ const IMG_HERO = null
           </ul>
 
           <p class="prodpg__desc">
-            A focused seaweed (Laminaria Japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. This product has a synergetic combinatoin of ionic iodine, laminarin, alginates, and selenium - the perfect group of elements, present in a single natural source. There is a patented process of physical extraction and low-temperature evaporation that removes the seaweed's outer fiber and extracts only the inner, water-soluble part of the Laminaria leaf. This enhances availability of minerals, vitamins, and polysaccharides for easier digestion and better results. Forty pounds of raw seaweed are needed to make one pound of Ocean Cleanse. Organic Iodine in this product feeds the thyroid gland. Laminarin is a polysaccharide that supports cardiovascular health. Alginate is a natural absorbent of radioactive elements, heavy metals, and free radicals. It binds them and removes them safely from the body.
+            A focused seaweed (Laminaria Japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. This product has a synergetic combination of ionic iodine, laminarin, alginates, and selenium—the perfect group of elements, present in a single natural source. There is a patented process of physical extraction and low-temperature evaporation that removes the seaweed's outer fiber and extracts only the inner, water-soluble part of the Laminaria leaf. This enhances availability of minerals, vitamins, and polysaccharides for easier digestion and better results. Forty pounds of raw seaweed are needed to make one pound of Ocean Cleanse. Organic iodine in this product feeds the thyroid gland. Laminarin is a polysaccharide that supports cardiovascular health. Alginate is a natural absorbent of radioactive elements, heavy metals, and free radicals. It binds them and removes them safely from the body.
           </p>
 
           <!-- Product image placed before price -->
@@ -102,8 +108,7 @@ const IMG_HERO = null
               muted
               loop
               playsinline
-              preload="metadata"
-              poster={IMG_AFTERSHOT}
+              preload="auto"
             />
           </div>
 
@@ -124,17 +129,16 @@ const IMG_HERO = null
           </ul>
 
           <p class="prodpg__desc">
-  A simple, everyday companion formula used to support the body's natural detox processes. Take 1-2 dropper fulls daily to help remove toxins and heavy metals. If trying to detox from a vaccine, consider taking this amount 3 times a day.
-</p>
+            A simple, everyday companion formula used to support the body's natural detox processes. Take 1-2 dropper fulls daily to help remove toxins and heavy metals. If trying to detox from a vaccine, consider taking this amount 3 times a day.
+          </p>
 
-<p class="prodpg__desc">
-  Particle size is just above nano. It attracts positively charged particles (all toxins and heavy metals are positively charged) into a cage-like structure and moves them out through urine.
-</p>
+          <p class="prodpg__desc">
+            Particle size is just above nano. It attracts positively charged particles (all toxins and heavy metals are positively charged) into a cage-like structure and moves them out through urine.
+          </p>
 
-<p class="prodpg__desc">
-  A little bitter tasting. You can mix with water or take on its own. Pairs well with Ocean Cleanse.
-</p>
-
+          <p class="prodpg__desc">
+            A little bitter tasting. You can mix with water or take on its own. Pairs well with Ocean Cleanse.
+          </p>
 
           <!-- Product image placed before price -->
           <figure class="desc-photo">
@@ -169,8 +173,7 @@ const IMG_HERO = null
               muted
               loop
               playsinline
-              preload="metadata"
-              poster={IMG_AFTERSHOT_3PAK}
+              preload="auto"
             />
           </div>
 
@@ -190,16 +193,17 @@ const IMG_HERO = null
             <li>May improve energy levels</li>
           </ul>
 
-        <p class="prodpg__desc">
-  Three-bottle value bundle; same micronized zeolite plus humic/fulvic pairing designed for circulation—not just the gut. Finds toxic metals and residues and captures free radicals for safe elimination. A simple, everyday companion formula used to support the body's natural detox processes.
-</p>
+          <p class="prodpg__desc">
+            Three-bottle value bundle; same micronized zeolite plus humic/fulvic pairing designed for circulation—not just the gut. Finds toxic metals and residues and captures free radicals for safe elimination. A simple, everyday companion formula used to support the body's natural detox processes.
+          </p>
 
-<p class="prodpg__desc">
-  Particle size is just above nano. It attracts positively charged particles (all toxins and heavy metals are positively charged) into a cage-like structure and moves them out through urine.
-</p>
+          <p class="prodpg__desc">
+            Particle size is just above nano. It attracts positively charged particles (all toxins and heavy metals are positively charged) into a cage-like structure and moves them out through urine.
+          </p>
 
-<p class="prodpg__desc">
-  A little bitter tasting. You can mix with water or take on its own. Pairs well with Ocean Cleanse. 
+          <p class="prodpg__desc">
+            A little bitter tasting. You can mix with water or take on its own. Pairs well with Ocean Cleanse.
+          </p>
 
           <!-- Product image moved down before price -->
           <figure class="desc-photo">
@@ -263,8 +267,6 @@ const IMG_HERO = null
     </div>
   </section>
 
- 
-
   <style>
     /* ---------- HERO ---------- */
     .prod-hero { position: relative; isolation: isolate; overflow: hidden; min-height: 150px; border-radius: 14px; background: #fff; margin: 8px auto 18px; max-width: 950px; }
@@ -285,7 +287,7 @@ const IMG_HERO = null
     .prodpg__card:hover { transform: translateY(-2px); }
 
     /* Top media box (square) */
-    .card-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; background: #fff; box-shadow: 0 3px 6px rgba(0,0,0,.04); position: relative; }
+    .card-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; background: #000; box-shadow: 0 3px 6px rgba(0,0,0,.04); position: relative; }
     .card-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
     .card-photo-img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 8px; display: block; border-radius: 8px; }
 
