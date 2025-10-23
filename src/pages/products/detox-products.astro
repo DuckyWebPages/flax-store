@@ -239,152 +239,120 @@ const IMG_HERO = null
       >
         Add to Cart
       </button>
-    </div>
+   </div>
   </article>
 </div>
 
     </div>
   </section>
 
-      :root {
-  --card-price-gap: 10px;
-  --card-row-gap: .35rem;
-}
+<style>
+  :root {
+    --card-price-gap: 10px;
+    --card-row-gap: .35rem;
+  }
 
-/* ---------- HERO ---------- */
-.prod-hero {
-  position: relative; isolation: isolate; overflow: hidden;
-  min-height: 150px; border-radius: 14px; background: #fff;
-  margin: 8px auto 18px; max-width: 950px;
-}
-.prod-hero .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .18; z-index: -1; }
-.prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
-.prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
-.prod-hero p { margin: 0; max-width: 60ch; }
+  /* ---------- HERO ---------- */
+  .prod-hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: 150px; border-radius: 14px; background: #fff;
+    margin: 8px auto 18px; max-width: 950px;
+  }
+  .prod-hero .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .18; z-index: -1; }
+  .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
+  .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
+  .prod-hero p { margin: 0; max-width: 60ch; }
 
-/* ---------- PRODUCT GRID ---------- */
-.prodpg { padding: 0 0 36px; }
-.prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
+  /* ---------- PRODUCT GRID ---------- */
+  .prodpg__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    justify-content: center;
+  }
+  @media (min-width: 900px) {
+    .prodpg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
 
-.prodpg__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  justify-content: center;
-}
-@media (min-width: 900px) {
-  .prodpg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
+  /* Card layout */
+  .prodpg__card{
+    display: flex; flex-direction: column;
+    gap: var(--card-row-gap);
+    height: 100%;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.05);
+    margin: 0;
+    transition: transform .15s ease;
+  }
+  .prodpg__card:hover { transform: translateY(-2px); }
 
-/* Card layout */
-.prodpg__card{
-  display: flex; flex-direction: column;
-  gap: var(--card-row-gap);
-  height: 100%;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,.05);
-  margin: 0;
-  transition: transform .15s ease;
-}
-.prodpg__card:hover { transform: translateY(-2px); }
+  /* Media header (video or image) — square */
+  .card-photo{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;     /* change to 16/9 if desired */
+    overflow: hidden;
+    border-radius: 10px;
+    background: #f7f7f7;
+    box-shadow: 0 3px 6px rgba(0,0,0,.04);
+  }
+  .card-photo > .card-media{
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; display: block; border-radius: inherit;
+  }
 
-/* Media header (video or image) — square */
-.card-photo{
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;     /* change to 16/9 if desired */
-  overflow: hidden;
-  border-radius: 10px;
-  background: #f7f7f7;
-  box-shadow: 0 3px 6px rgba(0,0,0,.04);
-}
-.card-photo > .card-media{
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; display: block; border-radius: inherit;
-}
+  /* Title / price / bullets */
+  .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
+  .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
+  .prodpg__price{
+    margin: 0 0 var(--card-price-gap);
+    font-weight: 800; font-size: .9rem;
+  }
+  .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
+  .prodpg__bullets li { margin: .08rem 0; }
 
-/* Title / price / bullets */
-.prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
-.prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
-.prodpg__price{
-  margin: 0 0 var(--card-price-gap);
-  font-weight: 800; font-size: .9rem;
-}
-.prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
-.prodpg__bullets li { margin: .08rem 0; }
+  .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
 
-.prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
+  /* CTA row */
+  .product-cta{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: .15rem; }
+  .product-cta .add-to-cart{
+    display: inline-flex; padding: 10px 16px; font-size: .95rem;
+    border-radius: 0; background: #000; color: #fff; font-weight: 600;
+    border: 0; text-decoration: none; cursor: pointer; transition: background-color .15s ease;
+  }
+  .product-cta .add-to-cart:hover{ background:#222; }
+  .product-cta .add-to-cart:focus-visible{ outline: 3px solid #60a5fa; outline-offset: 2px; }
+  .btn-link { background: transparent; color: #1f2937; font-size: .85rem; }
 
-/* CTA row */
-.product-cta{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: .15rem; }
-.product-cta .add-to-cart{
-  display: inline-flex; padding: 10px 16px; font-size: .95rem;
-  border-radius: 0; background: #000; color: #fff; font-weight: 600;
-  border: 0; text-decoration: none; cursor: pointer; transition: background-color .15s ease;
-}
-.product-cta .add-to-cart:hover{ background:#222; }
-.product-cta .add-to-cart:focus-visible{ outline: 3px solid #60a5fa; outline-offset: 2px; }
-.btn-link { background: transparent; color: #1f2937; font-size: .85rem; }
+  /* Small footer image under the CTA */
+  .card-foot { display:flex; justify-content:center; align-items:center; margin-top:10px; }
+  .card-foot-img {
+    width: 50%; height:auto; display:block; border-radius:10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,.06); object-fit: contain;
+  }
 
-/* Small footer image under the CTA */
-.card-foot { display:flex; justify-content:center; align-items:center; margin-top:10px; }
-.card-foot-img {
-  width: 50%; height:auto; display:block; border-radius:10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,.06); object-fit: contain;
-}
-
-/* ===== Testimonials band (unchanged) ===== */
-.tbox--bleed { width: 100vw; margin-left: 50%; transform: translateX(-50%); background: #fafafa; border-top: 1px solid #ececec; border-bottom: 1px solid #ececec; padding: 28px 0 40px; }
-.tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
-.tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
-.tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
-.tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
-@media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
-.tquote { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; box-shadow:0 4px 10px rgba(0,0,0,.05); }
-.tquote blockquote { margin:0 0 8px; position:relative; padding-left:12px; color:#0f172a; line-height:1.5; }
-.tquote blockquote::before { content:"“"; position:absolute; left:-4px; top:-6px; font-size:2rem; line-height:1; opacity:.2; }
-.tquote figcaption { font-size:.9rem; color:#475569; }
-
+  /* ===== Testimonials band ===== */
+  .tbox--bleed { width: 100vw; margin-left: 50%; transform: translateX(-50%); background: #fafafa; border-top: 1px solid #ececec; border-bottom: 1px solid #ececec; padding: 28px 0 40px; }
+  .tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
+  .tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
+  .tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
+  .tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
+  .tquote { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; box-shadow:0 4px 10px rgba(0,0,0,.05); }
+  .tquote blockquote { margin:0 0 8px; position:relative; padding-left:12px; color:#0f172a; line-height:1.5; }
+  .tquote blockquote::before { content:"“"; position:absolute; left:-4px; top:-6px; font-size:2rem; line-height:1; opacity:.2; }
+  .tquote figcaption { font-size:.9rem; color:#475569; }
+</style>
 
 <!-- Full-width Testimonials band -->
 <section class="tbox tbox--bleed" aria-labelledby="detox-testimonials-heading">
-  <div class="tbox__container">
-    <h2 id="detox-testimonials-heading">Customer Testimonials</h2>
-    <p class="tbox__lead">Real experiences with Ocean Cleanse & AfterShot. Thank you for sharing your testimonies. Because of the cost of true medical trials, natural products like these will never be tested to that degree. We need the community to share their results to help others see the results they are getting. Email your testimonials to: Wendy@flaxlignanhealth.com.
-</p>
-
-    <div class="tlist tlist--four">
-      <!-- Testimonial 1 -->
-      <figure class="tquote">
-        <blockquote><p>“After having all the metal removed from my teeth, my natural dentist and naturopath agreed for me to chelate. Every couple of months I would have a "metal dump" where my organs apparently dumped excess stored heavy metals into my bloodstream to detox. I would wake up with crippling pain in my joints. I'd take 2 Ocean Cleanse 3x a day and by the third day would be back to normal. Before Ocean Cleanse I tried other metal detox supplements and it would take 2 weeks to get the same results.”</p></blockquote>
-        <figcaption>— W.S., Colorado</figcaption>
-      </figure>
-
-      <!-- Testimonial 2 -->
-      <figure class="tquote">
-        <blockquote><p>“Hello! My name is Theo Eberly. When I joined the military I wasn’t expecting to have to get the covid 19 vaccine. Against my wishes I received the vaccine. A few days after the shot I felt low energy and sluggish. I took Ocean Cleanse and Aftershot and felt energized and so much better within a day or two. I was so grateful to have an option to be in control of my health, after having a vaccine against my will.”</p></blockquote>
-        <figcaption>— T.E., Colorado</figcaption>
-      </figure>
-
-      <!-- Testimonial 3 -->
-      <figure class="tquote">
-        <blockquote><p>Note from the manufacturer of this product: "This product is a winner when detoxing, because the detox or healing crisis effect is very mild. So yes, if you use our product in a situation where one is contaminated, like off-chart PPM levels of mercury, lead, uranium or strontium -- especially those metals that do not belong to the nutritional table of metals -- using this product for about three to four months, in a quantity of six capsules a day for an average-size body, will make people clean.”</p></blockquote>
-        <figcaption>— S.Z., California</figcaption>
-      </figure>
-
-      <!-- Testimonial 4 -->
-      <figure class="tquote">
-        <blockquote><p>“I am worried about the nano-technology that Swiss physicians say to have found in the Covid shots... With the AfterShot Zeolite being just a little larger than nano, I am hoping it traps nano particles within it's cagelike structure. Either way, I am happy that it pulls the positively charged metals and toxins and who knows what that was in that shot out!”</p></blockquote>
-        <figcaption>— P.T., Idaho</figcaption>
-      </figure>
-    </div>
-  </div>
+  ...
 </section>
 
-  <CartBridge client:load />
-
+<CartBridge client:load />
 </BaseLayout>
+
