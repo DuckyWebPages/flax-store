@@ -33,14 +33,13 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
       </p>
 
       <div class="prodpg__grid">
-        <!-- SELECT-BASED PRODUCT CARD -->
-<!-- SELECT-BASED PRODUCT CARD -->
+      <!-- SELECT-BASED PRODUCT CARD (everything contained inside) -->
 <article class="prodpg__card">
   <div class="card-photo card-photo--hero">
     <video
       class="card-media"
-      src="/videos/eoilsmist.mp4"
-      poster="/images/products/oilsgreen.png"
+      src={HERO_VIDEO}
+      poster={HERO_POSTER}
       autoplay
       muted
       loop
@@ -49,82 +48,72 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
     ></video>
   </div>
   <noscript>
-    <img src="/images/products/oilsgreen.png" alt="Essential oils assortment" class="card-photo-img" />
+    <img src={heroImage} alt="Essential oils assortment" class="card-photo-img" />
   </noscript>
 
-  <h3 class="prodpg__title">Essential Oils - Varying prices. See Drop Down Menu.</h3>
-  <!-- …the rest of your card stays the same… -->
+  <h3 class="prodpg__title">Essential Oils — Varying prices (choose below)</h3>
 
+  <!-- LIVE PRICE directly under title -->
+  <p id="eoPrice" class="prodpg__price" aria-live="polite">$0.00</p>
+
+  <!-- DESCRIPTIVE COPY (now inside the card) -->
+  <p class="prodpg__desc">
+    Pure essential oils. Choose your oil (size is built into the option). We keep a selection of popular oils in stock. If you need a different oil or size, call our customer service at
+    <a href="tel:18177106918">817-710-6918</a>. We can get a different oil for you with our next warehouse order, or you can open your own Young Living account (use link below).
+  </p>
+
+  <p class="prodpg__desc">
+    <strong>Lavender:</strong> Calming, relaxing, skin repair; relieves the discomfort of minor burns and sun irritation.<br>
+    <strong>Thieves:</strong> Immune support, cleansing, purifying, mold prevention. Apply to bottoms of feet every hour at the first sign of illness; diffuse to purify air.<br>
+    <strong>Peppermint:</strong> Energizing, cooling; relieves occasional stomach upset; helps with head discomfort—apply around the hairline and rest in a cool, dark room when experiencing head tension.<br>
+    <strong>Orange:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene, a powerful antioxidant.<br>
+    <strong>Grapefruit:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene.<br>
+    <strong>Tea Tree (Melaleuca):</strong> Cleansing, purifying, skin support. Apply to minor skin irritations; apply to toothbrush to help with oral hygiene.<br>
+    <strong>Sacred Frankincense:</strong> Grounding, centering; exquisite skin & immune support. Apply to skin to help reduce the appearance of blemishes; use during meditation or prayer.<br>
+    <strong>PanAway:</strong> Soothing, cooling, comforting. Apply to sore muscles and joints after activity.<br>
+    <strong>Idaho Blue Spruce:</strong> Grounding, centering, uplifting. Apply to neck and shoulders to help relieve tension. Men can apply a few drops along with a carrier oil topically for better sexual function.
+  </p>
+
+  <p class="prodpg__desc">
+    If you need a capsule filling tray to make your own capsules with oils, we recommend this one:
+    <a href="https://amzn.to/46ZYaYJ" target="_blank" rel="noopener">View Capsule Filling Tray on Amazon</a>.
+    <br><br>
+    To order economically (if you are ordering large amounts of oil or on a regular basis), we recommend creating your own wholesale account with Young Living. Use code <strong>SHAREYL</strong> at checkout for 10% off orders of $50/50pv or more. You must place a $100/100pv initial order to get wholesale pricing with them.
+    <br><br>
+    <a href="https://www.youngliving.com/us/en/referral/1218526" target="_blank" rel="noopener">Open your own Young Living account</a>
+  </p>
+
+  <!-- SELECTION + QTY + ADD -->
+  <label>
+    <span class="lbl">Oil</span>
+    <select id="eoItem" class="select">
+      {items.map(i => (
+        <option value={i.key} data-cents={i.cents}>{i.label}</option>
+      ))}
+    </select>
+  </label>
+
+  <label>
+    <span class="lbl">Quantity</span>
+    <input id="eoQty" type="number" min="1" value="1" class="qty" />
+  </label>
+
+  <div class="product-cta">
+    <button
+      id="eoAdd"
+      class="btn-cta add-to-cart"
+      data-sku=""
+      data-name=""
+      data-price="0"
+      data-image={heroImage}
+      data-qty="1"
+      type="button"
+    >
+      Add to Cart
+    </button>
+  </div>
 </article>
 
-
-          <!-- DESCRIPTIVE COPY -->
-          <p class="prodpg__desc">
-            Pure essential oils. Choose your oil (size is built into the option). We keep a selection of popular oils in stock. If you need a different oil or size, call our customer service at
-            <a href="tel:18177106918">817-710-6918</a>. We can get a different oil for you with our next warehouse order, or you can open your own Young Living account (use link below). <br>
-            <strong>Lavender:</strong> Calming, relaxing, skin repair; relieves the discomfort of minor burns and sun irritation.
-            <br>
-            <strong>Thieves:</strong> Immune support, cleansing, purifying, mold prevention. Apply to bottoms of feet every hour at the first sign of illness; diffuse to purify air.
-            <br>
-            <strong>Peppermint:</strong> Energizing, cooling; relieves occasional stomach upset; helps with head discomfort—apply around the hairline and rest in a cool, dark room when experiencing head tension.
-            <br>
-            <strong>Orange:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene, a powerful antioxidant.
-            <br>
-            <strong>Grapefruit:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene.
-            <br>
-            <strong>Tea Tree (Melaleuca):</strong> Cleansing, purifying, skin support. Apply to minor skin irritations; apply to toothbrush to help with oral hygiene.
-            <br>
-            <strong>Sacred Frankincense:</strong> Grounding, centering; exquisite skin & immune support. Apply to skin to help reduce the appearance of blemishes; use during meditation or prayer.
-            <br>
-            <strong>PanAway:</strong> Soothing, cooling, comforting. Apply to sore muscles and joints after activity.
-            <br>
-            <strong>Idaho Blue Spruce:</strong> Grounding, centering, uplifting. Apply to neck and shoulders to help relieve tension. Men can apply a few drops along with a carrier oil topically for better sexual function. 
-          </p>
-
-          <p class="prodpg__desc">
-            If you need a capsule filling tray to make your own capsules with oils, we recommend this one: 
-            <a href="https://amzn.to/46ZYaYJ" target="_blank" rel="noopener">View Capsule Filling Tray on Amazon</a>.
-            <br><br>
-            To order economically (if you are ordering large amounts of oil or on a regular basis), we recommend creating your own wholesale account with Young Living. Use code <strong>SHAREYL</strong> at checkout for 10% off orders of $50/50pv or more. You must place a $100/100pv initial order to get wholesale pricing with them. 
-            <br><br>
-            <br>
-            <a href="https://www.youngliving.com/us/en/referral/1218526" target="_blank" rel="noopener">Open your own Young Living account</a>
-          </p>
-
-          <!-- LIVE PRICE directly under the link, above the dropdown -->
-          <p id="eoPrice" class="prodpg__price" aria-live="polite">$0.00</p>
-
-          <!-- SELECTION + QTY + ADD -->
-          <label>
-            <span class="lbl">Oil</span>
-            <select id="eoItem" class="select">
-              {items.map(i => (
-                <option value={i.key} data-cents={i.cents}>{i.label}</option>
-              ))}
-            </select>
-          </label>
-
-          <label>
-            <span class="lbl">Quantity</span>
-            <input id="eoQty" type="number" min="1" value="1" class="qty" />
-          </label>
-
-          <div class="product-cta">
-  <button
-    id="eoAdd"
-    class="btn-cta add-to-cart"
-    data-sku=""
-    data-name=""
-    data-price="0"
-    data-image={heroImage}
-    data-qty="1"
-    type="button"
-  >
-    Add to Cart
-  </button>
-</div>
-
-        </article>
 
         <!-- INFO-ONLY CARD: Orange Oil Protocol -->
         <article class="prodpg__card prodpg__card--info">
