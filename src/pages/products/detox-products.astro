@@ -47,7 +47,7 @@ const IMG_HERO = null
         preload="metadata"
         poster={IMG_OCEAN_CARD}
       >
-        <source src="/videos/oceancleansevideo2.mp4" type="video/mp4" />
+        <source src="/videos/oceancleansevideo3.mp4" type="video/mp4" />
       </video>
     </div>
 
@@ -180,14 +180,14 @@ const IMG_HERO = null
     </div>
 
     <!-- footer image (half size) -->
-    <div class="card-foot">
-      <img
-        src="/images/products/aftershot-8oz.jpg"
-        alt="AfterShot bottle secondary view"
-        class="card-foot-img"
-        loading="lazy"
-        decoding="async"
-      />
+    <img
+  src="/images/products/aftershot-8oz.jpg"
+  alt="AfterShot bottle secondary view"
+  class="card-foot-img card-foot-img--half"
+  loading="lazy"
+  decoding="async"
+/>
+
     </div>
   </article>
 
@@ -334,6 +334,8 @@ const IMG_HERO = null
   width: 100%; height:auto; display:block; border-radius:10px;
   box-shadow: 0 3px 6px rgba(0,0,0,.06); object-fit: contain;
 }
+.card-foot-img--half { width: 50%; }
+
 
 
   /* ===== Testimonials band ===== */
