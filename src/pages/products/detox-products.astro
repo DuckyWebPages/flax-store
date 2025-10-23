@@ -114,14 +114,19 @@ const IMG_HERO = null
             {VIDEO_AFTERSHOT_SRC
               ? (
                 <div class="vidbox" role="group" aria-label="AfterShot video">
-                  <video
-                    src={VIDEO_AFTERSHOT_SRC}
-                    controls
-                    playsinline
-                    preload="metadata"
-                    muted
-                    loop
-                  ></video>
+                 <video
+  src={VIDEO_OCEAN_SRC}
+  autoplay
+  muted
+  loop
+  playsinline
+  preload="metadata"
+  poster={IMG_OCEAN_CARD}
+  disablepictureinpicture
+  controlslist="nodownload noplaybackrate nofullscreen"
+  class="tilevid"
+/>
+
                 </div>
               )
               : (
@@ -187,13 +192,18 @@ const IMG_HERO = null
               ? (
                 <div class="vidbox" role="group" aria-label="AfterShot 3-Pak video">
                   <video
-                    src={VIDEO_AFTERSHOT_3PAK_SRC}
-                    controls
-                    playsinline
-                    preload="metadata"
-                    muted
-                    loop
-                  ></video>
+  src={VIDEO_AFTERSHOT_SRC}
+  autoplay
+  muted
+  loop
+  playsinline
+  preload="metadata"
+  poster={IMG_AFTERSHOT}
+  disablepictureinpicture
+  controlslist="nodownload noplaybackrate nofullscreen"
+  class="tilevid"
+/>
+
                 </div>
               )
               : (
@@ -338,12 +348,26 @@ const IMG_HERO = null
       display: block;
       border-radius: 8px;
     }
-    .vidbox { position: absolute; inset: 0; }
-    .vidbox video {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; /* fill the square nicely */
-      border-radius: 8px;
-    }
+    .vidbox { 
+  position: absolute; 
+  inset: 0; 
+}
+
+/* autoplaying, no-controls, square-fill video */
+.tilevid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* fill the square nicely */
+  border-radius: 8px;
+  pointer-events: none;   /* prevent taps from showing controls */
+}
+
+/* Hide any native UI some browsers sneak in */
+.tilevid::-webkit-media-controls { display: none !important; }
+.tilevid::-webkit-media-controls-enclosure { display: none !important; }
+
 
     .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
     .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
