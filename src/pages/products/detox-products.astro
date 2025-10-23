@@ -1,8 +1,6 @@
 ﻿---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import CartBridge from '../../components/CartBridge.tsx';
-import Fineprint from '@/components/Fineprint.astro';
-
+import CartBridge from '../../components/CartBridge.tsx'
 
 const pageTitle = 'Detox Products — '
 
@@ -16,15 +14,19 @@ const IMG_OCEAN_CARD = '/images/products/oceancleanse-web.jpg'
 const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg'
 const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg'
 
+// Local videos in /public/videos (match exact filename + casing)
+const VIDEO_OCEAN_SRC = '/videos/oceancleansevideo3.mp4'
+const VIDEO_AFTERSHOT_SRC = '/videos/aftershotvideo.mp4'
+const VIDEO_AFTERSHOT_3PAK_SRC = '' // no video for 3-Pak
+
 // Keep the hero white (no background image)
 const IMG_HERO = null
-
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- HERO -->
+  <!-- HERO (white, no bg) -->
   <section class="prod-hero">
     <div class="inner">
       <h1>Detox Products</h1>
@@ -34,330 +36,407 @@ const IMG_HERO = null
     </div>
   </section>
 
- <div class="prodpg__grid">
-  <!-- Card: Ocean Cleanse -->
-  <article class="prodpg__card">
-    <div class="card-photo">
-      <video
-        class="card-media"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        poster={IMG_OCEAN_CARD}
-      >
-        <source src="/videos/oceancleansevideo3.mp4" type="video/mp4" />
-      </video>
-    </div>
+  <section class="prodpg">
+    <div class="prodpg__container">
+      <h2 class="products-title sr-only">Detox Products</h2>
 
-    <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(30 capsules)</span></h3>
-    <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
+      <div class="prodpg__grid">
+        <!-- Card: Ocean Cleanse -->
+        <article class="prodpg__card">
+          <!-- Square local video at top (falls back to image if empty path) -->
+          <div class="card-photo">
+            {VIDEO_OCEAN_SRC
+              ? (
+                <div class="vidbox" role="group" aria-label="Ocean Cleanse video">
+                  <video
+                    src={VIDEO_OCEAN_SRC}
+                    controls
+                    playsinline
+                    preload="metadata"
+                    muted
+                    loop
+                  ></video>
+                </div>
+              )
+              : (
+                <img
+                  src={IMG_OCEAN_CARD}
+                  alt="Ocean Cleanse"
+                  loading="eager"
+                  decoding="async"
+                  class="card-photo-img"
+                />
+              )
+            }
+          </div>
 
-    <ul class="prodpg__bullets">
-      <li>Supports the immune system</li>
-      <li>Supports the thyroid</li>
-      <li>Can improve thyroid function</li>
-      <li>Improves structure of hair and nails</li>
-      <li>Gentle daily detox support</li>
-      <li>Pairs well with Aftershot Zeolite</li>
-      <li>No artificial colors or flavors</li>
-      <li>Detoxifies smokers from strontium and cadmium</li>
-      <li>Removes radiation from body</li>
-      <li>Removes heavy metals from the body</li>
-      <li>May promote weight loss and healthy blood sugar levels.</li>
-    </ul>
+          <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(90 capsules)</span></h3>
 
-    <div class="prodpg__desc">
-      <p>
-        Ocean Cleanse is a concentrated extract of <strong>organic brown seaweed (Laminaria)</strong>—a natural
-        source of iodine, fucoxanthin, alginate, and fucoidan. Originally developed by
-        <strong>Russian scientists</strong> to help detoxify Chernobyl victims, this seaweed binds and removes
-        <strong>heavy metals, radiation, and toxins</strong> while supporting <strong>thyroid and immune health</strong>.
-      </p>
-    </div>
+          <ul class="prodpg__bullets">
+            <li>Concentrated brown-seaweed extract</li>
+            <li>Natural iodine; supports thyroid &amp; energy</li>
+            <li>Alginate binds certain heavy metals</li>
+            <li>Fucoidan &amp; fucoxanthin for immune support</li>
+          </ul>
 
-    <p class="prodpg__desc">
-      Our product is a fully soluble substance (a soluble fiber). It does not produce sludge; you won’t find any grit when mixed with water.
-    </p>
-    <p class="prodpg__desc">
-      <strong>Other Ingredients:</strong> Gelatin capsules (Certified Kosher – non-GMO/non-BSA). No gluten or fillers.
-      Contains no yeast, milk, wheat, corn, soy, egg, salt, sugar, or starches. No preservatives or artificial colors added.
-      As a dietary supplement, take 3 capsules daily with plenty of water, before breakfast. Start with 1 capsule daily for a week,
-      then increase to 3 daily. For radiation detox, manufacturer suggests up to 6 daily.
-      <span class="fineprint">*These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</span>
-    </p>
+          <!-- Your original wording kept -->
+          <p class="prodpg__desc">
+            A focused seaweed (Laminaria Japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. This product has a synergetic combinatoin of ionic iodine, laminarin, alginates, and selenium - the perfect group of elements, present in a single natural source. There is a patented process of physical extraction and low-temperature evaporation that removes the seaweed's outer fiber and extracts only the inner, water-soluble part of the Laminaria leaf. This enhances availability of minerals, vitamins, and polysaccharides for easier digestion and better results. Forty pounds of raw seaweed are needed to make one pound of Ocean Cleanse. Organic Iodine in this product feeds the thyroid gland. Laminarin is a polysaccharide that supports cardiovascular health. Alginate is a natural absorbent of radioactive elements, heavy metals, and free radicals. It binds them and removes them safely from the body.
+          </p>
 
-    <div class="supplement-facts" role="group" aria-labelledby="sf-title">
-      <h4 id="sf-title" class="sf-title">Supplement Facts</h4>
-      <p><strong>Serving Size:</strong> 3 capsules</p>
-      <p><strong>Servings per Container:</strong> 30</p>
-      <p><strong>Ingredients:</strong> Laminaria extract</p>
-      <p><strong>Amount Per Serving:</strong> 1500 mg</p>
-      <p class="sf-footnote">* Daily Value not established.</p>
-    </div>
+          <!-- Moved product image to bottom of description, before price -->
+          <figure class="desc-photo">
+            <img src={IMG_OCEAN_CARD} alt="Ocean Cleanse bottle photo" loading="lazy" decoding="async" />
+          </figure>
 
-    <div class="product-cta">
-      <button
-        class="btn-cta add-to-cart"
-        type="button"
-        data-sku="ocean-cleanse-single"
-        data-price={String(PRICE_OCEAN_CLEANSE)}
-        data-qty="1"
-        data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
-        data-image={IMG_OCEAN_CARD}
-        aria-label="Add Ocean Cleanse to cart"
-      >
-        Add to Cart
-      </button>
-      <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
-    </div>
+          <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
 
-    <!-- footer image (half size) -->
-    <div class="card-foot">
-      <img
-        src="/images/products/ocean-cleanse-square.png"
-        alt="Ocean Cleanse secondary view"
-        class="card-foot-img"
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
-  </article>
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              type="button"
+              data-sku="ocean-cleanse-single"
+              data-price={String(PRICE_OCEAN_CLEANSE)}
+              data-qty="1"
+              data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
+              data-image={IMG_OCEAN_CARD}
+            >
+              Add to Cart
+            </button>
+            <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
+          </div>
+        </article>
 
-  <!-- Card: AfterShot -->
-  <article class="prodpg__card">
-    <div class="card-photo">
-      <video
-        class="card-media"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        poster={IMG_AFTERSHOT}
-      >
-        <source src="/videos/aftershotvideo.mp4" type="video/mp4" />
-      </video>
-    </div>
+        <!-- Card: AfterShot (1 oz) -->
+        <article class="prodpg__card">
+          <!-- Square local video at top (falls back to image if empty path) -->
+          <div class="card-photo">
+            {VIDEO_AFTERSHOT_SRC
+              ? (
+                <div class="vidbox" role="group" aria-label="AfterShot video">
+                  <video
+                    src={VIDEO_AFTERSHOT_SRC}
+                    controls
+                    playsinline
+                    preload="metadata"
+                    muted
+                    loop
+                  ></video>
+                </div>
+              )
+              : (
+                <img
+                  src={IMG_AFTERSHOT}
+                  alt="AfterShot 1-oz"
+                  loading="eager"
+                  decoding="async"
+                  class="card-photo-img"
+                />
+              )
+            }
+          </div>
 
-    <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
-    <p class="prodpg__price">${(PRICE_AFTERSHOT/100).toFixed(2)}</p>
+          <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
 
-    <ul class="prodpg__bullets">
-      <li>Helps remove toxins and heavy metals</li>
-      <li>Acts as a natural antioxidant</li>
-      <li>pH balanced for whole-body wellness</li>
-      <li>Supports detox after vaccinations — excellent for military or frequent travelers</li>
-      <li>Gentle daily detox support</li>
-      <li>Pairs well with <strong>Ocean Cleanse</strong></li>
-      <li>No artificial colors or flavors</li>
-      <li>Micronized zeolite + <strong>humic/fulvic acids</strong> for full-body transport</li>
-      <li>Theoretically binds positively charged particles (including certain metals)</li>
-      <li>May support natural defenses and healthy energy</li>
-    </ul>
+          <ul class="prodpg__bullets">
+            <li>Removes toxins and heavy metals</li>
+            <li>Is an antioxidant</li>
+            <li>pH balanced</li>
+            <li>Detox after a vaccination - great for military!</li>
+            <li>Gentle daily detox support</li>
+            <li>Pairs well with Ocean Cleanse</li>
+            <li>No artificial colors or flavors</li>
+            <li>MRNA do have positive charged cell receptor sites. Theoretically, this zeolite may grab onto them.</li>
+            <li>Combined with humic acid/fulvic acid that transports the zeolite through blood vessels (other zeolites may only work in intestines)</li>
+            <li>May support the body's ability to kill viruses and bacteria</li>
+            <li>May improve energy levels</li>
+          </ul>
 
-    <div class="prodpg__desc">
-      <p>It is a well known fact that vaccines can contain adjuvants that contain toxins. AFTERSHOT™ Micronized Zeolite is a natural detoxifier that removes toxins and heavy metals, is an antioxidant and it is pH balanced. Support your body’s efforts to detox after a shot, or just from our everyday toxic world with a dropper full of AFTERSHOT™ every day.</p>
-      <p>AFTERSHOT™ Zeolite (micronized cleansed zeolite combined with humic acid/fulvic acid) is transported throughout the 60,000 miles of blood vessels in your circulatory system, scrubbing your veins of toxins. It starts to detoxify ALL of your body’s cells in seconds! Other zeolite companies use just zeolite powder which only works in the intestines. It is imperative that the zeolite is combined with the humic acid to work in your blood vessels.</p>
-      <p>We do not know all the components of the current MRNA vaccines and make no claims regarding what AFTERSHOT™ can or can’t pull out. We do know it will go after positively charged particles. We do know that spike proteins have positive cell receptor sites on them. Human receptor sites are negatively charged. Theoretically, zeolite could bind to the MRNA particles, but this is not proven. We do know that it will grab onto the particles of aluminum and other metals that are found in shots.</p>
-      <p>AFTERSHOT™ Zeolite may also help to normalize pH levels, support the body in it’s ability to kill viruses and bacteria, as well as improve overall well-being and increase energy levels. If you are taking a non-traditional approach to any health problem or you are simply trying to improve your health, detoxification of toxins & heavy metals is vital to your success.</p>
-    </div>
+          <!-- Your original wording kept -->
+          <p class="prodpg__desc">
+            A simple, everyday companion formula used to support the body's natural detox processes. Particle size is just above nano. Attracts positiviely charged particles (all toxins and heavy metals are positiviely charged) into cage-like structure and moves them out with urine.
+            A little bitter tasting. You can mix with water or take on its own.
+          </p>
 
-    <div class="product-cta">
-      <button
-        class="btn-cta add-to-cart"
-        type="button"
-        data-sku="aftershot-single"
-        data-price={String(PRICE_AFTERSHOT)}
-        data-qty="1"
-        data-name="AfterShot Micronized Zeolite (1 oz)"
-        data-image={IMG_AFTERSHOT}
-        aria-label="Add AfterShot 1 oz to cart"
-      >
-        Add to Cart
-      </button>
-    </div>
+          <!-- Moved product image to bottom of description, before price -->
+          <figure class="desc-photo">
+            <img src={IMG_AFTERSHOT} alt="AfterShot bottle photo" loading="lazy" decoding="async" />
+          </figure>
 
-    <!-- footer image (half size) -->
-    <!-- footer image (half size) -->
-<img
-  src="/images/products/aftershot-8oz.jpg"
-  alt="AfterShot bottle secondary view"
-  class="card-foot-img card-foot-img--half"
-  loading="lazy"
-  decoding="async"
-/>
+          <p class="prodpg__price">${(PRICE_AFTERSHOT/100).toFixed(2)}</p>
 
-    </div>
-  </article>
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              type="button"
+              data-sku="aftershot-8oz"
+              data-price={String(PRICE_AFTERSHOT)}
+              data-qty="1"
+              data-name="AfterShot (1 oz)"
+              data-image={IMG_AFTERSHOT}
+            >
+              Add to Cart
+            </button>
+          </div>
+        </article>
 
+        <!-- Card: AfterShot 3-Pak (no video; image stays at top) -->
+        <article class="prodpg__card">
+          <div class="card-photo">
+            {VIDEO_AFTERSHOT_3PAK_SRC
+              ? (
+                <div class="vidbox" role="group" aria-label="AfterShot 3-Pak video">
+                  <video
+                    src={VIDEO_AFTERSHOT_3PAK_SRC}
+                    controls
+                    playsinline
+                    preload="metadata"
+                    muted
+                    loop
+                  ></video>
+                </div>
+              )
+              : (
+                <img
+                  src={IMG_AFTERSHOT_3PAK}
+                  alt="AfterShot 3-Pak (3 Bottles)"
+                  loading="eager"
+                  decoding="async"
+                  class="card-photo-img"
+                />
+              )
+            }
+          </div>
 
-  <!-- Card: AfterShot 3-Pak (static image) -->
-  <article class="prodpg__card">
-    <div class="card-photo">
-      <img
-        class="card-media"
-        src={IMG_AFTERSHOT_3PAK}
-        alt="AfterShot 3-Pak"
-        loading="eager"
-        decoding="async"
-      />
-    </div>
+          <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 Bottles)</span></h3>
+          <ul class="prodpg__bullets">
+            <li>Three-bottle value bundle</li>
+            <li>Removes toxins and heavy metals</li>
+            <li>Is an antioxidant</li>
+            <li>Humic/fulvic pairing for circulation</li>
+            <li>Pairs well with Ocean Cleanse</li>
+          </ul>
 
-    <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 Bottles)</span></h3>
-    <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
+          <p class="prodpg__desc">
+            Three-bottle value bundle; same micronized zeolite plus humic/fulvic pairing designed for circulation—not just the gut. Finds toxic metals and residues and captures free radicals for safe elimination.
+          </p>
 
-    <ul class="prodpg__bullets">
-      <li>Helps remove toxins and heavy metals</li>
-      <li>Acts as a natural antioxidant</li>
-      <li>pH balanced for whole-body wellness</li>
-      <li>Supports detox after vaccinations — excellent for military or frequent travelers</li>
-      <li>Gentle daily detox support</li>
-      <li>Pairs well with <strong>Ocean Cleanse</strong></li>
-      <li>No artificial colors or flavors</li>
-      <li>Micronized zeolite + <strong>humic/fulvic acids</strong> for full-body transport</li>
-      <li>Theoretically binds positively charged particles (including certain metals)</li>
-      <li>May support natural defenses and healthy energy</li>
-    </ul>
+          <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
 
-    <div class="prodpg__desc">
-      <p>It is a well known fact that vaccines can contain adjuvants that contain toxins. AFTERSHOT™ Micronized Zeolite is a natural detoxifier that removes toxins and heavy metals, is an antioxidant and it is pH balanced. Support your body’s efforts to detox after a shot, or just from our everyday toxic world with a dropper full of AFTERSHOT™ every day.</p>
-      <p>AFTERSHOT™ Zeolite (micronized cleansed zeolite combined with humic acid/fulvic acid) is transported throughout the 60,000 miles of blood vessels in your circulatory system, scrubbing your veins of toxins. It starts to detoxify ALL of your body’s cells in seconds! Other zeolite companies use just zeolite powder which only works in the intestines. It is imperative that the zeolite is combined with the humic acid to work in your blood vessels.</p>
-      <p>We do not know all the components of the current MRNA vaccines and make no claims regarding what AFTERSHOT™ can or can’t pull out. We do know it will go after positively charged particles. We do know that spike proteins have positive cell receptor sites on them. Human receptor sites are negatively charged. Theoretically, zeolite could bind to the MRNA particles, but this is not proven. We do know that it will grab onto the particles of aluminum and other metals that are found in shots.</p>
-      <p>AFTERSHOT™ Zeolite may also help to normalize pH levels, support the body in it’s ability to kill viruses and bacteria, as well as improve overall well-being and increase energy levels. If you are taking a non-traditional approach to any health problem or you are simply trying to improve your health, detoxification of toxins & heavy metals is vital to your success.</p>
-    </div>
-
-    <div class="product-cta">
-      <button
-        class="btn-cta add-to-cart"
-        type="button"
-        data-sku="aftershot-3pak"
-        data-price={String(PRICE_AFTERSHOT_3PAK)}
-        data-qty="1"
-        data-name="AfterShot 3-Pak Natural Chelation and Detoxifier (3 Bottles)"
-        data-image={IMG_AFTERSHOT_3PAK}
-        aria-label="Add AfterShot 3-Pak to cart"
-      >
-        Add to Cart
-      </button>
-   </div>
-  </article>
-</div>
-
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              type="button"
+              data-sku="aftershot-3pak"
+              data-price={String(PRICE_AFTERSHOT_3PAK)}
+              data-qty="1"
+              data-name="AfterShot 3-Pak Natural Chelation and Detoxifier (3 Bottles)"
+              data-image={IMG_AFTERSHOT_3PAK}
+            >
+              Add to Cart
+            </button>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
-<style>
-  :root {
-    --card-price-gap: 10px;
-    --card-row-gap: .35rem;
-  }
+  <!-- Testimonials -->
+  <section class="tbox tbox--bleed" aria-labelledby="detox-testimonials-heading">
+    <div class="tbox__container">
+      <h2 id="detox-testimonials-heading">Customer Testimonials</h2>
+      <p class="tbox__lead">
+        Real experiences with Ocean Cleanse &amp; AfterShot. Thank you for sharing your testimonies. Because of the cost of true medical trials, natural products like these will never be tested to that degree. We need the community to share their results to help others see the results they are getting. Email your testimonials to: Wendy@flaxlignanhealth.com.
+      </p>
 
-  /* ---------- HERO ---------- */
-  .prod-hero {
-    position: relative; isolation: isolate; overflow: hidden;
-    min-height: 150px; border-radius: 14px; background: #fff;
-    margin: 8px auto 18px; max-width: 950px;
-  }
-  .prod-hero .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .18; z-index: -1; }
-  .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
-  .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
-  .prod-hero p { margin: 0; max-width: 60ch; }
+      <div class="tlist">
+        <figure class="tquote">
+          <blockquote><p>“After having all the metal removed from my teeth, my natural dentist and naturopath agreed for me to chelate... I'd take 2 Ocean Cleanse 3x a day and by the third day would be back to normal.”</p></blockquote>
+          <figcaption>— W.S., Colorado</figcaption>
+        </figure>
 
-  /* ---------- PRODUCT GRID ---------- */
-  .prodpg__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    justify-content: center;
-  }
-  @media (min-width: 900px) {
-    .prodpg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  }
+        <figure class="tquote">
+          <blockquote><p>“When I joined the military... I took Ocean Cleanse and AfterShot and felt energized and so much better within a day or two.”</p></blockquote>
+          <figcaption>— T.E., Colorado</figcaption>
+        </figure>
 
-  /* Card layout */
-  .prodpg__card{
-    display: flex; flex-direction: column;
-    gap: var(--card-row-gap);
-    height: 100%;
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,.05);
-    margin: 0;
-    transition: transform .15s ease;
-  }
-  .prodpg__card:hover { transform: translateY(-2px); }
+        <figure class="tquote">
+          <blockquote><p>Manufacturer note: “This product is a winner when detoxing... six capsules a day for an average-size body will make people clean.”</p></blockquote>
+          <figcaption>— S.Z., California</figcaption>
+        </figure>
 
-  /* Media header (video or image) — square */
-  .card-photo{
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;     /* change to 16/9 if desired */
-    overflow: hidden;
-    border-radius: 10px;
-    background: #f7f7f7;
-    box-shadow: 0 3px 6px rgba(0,0,0,.04);
-  }
-  .card-photo > .card-media{
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover; display: block; border-radius: inherit;
-  }
+        <figure class="tquote">
+          <blockquote><p>“I am worried about the nano-technology... With AfterShot zeolite being just a little larger than nano, I am hoping it traps nano particles.”</p></blockquote>
+          <figcaption>— P.T., Idaho</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
 
-  /* Title / price / bullets */
-  .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
-  .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
-  .prodpg__price{
-    margin: 0 0 var(--card-price-gap);
-    font-weight: 800; font-size: .9rem;
-  }
-  .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
-  .prodpg__bullets li { margin: .08rem 0; }
+  <CartBridge client:load />
 
-  .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
+  <style>
+    /* ---------- HERO ---------- */
+    .prod-hero {
+      position: relative; isolation: isolate; overflow: hidden;
+      min-height: 150px; border-radius: 14px; background: #fff;
+      margin: 8px auto 18px; max-width: 950px;
+    }
+    .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
+    .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
+    .prod-hero p { margin: 0; max-width: 60ch; }
 
-  /* CTA row */
-  .product-cta{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: .15rem; }
-  .product-cta .add-to-cart{
-    display: inline-flex; padding: 10px 16px; font-size: .95rem;
-    border-radius: 0; background: #000; color: #fff; font-weight: 600;
-    border: 0; text-decoration: none; cursor: pointer; transition: background-color .15s ease;
-  }
-  .product-cta .add-to-cart:hover{ background:#222; }
-  .product-cta .add-to-cart:focus-visible{ outline: 3px solid #60a5fa; outline-offset: 2px; }
-  .btn-link { background: transparent; color: #1f2937; font-size: .85rem; }
+    /* ---------- PRODUCT GRID ---------- */
+    .prodpg { padding: 0 0 36px; }
+    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
 
-  /* Small footer image under the CTA */
-  .card-foot { display:flex; justify-content:center; align-items:center; margin-top:10px; }
-  .card-foot-img {
-  width: 100%; height:auto; display:block; border-radius:10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,.06); object-fit: contain;
+    .prodpg__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+    @media (min-width: 900px) {
+      .prodpg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    :root { --card-price-gap: 10px; --card-row-gap: .35rem; }
+
+    /* Unified FLEX card layout */
+    .prodpg__card{
+      display: flex;
+      flex-direction: column;
+      gap: var(--card-row-gap);
+      height: 100%;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.05);
+      margin: 0;
+      transition: transform .15s ease;
+    }
+    .prodpg__card:hover { transform: translateY(-2px); }
+
+    /* Top media box (square) */
+    .card-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;   /* square */
+      overflow: hidden;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 3px 6px rgba(0,0,0,.04);
+      display: block;
+      position: relative;
+    }
+    .card-photo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      padding: 8px;
+      display: block;
+      border-radius: 8px;
+    }
+    .vidbox { position: absolute; inset: 0; }
+    .vidbox video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; /* fill the square nicely */
+      border-radius: 8px;
+    }
+
+    .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
+    .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
+
+    .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
+    .prodpg__bullets li { margin: .08rem 0; }
+
+    .prodpg__desc {
+      line-height: 1.4; color: #374151;
+      font-size: .85rem; margin: .15rem 0 .25rem;
+    }
+
+    /* The extra product photo placed before price */
+/* The extra product photo placed before price — keep it contained */
+.desc-photo{
+  margin: .2rem 0 .2rem;
+  align-self: center;     /* center inside the card */
+  width: 100%;
 }
-.card-foot-img--half { width: 50%; }
 
+.desc-photo img{
+  display: block;
+  width: 100%;
+  max-width: 360px;       /* hard cap so it never gets huge */
+  max-height: 320px;      /* prevent tall overflow */
+  aspect-ratio: 1 / 1;    /* keep a square feel */
+  object-fit: contain;    /* never distort */
+  height: auto;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,.06);
+}
 
+@media (min-width: 900px){
+  .desc-photo img{
+    max-width: 320px;     /* a bit smaller on wide screens */
+    max-height: 300px;
+  }
+}
 
-  /* ===== Testimonials band ===== */
-  .tbox--bleed { width: 100vw; margin-left: 50%; transform: translateX(-50%); background: #fafafa; border-top: 1px solid #ececec; border-bottom: 1px solid #ececec; padding: 28px 0 40px; }
-  .tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
-  .tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
-  .tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
-  .tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
-  @media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
-  .tquote { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; box-shadow:0 4px 10px rgba(0,0,0,.05); }
-  .tquote blockquote { margin:0 0 8px; position:relative; padding-left:12px; color:#0f172a; line-height:1.5; }
-  .tquote blockquote::before { content:"“"; position:absolute; left:-4px; top:-6px; font-size:2rem; line-height:1; opacity:.2; }
-  .tquote figcaption { font-size:.9rem; color:#475569; }
-</style>
+/* Safety: nothing inside a card should overflow its width */
+.prodpg__card > * { max-width: 100%; }
 
-<!-- Full-width Testimonials band -->
-<section class="tbox tbox--bleed" aria-labelledby="detox-testimonials-heading">
-  ...
-</section>
+/* Price sits just above CTA with consistent spacing */
+.prodpg__price{
+  order: 90;
+  font-weight: 800; font-size: .9rem;
+  margin: 0 0 var(--card-price-gap) 0;
+}
 
-<CartBridge client:load />
+.product-cta{
+  order: 100;
+  display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap; margin-top: .15rem;
+}
+.product-cta .add-to-cart {
+  display: inline-flex;
+  padding: 10px 16px;
+  font-size: .95rem;
+  border-radius: 0;
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  border: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.product-cta .add-to-cart:hover { background: #222; }
+.product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
+
+.btn-link { background: transparent; color: #1f2937; font-size: .85rem; }
+
+/* ---------- Testimonials ---------- */
+.tbox--bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  background: #fafafa;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+  padding: 28px 0 40px;
+}
+.tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
+.tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
+.tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
+
+.tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
+
+.tquote { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; box-shadow: 0 4px 10px rgba(0,0,0,.05); }
+.tquote blockquote { margin: 0 0 8px; position: relative; padding-left: 12px; color: #0f172a; line-height: 1.5; }
+.tquote blockquote::before { content: "“"; position: absolute; left: -4px; top: -6px; font-size: 2rem; line-height: 1; opacity: .2; }
+.tquote figcaption { font-size: .9rem; color: #475569; }
+  </style>
 </BaseLayout>
-
