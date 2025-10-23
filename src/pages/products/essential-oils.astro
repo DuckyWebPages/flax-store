@@ -36,17 +36,17 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
       <!-- SELECT-BASED PRODUCT CARD (everything contained inside) -->
 <article class="prodpg__card">
   <div class="card-photo card-photo--hero">
-    <video
-      class="card-media"
-      src={HERO_VIDEO}
-      poster={HERO_POSTER}
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-    ></video>
-  </div>
+  <video
+    class="card-media"
+    src={HERO_VIDEO}
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+  ></video>
+</div>
+
   <noscript>
     <img src={heroImage} alt="Essential oils assortment" class="card-photo-img" />
   </noscript>
@@ -80,7 +80,7 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
     <br><br>
     To order economically (if you are ordering large amounts of oil or on a regular basis), we recommend creating your own wholesale account with Young Living. Use code <strong>SHAREYL</strong> at checkout for 10% off orders of $50/50pv or more. You must place a $100/100pv initial order to get wholesale pricing with them.
     <br><br>
-    <a href="https://www.youngliving.com/us/en/referral/1218526" target="_blank" rel="noopener">Open your own Young Living account</a>
+    <a href="https://www.youngliving.com/us/en/referral/1218526" target="_blank" rel="noopener">Open your own Young Living account. Click "Sign In" and then "Create Your Own Account"</a>
   </p>
 
   <!-- SELECTION + QTY + ADD -->
@@ -249,6 +249,8 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
   background:#f7f7f7;
   box-shadow:0 3px 6px rgba(0,0,0,.04);
 }
+.card-photo--hero { background: #000; } /* or a brand color */
+
 
 /* Video or image inside the wrapper */
 .card-media,
