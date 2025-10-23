@@ -14,10 +14,10 @@ const IMG_OCEAN_CARD = '/images/products/oceancleanse-web.jpg'
 const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg'
 const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg'
 
-// Local videos in /public/videos (match exact filename + casing)
+// Local videos in /public/videos  (case-sensitive)
 const VIDEO_OCEAN_SRC = '/videos/oceancleansevideo3.mp4'
 const VIDEO_AFTERSHOT_SRC = '/videos/aftershotvideo.mp4'
-const VIDEO_AFTERSHOT_3PAK_SRC = '' // no video for 3-Pak
+const VIDEO_AFTERSHOT_3PAK_SRC = '/videos/aftershot3video.mp4'
 
 // Keep the hero white (no background image)
 const IMG_HERO = null
@@ -43,31 +43,17 @@ const IMG_HERO = null
       <div class="prodpg__grid">
         <!-- Card: Ocean Cleanse -->
         <article class="prodpg__card">
-          <!-- Square local video at top (falls back to image if empty path) -->
           <div class="card-photo">
-            {VIDEO_OCEAN_SRC
-              ? (
-                <div class="vidbox" role="group" aria-label="Ocean Cleanse video">
-                  <video
-                    src={VIDEO_OCEAN_SRC}
-                    controls
-                    playsinline
-                    preload="metadata"
-                    muted
-                    loop
-                  ></video>
-                </div>
-              )
-              : (
-                <img
-                  src={IMG_OCEAN_CARD}
-                  alt="Ocean Cleanse"
-                  loading="eager"
-                  decoding="async"
-                  class="card-photo-img"
-                />
-              )
-            }
+            <video
+              class="card-media"
+              src={VIDEO_OCEAN_SRC}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              poster={IMG_OCEAN_CARD}
+            />
           </div>
 
           <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(90 capsules)</span></h3>
@@ -79,12 +65,11 @@ const IMG_HERO = null
             <li>Fucoidan &amp; fucoxanthin for immune support</li>
           </ul>
 
-          <!-- Your original wording kept -->
           <p class="prodpg__desc">
             A focused seaweed (Laminaria Japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. This product has a synergetic combinatoin of ionic iodine, laminarin, alginates, and selenium - the perfect group of elements, present in a single natural source. There is a patented process of physical extraction and low-temperature evaporation that removes the seaweed's outer fiber and extracts only the inner, water-soluble part of the Laminaria leaf. This enhances availability of minerals, vitamins, and polysaccharides for easier digestion and better results. Forty pounds of raw seaweed are needed to make one pound of Ocean Cleanse. Organic Iodine in this product feeds the thyroid gland. Laminarin is a polysaccharide that supports cardiovascular health. Alginate is a natural absorbent of radioactive elements, heavy metals, and free radicals. It binds them and removes them safely from the body.
           </p>
 
-          <!-- Moved product image to bottom of description, before price -->
+          <!-- Product image placed before price -->
           <figure class="desc-photo">
             <img src={IMG_OCEAN_CARD} alt="Ocean Cleanse bottle photo" loading="lazy" decoding="async" />
           </figure>
@@ -109,36 +94,17 @@ const IMG_HERO = null
 
         <!-- Card: AfterShot (1 oz) -->
         <article class="prodpg__card">
-          <!-- Square local video at top (falls back to image if empty path) -->
           <div class="card-photo">
-            {VIDEO_AFTERSHOT_SRC
-              ? (
-                <div class="vidbox" role="group" aria-label="AfterShot video">
-                 <video
-  src={VIDEO_OCEAN_SRC}
-  autoplay
-  muted
-  loop
-  playsinline
-  preload="metadata"
-  poster={IMG_OCEAN_CARD}
-  disablepictureinpicture
-  controlslist="nodownload noplaybackrate nofullscreen"
-  class="tilevid"
-/>
-
-                </div>
-              )
-              : (
-                <img
-                  src={IMG_AFTERSHOT}
-                  alt="AfterShot 1-oz"
-                  loading="eager"
-                  decoding="async"
-                  class="card-photo-img"
-                />
-              )
-            }
+            <video
+              class="card-media"
+              src={VIDEO_AFTERSHOT_SRC}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              poster={IMG_AFTERSHOT}
+            />
           </div>
 
           <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
@@ -157,13 +123,12 @@ const IMG_HERO = null
             <li>May improve energy levels</li>
           </ul>
 
-          <!-- Your original wording kept -->
           <p class="prodpg__desc">
             A simple, everyday companion formula used to support the body's natural detox processes. Particle size is just above nano. Attracts positiviely charged particles (all toxins and heavy metals are positiviely charged) into cage-like structure and moves them out with urine.
             A little bitter tasting. You can mix with water or take on its own.
           </p>
 
-          <!-- Moved product image to bottom of description, before price -->
+          <!-- Product image placed before price -->
           <figure class="desc-photo">
             <img src={IMG_AFTERSHOT} alt="AfterShot bottle photo" loading="lazy" decoding="async" />
           </figure>
@@ -185,40 +150,24 @@ const IMG_HERO = null
           </div>
         </article>
 
-        <!-- Card: AfterShot 3-Pak (no video; image stays at top) -->
+        <!-- Card: AfterShot 3-Pak -->
         <article class="prodpg__card">
+          <!-- Video at top -->
           <div class="card-photo">
-            {VIDEO_AFTERSHOT_3PAK_SRC
-              ? (
-                <div class="vidbox" role="group" aria-label="AfterShot 3-Pak video">
-                  <video
-  src={VIDEO_AFTERSHOT_SRC}
-  autoplay
-  muted
-  loop
-  playsinline
-  preload="metadata"
-  poster={IMG_AFTERSHOT}
-  disablepictureinpicture
-  controlslist="nodownload noplaybackrate nofullscreen"
-  class="tilevid"
-/>
-
-                </div>
-              )
-              : (
-                <img
-                  src={IMG_AFTERSHOT_3PAK}
-                  alt="AfterShot 3-Pak (3 Bottles)"
-                  loading="eager"
-                  decoding="async"
-                  class="card-photo-img"
-                />
-              )
-            }
+            <video
+              class="card-media"
+              src={VIDEO_AFTERSHOT_3PAK_SRC}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              poster={IMG_AFTERSHOT_3PAK}
+            />
           </div>
 
           <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 Bottles)</span></h3>
+
           <ul class="prodpg__bullets">
             <li>Three-bottle value bundle</li>
             <li>Removes toxins and heavy metals</li>
@@ -230,6 +179,16 @@ const IMG_HERO = null
           <p class="prodpg__desc">
             Three-bottle value bundle; same micronized zeolite plus humic/fulvic pairing designed for circulation—not just the gut. Finds toxic metals and residues and captures free radicals for safe elimination.
           </p>
+
+          <!-- Product image moved down before price -->
+          <figure class="desc-photo">
+            <img
+              src={IMG_AFTERSHOT_3PAK}
+              alt="AfterShot 3-Pak bottles"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
 
           <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
 
@@ -287,11 +246,7 @@ const IMG_HERO = null
 
   <style>
     /* ---------- HERO ---------- */
-    .prod-hero {
-      position: relative; isolation: isolate; overflow: hidden;
-      min-height: 150px; border-radius: 14px; background: #fff;
-      margin: 8px auto 18px; max-width: 950px;
-    }
+    .prod-hero { position: relative; isolation: isolate; overflow: hidden; min-height: 150px; border-radius: 14px; background: #fff; margin: 8px auto 18px; max-width: 950px; }
     .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
     .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
     .prod-hero p { margin: 0; max-width: 60ch; }
@@ -299,75 +254,19 @@ const IMG_HERO = null
     /* ---------- PRODUCT GRID ---------- */
     .prodpg { padding: 0 0 36px; }
     .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
-
-    .prodpg__grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      justify-content: center;
-    }
-    @media (min-width: 900px) {
-      .prodpg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
+    .prodpg__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; justify-content: center; }
+    @media (min-width: 900px) { .prodpg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
     :root { --card-price-gap: 10px; --card-row-gap: .35rem; }
 
     /* Unified FLEX card layout */
-    .prodpg__card{
-      display: flex;
-      flex-direction: column;
-      gap: var(--card-row-gap);
-      height: 100%;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,.05);
-      margin: 0;
-      transition: transform .15s ease;
-    }
+    .prodpg__card{ display: flex; flex-direction: column; gap: var(--card-row-gap); height: 100%; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,.05); margin: 0; transition: transform .15s ease; }
     .prodpg__card:hover { transform: translateY(-2px); }
 
     /* Top media box (square) */
-    .card-photo {
-      width: 100%;
-      aspect-ratio: 1 / 1;   /* square */
-      overflow: hidden;
-      border-radius: 8px;
-      background: #fff;
-      box-shadow: 0 3px 6px rgba(0,0,0,.04);
-      display: block;
-      position: relative;
-    }
-    .card-photo-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center;
-      padding: 8px;
-      display: block;
-      border-radius: 8px;
-    }
-    .vidbox { 
-  position: absolute; 
-  inset: 0; 
-}
-
-/* autoplaying, no-controls, square-fill video */
-.tilevid {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;      /* fill the square nicely */
-  border-radius: 8px;
-  pointer-events: none;   /* prevent taps from showing controls */
-}
-
-/* Hide any native UI some browsers sneak in */
-.tilevid::-webkit-media-controls { display: none !important; }
-.tilevid::-webkit-media-controls-enclosure { display: none !important; }
-
+    .card-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; background: #fff; box-shadow: 0 3px 6px rgba(0,0,0,.04); position: relative; }
+    .card-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
+    .card-photo-img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 8px; display: block; border-radius: 8px; }
 
     .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
     .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
@@ -375,92 +274,31 @@ const IMG_HERO = null
     .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
     .prodpg__bullets li { margin: .08rem 0; }
 
-    .prodpg__desc {
-      line-height: 1.4; color: #374151;
-      font-size: .85rem; margin: .15rem 0 .25rem;
-    }
+    .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
 
-    /* The extra product photo placed before price */
-/* The extra product photo placed before price — keep it contained */
-.desc-photo{
-  margin: .2rem 0 .2rem;
-  align-self: center;     /* center inside the card */
-  width: 100%;
-}
+    /* Extra product photo placed before price */
+    .desc-photo{ margin: .2rem 0 .2rem; align-self: center; width: 100%; }
+    .desc-photo img{ display: block; width: 100%; max-width: 360px; max-height: 320px; aspect-ratio: 1 / 1; object-fit: contain; height: auto; margin: 0 auto; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,.06); }
+    @media (min-width: 900px){ .desc-photo img{ max-width: 320px; max-height: 300px; } }
 
-.desc-photo img{
-  display: block;
-  width: 100%;
-  max-width: 360px;       /* hard cap so it never gets huge */
-  max-height: 320px;      /* prevent tall overflow */
-  aspect-ratio: 1 / 1;    /* keep a square feel */
-  object-fit: contain;    /* never distort */
-  height: auto;
-  margin: 0 auto;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0,0,0,.06);
-}
+    /* Price & CTA */
+    .prodpg__price{ order: 90; font-weight: 800; font-size: .9rem; margin: 0 0 var(--card-price-gap) 0; }
+    .product-cta{ order: 100; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: .15rem; }
+    .product-cta .add-to-cart { display: inline-flex; padding: 10px 16px; font-size: .95rem; border-radius: 0; background: #000; color: #fff; font-weight: 600; border: 0; text-decoration: none; cursor: pointer; transition: background-color .15s ease; }
+    .product-cta .add-to-cart:hover { background: #222; }
+    .product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
+    .btn-link { background: transparent; color: #1f2937; font-size: .85rem; }
 
-@media (min-width: 900px){
-  .desc-photo img{
-    max-width: 320px;     /* a bit smaller on wide screens */
-    max-height: 300px;
-  }
-}
-
-/* Safety: nothing inside a card should overflow its width */
-.prodpg__card > * { max-width: 100%; }
-
-/* Price sits just above CTA with consistent spacing */
-.prodpg__price{
-  order: 90;
-  font-weight: 800; font-size: .9rem;
-  margin: 0 0 var(--card-price-gap) 0;
-}
-
-.product-cta{
-  order: 100;
-  display: flex; align-items: center; gap: 10px;
-  flex-wrap: wrap; margin-top: .15rem;
-}
-.product-cta .add-to-cart {
-  display: inline-flex;
-  padding: 10px 16px;
-  font-size: .95rem;
-  border-radius: 0;
-  background: #000;
-  color: #fff;
-  font-weight: 600;
-  border: 0;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color .15s ease;
-}
-.product-cta .add-to-cart:hover { background: #222; }
-.product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
-
-.btn-link { background: transparent; color: #1f2937; font-size: .85rem; }
-
-/* ---------- Testimonials ---------- */
-.tbox--bleed {
-  width: 100vw;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  background: #fafafa;
-  border-top: 1px solid #ececec;
-  border-bottom: 1px solid #ececec;
-  padding: 28px 0 40px;
-}
-.tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
-.tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
-.tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
-
-.tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
-@media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
-
-.tquote { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; box-shadow: 0 4px 10px rgba(0,0,0,.05); }
-.tquote blockquote { margin: 0 0 8px; position: relative; padding-left: 12px; color: #0f172a; line-height: 1.5; }
-.tquote blockquote::before { content: "“"; position: absolute; left: -4px; top: -6px; font-size: 2rem; line-height: 1; opacity: .2; }
-.tquote figcaption { font-size: .9rem; color: #475569; }
+    /* ---------- Testimonials ---------- */
+    .tbox--bleed { width: 100vw; margin-left: 50%; transform: translateX(-50%); background: #fafafa; border-top: 1px solid #ececec; border-bottom: 1px solid #ececec; padding: 28px 0 40px; }
+    .tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
+    .tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
+    .tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
+    .tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
+    .tquote { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; box-shadow: 0 4px 10px rgba(0,0,0,.05); }
+    .tquote blockquote { margin: 0 0 8px; position: relative; padding-left: 12px; color: #0f172a; line-height: 1.5; }
+    .tquote blockquote::before { content: "“"; position: absolute; left: -4px; top: -6px; font-size: 2rem; line-height: 1; opacity: .2; }
+    .tquote figcaption { font-size: .9rem; color: #475569; }
   </style>
 </BaseLayout>
