@@ -34,23 +34,27 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
 
       <div class="prodpg__grid">
         <!-- SELECT-BASED PRODUCT CARD -->
+<!-- SELECT-BASED PRODUCT CARD -->
 <article class="prodpg__card">
-  <video
-    class="hero-media"
-    src={HERO_VIDEO}
-    poster={HERO_POSTER}
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="metadata"
-  ></video>
+  <div class="card-photo card-photo--hero">
+    <video
+      class="card-media"
+      src="/videos/eoilsmist.mp4"
+      poster="/images/products/oilsgreen.png"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    ></video>
+  </div>
   <noscript>
-    <img src={heroImage} alt="Essential oils assortment" class="hero-media" />
+    <img src="/images/products/oilsgreen.png" alt="Essential oils assortment" class="card-photo-img" />
   </noscript>
 
   <h3 class="prodpg__title">Essential Oils - Varying prices. See Drop Down Menu.</h3>
-  <!-- …rest of the card unchanged… -->
+  <!-- …the rest of your card stays the same… -->
+
 </article>
 
 
@@ -246,6 +250,41 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
       object-fit: cover;
       display: block;
     }
+    /* Square/hero media wrapper (matches other cards) */
+.card-photo{
+  position:relative;
+  width:100%;
+  aspect-ratio: 16 / 9;      /* or 3/2; pick what fits */
+  overflow:hidden;
+  border-radius:10px;
+  background:#f7f7f7;
+  box-shadow:0 3px 6px rgba(0,0,0,.04);
+}
+
+/* Video or image inside the wrapper */
+.card-media,
+.card-photo-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:10px; /* keeps corners clean */
+}
+
+/* Ensure card itself is the white panel */
+.prodpg__card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 8px 18px rgba(0,0,0,.06);
+  display:grid;
+  gap:.65rem;
+  justify-items:start;
+}
+
 
     /* Form bits */
     .lbl{ display:block; font-weight:600; margin:.5rem 0 .25rem; }
