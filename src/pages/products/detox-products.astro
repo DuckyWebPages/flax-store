@@ -41,22 +41,21 @@ const IMG_HERO = null
       <div class="prodpg__grid">
         <!-- Card: Ocean Cleanse -->
 <article class="prodpg__card">
-  <!-- replace the IMG block with this VIDEO block -->
-<div class="card-photo">
-  <video
-    class="card-photo-img"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="metadata"
-    poster={IMG_OCEAN_CARD}   /* fallback frame while it loads */
-  >
-    <source src="/videos/OceanCleansevideofish.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-</div>
-
+  <!-- VIDEO hero in place of main image -->
+  <div class="card-photo">
+    <video
+      class="card-photo-img"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster={IMG_OCEAN_CARD}
+    >
+      <source src="/videos/oceancleansevideo2.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
   <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(30 capsules)</span></h3>
   <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
@@ -75,38 +74,34 @@ const IMG_HERO = null
     <li>May promote weight loss and healthy blood sugar levels.</li>
   </ul>
 
-<!-- Clean, consistent markup -->
-<div class="prodpg__desc">
-  <p>
-    Ocean Cleanse is a concentrated extract of <strong>organic brown seaweed (Laminaria)</strong>—a natural
-    source of iodine, fucoxanthin, alginate, and fucoidan. Originally developed by
-    <strong>Russian scientists</strong> to help detoxify Chernobyl victims, this seaweed binds and removes
-    <strong>heavy metals, radiation, and toxins</strong> while supporting <strong>thyroid and immune health</strong>.
+  <div class="prodpg__desc">
+    <p>
+      Ocean Cleanse is a concentrated extract of <strong>organic brown seaweed (Laminaria)</strong>—a natural
+      source of iodine, fucoxanthin, alginate, and fucoidan. Originally developed by
+      <strong>Russian scientists</strong> to help detoxify Chernobyl victims, this seaweed binds and removes
+      <strong>heavy metals, radiation, and toxins</strong> while supporting <strong>thyroid and immune health</strong>.
+    </p>
+  </div>
+
+  <p class="prodpg__desc">
+    Our product is a fully soluble substance (a soluble fiber). It does not produce sludge; you won’t find any grit when mixed with water.
   </p>
-</div>
+  <p class="prodpg__desc">
+    <strong>Other Ingredients:</strong> Gelatin capsules (Certified Kosher – non-GMO/non-BSA). No gluten or fillers.
+    Contains no yeast, milk, wheat, corn, soy, egg, salt, sugar, or starches. No preservatives or artificial colors added.
+    As a dietary supplement, take 3 capsules daily with plenty of water, before breakfast. Start with 1 capsule daily for a week,
+    then increase to 3 daily. For radiation detox, manufacturer suggests up to 6 daily.
+    <span class="fineprint">*These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</span>
+  </p>
 
-
-<p class="prodpg__desc">
-  Our product is a fully soluble substance (a soluble fiber). It does not produce sludge; you won’t find any grit when mixed with water.
-</p>
-<p class="prodpg__desc">
-  <strong>Other Ingredients:</strong> Gelatin capsules (Certified Kosher – non-GMO/non-BSA). No gluten or fillers.
-  Contains no yeast, milk, wheat, corn, soy, egg, salt, sugar, or starches. No preservatives or artificial colors added.
-  As a dietary supplement, take 3 capsules daily with plenty of water, before breakfast. Start with 1 capsule daily for a week,
-  then increase to 3 daily. For radiation detox, manufacturer suggests up to 6 daily.
-  <span class="fineprint">*These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease.</span>
-</p>
-
-<div class="supplement-facts" role="group" aria-labelledby="sf-title">
-  <h4 id="sf-title" class="sf-title">Supplement Facts</h4>
-  <p><strong>Serving Size:</strong> 3 capsules</p>
-  <p><strong>Servings per Container:</strong> 30</p>
-  <p><strong>Ingredients:</strong> Laminaria extract</p>
-  <p><strong>Amount Per Serving:</strong> 1500 mg</p>
-  <p class="sf-footnote">* Daily Value not established.</p>
-</div>
-
-
+  <div class="supplement-facts" role="group" aria-labelledby="sf-title">
+    <h4 id="sf-title" class="sf-title">Supplement Facts</h4>
+    <p><strong>Serving Size:</strong> 3 capsules</p>
+    <p><strong>Servings per Container:</strong> 30</p>
+    <p><strong>Ingredients:</strong> Laminaria extract</p>
+    <p><strong>Amount Per Serving:</strong> 1500 mg</p>
+    <p class="sf-footnote">* Daily Value not established.</p>
+  </div>
 
   <div class="product-cta">
     <button
@@ -123,25 +118,34 @@ const IMG_HERO = null
     </button>
     <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
   </div>
+
+  <!-- NEW: small footer image -->
+  <div class="card-foot">
+    <img
+      src="/images/products/oceancleanse2.jpg"
+      alt="Ocean Cleanse product secondary view"
+      class="card-foot-img"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
 </article>
 
-
-
-        <!-- Card: AfterShot -->
-        <article class="prodpg__card">
+<!-- Card: AfterShot -->
+<article class="prodpg__card">
   <div class="card-photo">
-  <video
-    class="card-photo-img"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="metadata"
-    poster={IMG_OCEAN_CARD}   /* fallback frame while it loads */
-  >
-    <source src="/videos/aftershotvideo.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+    <video
+      class="card-photo-img"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster={IMG_AFTERSHOT}
+    >
+      <source src="/videos/aftershotvideo.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
   </div>
 
   <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
@@ -160,16 +164,12 @@ const IMG_HERO = null
     <li>May support natural defenses and healthy energy</li>
   </ul>
 
- <div class="prodpg__desc">
-  <p>It is a well known fact that vaccines can contain adjuvants that contain toxins. AFTERSHOT™ Micronized Zeolite is a natural detoxifier that removes toxins and heavy metals, is an antioxidant and it is pH balanced. Support your body’s efforts to detox after a shot, or just from our everyday toxic world with a dropper full of AFTERSHOT™ every day.</p>
-
-  <p>AFTERSHOT™ Zeolite (micronized cleansed zeolite combined with humic acid/fulvic acid) is transported throughout the 60,000 miles of blood vessels in your circulatory system, scrubbing your veins of toxins. It starts to detoxify ALL of your body’s cells in seconds! Other zeolite companies use just zeolite powder which only works in the intestines. It is imperative that the zeolite is combined with the humic acid to work in your blood vessels.</p>
-
-  <p>We do not know all the components of the current MRNA vaccines and make no claims regarding what AFTERSHOT™ can or can’t pull out. We do know it will go after positively charged particles. We do know that spike proteins have positive cell receptor sites on them. Human receptor sites are negatively charged. Theoretically, zeolite could bind to the MRNA particles, but this is not proven. We do know that it will grab onto the particles of aluminum and other metals that are found in shots.</p>
-
-  <p>AFTERSHOT™ Zeolite may also help to normalize pH levels, support the body in it’s ability to kill viruses and bacteria, as well as improve overall well-being and increase energy levels. If you are taking a non-traditional approach to any health problem or you are simply trying to improve your health, detoxification of toxins & heavy metals is vital to your success.</p>
-</div>
-
+  <div class="prodpg__desc">
+    <p>It is a well known fact that vaccines can contain adjuvants that contain toxins. AFTERSHOT™ Micronized Zeolite is a natural detoxifier that removes toxins and heavy metals, is an antioxidant and it is pH balanced. Support your body’s efforts to detox after a shot, or just from our everyday toxic world with a dropper full of AFTERSHOT™ every day.</p>
+    <p>AFTERSHOT™ Zeolite (micronized cleansed zeolite combined with humic acid/fulvic acid) is transported throughout the 60,000 miles of blood vessels in your circulatory system, scrubbing your veins of toxins. It starts to detoxify ALL of your body’s cells in seconds! Other zeolite companies use just zeolite powder which only works in the intestines. It is imperative that the zeolite is combined with the humic acid to work in your blood vessels.</p>
+    <p>We do not know all the components of the current MRNA vaccines and make no claims regarding what AFTERSHOT™ can or can’t pull out. We do know it will go after positively charged particles. We do know that spike proteins have positive cell receptor sites on them. Human receptor sites are negatively charged. Theoretically, zeolite could bind to the MRNA particles, but this is not proven. We do know that it will grab onto the particles of aluminum and other metals that are found in shots.</p>
+    <p>AFTERSHOT™ Zeolite may also help to normalize pH levels, support the body in it’s ability to kill viruses and bacteria, as well as improve overall well-being and increase energy levels. If you are taking a non-traditional approach to any health problem or you are simply trying to improve your health, detoxification of toxins & heavy metals is vital to your success.</p>
+  </div>
 
   <div class="product-cta">
     <button
@@ -185,7 +185,19 @@ const IMG_HERO = null
       Add to Cart
     </button>
   </div>
+
+  <!-- NEW: small footer image -->
+  <div class="card-foot">
+    <img
+      src="/images/products/aftershot-8oz.jpg"
+      alt="AfterShot bottle secondary view"
+      class="card-foot-img"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
 </article>
+
   <article class="prodpg__card">
   <div class="card-photo">
     <img
