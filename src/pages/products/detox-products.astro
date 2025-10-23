@@ -39,23 +39,21 @@ const IMG_HERO = null
       <h2 class="products-title sr-only">Detox Products</h2>
 
       <div class="prodpg__grid">
-        <!-- Card: Ocean Cleanse -->
-<article class="prodpg__card">
-  <!-- VIDEO hero in place of main image -->
-  <div class="card-photo">
-    <video
-      class="card-photo-img"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      poster={IMG_OCEAN_CARD}
-    >
-      <source src="/videos/oceancleansevideo2.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-  </div>
+        <!-- Ocean Cleanse -->
+<div class="card-photo">
+  <video
+    class="card-photo-img"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster={IMG_OCEAN_CARD}
+  >
+    <source src="/videos/OceanCleanseVideo2.mp4" type="video/mp4" />
+  </video>
+</div>
+
 
   <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(30 capsules)</span></h3>
   <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
@@ -131,22 +129,20 @@ const IMG_HERO = null
   </div>
 </article>
 
-<!-- Card: AfterShot -->
-<article class="prodpg__card">
-  <div class="card-photo">
-    <video
-      class="card-photo-img"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      poster={IMG_AFTERSHOT}
-    >
-      <source src="/videos/aftershotvideo.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-  </div>
+<!-- AfterShot -->
+<div class="card-photo">
+  <video
+    class="card-photo-img"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster={IMG_AFTERSHOT}
+  >
+    <source src="/videos/aftershotvideo.mp4" type="video/mp4" />
+  </video>
+</div>
 
   <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
   <p class="prodpg__price">${(PRICE_AFTERSHOT/100).toFixed(2)}</p>
@@ -306,15 +302,28 @@ const IMG_HERO = null
   box-shadow: 0 3px 6px rgba(0,0,0,.04);
   display: block;
 }
-.card-photo-img {
+/* Define the box shape */
+.card-photo{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;   /* square. change to 16 / 9 if you prefer */
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f7f7f7;
+}
+
+/* Make both img and video fill that box correctly */
+.card-photo > img,
+.card-photo > video{
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
-  padding: 8px;
+  object-fit: cover;      /* crop to fill without distortion */
   display: block;
-  border-radius: 8px;
+  border-radius: inherit;
 }
+
 .card-photo video.card-photo-img {
   width: 100%;
   height: 100%;
@@ -322,6 +331,38 @@ const IMG_HERO = null
   display: block;
   border-radius: inherit;
 }
+/* The media box on each card */
+.card-photo{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;       /* keeps it square like your images */
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f7f7f7;
+}
+
+/* Make both img and video fill the box without distortion */
+.card-photo > img,
+.card-photo > video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;         /* crops to fill, like background-cover */
+  border-radius: inherit;
+}
+
+/* (Optional) if any old rule targeted .card-photo-img and is fighting you, this wins */
+.card-photo video.card-photo-img,
+.card-photo img.card-photo-img{
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
 
 
 
