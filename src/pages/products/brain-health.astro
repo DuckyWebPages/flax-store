@@ -1,7 +1,7 @@
 ﻿---
 // FILE: src/pages/products/brain-health.astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import CartBridge from "@/components/CartBridge.tsx"; // wires buttons → React cart
+
 
 const pageTitle = "Brain Products — ";
 
@@ -16,9 +16,9 @@ const IMG_MBLUE  = "/images/products/MethBlueonwood.jpg";
 const IMG_FHL    = "/images/products/fhlsinglegreen.png";
 
 // Local videos in /public/videos (leave '' to fall back to image)
-const VIDEO_NITRO_SRC = 'ninjanitro.mp4';          // e.g. '/videos/nitro.mp4'
-const VIDEO_MBLUE_SRC = 'methbluestir.mp4';          // e.g. '/videos/methylene-blue.mp4'
-const VIDEO_FHL_SRC   = 'FlaxLignanVideowave.mp4';          // e.g. '/videos/fhl.mp4'
+const VIDEO_NITRO_SRC = '/videos/ninjanitro.mp4';          // e.g. '/videos/nitro.mp4'
+const VIDEO_MBLUE_SRC = '/videos/methbluestir.mp4';          // e.g. '/videos/methylene-blue.mp4'
+const VIDEO_FHL_SRC   = '/videos/FlaxLignanVideowave.mp4';          // e.g. '/videos/fhl.mp4'
 ---
 
 <BaseLayout>
@@ -233,7 +233,7 @@ const VIDEO_FHL_SRC   = 'FlaxLignanVideowave.mp4';          // e.g. '/videos/fhl
   </section>
 
   <!-- Wire plain buttons to React cart provider/drawer -->
-  <CartBridge client:load />
+
 
   <style>
     .prodpg { padding: 0 0 48px; }
