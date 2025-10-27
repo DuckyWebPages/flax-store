@@ -3,7 +3,7 @@ title: "Research for Methylene Blue"
 date: 2025-10-19
 description: "Collected studies, mechanisms, and safety notes on methylene blue."
 draft: false
-heroImage: ./methylene-hero.jpg   # optional; remove this line if you don't have the image file
+heroImage: 
 tags:
   - brain
   - research

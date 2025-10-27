@@ -1,0 +1,197 @@
+﻿---
+// FILE: src/pages/products/essiac.astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Fineprint from '@/components/Fineprint.astro';
+
+const pageTitle = "Essiac Tea — ";
+const PRICE_CENTS = 4050;
+const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`;
+const SKU = "essiac-tea";
+const IMG = "/images/products/essiacgreen.png";
+const TITLE = "Essiac Tea — Famous 8-Herb Recipe (Single)";
+---
+<BaseLayout>
+  <Fragment slot="title">{pageTitle}</Fragment>
+
+  <!-- HERO -->
+  <section class="prod-hero">
+    <img class="bg" src={IMG} alt="" />
+    <div class="inner">
+      <h1>Essiac Tea</h1>
+      <p>Traditional herbal blend with a long history of wellness use and stories of supporting the body’s natural resilience.</p>
+    </div>
+  </section>
+
+  <section class="prodpg">
+    <div class="prodpg__container">
+      <h2 class="products-title sr-only">Product</h2>
+
+      <div class="prodpg__grid">
+        <!-- Card: Essiac Tea (Single) -->
+        <article class="prodpg__card">
+          <div class="card-photo">
+            <img
+              src={IMG}
+              alt="Essiac Tea (Single)"
+              loading="eager"
+              decoding="async"
+              class="card-photo-img"
+            />
+          </div>
+
+          <h3 class="prodpg__title">Essiac Tea <span class="unit">(Single)</span></h3>
+          <p class="prodpg__price">{PRICE_DISPLAY}</p>
+
+          <ul class="prodpg__bullets">
+            <li>Classic <strong>8-herb</strong> formulation (not the early 4-herb).</li>
+            <li>Carefully blended for purity and consistency.</li>
+            <li>Simple taste (coffee-like); brew and refrigerate.</li>
+          </ul>
+
+          <p class="prodpg__desc">
+            Later 8-herb formula associated with Nurse René Caisse and Dr. Charles Brusch. We recommend you looking up the history of Nurse Caisse and this incredible blend of herbs. She was known for treating people with very scary diagnosis' and DNA damaged cells in Canada with this recipe. We are not making any claims and not treating or diagnosing, just mentioning the history of Nurse Caisse and her herbal formula that was developed over time.<br />
+            <strong>Ingredients (USA):</strong> Blessed Thistle, Burdock Root, Kelp, Red Clover, Sheep Sorrel,
+            Slippery Elm Bark, Turkish Rhubarb Root, Watercress.
+          </p>
+
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              data-sku={SKU}
+              data-price={String(PRICE_CENTS)}
+              data-qty="1"
+              data-name={TITLE}
+              data-image={IMG}
+              type="button"
+              aria-label="Add Essiac Tea to cart"
+            >
+              Add to Cart
+            </button>
+          </div>
+
+          <p class="fineprint">
+            *Statements on this page have not been evaluated by the FDA. Products are not intended to diagnose, treat, cure, or prevent any disease.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About section -->
+  <section class="content">
+    <h2>About Essiac Tea</h2>
+    <p>
+      The early 4-herb version is widely circulated as it was the first recipe Nurse Caisse started with, but over time she developed a more refined 8-herb version. She was forced to sell her recipe to the Canadian government and so gave her 4 herb recipe, keeping the 8 herb recipe for her and Dr. Brusch's work. This is that 8-herb recipe directly handed down from Dr. Brusch.
+      Taste is similar to cold coffee and is sligtly bitter. Keep brewed tea chilled. Brewing instructions are on the bag.
+    </p>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="tbox tbox--bleed" aria-labelledby="essiac-testimonials-heading">
+    <div class="tbox__container">
+      <h2 id="essiac-testimonials-heading">Customer Testimonials</h2>
+      <p class="tbox__lead">Shared experiences from our community.</p>
+
+      <div class="tlist">
+        <figure class="tquote">
+          <blockquote><p>“I went thru 3 months of chemotherapy. I stopped the chemo after almost dying from an allergic reaction and a friend said that I should try Essaic. I have been taking this product for close to 3 years. I had invasive ductal carcinoma triple negative breast cancer and was stage 2B. I am now cancer free and my blood work is perfect. I love drinking this tea and it will be a permanent supplement for me."</p></blockquote>
+          <figcaption>— C.H., Montana</figcaption>
+        </figure>
+        <figure class="tquote">
+          <blockquote><p>“For pennies a day you can drink this tea and it will shed toxins and give your body a chance to rebuild, renew and heal. This tea has performed miracles for my autoimmune condition. Three oz of tea taken 3x a day on empty stomach - the body slowly heals itself!”</p></blockquote>
+          <figcaption>— J.T., Texas</figcaption>
+        </figure>
+        <figure class="tquote">
+          <blockquote><p>“I have been drinking this Essiac tea for almost 6 months now. All of my aches and swelling is gone.”</p></blockquote>
+          <figcaption>— A.R., Idaho</figcaption>
+        </figure>
+        <figure class="tquote">
+          <blockquote><p>“Essiac Tea helped me get rid of my ulcerative colitis symptoms!”</p></blockquote>
+          <figcaption>— M.T., Nebraska</figcaption>
+        </figure>
+        <figure class="tquote">
+          <blockquote><p>“My sister-in-law has been taking this Essiac tea for her diabetes. Her numbers have improved and so has her energy. Her doctor says she may be able to get off her insulin if the numbers keep improving.”</p></blockquote>
+          <figcaption>— D.P., Kansas</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+
+
+  <style>
+    /* ---------- HERO ---------- */
+    .prod-hero { position:relative; isolation:isolate; overflow:hidden; min-height:150px; border-radius:14px; background:#fff; margin:8px auto 18px; max-width:950px; }
+    .prod-hero .bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.18; z-index:-1; }
+    .prod-hero .inner { padding:16px; max-width:850px; margin:0 auto; }
+    .prod-hero h1 { margin:0 0 6px; font-size:clamp(1.7rem, 2.3vw, 2rem); }
+    .prod-hero p { margin:0; max-width:60ch; }
+
+    /* ---------- PRODUCT GRID (match flax sizing) ---------- */
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+    .prodpg { padding:0 0 36px; }
+    .prodpg__container { max-width:950px; margin:0 auto; padding:0 12px; }
+    .prodpg__grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; justify-content:center; }
+
+    .prodpg__card {
+      background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,.05);
+      display:grid; gap:.35rem; justify-items:start;
+      max-width:340px; margin:0 auto; transition:transform .15s ease;
+    }
+    .prodpg__card:hover { transform:translateY(-2px); }
+
+    /* Image wrapper: square, cropped, never huge */
+    .card-photo { width:100%; aspect-ratio:1 / 1; overflow:hidden; border-radius:8px; background:#f7f7f7; box-shadow:0 3px 6px rgba(0,0,0,.04); }
+    .card-photo-img { width:100%; height:100%; object-fit:cover; display:block; }
+
+    .prodpg__title { margin:.25rem 0 0; line-height:1.1; font-weight:700; font-size:.95rem; }
+    .prodpg__title .unit { display:block; font-weight:600; font-size:.85rem; }
+    .prodpg__price { font-weight:800; font-size:.9rem; margin:.1rem 0 .2rem; }
+    .prodpg__bullets { margin:.05rem 0 .3rem; padding-left:1rem; font-size:.85rem; }
+    .prodpg__bullets li { margin:.08rem 0; }
+    .prodpg__desc { line-height:1.4; color:#374151; font-size:.85rem; margin:.15rem 0 .25rem; }
+
+    .product-cta { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:.15rem; }
+   .product-cta .add-to-cart {
+  display: inline-flex;
+  height: var(--cart-btn-h, 44px);
+  padding: 0 var(--cart-btn-px, 16px);   /* horizontal only; height controls vertical */
+  line-height: 1;
+  font-size: var(--cart-btn-fs, 16px);
+  font-weight: var(--cart-btn-weight, 400);  /* thin */
+  letter-spacing: .01em;
+
+  border-radius: var(--cart-btn-radius, 10px);  /* or 0/9999px as you prefer */
+  background: var(--cart-btn-bg, #c7cdd6);      /* light gray to match site */
+  color: var(--cart-btn-fg, #111);              /* BLACK text */
+
+  border: 0;
+  text-decoration: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: background-color .15s ease, transform .05s ease;
+}
+
+.product-cta .add-to-cart:hover {
+  background: var(--cart-btn-bg-hover, #aeb6c1);
+}
+
+
+    /* ===== Testimonials ===== */
+    .tbox--bleed { width:100vw; margin-left:50%; transform:translateX(-50%); background:#fafafa; border-top:1px solid #ececec; border-bottom:1px solid #ececec; padding:28px 0 40px; }
+    .tbox__container { max-width:1100px; margin:0 auto; padding:0 16px; }
+    .tbox h2 { margin:0 0 6px; font-size:clamp(1.2rem, 2.2vw, 1.5rem); }
+    .tbox__lead { margin:0 0 14px; color:#475569; font-size:.95rem; }
+    .tlist { display:grid; grid-template-columns:1fr; gap:14px; }
+    @media (min-width:820px){ .tlist{ grid-template-columns:1fr 1fr; } }
+    .tquote { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; box-shadow:0 4px 10px rgba(0,0,0,.05); }
+    .tquote blockquote { margin:0 0 8px; position:relative; padding-left:12px; color:#0f172a; line-height:1.5; }
+    .tquote blockquote::before { content:"“"; position:absolute; left:-4px; top:-6px; font-size:2rem; line-height:1; opacity:.2; }
+    .tquote figcaption { font-size:.9rem; color:#475569; }
+
+    .fineprint { margin:.6rem 0 0; color:#6b7280; font-size:.8rem; }
+  </style>
+</BaseLayout>
