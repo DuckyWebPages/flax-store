@@ -49,14 +49,7 @@ const pageTitle = 'Welcome — ';
     <span class="label">Essiac Tea</span>
   </a>
 
-  <!-- 5) Essential Oils -->
-  <a class="bs-card" href="/products/essential-oils" aria-label="Essential Oils">
-    <span class="circle">
-      <img src="/images/products/oilsgreen.png" alt="Essential Oils" loading="lazy" decoding="async" />
-    </span>
-    <span class="label">Essential Oils</span>
-  </a>
-</div>
+  
 
 
   <!-- HERO (shadow box only; no background image) -->
@@ -124,8 +117,8 @@ const pageTitle = 'Welcome — ';
     .container{ max-width:1100px; margin:0 auto; padding:0 16px; }
 
     /* BEST SELLING */
-  /* Shared container (wider so 5 big circles fit comfortably) */
-.container{ max-width:1200px; margin:0 auto; padding:0 16px; }
+  /* Shared container */
+.container{ max-width:1100px; margin:0 auto; padding:0 16px; }
 
 /* BEST SELLING */
 .best-selling { margin:14px 0 24px; }
@@ -136,10 +129,10 @@ const pageTitle = 'Welcome — ';
 
 .bs-grid {
   display:grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: clamp(4px, 1.2vw, 8px); /* tighter gaps so they’re almost touching */
+  grid-template-columns: repeat(4, 1fr); /* 4 across */
+  gap: clamp(6px, 1vw, 12px);
 }
-@media (max-width: 980px){ .bs-grid{ grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 980px){ .bs-grid{ grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px){ .bs-grid{ grid-template-columns: repeat(2, 1fr); } }
 
 .bs-card {
@@ -149,23 +142,23 @@ const pageTitle = 'Welcome — ';
 }
 .bs-card:hover { background:#f8fafc; transform: translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.05); }
 
-/* Bigger, responsive circles */
+/* Bigger, but fits 4-up without overflow */
 .circle {
-  width: clamp(160px, 19vw, 210px);
-  height: clamp(160px, 19vw, 210px);
+  width: clamp(170px, 21vw, 230px);
+  height: clamp(170px, 21vw, 230px);
   border-radius:50%;
   overflow:hidden; display:block;
   background:#f8fafc;
-  border:4px solid #f1f5f9; /* slimmer border to maximize image area */
+  border:4px solid #f1f5f9;
 }
 .circle img { width:100%; height:100%; object-fit: cover; display:block; }
 
-/* More readable label for older eyes */
 .label {
   font-weight:800;
   letter-spacing:.01em;
   font-size: clamp(.95rem, .6rem + .7vw, 1.1rem);
 }
+
 
 
     /* HERO (no bg image; keep subtle gradient) */
