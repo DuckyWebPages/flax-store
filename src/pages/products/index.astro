@@ -206,6 +206,51 @@ const pageTitle = "Products — ";
     height: min(46vw, 160px) !important;
   }
 }
+/* ===== PHONE FIX: Best-Selling card full-bleed + no-overlap circles ===== */
+@media (max-width: 520px) {
+  /* Make the card span edge-to-edge on phones */
+  .best-selling { margin: 10px 0 18px; }
+  .best-selling .container { padding: 0 !important; }
+  .best-selling .bs-wrap {
+    width: 100vw;                 /* bleed to screen edges */
+    margin-left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0;             /* flush edges */
+    border: 0;
+    box-shadow: none;
+    padding: 14px 8px;            /* tighter side padding */
+  }
+
+  /* Keep 2-up, centered, with safe spacing */
+  .bs-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 12px !important;
+    row-gap: 14px !important;
+    justify-items: center !important;
+    align-items: start !important;
+  }
+
+  /* Big but not overflowing; cap by viewport width */
+  .circle {
+    width: min(42vw, 176px) !important;
+    height: min(42vw, 176px) !important;
+    border-width: 3px !important;
+  }
+  .circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Reduce hover box padding so frames don’t collide */
+  .bs-card { padding: 2px !important; }
+  .bs-card:hover { box-shadow: 0 8px 14px rgba(0,0,0,.05); background: #f8fafc; }
+}
+
+/* Ultra-narrow phones: nudge size down a touch */
+@media (max-width: 380px) {
+  .circle {
+    width: min(43vw, 168px) !important;
+    height: min(43vw, 168px) !important;
+  }
+  .bs-grid { column-gap: 10px !important; }
+}
 
   </style>
 </BaseLayout>
