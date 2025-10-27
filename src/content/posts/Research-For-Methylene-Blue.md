@@ -1,12 +1,10 @@
 ---
 title: "Research for Methylene Blue"
-date: 2025-10-19
-description: "Collected studies, mechanisms, and safety notes on methylene blue."
-draft: false
-heroImage: 
-tags:
-  - brain
-  - research
+description: "Compiled references and notes on methylene blue mechanisms, dosing, and safety considerations."
+pubDate: 2025-10-20
+seo: "methylene blue research, methylene blue benefits, brain health, mitochondrial support"
+excerpt: "Key studies, mechanisms of action, and practical notes on methylene blue for energy, cognition, and cellular support."
+heroImage: "/images/products/MethBlueonwood.jpg"
 ---
 
 
