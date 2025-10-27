@@ -9,51 +9,29 @@ const pageTitle = 'Welcome — ';
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- TRUST HERO (goes above Best Selling) -->
-  <section class="trust-hero">
+  <!-- TRUST STRIP (compact, horizontal; sits above products) -->
+  <section class="trust-strip">
     <div class="container">
-      <div class="trust-box">
-        <div class="trust-copy">
-          <div class="trust-badge" aria-hidden="true">
-            <span class="badge-top">Trusted</span>
-            <span class="badge-mid">25 Years</span>
-            <span class="badge-bot">Since 2000</span>
-          </div>
-
-          <h1 class="trust-h1">25 Years of Trusted Lignan Health</h1>
-
-          <p class="trust-sub">
-            We ARE the premiere and <strong>original</strong> providers of
-            <strong>Flax Hull Lignans</strong> — the same trusted source used in nonprofit
-            clinical trials around the world.
+      <div class="trust-row">
+        <img
+          class="trust-logo"
+          src="/images/f-h-l-l-o-g-o-d-a-r-k.jpg"
+          alt="FHL logo"
+          width="140"
+          height="40"
+          loading="eager"
+          decoding="async"
+        />
+        <div class="trust-text">
+          <h1 class="trust-title">25 Years of Trusted Lignan Health</h1>
+          <p class="trust-line">
+            <strong>Original U.S.–made Flax Hull Lignans.</strong>
+            Only trust the <strong>FHL logo</strong>.
           </p>
-
-          <p class="trust-body">
-            Only trust the <strong class="hl-red">FHL logo</strong>.
-            For <strong class="hl-ink">25 years</strong>, our lignans have been the
-            <strong class="hl-ink">gold standard</strong> —
-            <strong class="hl-ink">pure, farm-fresh, and potent</strong>.
-          </p>
-
-          <p class="trust-body">
-            Don’t be fooled by imitators. Many online sellers use
-            <strong class="hl-red">animal-grade</strong> or
-            <strong class="hl-red">chemically extracted</strong> lignans from overseas —
-            with <strong class="hl-red">only one lignan</strong> instead of the
-            <strong class="hl-ink">original 17</strong>, rendering them
-            <strong class="hl-red">virtually powerless</strong>.
-          </p>
-
-          <p class="trust-body">
-            We remain the <strong class="hl-ink">original, U.S.-made</strong> flax lignan company —
-            passionate about <strong class="hl-ink">purity</strong>, <strong class="hl-ink">science</strong>,
-            and <strong class="hl-ink">results</strong>.
-          </p>
-
-          <p class="trust-cta">
-            <strong>Stick with the original. Stick with <span class="hl-ink">FHL</span>.</strong><br />
-            <a class="btn-cta" href="/products">Shop Products</a>
-            <a class="trust-call" href="tel:+18177106918">Or call +1-817-710-6918</a>
+          <p class="trust-line">
+            Beware imitators: <span class="warn">animal-grade</span> or
+            <span class="warn">chemically extracted</span> single-lignan powders ≠ the
+            <strong>original 17</strong>.
           </p>
         </div>
       </div>
@@ -164,54 +142,39 @@ const pageTitle = 'Welcome — ';
 
     :root { --ink:#0f172a; --muted:#334155; }
 
-    /* Shared container (wider so 4 large circles fit) */
+    /* Shared container */
     .container{ max-width:1200px; margin:0 auto; padding:0 16px; }
 
-    /* ===== TRUST HERO ===== */
-    .trust-hero{ margin:12px 0 16px; }
-    .trust-box{
-      background: rgba(255,255,255,.98);
-      border:1px solid #e5e7eb; border-radius:16px;
-      box-shadow:0 12px 28px rgba(0,0,0,.10);
-      padding:18px 20px;
+    /* ===== TRUST STRIP (compact, horizontal) ===== */
+    .trust-strip{ margin:12px 0 12px; }
+    .trust-row{
+      background:#fff; border:1px solid #e5e7eb; border-radius:12px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+      padding:10px 12px;
+      display:flex; align-items:center; gap:12px;
     }
-    .trust-copy{
-      display:grid; grid-template-columns:auto 1fr;
-      align-items:center; gap:14px 18px;
-    }
-    @media (max-width: 720px){ .trust-copy{ grid-template-columns:1fr; } }
-
-    .trust-badge{
-      width:128px; height:128px; border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, #fef3c7, #f59e0b 65%, #b45309 100%);
-      color:#111827; display:grid; place-items:center; text-align:center;
-      box-shadow:0 6px 18px rgba(0,0,0,.15), inset 0 0 0 4px rgba(255,255,255,.55);
-      padding:10px;
-    }
-    .trust-badge .badge-top{ font-size:.8rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
-    .trust-badge .badge-mid{ font-size:1.25rem; font-weight:800; line-height:1; }
-    .trust-badge .badge-bot{ font-size:.75rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
-
-    .trust-h1{
+    .trust-logo{ width:150px; height:auto; display:block; }
+    .trust-text{ display:flex; flex-direction:column; gap:4px; }
+    .trust-title{
       margin:0; font-family:var(--font-head); font-weight:800; letter-spacing:-.01em;
-      font-size:clamp(1.6rem, 1.1rem + 1.6vw, 2.2rem); color:var(--ink);
+      font-size:clamp(1.1rem, .8rem + 1vw, 1.6rem); color:var(--ink); line-height:1.15;
     }
-    .trust-sub{ margin:4px 0 6px; font-size:clamp(1rem, .8rem + .5vw, 1.2rem); color:var(--muted); }
-    .trust-body{ margin:6px 0; font-size:1rem; line-height:1.5; color:#1f2937; }
-    .trust-cta{ margin:10px 0 4px; display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center; }
-    .trust-call{ font-weight:700; text-decoration:none; color:var(--ink); border-bottom:1px dotted #475569; }
-    .trust-call:hover{ border-bottom-style:solid; }
-    .hl-red{ color:#dc2626; font-weight:800; }
-    .hl-ink{ color:var(--ink); font-weight:800; }
+    .trust-line{
+      margin:0; font-size:.98rem; line-height:1.35; color:#1f2937;
+    }
+    .warn{ color:#dc2626; font-weight:800; }
+    @media (max-width: 720px){
+      .trust-row{ flex-wrap:wrap; }
+      .trust-logo{ width:130px; }
+    }
 
     /* ===== BEST SELLING ===== */
-    .best-selling { margin:14px 0 24px; }
+    .best-selling { margin:12px 0 20px; }
     .bs-wrap {
       background:#fff; border-radius:16px; box-shadow:0 8px 18px rgba(0,0,0,.06);
       border:1px solid #e5e7eb; padding:18px;
     }
 
-    /* Even spacing with smaller gaps so items are almost touching */
     .bs-grid {
       display:grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -222,7 +185,6 @@ const pageTitle = 'Welcome — ';
     @media (max-width: 980px){ .bs-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 520px){ .bs-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-    /* Reduce internal padding so the hover "square frame" shrinks by ~50% */
     .bs-card {
       display:grid; place-items:center; text-align:center;
       gap:8px; padding:4px;
@@ -232,7 +194,6 @@ const pageTitle = 'Welcome — ';
     .bs-card * { margin:0; }
     .bs-card:hover { background:#f8fafc; transform: translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.05); }
 
-    /* Bigger circles, slimmer border to maximize image area (fits 4-up) */
     .circle {
       width: clamp(176px, 22vw, 212px);
       height: clamp(176px, 22vw, 212px);
@@ -249,7 +210,7 @@ const pageTitle = 'Welcome — ';
       line-height:1.15;
     }
 
-    /* ===== HERO (below products) ===== */
+    /* ===== HERO ===== */
     .hero{ position: relative; min-height: 400px; display: flex; align-items: center; margin: 0 0 18px 0; }
     .hero-bg{
       position:absolute; inset:0;
