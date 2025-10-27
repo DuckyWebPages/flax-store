@@ -333,6 +333,52 @@ const pageTitle = 'Welcome — ';
     line-height: 1.35 !important;
   }
 }
+/* ===== HOME (MOBILE): Best-Selling full-bleed + no-overlap circles ===== */
+@media (max-width: 520px) {
+  /* Let the white card span edge-to-edge */
+  .best-selling { margin: 10px 0 18px; }
+  .best-selling .container { padding: 0 !important; }
+  .best-selling .bs-wrap {
+    width: 100vw;                 /* full-bleed */
+    margin-left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0;
+    border: 0;
+    box-shadow: none;
+    padding: 14px 10px;           /* exact side padding used in calc below */
+  }
+
+  /* Two-up grid with safe gaps, centered items */
+  .bs-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 12px !important;  /* used in calc below */
+    row-gap: 14px !important;
+    justify-items: center !important;
+    align-items: start !important;
+  }
+
+  /* Keep circles BIG but never overlapping:
+     width per circle = (viewport - side paddings - column gap) / 2  */
+  .circle {
+    width:  calc((100vw - 20px - 12px) / 2) !important; /* 20px = 10px+10px padding; 12px = gap */
+    height: calc((100vw - 20px - 12px) / 2) !important;
+    max-width: 190px !important;   /* cap for large phones */
+    max-height: 190px !important;
+    border-width: 3px !important;
+  }
+
+  /* Reduce hover/card padding so frames don’t collide */
+  .bs-card { padding: 2px !important; }
+  .bs-card:hover { box-shadow: 0 8px 14px rgba(0,0,0,.05); background: #f8fafc; }
+}
+
+/* Ultra-narrow phones: nudge the cap slightly */
+@media (max-width: 380px) {
+  .circle {
+    max-width: 172px !important;
+    max-height: 172px !important;
+  }
+}
 
   </style>
 </BaseLayout>
