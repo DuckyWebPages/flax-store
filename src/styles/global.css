@@ -144,3 +144,78 @@ img {
 .add-to-cart:focus-visible,
 .btn-cta.add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
 .add-to-cart:disabled { opacity: .6 !important; cursor: not-allowed !important; }
+/* ===== Mobile readability upgrades ===== */
+
+/* 1) Global, fluid type sizes (desktop → phone) */
+html {
+  /* This makes text scale smoothly across devices */
+  font-size: clamp(15px, 1.2vw + 10px, 18px);
+}
+
+/* 2) Make paragraphs and lists a bit more legible everywhere */
+body, p, li {
+  line-height: 1.55;
+}
+
+/* 3) Buttons & links are easier to tap on small screens */
+.btn-cta, .nav-link, .add-to-cart, .buy-now, .cs-phone {
+  min-height: 44px;              /* Apple’s touch target guideline */
+  padding: 10px 16px;
+  font-weight: 700;
+}
+
+/* 4) Product circles/images: ensure they’re large on phones */
+@media (max-width: 520px) {
+  /* Best Selling grid: keep 2-up, but make items bigger */
+  .bs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 10px;
+    row-gap: 10px;
+  }
+  /* Enlarge circles on small screens */
+  .circle {
+    width: min(44vw, 220px);
+    height: min(44vw, 220px);
+    border-width: 3px;
+  }
+  .label {
+    font-size: 1.05rem;
+    line-height: 1.2;
+  }
+
+  /* Trust strip: keep it compact but readable */
+  .trust-row { gap: 10px; padding: 10px 12px; }
+  .trust-logo { width: 140px; }
+  .trust-title { font-size: clamp(1.15rem, 3.6vw, 1.4rem); }
+  .trust-line { font-size: 1.02rem; }
+
+  /* Hero: slightly larger tagline/body text on phones */
+  .tagline { font-size: 1.08rem; }
+  .hero-extra { font-size: 1.02rem; }
+
+  /* Footer & subscribe: comfortable reading size */
+  .subcopy, footer { font-size: 1rem; }
+}
+
+/* 5) Small tablets: give a little breathing room */
+@media (min-width: 521px) and (max-width: 980px) {
+  .circle { width: min(48vw, 230px); height: min(48vw, 230px); }
+
+  .trust-title { font-size: clamp(1.2rem, 2vw, 1.6rem); }
+}
+
+/* 6) Ensure images don’t shrink text – let them scale naturally */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 7) Safety: prevent tiny text if a component hard-codes small sizes */
+:where(h1,h2,h3,h4,.trust-title,.home-products-title,.label,.nav-link,.btn-cta,.subcopy) {
+  font-size: max(0.95em, var(--safe-min, 1em));
+}
+
+/* 8) Optional: slightly larger base font on very small phones */
+@media (max-width: 380px) {
+  html { font-size: clamp(16px, 4.5vw, 18px); }
+}
