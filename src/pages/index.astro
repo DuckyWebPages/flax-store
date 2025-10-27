@@ -9,6 +9,56 @@ const pageTitle = 'Welcome — ';
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
+<!-- TRUST HERO (goes above Best Selling) -->
+<section class="trust-hero">
+  <div class="container">
+    <div class="trust-box">
+      <div class="trust-copy">
+        <div class="trust-badge" aria-hidden="true">
+          <span class="badge-top">Trusted</span>
+          <span class="badge-mid">25 Years</span>
+          <span class="badge-bot">Since 2000</span>
+        </div>
+
+        <h1 class="trust-h1">25 Years of Trusted Lignan Health</h1>
+
+        <p class="trust-sub">
+          We ARE the premiere and <strong>original</strong> providers of
+          <strong>Flax Hull Lignans</strong> — the same trusted source used in nonprofit
+          clinical trials around the world.
+        </p>
+
+        <p class="trust-body">
+          Only trust the <strong class="hl-red">FHL logo</strong>.
+          For <strong class="hl-ink">25 years</strong>, our lignans have been the
+          <strong class="hl-ink">gold standard</strong> —
+          <strong class="hl-ink">pure, farm-fresh, and potent</strong>.
+        </p>
+
+        <p class="trust-body">
+          Don’t be fooled by imitators. Many online sellers use
+          <strong class="hl-red">animal-grade</strong> or
+          <strong class="hl-red">chemically extracted</strong> lignans from overseas —
+          with <strong class="hl-red">only one lignan</strong> instead of the
+          <strong class="hl-ink">original 17</strong>, rendering them
+          <strong class="hl-red">virtually powerless</strong>.
+        </p>
+
+        <p class="trust-body">
+          We remain the <strong class="hl-ink">original, U.S.-made</strong> flax lignan company —
+          passionate about <strong class="hl-ink">purity</strong>, <strong class="hl-ink">science</strong>,
+          and <strong class="hl-ink">results</strong>.
+        </p>
+
+        <p class="trust-cta">
+          <strong>Stick with the original. Stick with <span class="hl-ink">FHL</span>.</strong><br />
+          <a class="btn-cta" href="/products">Shop Products</a>
+          <a class="trust-call" href="tel:+18177106918">Or call +1-817-710-6918</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
  <!-- BEST SELLING PRODUCTS (top) -->
 <section class="best-selling">
@@ -106,6 +156,72 @@ const pageTitle = 'Welcome — ';
       </div>
     </div>
   </section>
+  /* TRUST HERO */
+.trust-hero{
+  margin: 12px 0 16px;
+}
+.trust-box{
+  background: rgba(255,255,255,.98);
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.10);
+  padding: 18px 20px;
+}
+.trust-copy{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px 18px;
+}
+@media (max-width: 720px){
+  .trust-copy{ grid-template-columns: 1fr; }
+}
+
+/* Badge (pure CSS) */
+.trust-badge{
+  width: 128px; height: 128px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fef3c7, #f59e0b 65%, #b45309 100%);
+  color: #111827; display: grid; place-items: center; text-align: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,.15), inset 0 0 0 4px rgba(255,255,255,.55);
+  padding: 10px;
+}
+.trust-badge .badge-top{ font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.trust-badge .badge-mid{ font-size: 1.25rem; font-weight: 800; line-height: 1; }
+.trust-badge .badge-bot{ font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+/* Headings & text */
+.trust-h1{
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 800;
+  letter-spacing: -.01em;
+  font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.2rem);
+  color: var(--ink);
+}
+.trust-sub{
+  margin: 4px 0 6px;
+  font-size: clamp(1.0rem, .8rem + .5vw, 1.2rem);
+  color: var(--ink-muted);
+}
+.trust-body{
+  margin: 6px 0;
+  font-size: 1rem; line-height: 1.5;
+  color: #1f2937;
+}
+.trust-cta{
+  margin: 10px 0 4px;
+  display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center;
+}
+.trust-call{
+  font-weight: 700; text-decoration: none; color: var(--ink);
+  border-bottom: 1px dotted #475569;
+}
+.trust-call:hover{ border-bottom-style: solid; }
+
+/* Subtle highlights */
+.hl-red{ color: #dc2626; font-weight: 800; }
+.hl-ink{ color: var(--ink); font-weight: 800; }
+
 
   <style>
     .home-products-title{
