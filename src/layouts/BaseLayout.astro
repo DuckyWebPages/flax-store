@@ -184,6 +184,46 @@ import CartApp from "../components/CartApp.tsx";
   }
   .cs-phone{ margin-left: 0; }
 }
+/* Customer Service block */
+.site-header { gap: 16px; } /* add a little space between logo, phone, nav */
+
+.cs-phoneblock{
+  display:flex; flex-direction:column; align-items:flex-start;
+  line-height:1.1;
+}
+
+.cs-label{
+  display:block;
+  font-family: var(--font-head);
+  font-weight: 800;
+  letter-spacing: -.01em;
+  /* Bigger on desktop, still big on mobile */
+  font-size: clamp(16px, 1.6vw, 22px);
+  color: var(--ink);
+}
+
+.cs-phone{
+  display:block;
+  margin-top: 2px;
+  font-weight: 800;
+  text-decoration: none;
+  /* Red, per your earlier preference for emphasis */
+  color: #dc2626;
+  /* Nice and big on all screens */
+  font-size: clamp(20px, 2.2vw, 30px);
+}
+
+.cs-phone:hover { text-decoration: underline; }
+
+/* On narrow screens, allow wrapping so nothing squishes */
+@media (max-width: 720px){
+  .site-header{
+    flex-wrap: wrap;
+  }
+  .cs-phoneblock{
+    order: 2; /* keep nav on the right; phone sits under logo */
+  }
+}
 
 </style>
 
@@ -194,7 +234,7 @@ import CartApp from "../components/CartApp.tsx";
       <div class="site-header">
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
           <img
-  src="/images/fhllogodark.jpg"
+  src="/images/flh-logo-2025b.png"
   alt="Flax Lignan Health"
   class="nav-logo"
   decoding="async"
@@ -202,12 +242,13 @@ import CartApp from "../components/CartApp.tsx";
   fetchpriority="high"
 />
 
-          />
         </a>
-<!-- Customer Service phone -->
-<a class="cs-phone" href="tel:+18177106918" aria-label="Call Customer Service">
-  Customer Service: +1-817-710-6918
-</a>
+<!-- Customer Service block (stacked) -->
+<div class="cs-phoneblock" aria-label="Customer Service phone">
+  <span class="cs-label">Customer Service</span>
+  <a class="cs-phone" href="tel:+18177106918">+1-817-710-6918</a>
+</div>
+
 
         <nav class="main-nav" aria-label="Main">
           <a
