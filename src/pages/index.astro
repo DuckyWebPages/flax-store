@@ -31,7 +31,7 @@ const pageTitle = 'Welcome — ';
           <p class="trust-line">
             Beware imitators: <span class="warn">many use animal-grade with much lower SDG</span> or
             <span class="warn">chemically extracted</span> or single-lignan ≠ the
-            <strong>original 17 lignans like ours has!</strong>.
+            <strong>original 17 lignans like ours has</strong>.
           </p>
         </div>
       </div>
@@ -320,6 +320,18 @@ const pageTitle = 'Welcome — ';
   .prodpg__title { font-size: 1.2rem !important; }
   .prodpg__price { font-size: 1.3rem !important; }
   .product-cta .add-to-cart { min-width: 100%; }
+}
+/* Mobile: ensure the trust headline is bigger than body text */
+@media (max-width: 520px) {
+  .trust-title {
+    font-size: 1.6rem !important;   /* bump the headline */
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+  }
+  .trust-line {
+    font-size: 1rem !important;      /* keep body smaller than title */
+    line-height: 1.35 !important;
+  }
 }
 
   </style>

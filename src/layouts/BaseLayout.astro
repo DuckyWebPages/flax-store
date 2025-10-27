@@ -156,6 +156,21 @@ import CartApp from "../components/CartApp.tsx";
         opacity: 1;
         pointer-events: auto;
       }
+      /* Mobile: allow taller header and pad the page accordingly */
+@media (max-width: 720px) {
+  :root {
+    --header-h: 132px;  /* adjust if you still see overlap; try 140–150px if needed */
+  }
+  .site-header {
+    flex-wrap: wrap;        /* let items go to a new line cleanly */
+    align-items: flex-start;
+    gap: 8px 16px;
+  }
+  .site-header-wrap {
+    height: auto;           /* header can grow as needed on mobile */
+  }
+}
+
     </style>
     <style is:global>
   .prodpg__desc { font-weight: 400; line-height: 1.55; }
