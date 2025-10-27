@@ -72,7 +72,7 @@ const pageTitle = 'Welcome — ';
           <!-- 4) Essiac Tea -->
           <a class="bs-card" href="/products/essiac-tea" aria-label="Essiac Tea">
             <span class="circle">
-              <img src="/images/essiac-small.jpg" alt="Essiac Tea" loading="lazy" decoding="async" />
+              <img src="/images/products/essiacteaglass.png" alt="Essiac Tea" loading="lazy" decoding="async" />
             </span>
             <span class="label">Essiac Tea</span>
           </a>
@@ -254,5 +254,73 @@ const pageTitle = 'Welcome — ';
       transition: transform .15s ease;
     }
     .coupon-img:hover{ transform: scale(1.02); }
+    /* ===== MOBILE-FIRST BOOSTS JUST FOR THIS PAGE ===== */
+@media (max-width: 860px) {
+  /* Force a single, roomy column on phones & small tablets */
+  .prodpg__grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  /* Let cards use full width and breathe a little */
+  .prodpg__card {
+    max-width: 100% !important;
+    padding: 14px !important;
+    border-radius: 14px;
+  }
+
+  /* Make the product image larger and more landscape (easier on eyes) */
+  .card-photo-img {
+    aspect-ratio: 4 / 3 !important;   /* was 1 / 1 */
+    object-fit: cover;
+  }
+
+  /* Headline and intro copy in the hero: slightly larger */
+  .prod-hero h1 {
+    font-size: clamp(1.8rem, 3.6vw, 2.2rem) !important;
+  }
+  .prod-hero p {
+    font-size: 1.02rem;
+    line-height: 1.5;
+  }
+
+  /* Product title & price: bigger for older eyes */
+  .prodpg__title {
+    font-size: 1.15rem !important;
+    line-height: 1.25 !important;
+  }
+  .prodpg__price {
+    font-size: 1.25rem !important;
+    font-weight: 800;
+    margin-top: 2px;
+  }
+
+  /* Bullets and description: easier to read */
+  .prodpg__bullets,
+  .prodpg__desc {
+    font-size: 1rem !important;
+    line-height: 1.5;
+  }
+  .prodpg__bullets li { margin: .16rem 0; }
+
+  /* Big, comfy Add to Cart button */
+  .product-cta .add-to-cart {
+    height: 52px !important;
+    padding: 0 20px !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    min-width: 220px;
+  }
+}
+
+/* Optional: on very small phones, make image even taller and text a hair bigger */
+@media (max-width: 420px) {
+  .card-photo-img { aspect-ratio: 3 / 2 !important; }
+  .prodpg__title { font-size: 1.2rem !important; }
+  .prodpg__price { font-size: 1.3rem !important; }
+  .product-cta .add-to-cart { min-width: 100%; }
+}
+
   </style>
 </BaseLayout>
