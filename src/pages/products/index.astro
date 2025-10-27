@@ -143,5 +143,38 @@ const pageTitle = "Products — ";
     /* ===== OPTIONAL CATEGORY BANNER ===== */
     .category-banner{ max-width:1200px; margin:24px auto 48px; }
     .category-banner img{ display:block; width:100%; height:auto; border-radius:8px; }
+  /* ==== FIX: Best-Selling circles on phones ==== */
+@media (max-width: 520px) {
+  /* Keep 2-up, but give them breathing room */
+  .bs-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 10px !important;
+    row-gap: 12px !important;
+    justify-items: center !important;
+  }
+
+  /* Cap circle size so two fit without overlap on narrow phones */
+  .circle {
+    width: min(44vw, 168px) !important;
+    height: min(44vw, 168px) !important;
+    border-width: 3px !important;        /* slimmer ring = more image area */
+  }
+
+  /* Trim card padding so the hover box doesn't crowd neighbors */
+  .bs-card {
+    padding: 2px !important;
+  }
+}
+
+/* Ultra-small phones (e.g., 360px wide) */
+@media (max-width: 380px) {
+  .bs-grid { column-gap: 8px !important; }
+  .circle {
+    width: min(46vw, 160px) !important;
+    height: min(46vw, 160px) !important;
+  }
+}
+
+  
   </style>
 </BaseLayout>
