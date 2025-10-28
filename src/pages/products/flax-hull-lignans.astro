@@ -11,6 +11,9 @@ const PRICE_ANCIENT_CENTS = 4500;
 const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`;
 const VID_FHL = '/videos/flaxlignanjar.mp4';
 const POSTER_FHL = '/images/products/Flax4K.jpg';
+const VID_ANCIENT = '/videos/ancientseeds.mp4';
+const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
+
 
 ---
 
@@ -96,16 +99,31 @@ const POSTER_FHL = '/images/products/Flax4K.jpg';
         <!-- Card: Ancient Seeds & Grains (Single Jar) -->
         <article class="prodpg__card">
           <div class="card-photo">
-            <img
-              src="/images/products/Ancientseedswood.jpg"
-              alt="FLH Ancient Seeds &amp; Grains (Single Jar)"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img"
-            />
-          </div>
+  <div class="card-media">
+    <video
+      class="card-video"
+      src={VID_ANCIENT}
+      poster={POSTER_ANCIENT}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    />
+  </div>
+  <noscript>
+    <img
+      src={POSTER_ANCIENT}
+      alt="FLH Ancient Seeds & Grains (Single Jar)"
+      loading="eager"
+      decoding="async"
+      class="card-photo-img"
+    />
+  </noscript>
+</div>
 
-          <h3 class="prodpg__title">FLH Ancient Seeds &amp; Grains <span class="unit">(Single Jar)</span></h3>
+
+          <h3 class="prodpg__title">FLH Ancient Seeds &amp; Grains <span class="unit">(Single Jar is $45, 3 jars is $135)</span></h3>
           <p class="prodpg__price">{PRICE_ANCIENT_DISPLAY}</p>
 
           <ul class="prodpg__bullets">
@@ -465,3 +483,4 @@ I am a true believer Flax Hull Lignans made all the difference in the world! I w
 <!-- redeploy bump -->
 
 <!-- redeploy bump -->
+<!-- build bump -->
