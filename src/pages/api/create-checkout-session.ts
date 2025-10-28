@@ -128,9 +128,13 @@ export const POST: APIRoute = async ({ request, url }) => {
       });
     }
 
-    const origin = import.meta.env.SITE_URL || url.origin;
-    const success_url = `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancel_url = `${origin}/checkout/cancelled`;
+    // keep origin logic, but normalize trailing slash
+const origin = (import.meta.env.SITE_URL || url.origin).replace(/\/$/, '');
+
+// ✅ match your existing routes exactly
+const success_url = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
+const cancel_url  = `${origin}/cartcancel`;
+
 
     const promotion_code_id = promoCode
       ? (await stripe.promotionCodes.list({ code: promoCode, active: true, limit: 1 })).data?.[0]?.id
