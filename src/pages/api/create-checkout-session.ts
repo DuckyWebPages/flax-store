@@ -56,7 +56,6 @@ const SKU_ALIAS: Record<string, string> = {
   "Zeolite-80Z": "aftershot-zeolite", // zero (your Stripe lookup_key)
 };
 
-
 // ENV override helper (e.g., STRIPE_PRICE_ID_FHL_SINGLE)
 function envPriceIdForSku(sku: string): string | undefined {
   const envKey = "STRIPE_PRICE_ID_" + sku.replace(/[^a-zA-Z0-9]/g, "_").toUpperCase();
@@ -81,6 +80,13 @@ async function findPriceIdByLookupKey(lookupKey: string): Promise<string | undef
     console.warn("[stripe] lookup-key search failed:", (e as Error).message);
     return undefined;
   }
+}
+
+// Prefer Vercel's forwarded headers for the real public origin, then SITE_URL, then url.origin
+function detectOrigin(req: Request, fallback: string) {
+  const host  = req.headers.get("x-forwarded-host") || req.headers.get("host");
+  const proto = req.headers.get("x-forwarded-proto") || "https";
+  return host ? `${proto}://${host}` : fallback;
 }
 
 export const POST: APIRoute = async ({ request, url }) => {
@@ -115,7 +121,10 @@ export const POST: APIRoute = async ({ request, url }) => {
       }
 
       if (!looksLikePriceId(priceId)) {
-        return new Response(JSON.stringify({ error: `Missing or invalid Price ID for SKU "${sku}".` }), { status: 400 });
+        return new Response(
+          JSON.stringify({ error: `Missing or invalid Price ID for SKU "${sku}".` }),
+          { status: 400 }
+        );
       }
 
       line_items.push({
@@ -125,15 +134,15 @@ export const POST: APIRoute = async ({ request, url }) => {
       });
     }
 
-    // Build absolute URLs safely
-    const rawOrigin =
-      (import.meta.env.SITE_URL && import.meta.env.SITE_URL.startsWith("http"))
-        ? import.meta.env.SITE_URL
-        : url.origin;
+    // Build absolute URLs safely: prefer request headers (prod domain), then SITE_URL if valid, then url.origin
+    const siteFromEnv = import.meta.env.SITE_URL;
+    const base = (siteFromEnv && /^https?:\/\//i.test(siteFromEnv))
+      ? siteFromEnv
+      : detectOrigin(request, url.origin);
 
-    const origin = rawOrigin.replace(/\/$/, "");
-    // ✅ Send users to your robust thank-you page that loads the session
-    const success_url = `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}`;
+    const origin = base.replace(/\/$/, "");
+    // ✅ Send users to your robust thank-you page that loads the session (trailing slash to avoid trailingSlash quirks)
+    const success_url = `${origin}/thank-you/?session_id={CHECKOUT_SESSION_ID}`;
     const cancel_url  = `${origin}/cartcancel`;
 
     console.log("[checkout] redirect URLs:", { origin, success_url, cancel_url });
@@ -150,7 +159,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       billing_address_collection: "auto",
       allow_promotion_codes: true,
       discounts: promotion_code_id ? [{ promotion_code: promotion_code_id }] : undefined,
-      payment_method_types: ["card"],
+      payment_method_types: ["card"], // keep simple/robust while testing
       customer_creation: "if_required",
       automatic_tax: { enabled: false },
     });
@@ -162,14 +171,12 @@ export const POST: APIRoute = async ({ request, url }) => {
       type: err?.type,
       code: err?.code,
       statusCode: err?.statusCode,
-      raw: err?.raw
-        ? {
-            message: err.raw.message,
-            type: err.raw.type,
-            code: err.raw.code,
-            statusCode: err.raw.statusCode,
-          }
-        : undefined,
+      raw: err?.raw ? {
+        message: err.raw.message,
+        type: err.raw.type,
+        code: err.raw.code,
+        statusCode: err.raw.statusCode
+      } : undefined
     };
     console.error("[stripe] create-checkout-session error:", payload);
     return new Response(JSON.stringify({ error: payload.message || "Unknown error" }), { status: 500 });
