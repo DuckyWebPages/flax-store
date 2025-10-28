@@ -40,10 +40,10 @@ const PRICE_MAP: Record<string, string> = {
 // Accept common typos / legacy slugs so pages don’t break
 const SKU_ALIAS: Record<string, string> = {
   // casing / common variations
-  blm: "BLM",
+  "blm": "BLM",
   "Ningxia-Nitro": "ningxia-nitro",
-  Sulfurzyme: "sulfurzyme",
-  Methylenemethylene-blue: "methylene-blue",
+  "Sulfurzyme": "sulfurzyme",
+  "Methylenemethylene-blue": "methylene-blue",
   "flaxfhl-single": "fhl-single",
   "fhl-3-jar": "fhl-bundle-3",
 
@@ -53,8 +53,9 @@ const SKU_ALIAS: Record<string, string> = {
   "aftershot-1oz": "aftershot-zeolite",
   "zeolite-8oz": "aftershot-zeolite",
   "Zeolite-8OZ": "aftershot-zeolite", // letter O
-  "Zeolite-80Z": "aftershot-zeolite", // zero (lookup_key)
+  "Zeolite-80Z": "aftershot-zeolite", // zero (your Stripe lookup_key)
 };
+
 
 // ENV override helper (e.g., STRIPE_PRICE_ID_FHL_SINGLE)
 function envPriceIdForSku(sku: string): string | undefined {
