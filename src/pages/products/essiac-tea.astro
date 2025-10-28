@@ -11,8 +11,9 @@ const SKU = 'essiac-tea';
 // Light hero image (faded behind heading)
 const IMG_HERO = '/images/products/essiacgreen.png';
 
-// Main horizontal card image (like Ocean Cleanse layout)
-const IMG_CARD = '/images/products/essiacgreen.png';
+// Video for the product card
+const VID_CARD = '/videos/essiac.mp4';
+const POSTER_CARD = '/images/products/essiacgreen.png';
 ---
 
 <BaseLayout>
@@ -30,23 +31,34 @@ const IMG_CARD = '/images/products/essiacgreen.png';
     </div>
   </section>
 
-  <!-- PRODUCT CARD (same structure as Ocean Cleanse) -->
+  <!-- PRODUCT CARD (Ocean Cleanse-style) -->
   <section id="buy" class="content">
     <div class="card">
-      <img
-        class="card-img"
-        src={IMG_CARD}
-        alt="Essiac Tea (Single)"
-        loading="lazy"
-        decoding="async"
-      />
+      <!-- Media: VIDEO replaces product picture -->
+      <div class="card-media-wrap">
+        <video
+          class="card-media"
+          src={VID_CARD}
+          poster={POSTER_CARD}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+        ></video>
+        <noscript>
+          <img src={POSTER_CARD} alt="Essiac Tea" class="card-fallback" />
+        </noscript>
+      </div>
+
       <div class="card-body">
         <h1 class="card-title">Essiac Tea (Single)</h1>
         <p class="card-price">{PRICE_DISPLAY}</p>
 
         <p class="card-desc">
           Later 8-herb formulation associated with Nurse René Caisse and Dr. Charles Brusch. Simple taste (coffee-like);
-          brew and refrigerate. See bag for brewing instructions. This is a famous recipe used in history from over 100 years ago. We cannot make medical claims, so we recommend you do a little history research on it. 
+          brew and refrigerate. See bag for brewing instructions. This is a famous recipe used in history from over 100 years ago.
+          We cannot make medical claims; we encourage you to research its history and usage.
         </p>
 
         <ul>
@@ -91,6 +103,12 @@ const IMG_CARD = '/images/products/essiacgreen.png';
     <p>
       Blessed Thistle, Burdock Root, Kelp, Red Clover, Sheep Sorrel, Slippery Elm Bark, Turkish Rhubarb Root, Watercress.
     </p>
+
+    <!-- Image pair under Ingredients -->
+    <div class="image-pair" aria-label="Essiac product images">
+      <img src="/images/products/essiacgreen.png" alt="Essiac bag" />
+      <img src="/images/products/ESSIAC.png" alt="Essiac logo" />
+    </div>
   </section>
 
   <style>
@@ -110,9 +128,9 @@ const IMG_CARD = '/images/products/essiacgreen.png';
     .prod-hero p{ margin:0; max-width:70ch; }
 
     /* ---------- CONTENT + CARD (mirrors Ocean Cleanse) ---------- */
-    .content{max-width:1000px;margin:22px auto;padding:0 10px}
-    .content h3{margin:1rem 0 .25rem;font-size:1.1rem}
-    .content ul{margin:.25rem 0 .75rem;padding-left:1.2rem}
+    .content{ max-width:1000px; margin:22px auto; padding:0 10px; }
+    .content h3{ margin:1rem 0 .25rem; font-size:1.1rem; }
+    .content ul{ margin:.25rem 0 .75rem; padding-left:1.2rem; }
 
     .card{
       display:grid;
@@ -125,20 +143,31 @@ const IMG_CARD = '/images/products/essiacgreen.png';
       box-shadow: 0 1px 2px rgba(0,0,0,.04);
     }
     @media (min-width: 720px){
-      .card{grid-template-columns: 1fr 1fr;}
+      .card{ grid-template-columns: 1fr 1fr; }
     }
 
-    .card-img{
-      width:100%;
-      height:auto;
-      object-fit:cover;
-      background:#f8fafc;
-      display:block;
+    /* Video / media area */
+    .card-media-wrap{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
     }
-    .card-body{padding:18px}
-    .card-title{margin:.25rem 0 .25rem;font-size:1.6rem}
-    .card-price{margin:0 0 .5rem;font-weight:700}
-    .card-desc{margin:0 0 .9rem;line-height:1.55}
+    .card-media{
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-fallback{
+      width:100%; height:auto; display:block;
+    }
+
+    .card-body{ padding:18px; }
+    .card-title{ margin:.25rem 0 .25rem; font-size:1.6rem; }
+    .card-price{ margin:0 0 .5rem; font-weight:700; }
+    .card-desc{ margin:0 0 .9rem; line-height:1.55; }
 
     /* Button styling: compact & consistent */
     .product-cta .btn-cta {
@@ -154,5 +183,35 @@ const IMG_CARD = '/images/products/essiacgreen.png';
     }
 
     .fineprint { margin:.6rem 0 0; color:#6b7280; font-size:.8rem; }
+
+    /* Bottom image pair */
+    .image-pair{
+      margin: 16px auto 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: center;
+      justify-items: center;
+      max-width: 800px;
+    }
+    .image-pair img{
+      width: min(100%, 360px);
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,.06);
+      background: #fff;
+      padding: 6px; /* small frame */
+    }
+    @media (max-width: 560px){
+      .image-pair{
+        grid-template-columns: 1fr 1fr;  /* still side-by-side on most phones */
+        gap: 10px;
+      }
+      .image-pair img{
+        width: 100%;
+        max-width: 160px; /* keep them modest on small phones */
+      }
+    }
   </style>
 </BaseLayout>
