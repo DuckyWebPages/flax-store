@@ -9,6 +9,9 @@ const PRICE_FHL_CENTS = 3900;
 const PRICE_FHL_DISPLAY = `$${(PRICE_FHL_CENTS / 100).toFixed(2)}`;
 const PRICE_ANCIENT_CENTS = 4500;
 const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`;
+const VID_FHL = '/videos/flaxlignanjar.mp4';
+const POSTER_FHL = '/images/products/Flax4K.jpg';
+
 ---
 
 <BaseLayout>
@@ -35,14 +38,29 @@ const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`;
         <!-- Card: Flax Hull Lignans (Single Jar) -->
         <article class="prodpg__card">
           <div class="card-photo">
-            <img
-              src="/images/products/Flax4K.jpg"
-              alt="Flax Hull Lignans (Single Jar)"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img"
-            />
-          </div>
+  <div class="card-media">
+    <video
+      class="card-video"
+      src={VID_FHL}
+      poster={POSTER_FHL}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+    />
+  </div>
+  <noscript>
+    <img
+      src={POSTER_FHL}
+      alt="Flax Hull Lignans (Single Jar)"
+      loading="eager"
+      decoding="async"
+      class="card-photo-img"
+    />
+  </noscript>
+</div>
+
 
           <h3 class="prodpg__title">Flax Hull Lignans <span class="unit">(Single Jar)</span></h3>
           <p class="prodpg__price">{PRICE_FHL_DISPLAY}</p>
@@ -252,6 +270,36 @@ I am a true believer Flax Hull Lignans made all the difference in the world! I w
       border-radius: 8px;
       display: block;
     }
+    /* Unified media wrapper for image/video cards */
+.card-photo {
+  position: relative;
+}
+
+.card-media {
+  width: 100%;
+  aspect-ratio: 1 / 1;        /* square on desktop */
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f7f7f7;
+  box-shadow: 0 3px 6px rgba(0,0,0,.04);
+}
+
+.card-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;           /* fill nicely without letterboxing */
+  border-radius: 8px;
+}
+
+/* Mobile: match your taller crop rule */
+@media (max-width: 900px) {
+  .card-media { aspect-ratio: 4 / 3 !important; }
+}
+@media (max-width: 420px) {
+  .card-media { aspect-ratio: 3 / 2 !important; }
+}
+
 
     .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
     .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
