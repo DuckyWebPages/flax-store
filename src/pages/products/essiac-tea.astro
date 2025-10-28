@@ -25,8 +25,8 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
     <div class="inner">
       <h1>Essiac Tea</h1>
       <p>
-        Traditional 8-herb blend with a long history of wellness use and stories of supporting the body’s
-        natural resilience. Brew, chill, and sip daily.
+        This is THE traditional 8-herb blend - the finalized recipe from the famous nurse Caisse that comes with a long history of wellness use and stories of supporting the body’s
+        natural resilience. It will help you detox and support healthy replication of your DNA. Brewing instructions are on the package. Brew, chill, and drink cold daily.
       </p>
     </div>
   </section>
@@ -52,7 +52,7 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
       </div>
 
       <div class="card-body">
-        <h1 class="card-title">Essiac Tea (Single)</h1>
+        <h1 class="card-title">Essiac Tea (Single Bag)</h1>
         <p class="card-price">{PRICE_DISPLAY}</p>
 
         <p class="card-desc">
@@ -163,6 +163,21 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
     .card-fallback{
       width:100%; height:auto; display:block;
     }
+    /* Nudge the video framing DOWN a bit so the top shows more */
+.card-media{
+  object-fit: cover;       /* keep full-bleed */
+  object-position: 50% 62%;/* ← adjust this: 50% 62% moves view down */
+}
+
+/* Give the media area a steady shape on desktop/phone so nothing gets clipped */
+@media (min-width: 720px){
+  .card-media-wrap{ aspect-ratio: 16 / 9; }
+}
+@media (max-width: 719.98px){
+  .card-media-wrap{ aspect-ratio: 16 / 9; }
+  .card-media{ object-position: 50% 60%; } /* slightly different on phones if desired */
+}
+
 
     .card-body{ padding:18px; }
     .card-title{ margin:.25rem 0 .25rem; font-size:1.6rem; }
