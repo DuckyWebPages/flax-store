@@ -1,19 +1,16 @@
 ﻿---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-const title = "Redirecting…";
 const qs = typeof Astro !== "undefined" ? Astro.url.search : "";
 ---
 <BaseLayout>
-  <Fragment slot="title">{title}</Fragment>
-  <section class="wrap">
+  <main style="max-width:680px;margin:40px auto;padding:0 16px;text-align:center;">
     <h1>Redirecting…</h1>
     <p>If you are not redirected, <a href={'/success' + qs}>click here</a>.</p>
-  </section>
+  </main>
   <script>
     if (typeof window !== "undefined") {
       const qs = window.location.search || "";
       window.location.replace("/success" + qs);
     }
   </script>
-  <style>.wrap{max-width:800px;margin:24px auto;padding:0 12px}</style>
 </BaseLayout>

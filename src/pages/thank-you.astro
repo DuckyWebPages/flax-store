@@ -11,7 +11,7 @@ const title = "Thank you!";
     <h1>{title}</h1>
 
     <p class="lead">
-      Thank you for shopping with us! Weâ€™ve received your order. A receipt has been emailed to you.
+      Thank you for shopping with us! We've received your order. A receipt has been emailed to you.
       Questions? Call 817-710-6918.
     </p>
 
@@ -26,7 +26,7 @@ const title = "Thank you!";
     />
 
     <div id="order-summary" class="order">
-      <p>Loading your orderâ€¦</p>
+      <p>Loading your order¦</p>
     </div>
   </div>
 
@@ -55,7 +55,9 @@ const title = "Thank you!";
       const s = data.session ?? data;
 
       const paymentStatus = s.payment_status ?? "unknown";
-      const email = s.customer_details?.email ?? "â€”";
+      const email = (s.customer_details && typeof s.customer_details.email === "string")
+  ? s.customer_details.email
+  : "-";
       const currency = (typeof s.currency === "string" ? s.currency : "usd").toUpperCase();
       const total = typeof s.amount_total === "number" ? (s.amount_total / 100) : null;
 
