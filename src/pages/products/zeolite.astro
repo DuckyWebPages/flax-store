@@ -1,8 +1,9 @@
 ﻿---
+// FILE: src/pages/products/zeolite.astro
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'AfterShot'
-const PRICE_CENTS = 1999
+const PRICE_CENTS = 1995
 const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
 ---
 
@@ -16,11 +17,9 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
       <h1>AfterShot Zeolite</h1>
       <p>
         AfterShot Zeolite combines micronized, cleansed zeolite with humic/fulvic acids so it can
-        circulate beyond the gutâ€”supporting whole-body detox and efficient elimination. Zeolite is
-        recommended by natural health practitioners for removing all positively charged particles
-        (all toxins, and heavy metals) and this product is especially recommended for detoxing after
-        a vaccination. We chose this brand for its very fine particle sizeâ€”ideal for trapping
-        nanoparticles (e.g., concern about graphene oxide).
+        circulate beyond the gut, supporting whole-body detox and efficient elimination. Zeolite is
+        recommended by natural health practitioners for binding positively charged particles
+        (many toxins and heavy metals). This product is favored for very fine particle sizes.
       </p>
     </div>
   </section>
@@ -32,15 +31,17 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
       <div class="prodpg__grid">
         <!-- Single bottle -->
         <article class="prodpg__card">
-          <!-- Same size frame, smaller image inside -->
-          <div class="card-photo card-photo--boxed">
-            <img
-              src="/images/products/aftershot-8oz.jpg"
-              alt="AfterShot Zeolite Heavy Metal & Toxin Removal (8 oz)"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img card-photo-img--shrink"
-            />
+          <!-- VIDEO at top -->
+          <div class="vidbox" aria-label="AfterShot Zeolite product video">
+            <video
+              src="/videos/aftershotvideo.mp4"
+              muted
+              autoplay
+              loop
+              playsinline
+              preload="metadata"
+              poster="/images/products/aftershot-8oz.jpg"
+            ></video>
           </div>
 
           <h3 class="prodpg__title">
@@ -56,7 +57,7 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           </p>
 
           <ul class="prodpg__bullets">
-            <li>Extremely safe &amp; non-toxic; eliminated within 5 - 7 hours.</li>
+            <li>Gentle and non-systemic; eliminated within hours.</li>
             <li>Targets metals like mercury, cadmium, lead, arsenic, aluminum, strontium, excess iron.</li>
             <li>Includes Dihydroquercetin (taxifolin) for immune and antioxidant support.</li>
           </ul>
@@ -64,29 +65,42 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           <div class="product-cta">
             <button
               class="btn-cta add-to-cart"
-              type="button" 
-              data-sku="zeolite-8oz"
+              type="button"
+              data-sku="aftershot-zeolite"
               data-price={String(PRICE_CENTS)}
               data-qty="1"
               data-name="AfterShot Zeolite (1 oz)"
               data-image="/images/products/aftershot-8oz.jpg"
-              type="button"     
+              aria-label="Add AfterShot Zeolite (1 oz) to cart"
             >
               Add to Cart
             </button>
           </div>
+
+          <!-- PHOTO moved to bottom -->
+          <figure class="photoline">
+            <img
+              src="/images/products/aftershot-8oz.jpg"
+              alt="AfterShot Zeolite (1 oz) product photo"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
         </article>
 
         <!-- 3-bottle bundle -->
         <article class="prodpg__card">
-          <div class="card-photo card-photo--boxed">
-            <img
-              src="/images/products/aftershot3green.jpg"
-              alt="AfterShot Zeolite â€” 3-Bottle Bundle"
-              loading="eager"
-              decoding="async"
-              class="card-photo-img card-photo-img--shrink"
-            />
+          <!-- VIDEO at top -->
+          <div class="vidbox" aria-label="AfterShot Zeolite 3-Bottle Bundle video">
+            <video
+              src="/videos/aftershot3video.mp4"
+              muted
+              autoplay
+              loop
+              playsinline
+              preload="metadata"
+              poster="/images/products/aftershot3green.jpg"
+            ></video>
           </div>
 
           <h3 class="prodpg__title">
@@ -109,15 +123,26 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
             <button
               class="btn-cta add-to-cart"
               type="button"
-              data-sku="zeolite-3pack"
-              data-price={String(4999)}
+              data-sku="aftershot-3pack"
+              data-price="4999"
               data-qty="1"
-              data-name="AfterShot Zeolite - 3-Bottle Bundle"
+              data-name="AfterShot Zeolite – 3-Bottle Bundle"
               data-image="/images/products/aftershot3green.jpg"
+              aria-label="Add AfterShot Zeolite 3-Bottle Bundle to cart"
             >
               Add to Cart
             </button>
           </div>
+
+          <!-- PHOTO moved to bottom -->
+          <figure class="photoline">
+            <img
+              src="/images/products/aftershot3green.jpg"
+              alt="AfterShot Zeolite 3-Bottle Bundle product photo"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
         </article>
       </div>
     </div>
@@ -138,54 +163,51 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
     .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
     .prodpg { padding: 0 0 48px; }
     .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-    section.prodpg .prodpg__grid { display:grid !important; grid-template-columns:1fr; row-gap:16px !important; column-gap:32px !important; margin:10px 0 24px; }
-    @media (min-width:800px){ section.prodpg .prodpg__grid{ grid-template-columns:repeat(2,minmax(0,1fr)) !important; } section.prodpg .prodpg__card{ margin:0; box-sizing:border-box; } section.prodpg .prodpg__card:nth-child(odd){ margin-right:32px; } }
+    .prodpg__grid { display:grid; grid-template-columns:1fr; gap:16px 32px; margin:10px 0 24px; }
+    @media (min-width:800px){ .prodpg__grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 
-    section.prodpg .prodpg__card{
+    .prodpg__card{
       background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
       box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
-      width:100%; max-width:none;
+      width:100%;
     }
 
-    /* Frame stays same; image shrinks inside a black box */
-    .card-photo{
-      width:100%; aspect-ratio:3/4; overflow:hidden; border-radius:10px;
-      background:#0b0b0b; /* black box */
-      box-shadow:0 8px 18px rgba(0,0,0,.05);
-      display:grid; place-items:center; /* center the inner image */
-    }
-    .card-photo--boxed{ /* optional extra padding to emphasize shrink */
-      padding:10px;
-    }
-    .card-photo-img{
-      width:100%; height:100%; object-fit:cover; object-position:center; display:block;
-    }
-    /* Shrink to ~50% visual size without cropping */
-    .card-photo-img--shrink{
-      width:50% !important;     /* half the width of the frame */
-      height:auto !important;   /* keep proportions */
-      object-fit:contain !important;
+    /* ---------- VIDEO BOX ---------- */
+    .vidbox { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background:#0b0b0b; }
+    .vidbox video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; border-radius: 10px;
     }
 
+    /* ---------- TEXT ---------- */
     .prodpg__title{ margin:.25rem 0 0; line-height:1.2; }
     .prodpg__title .unit{ display:block; font-weight:600; }
-    section.prodpg .prodpg__price{ font-weight:700; font-size:1.05rem; }
-    section.prodpg .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
+    .prodpg__price{ font-weight:700; font-size:1.05rem; }
+    .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
     .prodpg__bullets{ margin:0 0 .5rem; padding-left:1.1rem; }
     .prodpg__bullets li{ margin:.25rem 0; }
 
+    /* ---------- CTA ---------- */
     .product-cta{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-    .product-cta .add-to-cart{
-      display:inline-flex !important; width:auto !important; min-width:160px;
+    .product-cta .btn-cta{
+      display:inline-flex; width:auto; min-width:160px;
       align-items:center; justify-content:center; white-space:nowrap; align-self:start;
+      height: var(--cart-btn-h, 44px);
+      padding: 0 var(--cart-btn-px, 16px);
+      border-radius: var(--cart-btn-radius, 10px);
+      background: var(--cart-btn-bg, #c7cdd6);
+      color: var(--cart-btn-fg, #111);
+      border: 0; cursor: pointer; font-weight: var(--cart-btn-weight, 400);
+      transition: background-color .15s ease;
+    }
+    .product-cta .btn-cta:hover { background: var(--cart-btn-bg-hover, #aeb6c1); }
+
+    /* ---------- PHOTO AT BOTTOM ---------- */
+    .photoline { margin: 10px 0 0 0; }
+    .photoline img{
+      display:block; width:100%; height:auto; border-radius:10px;
+      box-shadow:0 3px 8px rgba(0,0,0,.06);
+      background:#f7f7f7;
     }
   </style>
-  <style>
-  .product-cta .btn-cta {
-    min-width: 220px;
-    width: 100%;
-    justify-content: center;
-  }
-</style>
-
 </BaseLayout>
