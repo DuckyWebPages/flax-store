@@ -40,10 +40,10 @@ const PRICE_MAP: Record<string, string> = {
 // Accept common typos / legacy slugs so pages don’t break
 const SKU_ALIAS: Record<string, string> = {
   // casing / common variations
-  "blm": "BLM",
+  blm: "BLM",
   "Ningxia-Nitro": "ningxia-nitro",
-  "Sulfurzyme": "sulfurzyme",
-  "Methylenemethylene-blue": "methylene-blue",
+  Sulfurzyme: "sulfurzyme",
+  Methylenemethylene-blue: "methylene-blue",
   "flaxfhl-single": "fhl-single",
   "fhl-3-jar": "fhl-bundle-3",
 
@@ -53,7 +53,7 @@ const SKU_ALIAS: Record<string, string> = {
   "aftershot-1oz": "aftershot-zeolite",
   "zeolite-8oz": "aftershot-zeolite",
   "Zeolite-8OZ": "aftershot-zeolite", // letter O
-  "Zeolite-80Z": "aftershot-zeolite", // zero (your Stripe lookup_key)
+  "Zeolite-80Z": "aftershot-zeolite", // zero (lookup_key)
 };
 
 // ENV override helper (e.g., STRIPE_PRICE_ID_FHL_SINGLE)
@@ -95,13 +95,12 @@ export const POST: APIRoute = async ({ request, url }) => {
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
     for (const it of items) {
-      const sku = String(it.id || "").trim();               // raw from button
+      const sku = String(it.id || "").trim();
       const qty = Math.max(1, Number(it.qty || 1));
-      const aliasKey = (SKU_ALIAS[sku] ?? sku).trim();      // normalize
+      const aliasKey = (SKU_ALIAS[sku] ?? sku).trim();
 
       let priceId = envPriceIdForSku(aliasKey) || PRICE_MAP[aliasKey];
 
-      // Helpful logs
       console.log("[checkout] sku:", sku, "→ alias:", aliasKey, "map:", PRICE_MAP[aliasKey], "env:", envPriceIdForSku(aliasKey));
 
       // Fallback: try lookup_key = aliasKey, then raw sku if different
@@ -115,10 +114,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       }
 
       if (!looksLikePriceId(priceId)) {
-        return new Response(
-          JSON.stringify({ error: `Missing or invalid Price ID for SKU "${sku}".` }),
-          { status: 400 }
-        );
+        return new Response(JSON.stringify({ error: `Missing or invalid Price ID for SKU "${sku}".` }), { status: 400 });
       }
 
       line_items.push({
@@ -128,13 +124,18 @@ export const POST: APIRoute = async ({ request, url }) => {
       });
     }
 
-    // keep origin logic, but normalize trailing slash
-const origin = (import.meta.env.SITE_URL || url.origin).replace(/\/$/, '');
+    // Build absolute URLs safely
+    const rawOrigin =
+      (import.meta.env.SITE_URL && import.meta.env.SITE_URL.startsWith("http"))
+        ? import.meta.env.SITE_URL
+        : url.origin;
 
-// ✅ match your existing routes exactly
-const success_url = `${origin}/success?session_id={CHECKOUT_SESSION_ID}`;
-const cancel_url  = `${origin}/cartcancel`;
+    const origin = rawOrigin.replace(/\/$/, "");
+    // ✅ Send users to your robust thank-you page that loads the session
+    const success_url = `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}`;
+    const cancel_url  = `${origin}/cartcancel`;
 
+    console.log("[checkout] redirect URLs:", { origin, success_url, cancel_url });
 
     const promotion_code_id = promoCode
       ? (await stripe.promotionCodes.list({ code: promoCode, active: true, limit: 1 })).data?.[0]?.id
@@ -148,7 +149,7 @@ const cancel_url  = `${origin}/cartcancel`;
       billing_address_collection: "auto",
       allow_promotion_codes: true,
       discounts: promotion_code_id ? [{ promotion_code: promotion_code_id }] : undefined,
-      payment_method_types: ["card"], // keep simple/robust while testing
+      payment_method_types: ["card"],
       customer_creation: "if_required",
       automatic_tax: { enabled: false },
     });
@@ -160,12 +161,14 @@ const cancel_url  = `${origin}/cartcancel`;
       type: err?.type,
       code: err?.code,
       statusCode: err?.statusCode,
-      raw: err?.raw ? {
-        message: err.raw.message,
-        type: err.raw.type,
-        code: err.raw.code,
-        statusCode: err.raw.statusCode
-      } : undefined
+      raw: err?.raw
+        ? {
+            message: err.raw.message,
+            type: err.raw.type,
+            code: err.raw.code,
+            statusCode: err.raw.statusCode,
+          }
+        : undefined,
     };
     console.error("[stripe] create-checkout-session error:", payload);
     return new Response(JSON.stringify({ error: payload.message || "Unknown error" }), { status: 500 });
