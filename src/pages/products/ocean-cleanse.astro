@@ -1,4 +1,5 @@
 ﻿---
+// FILE: src/pages/products/ocean-cleanse.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Fineprint from '@/components/Fineprint.astro';
 
@@ -9,8 +10,12 @@ const PRICE_DISPLAY = '$34.95'; // visible price; billing comes from Stripe pric
 // Keep existing small image for HERO (lightweight)
 const IMG_HERO = '/images/products/oceanfloor.jpg';
 
-// New horizontal photo for the CARD
+// Old product photo (we’ll move this to the bottom)
 const IMG_CARD = '/images/products/oceancleansefinal.png';
+
+// 🔊 New product video to replace the card photo
+const VID_CARD = '/videos/oceancleanse1.mp4';
+const POSTER_CARD = IMG_CARD; // use the current image as the video's poster
 ---
 
 <BaseLayout>
@@ -31,13 +36,20 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
   <!-- PRODUCT CARD -->
   <section id="buy" class="content">
     <div class="card">
-      <img
-        class="card-img"
-        src={IMG_CARD}
-        alt="Ocean Cleanse (Single Jar)"
-        loading="lazy"
-        decoding="async"
-      />
+      <!-- ⬇️ Replaced image with autoplay video (no controls) -->
+      <div class="card-media">
+        <video
+          class="card-video"
+          src={VID_CARD}
+          poster={POSTER_CARD}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+        />
+      </div>
+
       <div class="card-body">
         <h1 class="card-title">Ocean Cleanse (Single Jar)</h1>
         <p class="card-price">{PRICE_DISPLAY}</p>
@@ -98,6 +110,17 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
     </ul>
   </section>
 
+  <!-- ⬇️ Moved the old product photo to the bottom of the page -->
+  <section class="content bottom-photo-wrap">
+    <img
+      class="bottom-photo"
+      src={IMG_CARD}
+      alt="Ocean Cleanse product photo"
+      loading="lazy"
+      decoding="async"
+    />
+  </section>
+
   <style>
     /* ---------- HERO (faded image) ---------- */
     .prod-hero{
@@ -133,13 +156,27 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
       .card{grid-template-columns: 1fr 1fr;}
     }
 
-    .card-img{
+    /* Unified media wrapper for image/video cards */
+    .card-media{
       width:100%;
-      height:auto;
-      object-fit:cover;
+      aspect-ratio: 1 / 1;    /* square on desktop */
+      overflow:hidden;
+      border-radius:0;         /* inherits from .card (no double rounding) */
       background:#f8fafc;
-      display:block;
     }
+    .card-video{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;        /* fills nicely without letterboxing */
+    }
+    @media (max-width: 900px){
+      .card-media{ aspect-ratio: 4 / 3; }
+    }
+    @media (max-width: 420px){
+      .card-media{ aspect-ratio: 3 / 2; }
+    }
+
     .card-body{padding:18px}
     .card-title{margin:.25rem 0 .25rem;font-size:1.6rem}
     .card-price{margin:0 0 .5rem;font-weight:700}
@@ -152,16 +189,26 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
       justify-content: center;
     }
     .btn-cta.add-to-cart{
-  display: inline-flex;
-  align-items: center;        /* ⬅ vertical centering */
-  justify-content: center;    /* ⬅ horizontal centering */
-  box-sizing: border-box;     /* avoid height/padding mismatch */
-  height: var(--cart-btn-h, 44px);
-  padding: 0 var(--cart-btn-px, 16px);
-  line-height: 1;             /* fine now that flex is centering */
-  white-space: nowrap;        /* prevent awkward wrapping */
-}
-
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      height: var(--cart-btn-h, 44px);
+      padding: 0 var(--cart-btn-px, 16px);
+      line-height: 1;
+      white-space: nowrap;
+    }
     button.btn:focus { outline: 2px solid #11182722; outline-offset: 2px; }
+
+    /* Bottom photo styling */
+    .bottom-photo-wrap { margin-top: 12px; }
+    .bottom-photo{
+      display:block;
+      width:100%;
+      max-width:900px;
+      margin: 0 auto;
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
   </style>
 </BaseLayout>
