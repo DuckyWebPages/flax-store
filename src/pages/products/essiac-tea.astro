@@ -37,15 +37,16 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
       <!-- Media: VIDEO replaces product picture -->
       <div class="card-media-wrap">
         <video
-          class="card-media"
-          src={VID_CARD}
-          poster={POSTER_CARD}
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-        ></video>
+  class="card-media card-media--nudge"
+  src={VID_CARD}
+  poster={POSTER_CARD}
+  autoplay
+  muted
+  loop
+  playsinline
+  preload="metadata"
+></video>
+
         <noscript>
           <img src={POSTER_CARD} alt="Essiac Tea" class="card-fallback" />
         </noscript>
@@ -228,5 +229,24 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
         max-width: 160px; /* keep them modest on small phones */
       }
     }
+    /* Prefer object-position to bias the visible area downward */
+.card-media--nudge {
+  object-position: 50% 28%; /* center horizontally, show a bit more lower frame */
+}
+
+/* If iOS Safari ignores object-position on <video>, apply a safe nudge fallback */
+@supports (-webkit-touch-callout: none) {
+  .card-media--nudge {
+    object-position: 50% 36%;
+  }
+}
+
+/* Hard fallback if some browsers still crop the top:
+   slightly enlarge the video and shift it down a touch */
+.card-media--nudge.is-fallback-shift {
+  height: 112%;
+  top: -6%;
+}
+
   </style>
 </BaseLayout>
