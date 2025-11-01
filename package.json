@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --port 4325 --strictPort",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
@@ -13,6 +13,7 @@
     "npm": "10.x"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "@stripe/stripe-js": "^7.9.0",
     "@tailwindcss/vite": "^4.1.14",
     "@types/react": "^19.2.2",
