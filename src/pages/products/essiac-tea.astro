@@ -13,7 +13,7 @@ const IMG_HERO = '/images/products/essiacgreen.png';
 
 // Video for the product card
 const VID_CARD = '/videos/essiac.mp4';
-const POSTER_CARD = '/images/products/essiacgreen.png';
+const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscript>
 ---
 
 <BaseLayout>
@@ -25,27 +25,25 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
     <div class="inner">
       <h1>Essiac Tea</h1>
       <p>
-        This is THE traditional 8-herb blend - the finalized recipe from the famous nurse Caisse that comes with a long history of wellness use and stories of supporting the body’s
-        natural resilience. It will help you detox and support healthy replication of your DNA. Brewing instructions are on the package. Brew, chill, and drink cold daily.
+        This is THE traditional 8-herb blend—the finalized recipe from Nurse René Caisse—known for a long history of wellness use and stories of supporting the body’s natural resilience. It may support detox and healthy DNA replication. Brewing instructions are on the package. Brew, chill, and drink cold daily.
       </p>
     </div>
   </section>
 
-  <!-- PRODUCT CARD (Ocean Cleanse-style) -->
+  <!-- PRODUCT CARD -->
   <section id="buy" class="content">
     <div class="card">
-      <!-- Media: VIDEO replaces product picture -->
+      <!-- Media: VIDEO replaces product picture (no poster; fade-in when ready) -->
       <div class="card-media-wrap">
         <video
-  class="card-media card-media--nudge"
-  src={VID_CARD}
-  poster={POSTER_CARD}
-  autoplay
-  muted
-  loop
-  playsinline
-  preload="metadata"
-></video>
+          class="card-media card-media--nudge"
+          src={VID_CARD}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
 
         <noscript>
           <img src={POSTER_CARD} alt="Essiac Tea" class="card-fallback" />
@@ -53,20 +51,18 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
       </div>
 
       <div class="card-body">
-        <h1 class="card-title">Essiac Tea (Single Bag)</h1>
+        <h1 class="card-title">Essiac Tea (1 lb Single Bag)</h1>
         <p class="card-price">{PRICE_DISPLAY}</p>
 
         <p class="card-desc">
-          Later 8-herb formulation associated with Nurse René Caisse and Dr. Charles Brusch. Simple taste (coffee-like);
-          brew and refrigerate. See bag for brewing instructions. This is a famous recipe used in history from over 100 years ago.
-          We cannot make medical claims; we encourage you to research its history and usage.
+          Later 8-herb formulation associated with Nurse René Caisse and Dr. Charles Brusch. Simple taste (coffee-like); brew and refrigerate. See bag for brewing instructions. This is a famous recipe used in history for over 100 years. We cannot make medical claims; we encourage you to research its history and usage.
         </p>
 
         <ul>
           <li>Classic <strong>8-herb</strong> formulation (not the early 4-herb)</li>
-          <li>Carefully blended for purity and consistency - all with fresh grown in the USA herbs</li>
-          <li>Brew ahead and keep chilled in refrigerator</li>
-        <li>Video is a representation, not actual tea. It is dark and bitter like coffee. Best very cold.</li>
+          <li>Carefully blended for purity and consistency — grown in the USA</li>
+          <li>Brew ahead and keep chilled in the refrigerator</li>
+          <li>Video is a representation, not actual tea. It is dark and bitter like coffee. Best very cold.</li>
         </ul>
 
         <!-- CTA -->
@@ -96,9 +92,52 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
   <section class="content">
     <h2>About Essiac Tea</h2>
     <p>
-      The early 4-herb version is widely circulated as it was the first recipe Nurse Caisse started with,
-      but over time she developed a more refined 8-herb version with Dr. Brusch. This is that 8-herb recipe.
-      Taste is similar to cold coffee and is slightly bitter.
+      The early 4-herb version is widely circulated because it was Nurse Caisse’s first formula, but over time she worked with Dr. Brusch to develop a more refined 8-herb version. This is that 8-herb recipe. Taste is similar to cold coffee and is slightly bitter.
+    </p>
+
+    <h2>Brewing Instructions</h2>
+    <p>
+      Below are options for brewing an aggressive dose (concentrate used to make daily tea), a maintenance dose, or a one-quart batch. Steps <strong>3–5</strong> are the same for all methods.
+    </p>
+
+    <h3>Aggressive Treatment Dose (makes ~1 gallon concentrate)</h3>
+    <p><em>Typical intake:</em> 3–6 oz of tea, three times per day.</p>
+    <ol>
+      <li>Bring <strong>132 oz</strong> (1 gallon + 4 oz to account for evaporation) of spring or distilled water to a boil, then reduce to a gentle simmer.</li>
+      <li>Add <strong>4 oz (113 g)</strong> of the Essiac herb blend. For accuracy, weigh the herbs on a kitchen scale. (Very rough dry-measure approximation: about <strong>1¼ cups</strong>.)</li>
+    </ol>
+
+    <h3>Maintenance Dose (2-week supply)</h3>
+    <p><em>Typical intake:</em> 3 oz of tea once daily (some take twice daily for maintenance).</p>
+    <ol>
+      <li>Bring <strong>88 oz</strong> of spring or distilled water to a boil in a large pot.</li>
+      <li>Add <strong>2.67 oz (≈76 g)</strong> of the Essiac herb blend. Weigh for accuracy. (Rough dry-measure approximation: a <strong>rounded ½ cup</strong>.)</li>
+    </ol>
+
+    <h3>One-Quart Batch</h3>
+    <ol>
+      <li>Bring <strong>36 oz</strong> of spring or distilled water to a boil in a large pot.</li>
+      <li>Add <strong>1 oz (28 g)</strong> of the Essiac herb blend. Weigh for accuracy. (Rough dry-measure approximation: about <strong>¼ cup</strong>.)</li>
+    </ol>
+
+    <h3>Steps 3–5 (same for all batches)</h3>
+    <ol start="3">
+      <li>
+        Reduce heat to medium and <strong>simmer for 10 minutes</strong>, stirring occasionally. Keep the lid on with a small gap to limit evaporation.
+      </li>
+      <li>
+        Turn heat off, <strong>cover tightly</strong>, and let sit at room temperature for <strong>12 hours</strong>.
+      </li>
+      <li>
+        The next day, <strong>stir vigorously</strong> to disperse herb particles and funnel into a clean gallon water jug (or glass bottle). <strong>Do not strain.</strong> Because the herbs are powdered, they can be taken with the tea and may improve efficacy. Refrigerate.
+      </li>
+    </ol>
+
+    <p>
+      Brew only up to a <strong>2-week</strong> supply at a time; after roughly 14 days, make a fresh batch. <strong>Shake well</strong> before pouring each dose to redistribute herb particles. If the taste is difficult, mix with fruit or vegetable juice. Best consumed <strong>cold</strong>.
+    </p>
+    <p>
+      For most consistent results, take doses on an <strong>empty stomach</strong> (avoid food for ~2 hours before and ~1 hour after). If that’s not possible, taking Essiac with food is still better than skipping a dose.
     </p>
 
     <h3>Ingredients (USA)</h3>
@@ -129,7 +168,7 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
     .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
     .prod-hero p{ margin:0; max-width:70ch; }
 
-    /* ---------- CONTENT + CARD (mirrors Ocean Cleanse) ---------- */
+    /* ---------- CONTENT + CARD ---------- */
     .content{ max-width:1000px; margin:22px auto; padding:0 10px; }
     .content h3{ margin:1rem 0 .25rem; font-size:1.1rem; }
     .content ul{ margin:.25rem 0 .75rem; padding-left:1.2rem; }
@@ -161,43 +200,33 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
+      opacity: 0;
+      transition: opacity .2s ease;
     }
-    .card-fallback{
-      width:100%; height:auto; display:block;
+    .card-media.is-ready { opacity: 1; }
+
+    .card-fallback{ width:100%; height:auto; display:block; }
+
+    .card-media{ object-fit: cover; object-position: 50% 62%; }
+    @media (min-width: 720px){ .card-media-wrap{ aspect-ratio: 16 / 9; } }
+    @media (max-width: 719.98px){
+      .card-media-wrap{ aspect-ratio: 16 / 9; }
+      .card-media{ object-position: 50% 60%; }
     }
-    /* Nudge the video framing DOWN a bit so the top shows more */
-.card-media{
-  object-fit: cover;       /* keep full-bleed */
-  object-position: 50% 62%;/* ← adjust this: 50% 62% moves view down */
-}
 
-/* Give the media area a steady shape on desktop/phone so nothing gets clipped */
-@media (min-width: 720px){
-  .card-media-wrap{ aspect-ratio: 16 / 9; }
-}
-@media (max-width: 719.98px){
-  .card-media-wrap{ aspect-ratio: 16 / 9; }
-  .card-media{ object-position: 50% 60%; } /* slightly different on phones if desired */
-}
-
+    .card-media--nudge { object-position: 50% 28%; }
+    @supports (-webkit-touch-callout: none) {
+      .card-media--nudge { object-position: 50% 36%; }
+    }
+    .card-media--nudge.is-fallback-shift { height:112%; top:-6%; }
 
     .card-body{ padding:18px; }
     .card-title{ margin:.25rem 0 .25rem; font-size:1.6rem; }
     .card-price{ margin:0 0 .5rem; font-weight:700; }
     .card-desc{ margin:0 0 .9rem; line-height:1.55; }
 
-    /* Button styling: compact & consistent */
-    .product-cta .btn-cta {
-      min-width: 220px;
-      width: 100%;
-      justify-content: center;
-    }
-    .btn-cta.add-to-cart{
-      display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;
-      height: var(--cart-btn-h, 44px);
-      padding: 0 var(--cart-btn-px, 16px);
-      line-height: 1; white-space: nowrap;
-    }
+    .product-cta .btn-cta { min-width: 220px; width: 100%; justify-content: center; }
+    .btn-cta.add-to-cart{ display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; height: var(--cart-btn-h, 44px); padding: 0 var(--cart-btn-px, 16px); line-height: 1; white-space: nowrap; }
 
     .fineprint { margin:.6rem 0 0; color:#6b7280; font-size:.8rem; }
 
@@ -218,36 +247,22 @@ const POSTER_CARD = '/images/products/essiacgreen.png';
       border-radius: 10px;
       box-shadow: 0 3px 8px rgba(0,0,0,.06);
       background: #fff;
-      padding: 6px; /* small frame */
+      padding: 6px;
     }
     @media (max-width: 560px){
-      .image-pair{
-        grid-template-columns: 1fr 1fr;  /* still side-by-side on most phones */
-        gap: 10px;
-      }
-      .image-pair img{
-        width: 100%;
-        max-width: 160px; /* keep them modest on small phones */
-      }
+      .image-pair{ grid-template-columns: 1fr 1fr; gap: 10px; }
+      .image-pair img{ width: 100%; max-width: 160px; }
     }
-    /* Prefer object-position to bias the visible area downward */
-.card-media--nudge {
-  object-position: 50% 28%; /* center horizontally, show a bit more lower frame */
-}
-
-/* If iOS Safari ignores object-position on <video>, apply a safe nudge fallback */
-@supports (-webkit-touch-callout: none) {
-  .card-media--nudge {
-    object-position: 50% 36%;
-  }
-}
-
-/* Hard fallback if some browsers still crop the top:
-   slightly enlarge the video and shift it down a touch */
-.card-media--nudge.is-fallback-shift {
-  height: 112%;
-  top: -6%;
-}
-
   </style>
+
+  <!-- Reveal video only when it can play -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const v = document.querySelector('.card-media');
+      if (!v) return;
+      const reveal = () => v.classList.add('is-ready');
+      v.addEventListener('canplay', reveal, { once: true });
+      if (v.readyState >= 3) reveal();
+    });
+  </script>
 </BaseLayout>

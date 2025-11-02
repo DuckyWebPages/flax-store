@@ -1,0 +1,13 @@
+---
+const domain = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
+const token  = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN;
+const masked = token ? token.slice(0,4) + '...' + token.slice(-4) : '(missing)';
+---
+<html>
+  <body>
+    <h1>Env Check</h1>
+    <p>Domain: {domain || '(missing)'}</p>
+    <p>Token: {masked}</p>
+    <p>Token length: {token ? token.length : 0}</p>
+  </body>
+</html>

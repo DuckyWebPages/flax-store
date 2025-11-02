@@ -1,5 +1,4 @@
-﻿---
-// FILE: src/pages/products/zeolite.astro
+﻿// FILE: src/pages/products/zeolite.astro
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const pageTitle = 'AfterShot'
@@ -34,13 +33,13 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           <!-- VIDEO at top -->
           <div class="vidbox" aria-label="AfterShot Zeolite product video">
             <video
+              class="prod-video"
               src="/videos/aftershotvideo.mp4"
               muted
               autoplay
               loop
               playsinline
-              preload="metadata"
-              poster="/images/products/aftershot-8oz.jpg"
+              preload="auto"
             ></video>
           </div>
 
@@ -93,13 +92,13 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           <!-- VIDEO at top -->
           <div class="vidbox" aria-label="AfterShot Zeolite 3-Bottle Bundle video">
             <video
+              class="prod-video"
               src="/videos/aftershot3video.mp4"
               muted
               autoplay
               loop
               playsinline
-              preload="metadata"
-              poster="/images/products/aftershot3green.jpg"
+              preload="auto"
             ></video>
           </div>
 
@@ -174,10 +173,15 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
 
     /* ---------- VIDEO BOX ---------- */
     .vidbox { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background:#0b0b0b; }
-    .vidbox video {
+    .vidbox .prod-video {
       position: absolute; inset: 0; width: 100%; height: 100%;
       object-fit: cover; border-radius: 10px;
+
+      /* anti-flash */
+      opacity: 0;
+      transition: opacity .2s ease;
     }
+    .vidbox .prod-video.is-ready { opacity: 1; }
 
     /* ---------- TEXT ---------- */
     .prodpg__title{ margin:.25rem 0 0; line-height:1.2; }
@@ -210,4 +214,15 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
       background:#f7f7f7;
     }
   </style>
+
+  <!-- Reveal all videos only when they can play -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.vidbox .prod-video').forEach(v => {
+        const reveal = () => v.classList.add('is-ready');
+        v.addEventListener('canplay', reveal, { once: true });
+        if (v.readyState >= 3) reveal();
+      });
+    });
+  </script>
 </BaseLayout>
