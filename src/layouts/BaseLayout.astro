@@ -1,323 +1,106 @@
 ﻿---
-import CartApp from "../components/CartApp.tsx";
+// CLEAN BASE LAYOUT (no legacy shopCart)
+// - No window.SHOPIFY injection (server uses env vars)
+// - No imports from /src/lib/shopify-cart.ts
+// - Keeps your header/footer and drawer shell
+// - Listens for `cart:open` with optional { checkoutUrl }
+// - Open cart button just opens the drawer
 
+const { title } = Astro.props;
+
+// Optional global CSS imports (Astro-side). Keep if these files exist.
+import "../styles/global.css";
+import "@/styles/store.css";
 ---
-
----
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title><slot name="title" />Flax Lignan Health</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Source+Sans+3:wght@600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Source+Sans+3:wght@600;700&display=swap" rel="stylesheet" />
 
-    <!-- Global styles -->
-    <link rel="stylesheet" href="/src/styles/global.css" />
-    <link rel="stylesheet" href="/src/styles/store.css" />
+    <!-- Public CSS (remove these two lines if you don't have the files under /public/styles) -->
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="stylesheet" href="/styles/store.css" />
 
     <style>
       :root {
-        --font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial,
-          sans-serif;
-        --font-head: 'Source Sans 3', 'Inter', system-ui, -apple-system,
-          Segoe UI, Roboto, Arial, sans-serif;
+        --font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        --font-head: 'Source Sans 3', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         --ink: #0f172a;
         --ink-muted: #64748b;
         --accent: #0b7a53;
         --header-h: 88px;
       }
-
       body {
-        margin: 0;
-        font-family: var(--font-body);
-        color: var(--ink);
-        background: #ffffff
-          url('/images/backgroundw.jpg') center top / cover no-repeat fixed;
+        margin: 0; font-family: var(--font-body); color: var(--ink);
+        background: #ffffff url('/images/backgroundw.jpg') center top / cover no-repeat fixed;
       }
+      h1, h2, h3, h4 { font-family: var(--font-head); letter-spacing: -0.01em; }
+      .site-header-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: #fff; border-bottom: 1px solid #e5e7eb; box-shadow: 0 2px 6px rgba(0,0,0,.12); height: var(--header-h); }
+      .site-header { max-width: 1100px; margin: 0 auto; height: var(--header-h); padding: 0 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+      .brand { display: inline-flex; align-items: center; line-height: 0; }
+      .nav-logo { height: 64px; width: auto; display: block; }
+      nav.main-nav { display: flex; gap: 24px; align-items: center; }
+      .nav-link { color: var(--ink); font-weight: 600; text-decoration: none; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+      .nav-link:hover { background: #f3f4f6; }
+      main, footer { max-width: 1100px; margin: 0 auto; }
+      main { padding: calc(var(--header-h) + 16px) 16px 56px; }
+      footer { padding: 16px; color: var(--ink-muted); background: transparent; }
+      .btn-cta { background: #111827; color: #fff; border: 0; border-radius: 9999px; padding: 10px 16px; min-width: 160px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 6px 18px rgba(0,0,0,.18); cursor: pointer; transition: transform .08s ease, opacity .15s ease; }
+      .btn-cta:hover { opacity: .92; transform: translateY(-1px); }
 
-      h1, h2, h3, h4 {
-        font-family: var(--font-head);
-        letter-spacing: -0.01em;
+      /* Drawer overlay */
+      .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(2px); opacity: 0; pointer-events: none; transition: opacity .25s ease; z-index: 9998; }
+      .cart-overlay.open { opacity: 1; pointer-events: auto; }
+
+      @media (max-width: 720px) {
+        :root { --header-h: 132px; }
+        .site-header { flex-wrap: wrap; align-items: flex-start; gap: 8px 16px; }
+        .site-header-wrap { height: auto; }
       }
-
-      .site-header-wrap {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 9999;
-        background: #fff;
-        border-bottom: 1px solid #e5e7eb;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-        height: var(--header-h);
-      }
-
-      .site-header {
-        max-width: 1100px;
-        margin: 0 auto;
-        height: var(--header-h);
-        padding: 0 16px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        line-height: 0;
-      }
-
-      .nav-logo {
-        height: 64px;
-        width: auto;
-        display: block;
-      }
-
-      nav.main-nav {
-        display: flex;
-        gap: 24px;
-        align-items: center;
-      }
-
-      .nav-link {
-        color: var(--ink);
-        font-weight: 600;
-        text-decoration: none;
-        padding: 6px 8px;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-
-      .nav-link:hover {
-        background: #f3f4f6;
-      }
-
-      main, footer {
-        max-width: 1100px;
-        margin: 0 auto;
-      }
-
-      main {
-        padding: calc(var(--header-h) + 16px) 16px 56px;
-      }
-
-      footer {
-        padding: 16px;
-        color: var(--ink-muted);
-        background: transparent;
-      }
-
-      .btn-cta {
-        background: #111827;
-        color: #fff;
-        border: 0;
-        border-radius: 9999px;
-        padding: 10px 16px;
-        min-width: 160px;
-        font-weight: 700;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-        cursor: pointer;
-        transition: transform 0.08s ease, opacity 0.15s ease;
-      }
-
-      .btn-cta:hover {
-        opacity: 0.92;
-        transform: translateY(-1px);
-      }
-
-      /* --- Overlay for React Drawer --- */
-      .cart-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(2px);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-        z-index: 9998;
-      }
-
-      .cart-overlay.open {
-        opacity: 1;
-        pointer-events: auto;
-      }
-      /* Mobile: allow taller header and pad the page accordingly */
-@media (max-width: 720px) {
-  :root {
-    --header-h: 132px;  /* adjust if you still see overlap; try 140–150px if needed */
-  }
-  .site-header {
-    flex-wrap: wrap;        /* let items go to a new line cleanly */
-    align-items: flex-start;
-    gap: 8px 16px;
-  }
-  .site-header-wrap {
-    height: auto;           /* header can grow as needed on mobile */
-  }
-}
-
     </style>
+
     <style is:global>
-  .prodpg__desc { font-weight: 400; line-height: 1.55; }
-  .prodpg__desc p { margin: 0 0 14px; }
-  .prodpg__desc strong { font-weight: inherit; }
-  /* Customer Service phone in header (sits to the right of the logo) */
-.cs-phone{
-  margin-left: 14px;
-  font-family: var(--font-head); /* matches section headings */
-  font-weight: 800;              /* same bold feel as “Best Selling Products” */
-  letter-spacing: .01em;
-  font-size: clamp(.95rem, .6rem + .6vw, 1.05rem);
-  color: #dc2626;                /* red */
-  text-decoration: none;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  line-height: 1;
-}
-.cs-phone:hover{ text-decoration: underline; }
+      .prodpg__desc { font-weight: 400; line-height: 1.55; }
+      .prodpg__desc p { margin: 0 0 14px; }
+      .prodpg__desc strong { font-weight: inherit; }
 
-/* Ensure header items align nicely with some breathing room */
-.site-header{ gap: 10px; }
-@media (max-width: 640px){
-  .site-header{
-    flex-wrap: wrap;             /* allow phone to drop under logo on small screens */
-    row-gap: 6px;
-  }
-  .cs-phone{ margin-left: 0; }
-}
-/* Customer Service block */
-.site-header { gap: 16px; } /* add a little space between logo, phone, nav */
+      .cs-phoneblock{ display:flex; flex-direction:column; align-items:flex-start; line-height:1.1; }
+      .cs-label{ display:block; font-family: var(--font-head); font-weight: 800; letter-spacing: -.01em; font-size: clamp(16px, 1.6vw, 22px); color: var(--ink); }
+      .cs-phone{ display:block; margin-top: 2px; font-weight: 800; text-decoration: none; color: #dc2626; font-size: clamp(20px, 2.2vw, 30px); }
+      .cs-phone:hover { text-decoration: underline; }
 
-.cs-phoneblock{
-  display:flex; flex-direction:column; align-items:flex-start;
-  line-height:1.1;
-}
-
-.cs-label{
-  display:block;
-  font-family: var(--font-head);
-  font-weight: 800;
-  letter-spacing: -.01em;
-  /* Bigger on desktop, still big on mobile */
-  font-size: clamp(16px, 1.6vw, 22px);
-  color: var(--ink);
-}
-
-.cs-phone{
-  display:block;
-  margin-top: 2px;
-  font-weight: 800;
-  text-decoration: none;
-  /* Red, per your earlier preference for emphasis */
-  color: #dc2626;
-  /* Nice and big on all screens */
-  font-size: clamp(20px, 2.2vw, 30px);
-}
-
-.cs-phone:hover { text-decoration: underline; }
-
-/* On narrow screens, allow wrapping so nothing squishes */
-@media (max-width: 720px){
-  .site-header{
-    flex-wrap: wrap;
-  }
-  .cs-phoneblock{
-    order: 2; /* keep nav on the right; phone sits under logo */
-  }
-}
-
-</style>
-
+      @media (max-width: 720px){ .site-header{ flex-wrap: wrap; } .cs-phoneblock{ order: 2; } }
+    </style>
   </head>
 
   <body>
     <div class="site-header-wrap">
       <div class="site-header">
         <a href="/" class="brand" aria-label="Flax Lignan Health home">
-          <img
-  src="/images/flh-logo-2025b.png"
-  alt="Flax Lignan Health"
-  class="nav-logo"
-  decoding="async"
-  loading="eager"
-  fetchpriority="high"
-/>
-
+          <img src="/images/flh-logo-2025b.png" alt="Flax Lignan Health" class="nav-logo" decoding="async" loading="eager" fetchpriority="high" />
         </a>
-<!-- Customer Service block (stacked) -->
-<div class="cs-phoneblock" aria-label="Customer Service phone">
-  <span class="cs-label">Customer Service</span>
-  <a class="cs-phone" href="tel:+18177106918">+1-817-710-6918</a>
-</div>
 
+        <div class="cs-phoneblock" aria-label="Customer Service phone">
+          <span class="cs-label">Customer Service</span>
+          <a class="cs-phone" href="tel:+18177106918">+1-817-710-6918</a>
+        </div>
 
         <nav class="main-nav" aria-label="Main">
-          <a
-            href="/"
-            class="nav-link"
-            aria-current={Astro.url.pathname === '/' ? 'page' : undefined}
-            >Home</a
-          >
-          <a
-            href="/products"
-            class="nav-link"
-            aria-current={Astro.url.pathname.startsWith('/products')
-              ? 'page'
-              : undefined}
-            >Products</a
-          >
-          <a
-            href="/blog/"
-            class="nav-link"
-            aria-current={Astro.url.pathname.startsWith('/blog')
-              ? 'page'
-              : undefined}
-            >Blog</a
-          >
-          <a
-            href="/contact"
-            class="nav-link"
-            aria-current={Astro.url.pathname === '/contact'
-              ? 'page'
-              : undefined}
-            >Contact Us</a
-          >
-        <!-- Cart Button -->
-          <button
-            class="nav-link nav-cart"
-            aria-label="Open cart"
-            onClick={() => window.cartOpen && window.cartOpen()}
-          >
-            <img
-              src="/images/shoppingcart.jpg"
-              alt=""
-              class="cart-icon"
-              width="22"
-              height="22"
-              loading="lazy"
-              decoding="async"
-            />
-            <span
-              class="cart-badge"
-              id="cart-badge"
-              style="margin-left:4px; background:#0b7a53; color:#fff; border-radius:9999px; padding:2px 6px; font-size:11px; display:none;"
-            >0</span>
+          <a href="/"         class="nav-link" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a>
+          <a href="/products" class="nav-link" aria-current={Astro.url.pathname.startsWith('/products') ? 'page' : undefined}>Products</a>
+          <a href="/blog/"    class="nav-link" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+          <a href="/contact"  class="nav-link" aria-current={Astro.url.pathname === '/contact' ? 'page' : undefined}>Contact Us</a>
+
+          <button class="nav-link nav-cart" id="open-cart-btn" aria-label="Open cart">
+            <img src="/images/shoppingcart.jpg" alt="" class="cart-icon" width="22" height="22" loading="lazy" decoding="async" />
+            <span class="cart-badge" id="cart-badge" style="margin-left:4px; background:#0b7a53; color:#fff; border-radius:9999px; padding:2px 6px; font-size:11px; display:none;">0</span>
           </button>
         </nav>
       </div>
@@ -327,62 +110,275 @@ import CartApp from "../components/CartApp.tsx";
 
     <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
 
-    {/* Mount ONE cart UI */}
-    <CartApp client:only="react" />
+    <!-- Cart Drawer HTML (simple shell) -->
+    <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+    <aside id="cart-drawer" aria-label="Shopping cart" style="position: fixed; top: 0; right: 0; height: 100%; width: 420px; max-width: 100%; background: #fff; box-shadow: -6px 0 24px rgba(0,0,0,.2); transform: translateX(100%); transition: transform .25s ease; z-index: 9999; display: flex; flex-direction: column;">
+      <div style="padding:16px; border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between; align-items:center">
+        <strong>Your Cart</strong>
+        <button id="cart-close" aria-label="Close cart">✕</button>
+      </div>
+      <div id="cart-body" style="padding:16px; gap:12px; overflow-y:auto; flex:1; display:grid">
+        <p>Item added. You can continue shopping or proceed to checkout.</p>
+      </div>
+      <div style="border-top:1px solid #e5e7eb; padding:16px">
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px">
+          <div style="font-weight:600">Subtotal</div>
+          <div id="cart-subtotal" style="font-weight:600">—</div>
+        </div>
+        <button id="cart-checkout" style="width:100%; padding:12px 16px; border-radius:12px; background:#0b7a53; color:#fff; border:0; cursor:pointer">
+          Checkout
+        </button>
+      </div>
+    </aside>
 
+   <script is:inline>
+  (function () {
+    const drawer      = document.getElementById("cart-drawer");
+    const overlay     = document.getElementById("cart-overlay");
+    const badge       = document.getElementById("cart-badge");
+    const openBtn     = document.getElementById("open-cart-btn");
+    const closeBtn    = document.getElementById("cart-close");
+    const body        = document.getElementById("cart-body");
+    const subtotalEl  = document.getElementById("cart-subtotal");
+    const checkoutBtn = document.getElementById("cart-checkout");
 
-    <!-- Cart bridge: persists to localStorage, updates badge, and enforces add-to-cart vs buy-now -->
-   <script>
-  // One job: turn any ".add-to-cart" click into a call to the React cart
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('button, a');
-    if (!btn) return;
-
-    // ADD TO CART
-    if (btn.classList.contains('add-to-cart')) {
-      e.preventDefault(); e.stopPropagation();
-
-      const sku    = btn.getAttribute('data-sku') || btn.getAttribute('sku') || '';
-      const qty    = Number(btn.getAttribute('data-qty') || '1');
-      const name   = btn.getAttribute('data-name') || btn.textContent?.trim() || '';
-      const image  = btn.getAttribute('data-image') || '';
-      const price  = btn.getAttribute('data-price');             // cents (optional)
-      const priceId= btn.getAttribute('data-price-id') || '';    // optional
-
-      if (window.FLH_ADD) {
-        window.FLH_ADD({
-          id: sku,
-          name,
-          qty,
-          unitCents: price ? Number(price) : 0,
-          priceId,
-          image
-        });
-      }
-      if (window.cartOpen) window.cartOpen();
+    if (!drawer || !overlay || !body || !subtotalEl) {
+      console.error("[cart] Drawer DOM missing");
       return;
     }
 
-    // BUY NOW (explicit only; optional)
-    const isBuyNow = btn.classList.contains('buy-now') || btn.getAttribute('data-buynow') === '1';
-    if (isBuyNow) {
-      e.preventDefault(); e.stopPropagation();
-      const sku = btn.getAttribute('data-sku') || btn.getAttribute('sku') || '';
-      const qty = Number(btn.getAttribute('data-qty') || '1');
-      fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ items: [{ id: sku, qty }] })
-      })
-      .then(r => r.json())
-      .then(data => { if (data?.url) location.href = data.url; else alert(data?.error || 'Checkout error'); })
-      .catch(() => alert('Network error'));
+    let lastCheckoutUrl = null;
+
+    function money(amount, code) {
+      try {
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: code || 'USD' })
+          .format(Number(amount || 0));
+      } catch {
+        return '$0.00';
+      }
     }
-  }, { capture: true });
+
+    function openDrawer() {
+      drawer.style.transform = "translateX(0%)";
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+    }
+    function closeDrawer() {
+      drawer.style.transform = "translateX(100%)";
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+    overlay?.addEventListener("click", closeDrawer);
+    closeBtn?.addEventListener("click", closeDrawer);
+    openBtn?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await refreshCart();
+      openDrawer();
+    });
+
+    async function api(path, opts) {
+      const res = await fetch(path, opts);
+      let json;
+      try { json = await res.json(); } catch { json = { ok:false, error:"Bad JSON" }; }
+      if (!res.ok || !json?.ok) {
+        const msg = json?.error || `HTTP ${res.status}`;
+        console.error(`[cart] ${path} failed:`, msg);
+        throw new Error(msg);
+      }
+      return json;
+    }
+
+    async function getCart() {
+      const { cart } = await api("/api/cart-get", { method: "GET" });
+      return cart;
+    }
+    async function setLineQty(lineId, quantity) {
+      const { cart } = await api("/api/cart-set-qty", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lineId, quantity }),
+      });
+      return cart;
+    }
+    async function removeLine(lineId) {
+      const { cart } = await api("/api/cart-remove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lineId }),
+      });
+      return cart;
+    }
+
+    function renderCart(cart) {
+      if (!cart || !cart.lines?.nodes?.length) {
+        body.innerHTML = `<p>Your cart is empty.</p>`;
+        subtotalEl.textContent = "$0.00";
+        if (badge) badge.style.display = "none";
+        lastCheckoutUrl = null;
+        return;
+      }
+
+      lastCheckoutUrl = cart.checkoutUrl || null;
+
+      const lines = cart.lines.nodes;
+      let totalQty = 0;
+      let subtotalAmount = 0;
+      let currency = "USD";
+
+      const itemsHtml = lines.map((li) => {
+        totalQty += (li.quantity || 0);
+
+        const unit = li.merchandise?.price;
+        const total = li.cost?.totalAmount;
+        const unitAmt = unit?.amount ? Number(unit.amount) : 0;
+        const unitCur = unit?.currencyCode || "USD";
+        const lineAmt = total?.amount ? Number(total.amount) : unitAmt * (li.quantity || 1);
+        const lineCur = total?.currencyCode || unitCur;
+
+        subtotalAmount += lineAmt;
+        currency = lineCur || currency;
+
+        const title = li.merchandise?.product?.title || "Item";
+        const variantTitle = li.merchandise?.title || "";
+        const img = li.merchandise?.image?.url;
+
+        return `
+          <div class="cart-line" data-line="${li.id}"
+               style="display:flex; gap:12px; align-items:center; border:1px solid #e5e7eb; border-radius:8px; padding:10px">
+            ${img ? `<img src="${img}" alt="" width="56" height="56" style="object-fit:cover; border-radius:8px">` : ""}
+            <div style="font-size:14px; line-height:1.2; flex:1;">
+              <div style="font-weight:700">${title}</div>
+              ${variantTitle ? `<div style="opacity:.7">${variantTitle}</div>` : ""}
+              <div style="margin-top:6px; display:flex; gap:8px; align-items:center">
+                <button class="qty-dec" style="border:1px solid #e5e7eb; background:#fff; border-radius:8px; width:32px; height:32px; cursor:pointer">−</button>
+                <input class="qty-input" type="number" min="1" value="${li.quantity}"
+                       style="width:64px; padding:4px 6px; border:1px solid #e5e7eb; border-radius:8px">
+                <button class="qty-inc" style="border:1px solid #e5e7eb; background:#fff; border-radius:8px; width:32px; height:32px; cursor:pointer">+</button>
+                <button class="line-remove" style="margin-left:8px; background:none; border:0; color:#dc2626; cursor:pointer">Remove</button>
+              </div>
+            </div>
+            <div style="margin-left:auto; font-weight:700">${money(lineAmt, lineCur)}</div>
+          </div>
+        `;
+      }).join("");
+
+      body.innerHTML = itemsHtml;
+      subtotalEl.textContent = money(subtotalAmount, currency);
+
+      if (badge) {
+        if (totalQty > 0) {
+          badge.textContent = String(totalQty);
+          badge.style.display = "inline-block";
+        } else {
+          badge.style.display = "none";
+        }
+      }
+    }
+
+    async function refreshCart() {
+      try {
+        const cart = await getCart();
+        renderCart(cart);
+      } catch (e) {
+        console.error("refreshCart:", e);
+        body.innerHTML = `<p style="color:#b91c1c">Could not load cart.</p>`;
+      }
+    }
+
+    // Delegate clicks for qty +/- and remove
+    body.addEventListener("click", async (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLElement)) return;
+      const row = t.closest(".cart-line");
+      if (!row) return;
+
+      const lineId = row.getAttribute("data-line");
+      if (!lineId) {
+        console.warn("[cart] Missing data-line on row");
+        return;
+      }
+
+      const qtyInput = row.querySelector(".qty-input");
+      const disable = (on) => {
+        row.querySelectorAll("button, input").forEach((el) => {
+          el.disabled = !!on;
+        });
+      };
+
+      try {
+        if (t.classList.contains("qty-inc") || t.classList.contains("qty-dec")) {
+          const current = Math.max(1, parseInt((qtyInput?.value || "1"), 10));
+          const next = t.classList.contains("qty-inc") ? current + 1 : Math.max(1, current - 1);
+          disable(true);
+          const cart = await setLineQty(lineId, next);
+          renderCart(cart);
+          return;
+        }
+        if (t.classList.contains("line-remove")) {
+          disable(true);
+          const cart = await removeLine(lineId);
+          renderCart(cart);
+          return;
+        }
+      } catch (err) {
+        console.error("cart line action:", err);
+        alert("Cart update failed: " + (err?.message || err));
+      } finally {
+        disable(false);
+      }
+    });
+
+    // Direct qty input change
+    body.addEventListener("change", async (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLInputElement) || !t.classList.contains("qty-input")) return;
+      const row = t.closest(".cart-line");
+      const lineId = row?.getAttribute("data-line");
+      if (!lineId) return;
+
+      const val = Math.max(1, parseInt(t.value || "1", 10));
+      try {
+        t.disabled = true;
+        const cart = await setLineQty(lineId, val);
+        renderCart(cart);
+      } catch (err) {
+        console.error("qty input:", err);
+        alert("Cart update failed: " + (err?.message || err));
+      } finally {
+        t.disabled = false;
+      }
+    });
+
+    // Open from product page
+    window.addEventListener("cart:open", async (ev) => {
+      try {
+        const detail = ev?.detail || {};
+        if (detail.checkoutUrl) lastCheckoutUrl = detail.checkoutUrl;
+      } catch {}
+      await refreshCart();
+      openDrawer();
+    });
+
+    // Checkout
+    checkoutBtn?.addEventListener("click", async () => {
+      if (lastCheckoutUrl) return (window.location.href = lastCheckoutUrl);
+      try {
+        const cart = await getCart();
+        if (cart?.checkoutUrl) return (window.location.href = cart.checkoutUrl);
+      } catch {}
+      alert("Add an item to the cart first.");
+    });
+
+    // Preload badge on page load
+    (async () => {
+      try {
+        const cart = await getCart();
+        if (cart?.totalQuantity > 0 && badge) {
+          badge.textContent = String(cart.totalQuantity);
+          badge.style.display = "inline-block";
+          lastCheckoutUrl = cart.checkoutUrl || lastCheckoutUrl;
+        }
+      } catch {}
+    })();
+  })();
 </script>
-
-
-
-  </body>
-</html>
-

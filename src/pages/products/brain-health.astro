@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const pageTitle = "Brain Products — ";
 
-// Prices (in cents)
+// Prices (display only)
 const PRICE_NITRO_CENTS = 4999; // $49.99
 const PRICE_FHL_CENTS   = 3900; // $39.00
 const PRICE_MBLUE_CENTS = 3495; // $34.95
@@ -18,12 +18,17 @@ const IMG_FHL    = "/images/products/fhlsinglegreen.png";
 const VIDEO_NITRO_SRC = "/videos/ninjanitro.mp4";
 const VIDEO_MBLUE_SRC = "/videos/methbluestir.mp4";
 const VIDEO_FHL_SRC   = "/videos/FlaxLignanVideowave.mp4";
+
+// SHOPIFY HANDLES — exact from Admin
+const HANDLE_NITRO = "ningxia-nitro-for-mental-focus-natural-ingredients-for-energy-and-focus";
+const HANDLE_MBLUE = "methylene-blue";
+const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- Preload the videos so autoplay starts fast and avoids any image/poster flash -->
+  <!-- Preload videos to avoid poster flash -->
   <Fragment slot="head">
     <link rel="preload" as="video" href={VIDEO_NITRO_SRC} type="video/mp4" />
     <link rel="preload" as="video" href={VIDEO_MBLUE_SRC} type="video/mp4" />
@@ -73,14 +78,12 @@ const VIDEO_FHL_SRC   = "/videos/FlaxLignanVideowave.mp4";
           <p class="prodpg__desc"><strong>Physical Performance:</strong> supports endurance for active days. <strong>Easy to Use:</strong> chill, shake, and enjoy. 14 tubes per box.</p>
 
           <div class="product-cta">
+            <!-- SHOPIFY ADD-TO-CART -->
             <button
               class="btn-cta add-to-cart"
               type="button"
-              data-sku="ningxia-nitro"
-              data-price={String(PRICE_NITRO_CENTS)}
+              data-handle={HANDLE_NITRO}
               data-qty="1"
-              data-name="NingXia Nitro"
-              data-image={IMG_NITRO}
               aria-label="Add NingXia Nitro to cart"
             >
               Add to Cart
@@ -118,24 +121,22 @@ const VIDEO_FHL_SRC   = "/videos/FlaxLignanVideowave.mp4";
           </p>
 
           <p class="prodpg__desc">
-            Methylene Blue is an FDA approved drug, however not specifically approved for Alzheimer's or dementia. If you research the latest articles (check out our blog tab), you'll see that scientists are studying it's effects on people with Alzheimer's. It appears to strengthn the supporting structures of memory paths. Earth Harmony Methylene Blue 1% Pharmaceutical Grade Supplement with Dropper, Includes Nano Liquid Gold, Methylene Blue USP Grade, No Formaldehyde (2 Oz).
+            Methylene Blue is an FDA approved drug, however not specifically approved for Alzheimer's or dementia. If you research the latest articles (check out our blog tab), you'll see that scientists are studying its effects on people with Alzheimer's. It appears to strengthen the supporting structures of memory paths. Earth Harmony Methylene Blue 1% Pharmaceutical Grade Supplement with Dropper, Includes Nano Liquid Gold, Methylene Blue USP Grade, No Formaldehyde (2 Oz).
           </p>
           <p class="prodpg__desc">
-            Ingredients include USP Grade Methylene Blue, Nano Liquid Gold, Organic Vegetable Glycerin, and Ormus Supercharged Minerals. 1% USP Grade, Formaldehyde Free. WARNINGS: MB has important health risks for people with Serotonin Syndrome/serotonin toxicity. The US FDA issued a safety communication recommending that MB not be given to patients taking serotonergic psychiatric medications because of this risk. If someone is on antidepressants (especially SSRI's, SNRI's) talk to your doctor first. Methylene Blue is used to treat methemoglobinemia because it helps reduce methemoglobin back to hemoglobin. Individuals with G6PD deficiency have risks in taking MB. Please consult your doctor before taking and do not take if you are pregnant.
+            Ingredients include USP Grade Methylene Blue, Nano Liquid Gold, Organic Vegetable Glycerin, and Ormus Supercharged Minerals. 1% USP Grade, Formaldehyde Free. <strong>WARNINGS:</strong> MB has important health risks for people with Serotonin Syndrome/serotonin toxicity. The US FDA issued a safety communication recommending that MB not be given to patients taking serotonergic psychiatric medications because of this risk. If someone is on antidepressants (especially SSRIs, SNRIs) talk to your doctor first. Methylene Blue is used to treat methemoglobinemia because it helps reduce methemoglobin back to hemoglobin. Individuals with G6PD deficiency have risks in taking MB. Please consult your doctor before taking and do not take if you are pregnant.
           </p>
           <p class="prodpg__desc">
-            Our methylene blue is 99.99% pure pharmaceutical grade. Comes in a miron glass bottle with a dropper. We pride ourselves on the quality of our ingredients! The research is exciting and promising. One of our former staff members (Ms. Carrie who is now 89 years old) has Alzheimer's Disease and has used this for almost a year. Her memory has improved dramatically. Her quality of life has improved dramatically. She still has memory issues, but is not having trouble recognizing family members like she used to and is not having negative moods like she used to. 
+            Our methylene blue is 99.99% pure pharmaceutical grade. Comes in a miron glass bottle with a dropper. We pride ourselves on the quality of our ingredients! The research is exciting and promising. One of our former staff members (Ms. Carrie who is now 89 years old) has Alzheimer's Disease and has used this for almost a year. Her memory has improved dramatically. Her quality of life has improved dramatically. She still has memory issues, but is not having trouble recognizing family members like she used to and is not having negative moods like she used to.
           </p>
 
           <div class="product-cta">
+            <!-- SHOPIFY ADD-TO-CART -->
             <button
               class="btn-cta add-to-cart"
               type="button"
-              data-sku="methylene-blue"
-              data-price={String(PRICE_MBLUE_CENTS)}
+              data-handle={HANDLE_MBLUE}
               data-qty="1"
-              data-name="Methylene Blue"
-              data-image={IMG_MBLUE}
               aria-label="Add Methylene Blue to cart"
             >
               Add to Cart
@@ -173,28 +174,22 @@ const VIDEO_FHL_SRC   = "/videos/FlaxLignanVideowave.mp4";
           </p>
           <p class="prodpg__desc">
             Concentrated SDG lignans from flax hulls to support healthy brain function. We’ve seen strong testimonials
-            for cognitive resilience—give your brain the building blocks and let it do the repairing.  These are the “Original” Flax Hull Lignans used in trials worldwide and especially to help immune system challenged children in 3rd world countries.
-
-Lignans are extracted through the “MCP Process” which guarantees no chemicals used during the extraction process. 
-    Flax Hull Lignans support multiple body systems, especially brain, prostate, digestive and breast tissue. 
-    They are very high in anti-oxidants, they have an ORAC value of 19,600!
-    They are tiny particles found in the shell of flax seed, extracted and concentrated.
-    FHL is 8% oil and fat, and 55% of that fat is ALA (Alpha-Linolenic Acid).  If a person were to consume 2.5g (3/4 tsp) daily of FHL, they would be consuming approximately 110mg ALA (the daily recommended amount for women, a little less than the daily amount for men).
-    There is 2.1g of dietary fiber and 1.4g of protein in each scoop of Flax Hull Lignans
-    There are no chemicals used in extracting the lignans from the shell and therefore, no chemicals in our Flax Hull Lignans! ALL liquid forms of Flax Hull Lignans have used chemical extraction and should be avoided.
-
-One 5.3oz jar is a one month supply for adults, two month supply for children.
+            for cognitive resilience—give your brain the building blocks and let it do the repairing. These are the “Original” Flax Hull Lignans used in trials worldwide and especially to help immune system challenged children in 3rd world countries.
+          </p>
+          <p class="prodpg__desc">
+            Lignans are extracted through the “MCP Process” which guarantees no chemicals used during the extraction process. Flax Hull Lignans support multiple body systems, especially brain, prostate, digestive and breast tissue. They are very high in antioxidants (ORAC ~19,600). They are tiny particles found in the shell of flax seed, extracted and concentrated. FHL is ~8% oil and fat, and ~55% of that fat is ALA (alpha-linolenic acid). If a person consumes 2.5 g (3/4 tsp) daily of FHL, that’s ~110 mg ALA (about the daily recommended amount for women). There is ~2.1 g of dietary fiber and ~1.4 g of protein in each scoop. No chemicals are used in extraction, therefore no chemicals in our FHL. Liquid forms of “flax lignans” generally use chemical extraction and should be avoided.
+          </p>
+          <p class="prodpg__desc">
+            One 5.3 oz jar is a one month supply for adults, two month supply for children.
           </p>
 
           <div class="product-cta">
+            <!-- SHOPIFY ADD-TO-CART -->
             <button
               class="btn-cta add-to-cart"
               type="button"
-              data-sku="fhl-single"
-              data-price={String(PRICE_FHL_CENTS)}
+              data-handle={HANDLE_FHL}
               data-qty="1"
-              data-name="Flax Hull Lignans (Single Jar)"
-              data-image={IMG_FHL}
               aria-label="Add Flax Hull Lignans (Single Jar) to cart"
             >
               Add to Cart
@@ -239,7 +234,7 @@ One 5.3oz jar is a one month supply for adults, two month supply for children.
 
         <figure class="tquote">
           <blockquote><p>“One of our previous employees, C.D. has Alzheimer's... She started on one dropper full of Methylene Blue daily. In 6 months she had stopped having hallucinations…”</p></blockquote>
-          <figcaption>— W.S. - FLH Staff</figcaption>
+          <figcaption>— W.S. • FLH Staff</figcaption>
         </figure>
       </div>
     </div>
@@ -282,7 +277,7 @@ One 5.3oz jar is a one month supply for adults, two month supply for children.
       aspect-ratio: 1 / 1;
       overflow:hidden;
       border-radius:10px;
-      background:#000; /* dark backdrop avoids white flash pre-autoplay */
+      background:#000;
       box-shadow: 0 3px 6px rgba(0,0,0,.04);
     }
     .card-media {
@@ -290,7 +285,7 @@ One 5.3oz jar is a one month supply for adults, two month supply for children.
       inset: 0;
       width:100%;
       height:100%;
-      object-fit: cover; /* fill square nicely */
+      object-fit: cover;
       border-radius:10px;
       display:block;
     }
@@ -346,4 +341,61 @@ One 5.3oz jar is a one month supply for adults, two month supply for children.
     .tquote blockquote::before { content: "“"; position: absolute; left: -4px; top: -6px; font-size: 2rem; line-height: 1; opacity: .2; }
     .tquote figcaption { font-size: .9rem; color: #475569; }
   </style>
+
+  <!-- Page-local visual fixes (kept last to win specificity) -->
+  <style>
+    .prodpg .prodpg__card {
+      background: #fff !important;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 12px !important;
+      box-shadow: 0 4px 10px rgba(0,0,0,.06) !important;
+    }
+    .prodpg .card-photo { aspect-ratio: 1 / 1; max-height: 420px; }
+    .prodpg .card-media,
+    .prodpg .card-photo-img { width: 100%; height: 100%; object-fit: cover; }
+    .prodpg .prodpg__grid { gap: 16px; }
+    @media (max-width: 920px) {
+      .prodpg .card-photo { aspect-ratio: 4 / 3; max-height: 360px; }
+    }
+  </style>
+  <!-- Page-local fallback: wire .add-to-cart to Shopify cart -->
+<script is:inline>
+  (function () {
+    function onClick(e) {
+      const btn = e.target?.closest?.(".add-to-cart");
+      if (!btn) return;
+      e.preventDefault();
+
+      const handle = btn.getAttribute("data-handle");
+      const qty = parseInt(btn.getAttribute("data-qty") || "1", 10);
+
+      // Prefer the global cart API from BaseLayout if present
+      if (window.shopCart?.addByHandle) {
+        window.shopCart.addByHandle(handle, qty);
+        return;
+      }
+
+      // Fallback: hit API directly, then nudge the drawer open
+      fetch("/api/cart-add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ handle, quantity: qty })
+      })
+        .then(r => r.json())
+        .then(json => {
+          if (!json.ok) throw new Error(json.error || "add failed");
+          // Ask BaseLayout to refresh & open
+          window.dispatchEvent(new CustomEvent("cart:open", { detail: { checkoutUrl: json.checkoutUrl } }));
+        })
+        .catch(err => {
+          alert("Cart error: " + (err?.message || err));
+          console.error(err);
+        });
+    }
+
+    // Capture = true so this runs even if something stops propagation later
+    document.addEventListener("click", onClick, { capture: true });
+  })();
+</script>
+
 </BaseLayout>

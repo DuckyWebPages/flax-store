@@ -1,35 +1,83 @@
-﻿/* FILE: src/pages/products/flax-oil-lignans.astro */
+﻿---
+/* FILE: src/pages/products/flax-hull-lignans.astro */
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import Fineprint from '@/components/Fineprint.astro';
+import Fineprint from "@/components/Fineprint.astro";
+import { shopifyQuery } from "@/lib/shopify"; // TS helper (no .js)
+
+/** Shopify product handles (exact) */
+const SHOPIFY_HANDLE_FHL = "fhl-flax-hull-lignans-single-jar";
+const SHOPIFY_HANDLE_ANCIENT = "ancient-seeds-grains-better-than-organic-flax-hull-lignans-single-jar";
+// Pick the first available variant; fall back to the first one
+const pickVariant = (edges?: Array<{ node?: { availableForSale?: boolean } }>) =>
+  edges?.find(e => e?.node?.availableForSale)?.node ?? edges?.[0]?.node ?? null;
+
+// Optional: currency formatter
+const fmt = (amt: string, cur: string) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: cur }).format(Number(amt));
+
+/* Query Shopify for product data + first sellable variant */
+const PRODUCT_QUERY = /* GraphQL */ `
+  query ProductByHandle($handle: String!) {
+    product(handle: $handle) {
+      title
+      handle
+      descriptionHtml
+      images(first: 1) { edges { node { url altText } } }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            title
+            availableForSale
+            priceV2 { amount currencyCode }  # safer than deprecated 'price'
+          }
+        }
+      }
+    }
+  }
+`;
+
+let productFHL = null, variantFHL = null, productAncient = null, variantAncient = null;
+let shopifyError = "";
+
+
+try {
+  const dataFHL = await shopifyQuery(PRODUCT_QUERY, { handle: SHOPIFY_HANDLE_FHL });
+  productFHL = dataFHL?.product ?? null;
+  variantFHL = pickVariant(productFHL?.variants?.edges);
+
+
+  const dataAncient = await shopifyQuery(PRODUCT_QUERY, { handle: SHOPIFY_HANDLE_ANCIENT });
+  productAncient = dataAncient?.product ?? null;
+variantAncient = pickVariant(productAncient?.variants?.edges);
+
+} catch (e) {
+  shopifyError = e?.message || String(e);
+}
 
 const pageTitle = "Flax Hull Lignans — ";
-const PRICE_FHL_CENTS = 3900;
-const PRICE_FHL_DISPLAY = `$${(PRICE_FHL_CENTS / 100).toFixed(2)}`;
-const PRICE_ANCIENT_CENTS = 4500;
-const PRICE_ANCIENT_DISPLAY = `$${(PRICE_ANCIENT_CENTS / 100).toFixed(2)}`;
 
-// Videos (keep posters ONLY for <noscript> fallback, not on <video>)
-const VID_FHL = '/videos/flaxlignanjar.mp4';
-const POSTER_FHL = '/images/products/Flax4K.jpg';
-const VID_ANCIENT = '/videos/ancientseeds.mp4';
-const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
+// Videos (posters only for <noscript> fallback)
+const VID_FHL = "/videos/flaxlignanjar.mp4";
+const POSTER_FHL = "/images/products/Flax4K.jpg";
+const VID_ANCIENT = "/videos/ancientseeds.mp4";
+const POSTER_ANCIENT = "/images/products/Ancientseedswood.jpg";
+
+
 ---
 
-<BaseLayout>
-  <Fragment slot="title">{pageTitle}</Fragment>
+<BaseLayout title={pageTitle}>
+  {shopifyError && (
+    <p style="color:#b91c1c;margin:8px 0;">⚠️ Shopify error: {shopifyError}</p>
+  )}
+
 
   <!-- HERO -->
-  <section class="prod-hero">
-    <img class="bg" src="/images/products/flaxfield.png" alt="" />
-    <div class="inner">
-      <h1>Flax Hull Lignans</h1>
-      <p>
-        Concentrated SDG lignans from flax hulls to support hormone balance, healthy
-        inflammation response, and everyday immune wellness. Used in foundational strategies to support the body's fight against damaged DNA. See our "Blog" tab to learn more about the research. Easy to add to smoothies,
-        yogurt, or any food. Light, nutty flavor.
-      </p>
-    </div>
-  </section>
+  <!-- (removed raw CSS here; keep only markup, or define CSS inside a <style> block later) -->
+
+
+      ...
+
 
   <section class="prodpg">
     <div class="prodpg__container">
@@ -53,7 +101,7 @@ const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
             <noscript>
               <img
                 src={POSTER_FHL}
-                alt="Flax Hull Lignans (Single Jar)"
+                alt="Flax Hull Lignans"
                 loading="eager"
                 decoding="async"
                 class="card-photo-img"
@@ -61,34 +109,39 @@ const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
             </noscript>
           </div>
 
-          <h3 class="prodpg__title">Flax Hull Lignans <span class="unit">(Single Jar)</span></h3>
-          <p class="prodpg__price">{PRICE_FHL_DISPLAY}</p>
+          <h3 class="prodpg__title">
+            {productFHL?.title || "Flax Hull Lignans"} <span class="unit">(single jar)</span>
+          </h3>
+
+        {variantFHL ? (
+  <p class="prodpg__price">
+    {fmt(variantFHL.priceV2.amount, variantFHL.priceV2.currencyCode)}
+  </p>
+) : (
+  <p class="prodpg__price">$39.00</p>
+)}
+
+
 
           <ul class="prodpg__bullets">
             <li>Very high in antioxidants</li>
-            <li>Great in cereal, yogurt, or baking - heat doesn't hurt lignan activity</li>
+            <li>Great in cereal, yogurt, or baking — heat doesn't hurt lignan activity</li>
             <li>No chemicals used in processing</li>
-            <li>150-300 mg SDG per 1.5 tsp serving</li>
+            <li>150–300 mg SDG per 1.5 tsp serving</li>
             <li>Full-spectrum 17 lignans present</li>
             <li>220 mg ALA (alpha-linolenic acid) per scoop</li>
           </ul>
 
           <p class="prodpg__desc">
-            MCP-processed, concentrated SDG lignans from brown flax hulls. Take 1/2 - 1 scoop (provided) a day for foundational
+            MCP-processed, concentrated SDG lignans from brown flax hulls. Take 1/2–1 scoop (provided) a day for foundational
             wellness and immune support. Farmer still uses strict sourcing standards, but depending on what is available, cannot guarantee non-GMO.
           </p>
 
           <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              data-sku="fhl-single"
-              data-price={String(PRICE_FHL_CENTS)}
-              data-qty="1"
-              data-name="Flax Hull Lignans (Single Jar)"
-              data-image="/images/products/flaxfield.jpg"
-            >
-              Add to Cart
-            </button>
+            <button class="btn-cta add-to-cart" data-handle="fhl-flax-hull-lignans-single-jar" data-qty="1">
+  Add to Cart
+</button>
+
           </div>
         </article>
 
@@ -109,7 +162,7 @@ const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
             <noscript>
               <img
                 src={POSTER_ANCIENT}
-                alt="FLH Ancient Seeds & Grains (Single Jar)"
+                alt="FLH Ancient Seeds & Grains"
                 loading="eager"
                 decoding="async"
                 class="card-photo-img"
@@ -117,52 +170,112 @@ const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
             </noscript>
           </div>
 
-          <h3 class="prodpg__title">FLH Ancient Seeds &amp; Grains <span class="unit">(Single Jar is $45, 3 jars is $135)</span></h3>
-          <p class="prodpg__price">{PRICE_ANCIENT_DISPLAY}</p>
+          <h3 class="prodpg__title">
+            {productAncient?.title || "FLH Ancient Seeds & Grains"} <span class="unit">(single jar)</span>
+          </h3>
+
+          {variantAncient ? (
+  <p class="prodpg__price">
+    {new Intl.NumberFormat('en-US', { style: 'currency', currency: variantAncient.priceV2.currencyCode })
+      .format(Number(variantAncient.priceV2.amount))}
+  </p>
+) : (
+  <p class="prodpg__price">$45.00</p>
+)}
+
 
           <ul class="prodpg__bullets">
             <li>Very high in antioxidants</li>
-            <li>Great in cereal, yogurt, or baking - heat doesn't hurt lignan activity</li>
+            <li>Great in cereal, yogurt, or baking — heat doesn't hurt lignan activity</li>
             <li>No chemicals used in processing</li>
-            <li>150-300 mg SDG per 1.5 tsp serving</li>
+            <li>150–300 mg SDG per 1.5 tsp serving</li>
             <li>Full-spectrum 17 lignans present</li>
             <li>220 mg ALA (alpha-linolenic acid) per scoop</li>
           </ul>
 
           <p class="prodpg__desc">
-            MCP-processed, non-GMO flax hull lignans with stricter sourcing than today's organic
-            label. Take 1/2 - 1 scoop (provided) a day for foundational wellness and immune support.
+            MCP-processed, non-GMO flax hull lignans with stricter sourcing than today's organic label.
+            Take 1/2–1 scoop (provided) a day for foundational wellness and immune support.
           </p>
 
           <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              data-sku="ancient-single"
-              data-price={String(PRICE_ANCIENT_CENTS)}
-              data-qty="1"
-              data-name="FLH Ancient Seeds & Grains (Single Jar)"
-              data-image="/images/products/flaxsinglefield.jpg"
-            >
-              Add to Cart
-            </button>
+           <button class="btn-cta add-to-cart" data-handle="ancient-seeds-grains-better-than-organic-flax-hull-lignans-single-jar" data-qty="1">
+  Add to Cart
+</button>
           </div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Full-width Testimonials band (unchanged) -->
+ <script is:raw>
+  (function () {
+    async function addToCart(handle, qty) {
+      const res = await fetch("/api/cart-add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ handle, quantity: qty }),
+      });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error || "Add to cart failed");
+
+      // Tell BaseLayout to open the drawer and cache checkout URL
+      window.dispatchEvent(new CustomEvent("cart:open", {
+        detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
+      }));
+
+      console.log("Checkout URL:", json.checkoutUrl);
+      return json;
+    }
+
+    // Debug: see all buttons and handles
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".add-to-cart").forEach((el, i) => {
+        console.log("BTN", i, el, "data-handle:", el.getAttribute("data-handle"));
+      });
+    });
+
+    // Wire up clicks
+    document.addEventListener("click", async (ev) => {
+      const btn = ev.target?.closest?.(".add-to-cart");
+      if (!btn) return;
+      ev.preventDefault();
+
+      const handle = btn.getAttribute("data-handle") || "";
+      const qty = Number(btn.getAttribute("data-qty") || "1");
+      if (!handle) return alert("Missing data-handle on button.");
+
+      btn.setAttribute("disabled", "true");
+      try {
+        await addToCart(handle, qty);
+        btn.textContent = "Added!";
+        setTimeout(() => (btn.textContent = "Add to Cart"), 1200);
+      } catch (e) {
+        alert("Cart error: " + (e?.message || e));
+      } finally {
+        btn.removeAttribute("disabled");
+      }
+    });
+  })();
+</script>
+
+
+
+
+ 
+
+
+
+  <!-- Testimonials band (unchanged placeholder) -->
   <section class="tbox tbox--bleed" aria-labelledby="flax-testimonials-heading">
-    <!-- ... keep your testimonials exactly as-is ... -->
+    <!-- ... unchanged ... -->
   </section>
 
   <style>
     /* ---------- HERO ---------- */
-    .prod-hero {
-      position: relative; isolation: isolate; overflow: hidden;
+    .prod-hero { position: relative; isolation: isolate; overflow: hidden;
       min-height: 150px; border-radius: 14px; background: #fff;
-      margin: 8px auto 18px; max-width: 950px;
-    }
+      margin: 8px auto 18px; max-width: 950px; }
     .prod-hero .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .18; z-index: -1; }
     .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
     .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
@@ -172,20 +285,61 @@ const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
     .prodpg { padding: 0 0 36px; }
-    .prodpg__container { max-width: 950px; margin: 0 auto; padding: 0 12px; }
+    .prodpg__container { max-width: 1180px; margin: 0 auto; padding: 0 12px; }
 
-    .prodpg__grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px; justify-content: center;
-    }
+/* 1 column on small screens, 2 wide columns on desktop */
+.prodpg__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  justify-content: center;
+}
 
-    .prodpg__card {
-      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
-      padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,.05);
-      display: grid; gap: .35rem; justify-items: start;
-      max-width: 340px; margin: 0 auto; transition: transform .15s ease;
-    }
+@media (min-width: 980px) {
+  .prodpg__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Restore card panel look (high specificity) */
+.prodpg .prodpg__card {
+  background: #fff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05) !important;
+  padding: 10px !important;
+  width: 100%;
+  position: relative;   /* let z-index apply */
+  z-index: 0;
+}
+
+/* Make media stay inside the white panel */
+.prodpg .card-photo,
+.prodpg .card-media,
+.prodpg .card-video,
+.prodpg .card-photo-img {
+  border-radius: 8px !important;
+  background: #f7f7f7;
+  overflow: hidden;
+}
+
+/* Keep the grid from collapsing */
+.prodpg__grid {
+  display: grid;
+  gap: 6px;
+}
+
+@media (min-width: 980px) {
+  .prodpg__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Container wide enough to show two nice, wide cards */
+.prodpg__container { max-width: 1180px; margin: 0 auto; padding: 0 12px; }
+
+
+    
     .prodpg__card:hover { transform: translateY(-2px); }
 
     .card-photo { position: relative; width: 100%; overflow: hidden; border-radius: 8px; background: #f7f7f7; box-shadow: 0 3px 6px rgba(0,0,0,.04); }
@@ -194,7 +348,7 @@ const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
     .card-media { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; background: #f7f7f7; box-shadow: 0 3px 6px rgba(0,0,0,.04); }
     .card-video {
       width: 100%; height: 100%; display: block; object-fit: cover; border-radius: 8px;
-      opacity: 0; transition: opacity .2s ease; /* start hidden to avoid flash */
+      opacity: 0; transition: opacity .2s ease;
     }
     .card-video.is-ready { opacity: 1; }
 
@@ -204,63 +358,157 @@ const POSTER_ANCIENT = '/images/products/Ancientseedswood.jpg';
     .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
     .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
     .prodpg__price { font-weight: 800; font-size: .9rem; margin: .1rem 0 .2rem; }
-    .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
-    .prodpg__bullets li { margin: .08rem 0; }
-    .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
 
-    .product-cta .add-to-cart {
-      display: inline-flex; height: var(--cart-btn-h, 44px); padding: 0 var(--cart-btn-px, 16px);
-      line-height: 1; font-size: var(--cart-btn-fs, 16px); font-weight: var(--cart-btn-weight, 400);
-      letter-spacing: .01em; border-radius: var(--cart-btn-radius, 10px);
-      background: var(--cart-btn-bg, #c7cdd6); color: var(--cart-btn-fg, #111);
-      border: 0; text-decoration: none; cursor: pointer; align-items: center; justify-content: center;
-      white-space: nowrap; transition: background-color .15s ease, transform .05s ease;
+    /* Generic CTA button styling */
+    .btn-cta {
+      display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
+      height: 44px; padding: 0 16px; border-radius: 10px; border: 0;
+      background:#c7cdd6; color:#111; font-size:16px; transition: background-color .15s ease, transform .05s ease;
     }
-    .product-cta .add-to-cart:hover { background: var(--cart-btn-bg-hover, #aeb6c1); }
-
-    /* ===== Testimonials (full-bleed band) ===== */
-    .tbox--bleed { width: 100vw; margin-left: 50%; transform: translateX(-50%); background: #fafafa; border-top: 1px solid #ececec; border-bottom: 1px solid #ececec; padding: 28px 0 40px; }
-    .tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-    .tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
-    .tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
-    .tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
-    .tquote { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; box-shadow: 0 4px 10px rgba(0,0,0,.05); }
-    .tquote blockquote { margin: 0 0 8px; position: relative; padding-left: 12px; color: #0f172a; line-height: 1.5; }
-    .tquote blockquote::before { content: "“"; position: absolute; left: -4px; top: -6px; font-size: 2rem; line-height: 1; opacity: .2; }
-    .tquote figcaption { font-size: .9rem; color: #475569; }
-
-    /* ===== HARD OVERRIDES (phones) ===== */
-    @media (max-width: 900px) {
-      .prodpg__container { max-width: 680px !important; }
-      .prodpg__grid { display: grid !important; grid-template-columns: 1fr !important; gap: 20px !important; justify-items: stretch !important; align-items: start !important; }
-      .prodpg__card { width: 100% !important; max-width: none !important; padding: 16px !important; border-radius: 14px !important; }
-      .card-photo-img { aspect-ratio: 4 / 3 !important; object-fit: cover !important; }
-      .prodpg__title { font-size: 1.2rem !important; line-height: 1.25 !important; }
-      .prodpg__price { font-size: 1.3rem !important; font-weight: 800 !important; }
-      .prodpg__bullets, .prodpg__desc { font-size: 1.02rem !important; line-height: 1.55 !important; }
-      .product-cta .add-to-cart { height: 54px !important; padding: 0 22px !important; font-size: 18px !important; font-weight: 800 !important; border-radius: 12px !important; min-width: 240px !important; }
-    }
-    @media (max-width: 420px) {
-      .prodpg__container { max-width: 100% !important; }
-      .card-photo-img { aspect-ratio: 3 / 2 !important; }
-      .prodpg__title { font-size: 1.25rem !important; }
-      .prodpg__price { font-size: 1.35rem !important; }
-      .product-cta .add-to-cart { min-width: 100% !important; }
-    }
+    .btn-cta:hover { background:#aeb6c1; }
   </style>
 
-  <!-- Reveal all product videos only when they can play -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const vids = document.querySelectorAll('.card-video');
-      vids.forEach(v => {
+      document.querySelectorAll('.card-video').forEach((v) => {
         const reveal = () => v.classList.add('is-ready');
         v.addEventListener('canplay', reveal, { once: true });
         if (v.readyState >= 3) reveal();
       });
     });
   </script>
-</BaseLayout>
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="testimonials">
+  <h2>Customer Testimonials</h2>
+  <p class="intro">
+    Real experiences with Flax Hull Lignans. Thank you for sharing your testimonies.
+    Because of the cost of true medical trials, natural products like these will never be tested to that degree.
+    We need the community to share their results to help others see the results they are getting.
+    Email your testimonials to: <a href="mailto:Wendy@flaxlignanhealth.com">Wendy@flaxlignanhealth.com</a>.
+  </p>
 
-<!-- redeploy bump -->
+  <div class="t-grid">
+    <figure class="t-card">
+      <blockquote>
+        <p>
+          Approximately 8 years ago I was diagnosed with three nodules on my lungs…
+          After taking the Flax Hull Lignans daily, my doctor reported after each CT scan the nodules were shrinking.
+          After one year and 4 CT scans, my doctor said they were completely gone… I am a true believer Flax Hull Lignans made all the difference in the world!
+        </p>
+      </blockquote>
+      <figcaption>— M.D., Texas</figcaption>
+    </figure>
+
+    <figure class="t-card">
+      <blockquote>
+        <p>
+          FLH Customer A.P. had high cholesterol for 25 years. She has been on the lignans for one year and her cholesterol is in the normal range for the first time in 25 years. FHL Flax Lignans are the only thing she has done different.
+        </p>
+      </blockquote>
+      <figcaption>— A.P., North Carolina</figcaption>
+    </figure>
+
+    <figure class="t-card">
+      <blockquote>
+        <p>
+          T.B. was diagnosed with stage 4 lung cancer 14 months ago… Three months after starting the lignans she said the docs are amazed she is still alive and that the tumors have stopped growing!
+        </p>
+      </blockquote>
+      <figcaption>— T.B., Kansas</figcaption>
+    </figure>
+
+    <figure class="t-card">
+      <blockquote>
+        <p>“I have diabetes and have been able to reduce my insulin. I feel like a different person health wise. Thank you!”</p>
+      </blockquote>
+      <figcaption>— J.W., Georgia</figcaption>
+    </figure>
+
+    <figure class="t-card">
+      <blockquote>
+        <p>
+          “I have a PhD in Immunology from Berkeley. I put patients with breast cancer on this product and have seen amazing results…
+          almost all of them reduce their cancer if not eliminate it with the amount of 1/10th a teaspoon daily for 2 months.”
+        </p>
+      </blockquote>
+      <figcaption>— Dr. Steve, California</figcaption>
+    </figure>
+
+    <figure class="t-card">
+      <blockquote>
+        <p>
+          “The ‘Mama’s’ in the orphanages we work with that have HIV/AIDS have seen their CD4 counts go up week by week that they are taking the Flax Hull Lignans…”
+        </p>
+      </blockquote>
+      <figcaption>— D.D., A.R.A.I. Staff</figcaption>
+    </figure>
+
+    <figure class="t-card">
+      <blockquote>
+        <p>
+          “One lady with a cancer growth went for the operation that was scheduled to remove the growth, but the improvement was so dramatic that the doctor decided not to operate…
+          A man with severe diabetes is starting to reduce his medicines…
+          a little girl age six with HIV/AIDS… picked up two pounds of weight in less than three weeks!”
+        </p>
+      </blockquote>
+      <figcaption>— J.S., South Africa coordinator</figcaption>
+    </figure>
+
+    <figure class="t-card">
+      <blockquote>
+        <p>
+          “I am HIV+ and viral load was off the charts (338,000)… Within a month no diarrhea, energy better and I gained strength…
+          A year later I am going off most medications… My health is consistently improving.”
+        </p>
+      </blockquote>
+      <figcaption>— K.P., Missouri</figcaption>
+    </figure>
+
+    <figure class="t-card">
+      <blockquote>
+        <p>
+          “J.P. found a lump in his breast… started taking the flax… at the four month mark it was totally gone.
+          He started taking the flax to reduce his PSA count but this was a benefit he wasn’t expecting.”
+        </p>
+      </blockquote>
+      <figcaption>— J.P., Nevada</figcaption>
+    </figure>
+  </div>
+
+  <p class="copyright">© 2025 Flax Lignan Health</p>
+</section>
+
+<style>
+  .testimonials { padding: 32px 12px 40px; max-width: 1180px; margin: 0 auto; }
+.testimonials h2 { margin: 0 0 8px; font-size: clamp(1.4rem, 2vw, 1.6rem); }
+.testimonials .intro { margin: 0 0 18px; max-width: 70ch; }
+
+/* Wider cards, almost touching */
+.t-grid {
+  display: grid;
+  gap: 6px; /* was 16px */
+  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); /* was 280px */
+}
+
+.t-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px; /* a hair more padding looks better when wider */
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+.t-card blockquote { margin: 0; }
+.t-card p { margin: 0; line-height: 1.55; }
+.t-card figcaption { margin-top: 10px; font-size: .92rem; font-weight: 600; opacity: .85; }
+.copyright { margin-top: 14px; opacity: .7; }
+
+/* Keep mobile readable */
+@media (max-width: 920px) {
+  .t-grid { grid-template-columns: 1fr; gap: 10px; }
+}
+
+</style>
+
+  <Fineprint />
+</BaseLayout>

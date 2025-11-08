@@ -1,45 +1,39 @@
 ﻿---
 // FILE: src/pages/products/detox.astro
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import BaseLayout from "@/layouts/BaseLayout.astro"
 
-const pageTitle = 'Detox Products — '
+const pageTitle = "Detox Products — "
 
-// Prices in cents
+// Prices in cents (display only)
 const PRICE_OCEAN_CLEANSE = 3495
 const PRICE_AFTERSHOT = 1995
 const PRICE_AFTERSHOT_3PAK = 4999
 
-// Images (served from /public)
-const IMG_OCEAN_CARD = '/images/products/oceancleanse-web.jpg'
-const IMG_AFTERSHOT = '/images/products/aftershot-8oz.jpg'
-const IMG_AFTERSHOT_3PAK = '/images/products/aftershot3green.jpg'
+// Images
+const IMG_OCEAN_CARD = "/images/products/oceancleanse-web.jpg"
+const IMG_AFTERSHOT = "/images/products/aftershot-8oz.jpg"
+const IMG_AFTERSHOT_3PAK = "/images/products/aftershot3green.jpg"
 
-// Local videos in /public/videos  (case-sensitive)
-const VIDEO_OCEAN_SRC = '/videos/oceancleansevideo3.mp4'
-const VIDEO_AFTERSHOT_SRC = '/videos/aftershotvideo.mp4'
-const VIDEO_AFTERSHOT_3PAK_SRC = '/videos/aftershot3video.mp4'
-
-// Keep the hero white (no background image)
-const IMG_HERO = null
+// Local videos (case-sensitive)
+const VIDEO_OCEAN_SRC = "/videos/oceancleansevideo3.mp4"
+const VIDEO_AFTERSHOT_SRC = "/videos/aftershotvideo.mp4"
+const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
 ---
-
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- Preload videos to avoid image/poster flash -->
+  <!-- Preload videos -->
   <Fragment slot="head">
     <link rel="preload" as="video" href={VIDEO_OCEAN_SRC} type="video/mp4" />
     <link rel="preload" as="video" href={VIDEO_AFTERSHOT_SRC} type="video/mp4" />
     <link rel="preload" as="video" href={VIDEO_AFTERSHOT_3PAK_SRC} type="video/mp4" />
   </Fragment>
 
-  <!-- HERO (white, no bg) -->
+  <!-- HERO -->
   <section class="prod-hero">
     <div class="inner">
       <h1>Detox Products</h1>
-      <p>
-        Targeted support for both heavy detox and gentle cleansing. These products are natural and not hard on your system, but yet effective at removing toxins.
-      </p>
+      <p>Targeted support for both heavy detox and gentle cleansing. These products are natural and not hard on your system, yet effective at removing toxins.</p>
     </div>
   </section>
 
@@ -51,18 +45,10 @@ const IMG_HERO = null
         <!-- Card: Ocean Cleanse -->
         <article class="prodpg__card">
           <div class="card-photo">
-            <video
-              class="card-media"
-              src={VIDEO_OCEAN_SRC}
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-            />
+            <video class="card-media" src={VIDEO_OCEAN_SRC} autoplay muted loop playsinline preload="auto"></video>
           </div>
 
-          <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(30 capsules)</span></h3>
+          <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(90 capsules/500 mg)</span></h3>
 
           <ul class="prodpg__bullets">
             <li>Concentrated brown-seaweed extract</li>
@@ -72,90 +58,76 @@ const IMG_HERO = null
           </ul>
 
           <p class="prodpg__desc">
-            A focused seaweed (Laminaria Japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. This product has a synergetic combination of ionic iodine, laminarin, alginates, and selenium—the perfect group of elements, present in a single natural source. There is a patented process of physical extraction and low-temperature evaporation that removes the seaweed's outer fiber and extracts only the inner, water-soluble part of the Laminaria leaf. This enhances availability of minerals, vitamins, and polysaccharides for easier digestion and better results. Forty pounds of raw seaweed are needed to make one pound of Ocean Cleanse. Organic iodine in this product feeds the thyroid gland. Laminarin is a polysaccharide that supports cardiovascular health. Alginate is a natural absorbent of radioactive elements, heavy metals, and free radicals. It binds them and removes them safely from the body.
+            A focused seaweed (Laminaria japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. Originally developed to help Chernobyl victims. 90 capsules per bottle.
           </p>
 
-          <!-- Product image placed before price -->
+          <ul class="prodpg__bullets">
+            <li>Boost the immune system</li>
+            <li>Support healthy blood sugar &amp; cholesterol</li>
+            <li>Support thyroid function and healthy weight</li>
+            <li>Help detoxify smokers from strontium &amp; cadmium</li>
+            <li>Support hair &amp; nail structure</li>
+          </ul>
+
           <figure class="desc-photo">
             <img src={IMG_OCEAN_CARD} alt="Ocean Cleanse bottle photo" loading="lazy" decoding="async" />
           </figure>
 
-          <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE/100).toFixed(2)}</p>
+          <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE / 100).toFixed(2)}</p>
 
           <div class="product-cta">
+            <!-- REPLACE with the exact Shopify handle -->
             <button
               class="btn-cta add-to-cart"
               type="button"
-              data-sku="ocean-cleanse-single"
-              data-price={String(PRICE_OCEAN_CLEANSE)}
+              data-handle="ocean-cleanse-brown-seaweed-radiation-product"
               data-qty="1"
-              data-name="Ocean Cleanse - Heavy Metal/Radiation Detox"
-              data-image={IMG_OCEAN_CARD}
             >
               Add to Cart
             </button>
-            <a class="btn btn-link" href="/products/ocean-cleanse/">Learn more</a>
           </div>
         </article>
 
         <!-- Card: AfterShot (1 oz) -->
         <article class="prodpg__card">
           <div class="card-photo">
-            <video
-              class="card-media"
-              src={VIDEO_AFTERSHOT_SRC}
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-            />
+            <video class="card-media" src={VIDEO_AFTERSHOT_SRC} autoplay muted loop playsinline preload="auto"></video>
           </div>
 
           <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
 
           <ul class="prodpg__bullets">
-            <li>Removes toxins and heavy metals</li>
-            <li>Is an antioxidant</li>
-            <li>pH balanced</li>
-            <li>Detox after a vaccination - great for military!</li>
-            <li>Gentle daily detox support</li>
+            <li>Micronized zeolite + humic/fulvic acid</li>
+            <li>Everyday gentle detox support</li>
             <li>Pairs well with Ocean Cleanse</li>
-            <li>No artificial colors or flavors</li>
-            <li>MRNA do have positive charged cell receptor sites. Theoretically, this zeolite may grab onto them.</li>
-            <li>Combined with humic acid/fulvic acid that transports the zeolite through blood vessels (other zeolites may only work in intestines)</li>
-            <li>May support the body's ability to kill viruses and bacteria</li>
-            <li>May improve energy levels</li>
+            <li>Chelation-like binding of positively charged toxins</li>
           </ul>
 
           <p class="prodpg__desc">
-            A simple, everyday companion formula used to support the body's natural detox processes. Take 1-2 dropper fulls daily to help remove toxins and heavy metals. If trying to detox from a vaccine, consider taking this amount 3 times a day.
+            Zeolite is a natural mineral from volcanic lava. Its honeycomb structure attracts positively charged toxic metals and chemicals (e.g., mercury, lead, cadmium, some pesticides), flushing them via normal elimination. Historically used for spill cleanup and water purification, zeolite is recognized as a safe detox supplement for daily support. Take 1–2 droppers daily.
           </p>
 
           <p class="prodpg__desc">
-            Particle size is just above nano. It attracts positively charged particles (all toxins and heavy metals are positively charged) into a cage-like structure and moves them out through urine.
+            <strong>Extremely safe and non-toxic.</strong> Purified, activated liquid zeolite is non-toxic and is eliminated in ~5–7 hours. It helps remove heavy metals (including radioactive isotopes) such as mercury, cadmium, lead, arsenic, aluminum, strontium, and excess iron.
           </p>
 
           <p class="prodpg__desc">
-            A little bitter tasting. You can mix with water or take on its own. Pairs well with Ocean Cleanse.
+            Contains dihydroquercetin (taxifolin), a bioflavonoid studied for decades. Flavonoids help strengthen immune responses and act as powerful antioxidants.
           </p>
 
-          <!-- Product image placed before price -->
           <figure class="desc-photo">
             <img src={IMG_AFTERSHOT} alt="AfterShot bottle photo" loading="lazy" decoding="async" />
           </figure>
 
-          <p class="prodpg__price">${(PRICE_AFTERSHOT/100).toFixed(2)}</p>
+          <p class="prodpg__price">${(PRICE_AFTERSHOT / 100).toFixed(2)}</p>
 
           <div class="product-cta">
+            <!-- REPLACE with the exact Shopify handle (no ™) -->
             <button
               class="btn-cta add-to-cart"
               type="button"
-              data-sku="aftershot-8oz"
-              data-price={String(PRICE_AFTERSHOT)}
+              data-handle="aftershot-zeolite"
               data-qty="1"
-              data-name="AfterShot (1 oz)"
-              data-image={IMG_AFTERSHOT}
             >
               Add to Cart
             </button>
@@ -163,74 +135,44 @@ const IMG_HERO = null
         </article>
 
         <!-- Card: AfterShot 3-Pak -->
-        <article class="prodpg__card">
-          <!-- Video at top -->
-          <div class="card-photo">
-            <video
-              class="card-media"
-              src={VIDEO_AFTERSHOT_3PAK_SRC}
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-            />
-          </div>
+<!-- Card: AfterShot 3-Pak -->
+<article class="prodpg__card">
+  <div class="card-photo">
+    <video class="card-media" src={VIDEO_AFTERSHOT_3PAK_SRC} autoplay muted loop playsinline preload="auto"></video>
+  </div>
 
-          <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 - 1oz Bottles)</span></h3>
+  <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 × 1 oz)</span></h3>
 
-          <ul class="prodpg__bullets">
-            <li>Removes toxins and heavy metals</li>
-            <li>Is an antioxidant</li>
-            <li>pH balanced</li>
-            <li>Detox after a vaccination - great for military!</li>
-            <li>Gentle daily detox support</li>
-            <li>Pairs well with Ocean Cleanse</li>
-            <li>No artificial colors or flavors</li>
-            <li>MRNA do have positive charged cell receptor sites. Theoretically, this zeolite may grab onto them.</li>
-            <li>Combined with humic acid/fulvic acid that transports the zeolite through blood vessels (other zeolites may only work in intestines)</li>
-            <li>May support the body's ability to kill viruses and bacteria</li>
-            <li>May improve energy levels</li>
-          </ul>
+  <ul class="prodpg__bullets">
+    <li>Three-bottle value bundle</li>
+    <li>Same zeolite + humic/fulvic pairing</li>
+    <li>Designed for whole-body circulation</li>
+  </ul>
 
-          <p class="prodpg__desc">
-            Three-bottle value bundle; same micronized zeolite plus humic/fulvic pairing designed for circulation—not just the gut. Finds toxic metals and residues and captures free radicals for safe elimination. A simple, everyday companion formula used to support the body's natural detox processes.
-          </p>
+  <p class="prodpg__desc">
+    Value bundle. Supports natural detox and elimination. See the single-bottle description for full details.
+  </p>
 
-          <p class="prodpg__desc">
-            Particle size is just above nano. It attracts positively charged particles (all toxins and heavy metals are positively charged) into a cage-like structure and moves them out through urine.
-          </p>
+  <figure class="desc-photo">
+    <img src={IMG_AFTERSHOT_3PAK} alt="AfterShot 3-Pak bottles" loading="lazy" decoding="async" />
+  </figure>
 
-          <p class="prodpg__desc">
-            A little bitter tasting. You can mix with water or take on its own. Pairs well with Ocean Cleanse.
-          </p>
+  <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
 
-          <!-- Product image moved down before price -->
-          <figure class="desc-photo">
-            <img
-              src={IMG_AFTERSHOT_3PAK}
-              alt="AfterShot 3-Pak bottles"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
+  <div class="product-cta">
+    <!-- EXACT Shopify handle confirmed -->
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-handle="aftershot-zeolite-special"
+      data-qty="1"
+    >
+      Add to Cart
+    </button>
+  </div>
+</article>
 
-          <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
 
-          <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              type="button"
-              data-sku="aftershot-3pak"
-              data-price={String(PRICE_AFTERSHOT_3PAK)}
-              data-qty="1"
-              data-name="AfterShot 3-Pak Natural Chelation and Detoxifier (3 Bottles)"
-              data-image={IMG_AFTERSHOT_3PAK}
-            >
-              Add to Cart
-            </button>
-          </div>
-        </article>
       </div>
     </div>
   </section>
@@ -239,29 +181,22 @@ const IMG_HERO = null
   <section class="tbox tbox--bleed" aria-labelledby="detox-testimonials-heading">
     <div class="tbox__container">
       <h2 id="detox-testimonials-heading">Customer Testimonials</h2>
-      <p class="tbox__lead">
-        Real experiences with Ocean Cleanse &amp; AfterShot. Thank you for sharing your testimonies. Because of the cost of true medical trials, natural products like these will never be tested to that degree. We need the community to share their results to help others see the results they are getting. Email your testimonials to: Wendy@flaxlignanhealth.com.
-      </p>
+      <p class="tbox__lead">Real experiences with Ocean Cleanse &amp; AfterShot. Email your testimonial to: Wendy@flaxlignanhealth.com.</p>
 
       <div class="tlist">
         <figure class="tquote">
-          <blockquote><p>“After having all the metal removed from my teeth, my natural dentist and naturopath agreed for me to chelate... I'd take 2 Ocean Cleanse 3x a day and by the third day would be back to normal.”</p></blockquote>
+          <blockquote><p>“After having all the metal removed from my teeth… I had incredible joint pain… I took two Ocean Cleanse 3×/day and by day three I was back to normal.”</p></blockquote>
           <figcaption>— W.S., Colorado</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>“When I joined the military... I took Ocean Cleanse and AfterShot and felt energized and so much better within a day or two.”</p></blockquote>
+          <blockquote><p>“I was forced to take the C shot… Ocean Cleanse (4 caps, 3×/day) and AfterShot (2 droppers, 3×/day) had me feeling better within a day or two.”</p></blockquote>
           <figcaption>— T.E., Colorado</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>Manufacturer note: “This product is a winner when detoxing... six capsules a day for an average-size body will make people clean.”</p></blockquote>
+          <blockquote><p>Manufacturer: “This product is a winner when detoxing… six capsules a day for an average-size body will make people clean.”</p></blockquote>
           <figcaption>— S.Z., California</figcaption>
-        </figure>
-
-        <figure class="tquote">
-          <blockquote><p>“I am worried about the nano-technology... With AfterShot zeolite being just a little larger than nano, I am hoping it traps nano particles.”</p></blockquote>
-          <figcaption>— P.T., Idaho</figcaption>
         </figure>
       </div>
     </div>
@@ -282,46 +217,128 @@ const IMG_HERO = null
 
     :root { --card-price-gap: 10px; --card-row-gap: .35rem; }
 
-    /* Unified FLEX card layout */
-    .prodpg__card{ display: flex; flex-direction: column; gap: var(--card-row-gap); height: 100%; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,.05); margin: 0; transition: transform .15s ease; }
+    .prodpg__card{
+      display: flex; flex-direction: column; gap: var(--card-row-gap); height: 100%;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.05); margin: 0; transition: transform .15s ease;
+    }
     .prodpg__card:hover { transform: translateY(-2px); }
 
-    /* Top media box (square) */
     .card-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; background: #000; box-shadow: 0 3px 6px rgba(0,0,0,.04); position: relative; }
     .card-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
-    .card-photo-img { width: 100%; height: 100%; object-fit: contain; object-position: center; padding: 8px; display: block; border-radius: 8px; }
 
-    .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
-    .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
-
-    .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
-    .prodpg__bullets li { margin: .08rem 0; }
-
-    .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
-
-    /* Extra product photo placed before price */
     .desc-photo{ margin: .2rem 0 .2rem; align-self: center; width: 100%; }
     .desc-photo img{ display: block; width: 100%; max-width: 360px; max-height: 320px; aspect-ratio: 1 / 1; object-fit: contain; height: auto; margin: 0 auto; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,.06); }
     @media (min-width: 900px){ .desc-photo img{ max-width: 320px; max-height: 300px; } }
 
-    /* Price & CTA */
-    .prodpg__price{ order: 90; font-weight: 800; font-size: .9rem; margin: 0 0 var(--card-price-gap) 0; }
-    .product-cta{ order: 100; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: .15rem; }
-    .product-cta .add-to-cart { display: inline-flex; padding: 10px 16px; font-size: .95rem; border-radius: 0; background: #000; color: #fff; font-weight: 600; border: 0; text-decoration: none; cursor: pointer; transition: background-color .15s ease; }
-    .product-cta .add-to-cart:hover { background: #222; }
-    .product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
-    .btn-link { background: transparent; color: #1f2937; font-size: .85rem; }
+    .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
+    .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
+    .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
+    .prodpg__bullets li { margin: .08rem 0; }
+    .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
+    .prodpg__price{ font-weight: 800; font-size: .9rem; margin: 0 0 var(--card-price-gap) 0; }
 
-    /* ---------- Testimonials ---------- */
-    .tbox--bleed { width: 100vw; margin-left: 50%; transform: translateX(-50%); background: #fafafa; border-top: 1px solid #ececec; border-bottom: 1px solid #ececec; padding: 28px 0 40px; }
-    .tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
-    .tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
-    .tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
-    .tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
-    .tquote { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; box-shadow: 0 4px 10px rgba(0,0,0,.05); }
-    .tquote blockquote { margin: 0 0 8px; position: relative; padding-left: 12px; color: #0f172a; line-height: 1.5; }
-    .tquote blockquote::before { content: "“"; position: absolute; left: -4px; top: -6px; font-size: 2rem; line-height: 1; opacity: .2; }
-    .tquote figcaption { font-size: .9rem; color: #475569; }
+    /* CTA: rely on global .btn-cta; only layout here */
+    .product-cta{ display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .product-cta .add-to-cart{ width: auto; max-width: none; }
+    /* --- Detox page CTA look (force gray to match site) --- */
+.prodpg .btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #c7cdd6 !important;  /* override global black */
+  color: #111 !important;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .15s ease, transform .05s ease;
+}
+.prodpg .btn-cta:hover { background: #aeb6c1 !important; }
+
   </style>
+
+  <script is:raw>
+  (function () {
+    async function addToCart(handle, qty) {
+      const res = await fetch("/api/cart-add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ handle, quantity: qty }),
+      });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error || "Add to cart failed");
+
+      // Tell BaseLayout to open the drawer and cache checkout URL (same as flax page)
+      window.dispatchEvent(new CustomEvent("cart:open", {
+        detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
+      }));
+
+      return json;
+    }
+
+    // Optional: quick visibility
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".add-to-cart").forEach((el, i) => {
+        console.log("[Detox] BTN", i, "handle:", el.getAttribute("data-handle"));
+      });
+    });
+
+    // Wire buttons
+    document.addEventListener("click", async (ev) => {
+      const btn = ev.target?.closest?.(".add-to-cart");
+      if (!btn) return;
+      ev.preventDefault();
+
+      const handle = (btn.getAttribute("data-handle") || "").trim();
+      const qty = Number(btn.getAttribute("data-qty") || "1");
+      if (!handle) return alert("Missing data-handle on button.");
+
+      btn.setAttribute("disabled", "true");
+      const original = btn.textContent;
+
+      try {
+        await addToCart(handle, qty);
+        btn.textContent = "Added!";
+        setTimeout(() => (btn.textContent = original), 1200);
+      } catch (e) {
+        console.error("[Detox] Cart error:", e);
+        alert("Cart error: " + (e?.message || e));
+      } finally {
+        btn.removeAttribute("disabled");
+      }
+    });
+  })();
+</script>
+
+<script is:raw>
+  (async () => {
+    // DEV CHECK — logs whether each handle resolves on Shopify
+    const handles = Array.from(document.querySelectorAll("button.add-to-cart[data-handle]"))
+      .map(btn => btn.getAttribute("data-handle"));
+
+    const res = await fetch("/api/cart-add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ handle: handles[0] || "", quantity: 0 }) // quantity 0 will be ignored by our route, we only use resolution step
+    }).catch(() => null);
+
+    console.log("[Detox] Buttons on page:", handles);
+
+    // Optional: probe each handle safely (no add) by calling a tiny helper route below
+    for (const h of handles) {
+      try {
+        const r = await fetch(`/api/resolve-handle?handle=${encodeURIComponent(h)}`);
+        const j = await r.json();
+        console.log(`[Detox] Handle "${h}":`, j);
+      } catch (e) {
+        console.warn(`[Detox] Probe failed for "${h}"`, e);
+      }
+    }
+  })();
+</script>
+
 </BaseLayout>
