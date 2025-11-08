@@ -1,97 +1,134 @@
-﻿<script type="module">
-  import { Cart } from "@/lib/cart";
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+const title = "Your Cart";
+---
 
-  function render() {
-    const mount = document.getElementById("cart-list");
-    const cart = Cart.all(); // [{id,name,unitCents,image,qty}]
-    if (!cart.length) {
-      mount.innerHTML = "<p>Your cart is empty.</p>";
-      return;
-    }
+<BaseLayout>
+  <Fragment slot="title">{title}</Fragment>
 
-    mount.innerHTML = cart.map(i => `
-      <div class="row" data-sku="${i.id}">
-        <img src="${i.image ?? ""}" alt="" style="width:64px;height:64px;object-fit:cover;margin-right:.5rem;" />
-        <div style="flex:1;">
-          <strong>${i.name}</strong><br />
-          $${(i.unitCents/100).toFixed(2)}
-        </div>
-        <input type="number" min="1" value="${i.qty}" class="qty" style="width:64px;" />
-        <button class="rm">Remove</button>
-      </div>
-    `).join("");
-  }
+  <section style="max-width:900px;margin:20px auto;padding:16px;">
+    <h1 style="margin:0 0 12px;">{title}</h1>
 
-  // Remove item
-  document.addEventListener("click", (e) => {
-    const t = e.target;
-    if (!(t instanceof HTMLElement)) return;
-    if (t.classList.contains("rm")) {
-      const row = t.closest(".row");
-      const sku = row?.getAttribute("data-sku");
-      if (sku) { Cart.remove(sku); render(); }
-    }
-  });
+    <div id="cart-root" style="min-height:120px;display:flex;align-items:center;justify-content:center;">
+      Loading cart…
+    </div>
 
-  // Qty change
-  document.addEventListener("change", (e) => {
-    const t = e.target;
-    if (!(t instanceof HTMLInputElement)) return;
-    if (t.classList.contains("qty")) {
-      const row = t.closest(".row");
-      const sku = row?.getAttribute("data-sku");
-      if (sku) {
-        Cart.setQty(sku, Math.max(1, Number(t.value) || 1));
-        render();
+    <style>
+      .cart-list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+      .cart-item{display:flex;gap:12px;align-items:flex-start;border:1px solid #e5e7eb;border-radius:12px;padding:12px}
+      .cart-img{width:84px;height:84px;object-fit:cover;border-radius:8px;border:1px solid #eee;flex-shrink:0}
+      .row{display:flex;gap:12px;align-items:center}
+      .grow{flex:1}
+      .qty{display:inline-flex;align-items:center;gap:8px}
+      .qty input{width:68px;padding:6px 8px;border:1px solid #e5e7eb;border-radius:8px}
+      .btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 14px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;cursor:pointer}
+      .btn:hover{background:#f9fafb}
+      .cta{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 16px;border:0;border-radius:10px;background:#111827;color:#fff;text-decoration:none}
+      .cta:hover{opacity:.92;transform:translateY(-1px)}
+      .actions{display:flex;gap:12px;justify-content:flex-end;margin-top:16px}
+      .muted{color:#6b7280}
+      .price{font-weight:700}
+    </style>
+
+    <script type="module">
+      import { getCart, setLineQuantity, removeLine, getCheckoutUrl } from "/src/lib/shopify-cart.ts";
+
+      const root = document.getElementById("cart-root");
+
+      function money(amount, code){
+        try { return new Intl.NumberFormat('en-US', { style:'currency', currency: code || 'USD' }).format(Number(amount||0)); }
+        catch { return '$0.00'; }
       }
-    }
-  });
 
-  // Checkout (SKU + qty + optional promo/country)
-  document.getElementById("checkout")?.addEventListener("click", async () => {
-    const items = Cart.all();
-    if (!items.length) { alert("Your cart is empty."); return; }
+      async function render(){
+        const cart = await getCart();
+        if(!cart || !cart.lines?.nodes?.length){
+          root.innerHTML = `
+            <div style="text-align:center;">
+              <p>Your cart is empty.</p>
+              <a class="cta" href="/products">Browse Products</a>
+            </div>`;
+          return;
+        }
 
-    // Optional country selector (harmless if backend ignores it)
-    const selectEl = /** @type {HTMLSelectElement|null} */ (document.getElementById("country"));
-    const country = (selectEl && selectEl.value ? String(selectEl.value) : "US").toUpperCase();
+        const lines = cart.lines.nodes;
+        const itemsHtml = lines.map(l => {
+          const v   = l.merchandise;
+          const img = v?.image?.url || '/images/placeholder-84.png';
+          const title = v?.product?.title || v?.title || 'Item';
+          const qty = l.quantity;
+          const unit = money(v?.price?.amount, v?.price?.currencyCode);
+          const total = money(l?.cost?.totalAmount?.amount, l?.cost?.totalAmount?.currencyCode);
+          const handle = v?.product?.handle ? `/products/${v.product.handle}` : '#';
 
-    // Optional promo (reads the drawer input if present site-wide)
-    const couponEl = /** @type {HTMLInputElement|null} */ (document.querySelector("[data-coupon]"));
-    const promoCode = couponEl ? couponEl.value.trim() : "";
+          return `
+            <li class="cart-item" data-line="${l.id}">
+              <img class="cart-img" src="${img}" alt="" loading="lazy" decoding="async">
+              <div class="grow">
+                <div class="row" style="justify-content:space-between;">
+                  <a href="${handle}" style="font-weight:700;text-decoration:none;color:inherit">${title}</a>
+                  <span class="price">${total}</span>
+                </div>
 
-    const payload = {
-      items: items.map(i => ({ id: i.id, qty: i.qty })), // <-- SKU + qty
-      promoCode,
-      // Include if/when your API uses it:
-      // country,
-    };
+                <div class="row" style="margin-top:8px;">
+                  <div class="qty">
+                    <button class="btn" data-dec aria-label="Decrease">−</button>
+                    <input data-qty type="number" min="1" value="${qty}">
+                    <button class="btn" data-inc aria-label="Increase">+</button>
+                  </div>
+                  <button class="btn" data-remove style="margin-left:12px;">Remove</button>
+                  <span class="muted" style="margin-left:auto;">Unit: ${unit}</span>
+                </div>
+              </div>
+            </li>
+          `;
+        }).join('');
 
-    try {
-      const res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
+        const checkoutUrl = getCheckoutUrl() || cart.webUrl;
+
+        root.innerHTML = `
+          <ul class="cart-list">${itemsHtml}</ul>
+          <div class="actions">
+            <a class="btn" href="/products">Continue Shopping</a>
+            <a class="cta" href="${checkoutUrl}">Checkout</a>
+          </div>
+        `;
+      }
+
+      root.addEventListener('click', async (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLElement)) return;
+        const row = t.closest('.cart-item');
+        if(!row) return;
+        const lineId = row.getAttribute('data-line');
+
+        if(t.hasAttribute('data-inc') || t.hasAttribute('data-dec')){
+          const input = row.querySelector('[data-qty]');
+          const current = Math.max(1, parseInt(input.value || '1', 10));
+          const next = t.hasAttribute('data-inc') ? current + 1 : Math.max(1, current - 1);
+          await setLineQuantity(lineId, next);
+          await render();
+          return;
+        }
+
+        if(t.hasAttribute('data-remove')){
+          await removeLine(lineId);
+          await render();
+          return;
+        }
       });
 
-      // Read raw first to avoid JSON.parse crash on HTML error pages
-      const raw = await res.text();
-      let data = null; try { data = raw ? JSON.parse(raw) : null; } catch {}
+      root.addEventListener('change', async (e) => {
+        const t = e.target;
+        if(!(t instanceof HTMLInputElement) || !t.hasAttribute('data-qty')) return;
+        const row = t.closest('.cart-item');
+        const lineId = row.getAttribute('data-line');
+        const val = Math.max(1, parseInt(t.value || '1', 10));
+        await setLineQuantity(lineId, val);
+        await render();
+      });
 
-      if (!res.ok || !data?.url) {
-        const msg = (data && (data.error || data.message)) || `Checkout failed (HTTP ${res.status}).`;
-        console.error("Checkout init failed:", res.status, data || raw);
-        alert(msg);
-        return;
-      }
-
-      window.location.href = data.url; // Stripe Checkout
-    } catch (err) {
-      console.error("Checkout request error:", err);
-      alert("Network error initializing checkout.");
-    }
-  });
-
-  // Initial render
-  render();
-</script>
+      render();
+    </script>
+  </section>
+</BaseLayout>

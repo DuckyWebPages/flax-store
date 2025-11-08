@@ -1,11 +1,10 @@
+/* FILE: src/styles/global.css */
+
 /* ===========================
    HERO LAYOUT
    =========================== */
 .hero { position: relative; min-height: 520px; overflow: hidden; }
-.hero-bg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover;
-}
+.hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .hero-inner {
   position: relative;
   max-width: 1100px; margin: 0 auto;
@@ -22,144 +21,69 @@
 }
 
 /* ===========================
-   BUTTON STRIP AT BOTTOM OF HERO
+   BUTTON STRIP (RETIRED)
    =========================== */
-/* RETIRED: old hero button strip (was overlaying the hero) */
-/* RETIRED: old hero button strip (used to overlay the hero) */
 .hero-actions,
 .hero .hero-actions,
-.hero .hero-actions *,
-.hero-actions * {
+.hero .hero-actions * {
   display: none !important;
   pointer-events: none !important;
-
-  position: static !important;
-  inset: auto !important;
-  transform: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  box-shadow: none !important;
 }
 
-
-
-/* HERO BUTTONS (scoped + overrides any global .btn rules) */
-/* ===== HERO BUTTON EMERGENCY OVERRIDES ===== */
-
+/* ===========================
+   HERO BUTTONS (scoped)
+   =========================== */
 .btn-hero{
-  width: auto !important;
-  min-width: 120px !important;
-  max-width: 100% !important;
-  height: auto !important;
-
-  padding: 10px 16px !important;
-  margin: 0 !important;
-  font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-  text-decoration: none !important;
+  width: auto; min-width: 120px; max-width: 100%; height: auto;
+  padding: 10px 16px; margin: 0;
+  font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  text-decoration: none;
 }
-
 .btn-hero:hover { opacity: .92; transform: translateY(-1px); }
-/* Make sure no global rules make these full-width blocks */
-
 
 /* ===========================
    MOBILE
    =========================== */
 @media (max-width: 640px) {
   .hero { min-height: 500px; }
-
 }
 
-/* ===== HERO BUTTON EMERGENCY OVERRIDES ===== */
-
-
-
-  width: auto !important;
-  min-width: 120px !important;
-  max-width: 100% !important;
-  height: auto !important;
-
-  padding: 10px 16px !important;
-  margin: 0 !important;
-  font: 700 16px/1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif !important;
-  text-decoration: none !important;
-
-
-}
-/* === Reusable CTA pills (site-wide) === */
+/* ===========================
+   Reusable CTA pills (site-wide)
+   =========================== */
 .cta-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: flex-start;
-  margin-top: 12px;
+  display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 12px;
 }
 .cta-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 120px;
-  padding: 10px 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 120px; padding: 10px 16px;
   font: 700 16px/1 Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-
-  color: #fff;
-  background: #111827;
-  text-decoration: none;
-  border: 0;
-  border-radius: 9999px;
+  color: #fff; background: #111827; text-decoration: none; border: 0; border-radius: 9999px;
   box-shadow: 0 6px 18px rgba(0,0,0,.18);
-
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  white-space: nowrap;
+  user-select: none; -webkit-tap-highlight-color: transparent; white-space: nowrap;
   transition: transform .08s ease, opacity .15s ease;
 }
 .cta-btn:hover { opacity: .92; transform: translateY(-1px); }
-
-/* Keyboard accessibility */
 .cta-btn:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
 
-/* Mobile layout for CTAs */
 @media (max-width: 768px) {
   .cta-row { flex-direction: column; }
   .cta-btn { width: 100%; padding: 12px 16px; }
 }
-/* === Blog-friendly typography scale === */
-body {
-  font-size: 18px;     /* was 20px */
-  line-height: 1.65;   /* slightly tighter */
-}
 
-h1 {
-  font-size: 2.25rem;  /* ~36px */
-  line-height: 1.2;
-}
-h2 {
-  font-size: 1.75rem;  /* ~28px */
-  line-height: 1.3;
-}
-h3 {
-  font-size: 1.375rem; /* ~22px */
-}
-h4 {
-  font-size: 1.125rem; /* ~18px */
-}
-h5 {
-  font-size: 1rem;     /* ~16px */
-}
-h6 {
-  font-size: 0.875rem; /* ~14px */
-}
+/* ===========================
+   Blog-friendly typography scale
+   =========================== */
+body { font-size: 18px; line-height: 1.65; }
+h1 { font-size: 2.25rem; line-height: 1.2; }
+h2 { font-size: 1.75rem; line-height: 1.3; }
+h3 { font-size: 1.375rem; }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+.prose p { margin-bottom: 1.5em; font-size: 1.05rem; }
 
-.prose p {
-  margin-bottom: 1.5em;
-  font-size: 1.05rem;  /* ~18.9px */
-}
-/* Only scale images inside content, not UI icons */
+/* Media constraints */
 main img,
 .product-media > img,
 .prodpg__circle img {
@@ -167,258 +91,52 @@ main img,
   height: auto;
 }
 
-/* Force the tiny cart icon size (beats any global img rules) */
+/* Nav cart icon (keep if you still show a cart icon) */
 .main-nav .nav-cart .cart-icon{
-  width: 22px !important;
-  height: 22px !important;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  display: block;
+  width: 22px; height: 22px; aspect-ratio: 1 / 1; object-fit: contain; display: block;
 }
 .main-nav .nav-cart{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 8px;
-  line-height: 0;
+  display: inline-flex; align-items: center; justify-content: center; padding: 6px 8px; line-height: 0;
 }
 /* Drawer image safety net */
 [data-cart-drawer] img { max-width: 100%; height: auto; }
 
 /* Fixed thumbnail box */
 .ci-thumb {
-  width: 84px;
-  height: 84px;
-  overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.08);
-  flex-shrink: 0;
+  width: 84px; height: 84px; overflow: hidden;
+  border-radius: 10px; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0;
 }
-.ci-thumb > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.ci-thumb > img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===========================
+   Shopify “Buy Now” button
+   =========================== */
+.buy-shopify,
+.btn-cta.buy-shopify {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 44px; padding: 0 16px; border-radius: 10px; border: 0;
+  background: #c7cdd6; color: #111; font-size: 16px;
+  transition: background-color .15s ease, transform .05s ease;
 }
-/* === Global Add-to-Cart (uniform: black, rectangular) === */
-.add-to-cart,
-.btn-cta.add-to-cart {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+.buy-shopify:hover { background: #aeb6c1; }
+.buy-shopify:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
 
-  height: var(--cart-btn-h, 44px) !important;
-  padding: 0 var(--cart-btn-px, 16px) !important;
-  line-height: 1 !important;
-  font-size: var(--cart-btn-fs, 16px) !important;
-  font-weight: var(--cart-btn-weight, 500) !important; /* lighter weight */
-  letter-spacing: .01em; /* subtle, helps light weight read clean */
-
-  white-space: nowrap !important;
-  box-sizing: border-box !important;
-  border: 0 !important;
-
-  background: #c7cdd6 !important;         /* light gray (a bit darker so white text has contrast) */
-  color: #fff !important;                  /* white text */
-  border-radius: var(--cart-btn-radius, 10px) !important;
-  transition: background-color .15s ease, transform .05s ease !important;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.add-to-cart:hover,
-.btn-cta.add-to-cart:hover {
-  background: #aeb6c1 !important;         /* darker on hover for contrast */
-}
-.add-to-cart:active,
-.btn-cta.add-to-cart:active {
-  transform: translateY(1px);
-}
-.add-to-cart:focus-visible,
-.btn-cta.add-to-cart:focus-visible {
-  outline: 3px solid #60a5fa;
-  outline-offset: 2px;
-}
-:root {
-  --cart-btn-weight: 500;     /* set 400 for extra light */
-  --cart-btn-fs: 16px;
-  --cart-btn-h: 44px;
-  --cart-btn-radius: 0;       /* set 10px or 9999px if you switch shapes later */
-}
-
-.add-to-cart,
-.btn-cta.add-to-cart {
-  font-weight: var(--cart-btn-weight) !important;
-  font-size: var(--cart-btn-fs) !important;
-  height: var(--cart-btn-h) !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-:root {
-  --cart-btn-h: 44px;
-  --cart-btn-fs: 16px;
-  --cart-btn-px: 16px;
-  --cart-btn-weight: 500;      /* 400 = extra light, 500 = medium-light */
-  --cart-btn-radius: 10px;     /* 0 = rectangle, 9999px = pill */
-  --cart-btn-bg: #c7cdd6;      /* light gray */
-  --cart-btn-bg-hover: #aeb6c1;/* slightly darker hover */
-}
-
-.add-to-cart,
-.btn-cta.add-to-cart {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  height: var(--cart-btn-h) !important;
-  padding: 0 var(--cart-btn-px) !important;
-  line-height: 1 !important;
-  font-size: var(--cart-btn-fs) !important;
-  font-weight: var(--cart-btn-weight) !important;
-  letter-spacing: .01em;
-
-  white-space: nowrap !important;
-  box-sizing: border-box !important;
-  border: 0 !important;
-
-  background: var(--cart-btn-bg) !important;
-  color: #fff !important;
-  border-radius: var(--cart-btn-radius) !important;
-
-  transition: background-color .15s ease, transform .05s ease !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.add-to-cart:hover,
-.btn-cta.add-to-cart:hover { background: var(--cart-btn-bg-hover) !important; }
-
-.add-to-cart:active,
-.btn-cta.add-to-cart:active { transform: translateY(1px); }
-
-.add-to-cart:focus-visible,
-.btn-cta.add-to-cart:focus-visible {
-  outline: 3px solid #60a5fa;
-  outline-offset: 2px;
-}
-/* Force lighter Add-to-Cart labels everywhere */
-:root { --cart-btn-weight: 400; }  /* 400 = normal, 500 = medium-light */
-
-button.add-to-cart,
-.btn-cta.add-to-cart,
-.product-cta button.add-to-cart,
-.prodpg__card .product-cta .btn-cta.add-to-cart {
-  font-weight: var(--cart-btn-weight) !important;
-  letter-spacing: .02em !important;  /* helps “lighter” read clean */
-  text-transform: none !important;    /* prevent accidental all-caps heaviness */
-  -webkit-text-stroke: 0 !important;  /* nuke any accidental stroke */
-}
-// FILE: src/pages/api/create-checkout-session.ts
-import type { APIRoute } from "astro";
-import Stripe from "stripe";
-
-const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2023-10-16",
-});
-
-// Optional fallback map. ONLY fill entries that don't have lookup_key set in Stripe.
-// Example: "fhl-single": "price_1Pxxxxxxx"
-const HARDCODED: Record<string, string> = {
-  "fhl-single": "price_1S5d2YEBOCXQH1bcbs0n7mW5",
-  // add others here only if needed, e.g.:
-  // "ancient-single": "price_live_ABCDEFG",
-  "methylene-blue":
-    import.meta.env.STRIPE_PRICE_ID_MBLUELIVE || "price_1SK7YrEBOCXQH1bcKPcdY56O",
-};
-
-type IncomingItem = { id: string; qty: number };
-type Payload = { items: IncomingItem[]; promoCode?: string };
-
-// Resolve your internal id (e.g., "fhl-single") to a real Stripe price_... id.
-async function priceIdForInternalId(internalId: string): Promise<string> {
-  // 1) Try Prices by lookup_key (BEST: set lookup_key in Stripe UI to your internal id)
-  try {
-    const byLookup = await stripe.prices.list({
-      lookup_keys: [internalId],
-      active: true,
-      limit: 1,
-      expand: ["data.product"],
-    });
-    if (byLookup.data.length) return byLookup.data[0].id;
-  } catch (e) {
-    console.warn("[stripe] prices.list lookup_key failed:", e);
-  }
-
-  // 2) Try Product metadata.sku or metadata.id == internalId
-  try {
-    const prods = await stripe.products.list({ active: true, limit: 100 });
-    for (const p of prods.data) {
-      const sku = (p.metadata?.sku || p.metadata?.id || "").trim();
-      if (sku && sku === internalId) {
-        const prices = await stripe.prices.list({
-          product: p.id,
-          active: true,
-          limit: 10,
-        });
-        if (prices.data.length) {
-          const oneTime = prices.data.find((pr) => !pr.recurring) || prices.data[0];
-          return oneTime.id;
-        }
-      }
-    }
-  } catch (e) {
-    console.warn("[stripe] products.list/price fetch failed:", e);
-  }
-
-  // 3) Fallback hardcoded map
-  if (HARDCODED[internalId]) return HARDCODED[internalId];
-
-  throw new Error(
-    `Unknown product id "${internalId}". Set Stripe Price.lookup_key to "${internalId}" OR add it to HARDCODED.`
-  );
-}
-
-export const POST: APIRoute = async ({ request, url }) => {
-  try {
-    const body = (await request.json()) as Payload;
-    const items = Array.isArray(body.items) ? body.items : [];
-
-    if (!items.length) {
-      return new Response(JSON.stringify({ error: "No items." }), { status: 400 });
-    }
-
-    console.log("[checkout] incoming items:", items);
-
-    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-    for (const i of items) {
-      const priceId = await priceIdForInternalId(String(i.id));
-      const quantity = Math.max(1, Math.min(99, Number(i.qty || 1)));
-      line_items.push({ price: priceId, quantity });
-    }
-
-    console.log("[checkout] line_items:", line_items);
-
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
-      line_items,
-      allow_promotion_codes: true,
-      success_url: `${url.origin}/thanks?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${url.origin}/cart?canceled=1`,
-    });
-
-    return new Response(JSON.stringify({ url: session.url }), { status: 200 });
-  } catch (err: any) {
-    console.error("[create-checkout-session] error:", err);
-    return new Response(JSON.stringify({ error: err?.message || "Checkout failed" }), {
-      status: 400,
-    });
-  }
-};
+/* ===========================
+   Fineprint
+   =========================== */
 .fineprint{
-  display:block;
-  clear:both;
-  margin:24px 0 0;
-  padding-top:8px;
-  color:#6b7280;
-  font-size:.8rem;
-  border-top:1px solid #e5e7eb;
+  display:block; clear:both; margin:24px 0 0; padding-top:8px;
+  color:#6b7280; font-size:.8rem; border-top:1px solid #e5e7eb;
 }
+/* Cart Drawer (global) */
+.cart-drawer { position: fixed; top:0; right:-420px; width:360px; height:100dvh; background:#fff; box-shadow:-4px 0 18px rgba(0,0,0,.12); transition:right .2s ease; z-index:70; display:flex; flex-direction:column; }
+.cart-drawer.is-open { right:0; }
+.cd-head, .cd-foot { padding:12px; border-bottom:1px solid #eee; }
+.cd-foot { border-top:1px solid #eee; border-bottom:none; margin-top:auto; }
+.cd-body { padding:12px; overflow:auto; }
+.cd-lines { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.cd-line { display:flex; gap:10px; align-items:center; }
+.cd-thumb { width:64px; height:64px; object-fit:cover; border-radius:8px; background:#f3f3f3; }
+.cd-title { font-weight:700; }
+.cd-qty, .cd-price { opacity:.9; font-size:.95rem; }
+.cd-close { background:transparent; border:0; cursor:pointer; font-size:.95rem; }

@@ -1,195 +1,87 @@
-// FILE: src/components/CartDrawer.tsx
-import React from "react";
-import CartProvider, { useCart } from "./CartProvider.tsx";
-import "./cart-drawer.css"; // keep this; inline style below is just a safety net
+// Minimal event hookup + render for Shopify cart
+import { useEffect, useState } from "react";
+
+type Money = { amount: string; currencyCode: string };
+type CartLine = {
+  id: string;
+  quantity: number;
+  cost?: { subtotalAmount?: Money };
+  merchandise?: {
+    id: string;
+    title: string;
+    product?: { title: string; handle: string; featuredImage?: { url: string; altText?: string } };
+    price?: Money;
+  };
+};
+type Cart = {
+  id: string;
+  checkoutUrl: string;
+  totalQuantity: number;
+  cost?: { subtotalAmount?: Money; totalAmount?: Money };
+  lines: { edges: { node: CartLine }[] };
+};
 
 export default function CartDrawer() {
-  const { items, totalCents, setQty, remove, clear, open, setOpen } = useCart();
-  const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [cart, setCart] = useState<Cart | null>(null);
 
-  // Debug: see "open" state flip; add window.cartOpen()/cartClose() helpers
-  React.useEffect(() => {
-    console.log("[CartDrawer] open =", open);
-    (window as any).cartOpen = () => setOpen(true);
-    (window as any).cartClose = () => setOpen(false);
-  }, [open, setOpen]);
+  useEffect(() => {
+    const onOpen = (e: any) => { setCart(e.detail.cart as Cart); setOpen(true); };
+    const onInit = (e: any) => { setCart(e.detail.cart as Cart); };
+    window.addEventListener("cart:open", onOpen as any);
+    window.addEventListener("cart:init", onInit as any);
+    return () => {
+      window.removeEventListener("cart:open", onOpen as any);
+      window.removeEventListener("cart:init", onInit as any);
+    };
+  }, []);
 
-  const updateQty = (id: string, next: number) => {
-    const q = Math.max(1, Number.isFinite(next) ? Math.floor(next) : 1);
-    setQty(id, q);
-  };
-
-  const handleCheckout = async () => {
-    try {
-      if (!items.length) {
-        alert("Your cart is empty.");
-        return;
-      }
-      const couponEl = document.querySelector<HTMLInputElement>("[data-coupon]");
-      const promoCode = couponEl ? couponEl.value.trim() : "";
-      setLoading(true);
-
-      const payload = {
-        items: items.map((i) => ({ id: i.id, qty: i.qty })),
-        promoCode,
-      };
-
-      const res = await fetch("/api/create-checkout-session", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const raw = await res.text();
-      let data: any = null;
-      try { data = raw ? JSON.parse(raw) : null; } catch {}
-
-      if (!res.ok || !data?.url) {
-        const msg = (data && data.error) ? data.error : `Checkout failed (HTTP ${res.status}).`;
-        alert(msg);
-        return;
-      }
-
-      window.location.href = data.url;
-    } catch (err: any) {
-      console.error("[checkout] error:", err);
-      alert("Sorry—checkout could not start: " + (err?.message || "Unknown error"));
-    } finally {
-      setLoading(false);
-    }
+  const goCheckout = () => {
+    if (!cart?.checkoutUrl) return alert("Missing checkout URL");
+    window.location.href = cart.checkoutUrl;
   };
 
   return (
-    <aside
-      className={`cart-drawer ${open ? "open" : ""}`}
-      aria-hidden={!open}
-      role="complementary"
-      aria-label="Shopping cart"
-      // Inline fallback so it works even if CSS didn't load
-      style={{
-        position: "fixed",
-        top: 0,
-        right: 0,
-        width: "360px",
-        maxWidth: "92vw",
-        height: "100%",
-        background: "#fff",
-        boxShadow: "-2px 0 24px rgba(0,0,0,.2)",
-        transform: open ? "translateX(0)" : "translateX(100%)",
-        transition: "transform .28s ease",
-        zIndex: 999999
-      }}
-    >
-      <div className="cart-shell">
-        <header className="header">
-          <h2>Cart</h2>
-          <button
-            type="button"
-            className="icon-btn"
-            onClick={() => setOpen(false)}
-            aria-label="Close cart"
-            title="Close"
-          >
-            ×
-          </button>
-        </header>
+    <aside className={`cart-drawer ${open ? "is-open" : ""}`}>
+      <header className="cd-head">
+        <h3>Cart ({cart?.totalQuantity ?? 0})</h3>
+        <button onClick={() => setOpen(false)}>Close</button>
+      </header>
 
-        {items.length === 0 ? (
-          <div className="empty">Your cart is empty.</div>
+      <div className="cd-body">
+        {!cart || cart.totalQuantity === 0 ? (
+          <p>Your cart is empty.</p>
         ) : (
-          <ul className="items" role="list">
-            {items.map((i) => (
-              <li key={i.id} className="cart-row">
-                <div className="thumb">
-                  <img
-                    src={(i as any).image || "/images/products/placeholder.jpg"}
-                    alt={i.name}
-                    loading="lazy"
-                  />
-                </div>
-
-                <div className="meta">
-                  <div className="title">{i.name}</div>
-                  <div className="price">${(i.unitCents / 100).toFixed(2)}</div>
-                </div>
-
-                <div className="controls">
-                  <div className="stepper" role="group" aria-label={`Quantity for ${i.name}`}>
-                    <button
-                      type="button"
-                      className="step"
-                      onClick={() => updateQty(i.id, i.qty - 1)}
-                      aria-label="Decrease quantity"
-                      disabled={loading}
-                    >
-                      –
-                    </button>
-                    <input
-                      type="number"
-                      inputMode="numeric"
-                      pattern="\d*"
-                      min={1}
-                      value={i.qty}
-                      onChange={(e) => updateQty(i.id, Number(e.currentTarget.value || 1))}
-                      aria-label={`Quantity for ${i.name}`}
-                      disabled={loading}
-                    />
-                    <button
-                      type="button"
-                      className="step"
-                      onClick={() => updateQty(i.id, i.qty + 1)}
-                      aria-label="Increase quantity"
-                      disabled={loading}
-                    >
-                      +
-                    </button>
+          <ul className="cd-lines">
+            {cart.lines.edges.map(({ node }) => {
+              const img = node.merchandise?.product?.featuredImage;
+              const title = node.merchandise?.product?.title || node.merchandise?.title || "Item";
+              const price = node.merchandise?.price;
+              return (
+                <li key={node.id} className="cd-line">
+                  {img?.url && <img src={img.url} alt={img.altText || title} className="cd-thumb" />}
+                  <div className="cd-info">
+                    <div className="cd-title">{title}</div>
+                    <div className="cd-qty">Qty: {node.quantity}</div>
+                    {price && (
+                      <div className="cd-price">
+                        {new Intl.NumberFormat("en-US", { style: "currency", currency: price.currencyCode })
+                          .format(Number(price.amount))}
+                      </div>
+                    )}
                   </div>
-
-                  <button
-                    type="button"
-                    className="remove"
-                    onClick={() => remove(i.id)}
-                    title="Remove"
-                    aria-label={`Remove ${i.name}`}
-                    disabled={loading}
-                  >
-                    ×
-                  </button>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         )}
-
-        <footer className="footer">
-          <div className="totals">
-            <span>Total</span>
-            <strong>${(totalCents / 100).toFixed(2)}</strong>
-          </div>
-
-          <div className="actions">
-            <button
-              type="button"
-              className="btn btn-clear"
-              onClick={clear}
-              disabled={loading || !items.length}
-              title="Clear cart"
-            >
-              Clear
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-checkout"
-              onClick={handleCheckout}
-              disabled={loading || !items.length}
-              title="Proceed to checkout"
-            >
-              {loading ? "Starting…" : "Checkout"}
-            </button>
-          </div>
-        </footer>
       </div>
+
+      <footer className="cd-foot">
+        <button className="btn-cta" disabled={!cart || cart.totalQuantity === 0} onClick={goCheckout}>
+          Checkout
+        </button>
+      </footer>
     </aside>
   );
 }

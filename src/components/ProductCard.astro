@@ -1,0 +1,14 @@
+---
+const { title, image, priceText, handle } = Astro.props as {
+  title: string;
+  image: string;     // public path like /images/products/...
+  priceText?: string;
+  handle: string;    // Shopify product handle
+};
+---
+<article class="product-card" style="border:1px solid #e5e7eb; border-radius:12px; padding:14px; display:grid; gap:10px;">
+  <img src={image} alt={title} style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px;" loading="lazy" decoding="async" />
+  <div style="font-weight:700">{title}</div>
+  {priceText && <div style="opacity:.7">{priceText}</div>}
+  <button class="btn-cta add-to-cart" data-handle={handle} data-qty="1">Add to Cart</button>
+</article>

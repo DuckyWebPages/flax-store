@@ -1,0 +1,90 @@
+---
+import { shopifyQuery } from "@/lib/shopify.js";
+
+const QUERY = /* GraphQL */ `
+  query FirstProducts {
+    products(first: 10) {
+      edges {
+        node {
+          title
+          handle
+          images(first: 1) { edges { node { url altText } } }
+          variants(first: 1) {
+            edges {
+              node {
+                id
+                title
+                price { amount currencyCode }
+                availableForSale
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+let products = [];
+let errorMsg = "";
+try {
+  const data = await shopifyQuery(QUERY);
+  products = data?.products?.edges ?? [];
+} catch (err) {
+  errorMsg = (err?.message || String(err));
+  console.error(err);
+}
+---
+<html>
+  <body>
+    <h1>Shopify Connection Test</h1>
+    {errorMsg && <p>⚠️ Error: {errorMsg}</p>}
+
+    {products.length === 0 && !errorMsg && (
+      <p>No products returned. Add/publish at least one product to Online Store.</p>
+    )}
+
+    {products.length > 0 && (
+      <ul style="list-style:none;padding:0;display:grid;gap:16px;max-width:900px;">
+        {products.map(p => {
+          const n = p.node;
+          const img = n.images?.edges?.[0]?.node;
+          const v = n.variants?.edges?.[0]?.node;
+          return (
+            <li style="display:flex;gap:16px;align-items:center;border:1px solid #ddd;padding:12px;border-radius:10px;">
+              <img src={img?.url} alt={img?.altText || n.title} width="120" height="120" style="object-fit:cover;border-radius:8px;" />
+              <div style="flex:1;">
+                <div style="font-weight:700;">{n.title}</div>
+                <div style="opacity:.7;">/{n.handle}</div>
+                {v && <div style="margin-top:6px;">{v.price.amount} {v.price.currencyCode}</div>}
+                {v?.availableForSale ? (
+                  <button class="buy" data-merch-id={v.id} style="margin-top:8px;padding:8px 12px;border-radius:8px;border:1px solid #aaa;cursor:pointer;">
+                    Buy Now
+                  </button>
+                ) : (
+                  <div style="margin-top:8px;color:#a00;">Not available for sale</div>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+
+    <script>
+      document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.buy');
+        if (!btn) return;
+        const merchId = btn.getAttribute('data-merch-id');
+        const res = await fetch('/api/shopify-cart', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ merchId, qty: 1 })
+        });
+        const json = await res.json();
+        if (json.checkoutUrl) window.location.href = json.checkoutUrl;
+        else alert('Error: ' + (json.error || 'Unknown'));
+      });
+    </script>
+  </body>
+</html>
