@@ -144,14 +144,24 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
   <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 × 1 oz)</span></h3>
 
   <ul class="prodpg__bullets">
-    <li>Three-bottle value bundle</li>
-    <li>Same zeolite + humic/fulvic pairing</li>
-    <li>Designed for whole-body circulation</li>
-  </ul>
+  <li>Three-bottle value bundle</li>
+  <li>Same zeolite + humic/fulvic pairing</li>
+  <li>Designed for whole-body circulation</li>
+</ul>
 
-  <p class="prodpg__desc">
-    Value bundle. Supports natural detox and elimination. See the single-bottle description for full details.
-  </p>
+<p class="prodpg__desc">
+  <strong>See single product description as well — it’s the same product, just bundled for savings. Extremely safe and non-toxic.</strong>
+  Purified, activated liquid zeolite is non-toxic and is eliminated in ~5–7 hours. It helps remove heavy metals (including radioactive isotopes) such as mercury, cadmium, lead, arsenic, aluminum, strontium, and excess iron.
+</p>
+
+<p class="prodpg__desc">
+  AfterShot Zeolite may also help normalize pH levels, support the body’s ability to address viruses and bacteria, and improve overall well-being and energy levels. If you’re taking a non-traditional approach to any health problem—or simply trying to improve your health—detoxification of toxins &amp; heavy metals is vital to your success.
+</p>
+
+<p class="prodpg__desc">
+  Contains dihydroquercetin (taxifolin), a bioflavonoid studied for decades. Flavonoids help strengthen immune responses and act as powerful antioxidants.
+</p>
+
 
   <figure class="desc-photo">
     <img src={IMG_AFTERSHOT_3PAK} alt="AfterShot 3-Pak bottles" loading="lazy" decoding="async" />
@@ -185,17 +195,17 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
 
       <div class="tlist">
         <figure class="tquote">
-          <blockquote><p>“After having all the metal removed from my teeth… I had incredible joint pain… I took two Ocean Cleanse 3×/day and by day three I was back to normal.”</p></blockquote>
+          <blockquote><p>“After having all the metal removed from my teeth… I had incredible joint pain… My natural dentist said I needed to chelate. I took two Ocean Cleanse 3×/day and by day three I was back to normal.”</p></blockquote>
           <figcaption>— W.S., Colorado</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>“I was forced to take the C shot… Ocean Cleanse (4 caps, 3×/day) and AfterShot (2 droppers, 3×/day) had me feeling better within a day or two.”</p></blockquote>
+          <blockquote><p>“I am in the military and was forced to take the C shot to keep my job… I felt crummy right away and stayed feeling that way. A friend gave me Aftershot and Ocean Cleanse. I took 4 capsules Ocean Cleanse twice a day and 2 dropper fulls of Aftershot 3x a day. That had me feeling better within a few days.”</p></blockquote>
           <figcaption>— T.E., Colorado</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>Manufacturer: “This product is a winner when detoxing… six capsules a day for an average-size body will make people clean.”</p></blockquote>
+          <blockquote><p>Manufacturer: “This product is a winner when detoxing… four to six capsules a day for an average-size body will clean up the bloodstream.”</p></blockquote>
           <figcaption>— S.Z., California</figcaption>
         </figure>
       </div>
@@ -203,6 +213,9 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
   </section>
 
   <style>
+    .prodpg__desc { font-size: .85rem; line-height: 1.4; margin: .15rem 0 .25rem; color: #374151; }
+.prodpg__desc strong { font-weight: 700; } /* weight only; no size bump */
+
     /* ---------- HERO ---------- */
     .prod-hero { position: relative; isolation: isolate; overflow: hidden; min-height: 150px; border-radius: 14px; background: #fff; margin: 8px auto 18px; max-width: 950px; }
     .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
@@ -263,16 +276,24 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
 
   <script is:raw>
   (function () {
+    // --- Add-to-cart via your /api/cart-add endpoint (same behavior as flax page) ---
     async function addToCart(handle, qty) {
       const res = await fetch("/api/cart-add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ handle, quantity: qty }),
+        body: JSON.stringify({ handle, quantity: Math.max(1, Number(qty || 1)) }),
       });
+
+      // Guard: make sure we only parse JSON when the response is JSON
+      const ct = res.headers.get("content-type") || "";
+      if (!ct.includes("application/json")) {
+        throw new Error("Server did not return JSON. Check /api/cart-add route.");
+      }
+
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || "Add to cart failed");
 
-      // Tell BaseLayout to open the drawer and cache checkout URL (same as flax page)
+      // Open your cart drawer (BaseLayout listens for this)
       window.dispatchEvent(new CustomEvent("cart:open", {
         detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
       }));
@@ -280,65 +301,107 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
       return json;
     }
 
-    // Optional: quick visibility
+    // Optional visibility in console
     document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll(".add-to-cart").forEach((el, i) => {
+      document.querySelectorAll(".add-to-cart[data-handle]").forEach((el, i) => {
         console.log("[Detox] BTN", i, "handle:", el.getAttribute("data-handle"));
       });
     });
 
-    // Wire buttons
+    // Wire up clicks
     document.addEventListener("click", async (ev) => {
-      const btn = ev.target?.closest?.(".add-to-cart");
+      const btn = ev.target?.closest?.(".add-to-cart[data-handle]");
       if (!btn) return;
       ev.preventDefault();
 
       const handle = (btn.getAttribute("data-handle") || "").trim();
-      const qty = Number(btn.getAttribute("data-qty") || "1");
+      const qty = btn.getAttribute("data-qty") || "1";
       if (!handle) return alert("Missing data-handle on button.");
 
-      btn.setAttribute("disabled", "true");
       const original = btn.textContent;
+      btn.disabled = true;
 
       try {
         await addToCart(handle, qty);
         btn.textContent = "Added!";
-        setTimeout(() => (btn.textContent = original), 1200);
+        setTimeout(() => (btn.textContent = original), 1000);
       } catch (e) {
         console.error("[Detox] Cart error:", e);
         alert("Cart error: " + (e?.message || e));
       } finally {
-        btn.removeAttribute("disabled");
+        btn.disabled = false;
       }
     });
   })();
 </script>
+<style>
+/* ---------- TESTIMONIAL CARDS (white panels on gray band) ---------- */
+.tbox.tbox--bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  background: #fafafa;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+  padding: 28px 0 40px;
+}
 
-<script is:raw>
-  (async () => {
-    // DEV CHECK — logs whether each handle resolves on Shopify
-    const handles = Array.from(document.querySelectorAll("button.add-to-cart[data-handle]"))
-      .map(btn => btn.getAttribute("data-handle"));
+.tbox.tbox--bleed .tbox__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
 
-    const res = await fetch("/api/cart-add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ handle: handles[0] || "", quantity: 0 }) // quantity 0 will be ignored by our route, we only use resolution step
-    }).catch(() => null);
+.tbox.tbox--bleed h2 {
+  margin: 0 0 6px;
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+}
 
-    console.log("[Detox] Buttons on page:", handles);
+.tbox.tbox--bleed .tbox__lead {
+  margin: 0 0 14px;
+  color: #475569;
+  font-size: .95rem;
+}
 
-    // Optional: probe each handle safely (no add) by calling a tiny helper route below
-    for (const h of handles) {
-      try {
-        const r = await fetch(`/api/resolve-handle?handle=${encodeURIComponent(h)}`);
-        const j = await r.json();
-        console.log(`[Detox] Handle "${h}":`, j);
-      } catch (e) {
-        console.warn(`[Detox] Probe failed for "${h}"`, e);
-      }
-    }
-  })();
-</script>
+/* Grid of individual white cards */
+.tbox.tbox--bleed .tlist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 820px) {
+  .tbox.tbox--bleed .tlist { grid-template-columns: 1fr 1fr; }
+}
+
+/* The white card */
+.tbox.tbox--bleed .tquote {
+  background: #fff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+}
+
+/* Typography inside cards */
+.tbox.tbox--bleed .tquote blockquote {
+  margin: 0 0 8px;
+  position: relative;
+  padding-left: 12px;
+  color: #0f172a;
+  line-height: 1.5;
+}
+.tbox.tbox--bleed .tquote blockquote::before {
+  content: "“";
+  position: absolute;
+  left: -4px; top: -6px;
+  font-size: 2rem; line-height: 1; opacity: .2;
+}
+.tbox.tbox--bleed .tquote figcaption {
+  font-size: .9rem;
+  color: #475569;
+}
+</style>
+
+
 
 </BaseLayout>
