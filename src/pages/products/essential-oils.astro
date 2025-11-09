@@ -18,9 +18,24 @@ const items = [
 ];
 
 const HERO_VIDEO = '/videos/eoilsmist.mp4';
-const HERO_POSTER = '/images/products/oilsgreen.png'; // fallback/first-frame
-const heroImage = '/images/products/oilsgreen.png';   // keep for noscript fallback
+const HERO_POSTER = '/images/products/oilsgreen.png';
+const heroImage = '/images/products/oilsgreen.png';
 const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
+
+/** EXACT Shopify product handles for each option key.
+ * Replace ONLY the values on the right with your true handles.
+ */
+const HANDLE_MAP: Record<string,string> = {
+  'lavender-15ml':           'lavender-15ml',
+  'thieves-15ml':            'thieves-15ml',
+  'peppermint-15ml':         'peppermint-15ml',
+  'orange-15ml':             'orange-15ml',
+  'grapefruit-15ml':         'grapefruit-15ml',
+  'tea-tree-15ml':           'tea-tree-15ml',
+  'sacred-frankincense-5ml': 'sacred-frankincense-5ml',
+  'panaway-5ml':             'panaway-5ml',
+  'idaho-blue-spruce-5ml':   'idaho-blue-spruce-5ml',
+};
 ---
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
@@ -33,87 +48,82 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
       </p>
 
       <div class="prodpg__grid">
-      <!-- SELECT-BASED PRODUCT CARD (everything contained inside) -->
-<article class="prodpg__card">
-  <div class="card-photo card-photo--hero">
-  <video
-    class="card-media"
-    src={HERO_VIDEO}
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-  ></video>
-</div>
+        <!-- SELECT-BASED PRODUCT CARD -->
+        <article class="prodpg__card">
+          <div class="card-photo card-photo--hero">
+            <video
+              class="card-media"
+              src={HERO_VIDEO}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              poster={HERO_POSTER}
+            ></video>
+          </div>
 
-  <noscript>
-    <img src={heroImage} alt="Essential oils assortment" class="card-photo-img" />
-  </noscript>
+          <noscript>
+            <img src={heroImage} alt="Essential oils assortment" class="card-photo-img" />
+          </noscript>
 
-  <h3 class="prodpg__title">Essential Oils — Varying prices (choose below)</h3>
+          <h3 class="prodpg__title">Essential Oils — Varying prices (choose below)</h3>
 
-  
-  <!-- DESCRIPTIVE COPY (now inside the card) -->
-  <p class="prodpg__desc">
-    Young Living pure essential oils. The following oils are in stock. If you want any other oil, call us and we can get it for you! Choose your oil (size is built into the option). We keep a selection of popular oils in stock. If you need a different oil or size, call our customer service at
-    <a href="tel:18177106918">817-710-6918</a>. We can get a different oil for you with our next warehouse order, or you can open your own Young Living account (use link below).
-  </p>
+          <p class="prodpg__desc">
+            Young Living pure essential oils. The following oils are in stock. If you want any other oil, call us and we can get it for you! Choose your oil (size is built into the option). We keep a selection of popular oils in stock. If you need a different oil or size, call our customer service at
+            <a href="tel:18177106918">817-710-6918</a>. We can get a different oil for you with our next warehouse order, or you can open your own Young Living account (use link below).
+          </p>
 
-  <p class="prodpg__desc">
-    <strong>Lavender:</strong> Calming, relaxing, skin repair; relieves the discomfort of minor burns and sun irritation.<br>
-    <strong>Thieves:</strong> Immune support, cleansing, purifying, mold prevention. Apply to bottoms of feet every hour at the first sign of illness; diffuse to purify air.<br>
-    <strong>Peppermint:</strong> Energizing, cooling; relieves occasional stomach upset; helps with head discomfort—apply around the hairline and rest in a cool, dark room when experiencing head tension.<br>
-    <strong>Orange:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene, a powerful antioxidant.<br>
-    <strong>Grapefruit:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene.<br>
-    <strong>Tea Tree (Melaleuca):</strong> Cleansing, purifying, skin support. Apply to minor skin irritations; apply to toothbrush to help with oral hygiene.<br>
-    <strong>Sacred Frankincense:</strong> Grounding, centering; exquisite skin & immune support. Apply to skin to help reduce the appearance of blemishes; use during meditation or prayer.<br>
-    <strong>PanAway:</strong> Soothing, cooling, comforting. Apply to sore muscles and joints after activity.<br>
-    <strong>Idaho Blue Spruce:</strong> Grounding, centering, uplifting. Apply to neck and shoulders to help relieve tension. Men can apply a few drops along with a carrier oil topically for better sexual function.
-  </p>
+          <p class="prodpg__desc">
+            <strong>Lavender:</strong> Calming, relaxing, skin repair; relieves the discomfort of minor burns and sun irritation.<br>
+            <strong>Thieves:</strong> Immune support, cleansing, purifying, mold prevention. Apply to bottoms of feet every hour at the first sign of illness; diffuse to purify air.<br>
+            <strong>Peppermint:</strong> Energizing, cooling; relieves occasional stomach upset; helps with head discomfort—apply around the hairline and rest in a cool, dark room when experiencing head tension.<br>
+            <strong>Orange:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene, a powerful antioxidant.<br>
+            <strong>Grapefruit:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene.<br>
+            <strong>Tea Tree (Melaleuca):</strong> Cleansing, purifying, skin support. Apply to minor skin irritations; apply to toothbrush to help with oral hygiene.<br>
+            <strong>Sacred Frankincense:</strong> Grounding, centering; exquisite skin & immune support. Apply to skin to help reduce the appearance of blemishes; use during meditation or prayer.<br>
+            <strong>PanAway:</strong> Soothing, cooling, comforting. Apply to sore muscles and joints after activity.<br>
+            <strong>Idaho Blue Spruce:</strong> Grounding, centering, uplifting. Apply to neck and shoulders to help relieve tension. Men can apply a few drops along with a carrier oil topically for better sexual function.
+          </p>
 
-  <p class="prodpg__desc">
-    If you need a capsule filling tray to make your own capsules with oils, we recommend this one:
-    <a href="https://amzn.to/46ZYaYJ" target="_blank" rel="noopener">View Capsule Filling Tray on Amazon</a>.
-    <br><br>
-    To order economically (if you are ordering large amounts of oil or on a regular basis), we recommend creating your own wholesale account with Young Living. Use code <strong>SHAREYL</strong> at checkout for 10% off orders of $50/50pv or more. You must place a $100/100pv initial order to get wholesale pricing with them.
-    <br><br>
-    <a href="https://www.youngliving.com/us/en/referral/1218526" target="_blank" rel="noopener">Open your own Young Living account. Click "Sign In" and then "Create Your Own Account"</a>
-  </p>
+          <p class="prodpg__desc">
+            If you need a capsule filling tray to make your own capsules with oils, we recommend this one:
+            <a href="https://amzn.to/46ZYaYJ" target="_blank" rel="noopener">View Capsule Filling Tray on Amazon</a>.
+            <br><br>
+            To order economically (if you are ordering large amounts of oil or on a regular basis), we recommend creating your own wholesale account with Young Living. Use code <strong>SHAREYL</strong> at checkout for 10% off orders of $50/50pv or more. You must place a $100/100pv initial order to get wholesale pricing with them.
+            <br><br>
+            <a href="https://www.youngliving.com/us/en/referral/1218526" target="_blank" rel="noopener">Open your own Young Living account. Click "Sign In" and then "Create Your Own Account"</a>
+          </p>
 
-  <!-- SELECTION + QTY + ADD -->
-  <label>
-    <span class="lbl">Oil</span>
-    <select id="eoItem" class="select">
-      {items.map(i => (
-        <option value={i.key} data-cents={i.cents}>{i.label}</option>
-      ))}
-    </select>
-  </label>
-  <!-- LIVE PRICE directly under title -->
-<p id="eoPrice" class="prodpg__price" aria-live="polite">$0.00</p>
+          <label>
+            <span class="lbl">Oil</span>
+            <select id="eoItem" class="select">
+              {items.map(i => (
+                <option value={i.key} data-cents={i.cents}>{i.label}</option>
+              ))}
+            </select>
+          </label>
 
-  <label>
-    <span class="lbl">Quantity</span>
-    <input id="eoQty" type="number" min="1" value="1" class="qty" />
-  </label>
+          <p id="eoPrice" class="prodpg__price" aria-live="polite">$0.00</p>
 
-  <div class="product-cta">
-    <button
-      id="eoAdd"
-      class="btn-cta add-to-cart"
-      data-sku=""
-      data-name=""
-      data-price="0"
-      data-image={heroImage}
-      data-qty="1"
-      type="button"
-    >
-      Add to Cart
-    </button>
-  </div>
-</article>
+          <label>
+            <span class="lbl">Quantity</span>
+            <input id="eoQty" type="number" min="1" value="1" class="qty" />
+          </label>
 
+          <div class="product-cta">
+            <!-- Shopify: use data-handle + data-qty -->
+            <button
+              id="eoAdd"
+              class="btn-cta add-to-cart"
+              type="button"
+              data-handle=""
+              data-qty="1"
+            >
+              Add to Cart
+            </button>
+          </div>
+        </article>
 
         <!-- INFO-ONLY CARD: Orange Oil Protocol -->
         <article class="prodpg__card prodpg__card--info">
@@ -154,7 +164,7 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
     </div>
   </section>
 
-  <!-- Full-width Testimonials band (2×2 on desktop) -->
+  <!-- Testimonials band -->
   <section class="tbox tbox--bleed" aria-labelledby="eo-testimonials-heading">
     <div class="tbox__container">
       <h2 id="eo-testimonials-heading">Customer Testimonials</h2>
@@ -184,17 +194,9 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
     </div>
   </section>
 
-
-
-  <!-- Wire buttons → React cart -->
-
-
   <style>
-    /* Page container */
     .prodpg { padding: 0 0 48px; }
     .prodpg__container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
-
-    /* Title + subtitle */
     .products-subtitle{
       margin: 4px 0 14px;
       font-weight: 600;
@@ -203,110 +205,31 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
       font-size: clamp(1rem, 1.6vw, 1.125rem);
       max-width: 80ch;
     }
-
-    /* ALWAYS single-column stack, center cards, cap width */
-    .prodpg__grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 28px;
-      margin: 16px 0 28px;
-    }
+    .prodpg__grid { display: grid; grid-template-columns: 1fr; gap: 28px; margin: 16px 0 28px; }
     .prodpg__card{
-      width: 100%;
-      max-width: 980px;
-      margin: 0 auto;
+      width: 100%; max-width: 980px; margin: 0 auto;
       background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:20px;
       box-shadow:0 8px 18px rgba(0,0,0,.06);
       display:grid; gap:.65rem; justify-items:start;
     }
-
-    /* Select card hero image */
-    .hero-img{ width:100%; height:300px; object-fit:cover; border-radius:10px; display:block; }
-
-    /* Info card image (Orange) — capped size */
-    .prodpg__card--info .card-photo {
-      width: 100%;
-      aspect-ratio: 3 / 2;
-      max-height: 280px;
-      overflow: hidden;
-      border-radius: 10px;
-      background: #fff7ec;
-      border: 1px dashed #f59e0b;
-    }
-    .prodpg__card--info .card-photo-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    /* Square/hero media wrapper (matches other cards) */
-.card-photo{
-  position:relative;
-  width:100%;
-  aspect-ratio: 16 / 9;      /* or 3/2; pick what fits */
-  overflow:hidden;
-  border-radius:10px;
-  background:#f7f7f7;
-  box-shadow:0 3px 6px rgba(0,0,0,.04);
-}
-.card-photo--hero { background: #000; } /* or a brand color */
-
-
-/* Video or image inside the wrapper */
-.card-media,
-.card-photo-img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  border-radius:10px; /* keeps corners clean */
-}
-
-/* Ensure card itself is the white panel */
-.prodpg__card{
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-radius:14px;
-  padding:20px;
-  box-shadow:0 8px 18px rgba(0,0,0,.06);
-  display:grid;
-  gap:.65rem;
-  justify-items:start;
-}
-
-
-    /* Form bits */
+    .card-photo{ position:relative; width:100%; aspect-ratio: 16 / 9; overflow:hidden; border-radius:10px; background:#f7f7f7; box-shadow:0 3px 6px rgba(0,0,0,.04); }
+    .card-photo--hero { background: #000; }
+    .card-media, .card-photo-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; border-radius:10px; }
     .lbl{ display:block; font-weight:600; margin:.5rem 0 .25rem; }
     .select{ width:100%; padding:10px; border:1px solid #ddd; border-radius:10px; }
     .qty{ width:86px; padding:8px; border:1px solid #ddd; border-radius:10px; }
-
     .prodpg__title { margin:.25rem 0 0; font-weight:700; font-size:.95rem; }
-    .prodpg__price { font-weight:700; font-size:1.05rem; margin:.25rem 0 .25rem; } /* tightened for new spot */
+    .prodpg__price { font-weight:700; font-size:1.05rem; margin:.25rem 0 .25rem; }
     .prodpg__desc { line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
     .prodpg__bullets { margin:.1rem 0 .3rem; padding-left:1.1rem; font-size:.9rem; }
     .prodpg__bullets li { margin:.08rem 0; }
     .product-cta .add-to-cart {
-  display: inline-flex;
-  padding: 10px 16px;
-  font-size: .95rem;
-  border-radius: 0;        /* rectangle */
-  background: #000;
-  color: #fff;
-  font-weight: 600;
-  border: 0;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color .15s ease;
-}
-.product-cta .add-to-cart:hover { background: #222; }
-.product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
-
-
-    /* Testimonials band */
-    .tbox--bleed { width:100vw; margin-left:50%; transform:translateX(-50%); background:#fafafa;
-      border-top:1px solid #ececec; border-bottom:1px solid #ececec; padding:28px 0 40px; }
+      display:inline-flex; padding:10px 16px; font-size:.95rem; border-radius:0;
+      background:#000; color:#fff; font-weight:600; border:0; cursor:pointer; transition:background-color .15s ease;
+    }
+    .product-cta .add-to-cart:hover { background:#222; }
+    .product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
+    .tbox--bleed { width:100vw; margin-left:50%; transform:translateX(-50%); background:#fafafa; border-top:1px solid #ececec; border-bottom:1px solid #ececec; padding:28px 0 40px; }
     .tbox__container { max-width:1100px; margin:0 auto; padding:0 12px; }
     .tbox h2 { margin:0 0 6px; font-size:clamp(1.2rem, 2.2vw, 1.5rem); }
     .tbox__lead { margin:0 0 14px; color:#475569; font-size:.95rem; }
@@ -316,17 +239,16 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
     .tquote blockquote { margin:0 0 8px; position:relative; padding-left:12px; color:#0f172a; line-height:1.5; }
     .tquote blockquote::before { content:"“"; position:absolute; left:-4px; top:-6px; font-size:2rem; line-height:1; opacity:.2; }
     .tquote figcaption { font-size:.9rem; color:#475569; }
-    /* Hero media (video or fallback image) */
-.hero-media{
-  width:100%;
-  height:300px;
-  object-fit:cover;
-  border-radius:10px;
-  display:block;
+    /* Make the oil names bold inside the product description */
+.prodpg__desc strong,
+.prodpg__desc b {
+  font-weight: 700 !important;
+  font-variation-settings: "wght" 700; /* safe if you're using a variable font */
 }
 
   </style>
 
+  <!-- Wire to Shopify cart via /api/cart-add -->
   <script is:inline>
     (function(){
       var items = {
@@ -341,6 +263,19 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
         "idaho-blue-spruce-5ml":   4474
       };
 
+      // Keep a client copy of HANDLE_MAP so the button always has the true handle.
+      var HANDLE_MAP = {
+        "lavender-15ml":           "lavender-15ml",
+        "thieves-15ml":            "thieves-15ml",
+        "peppermint-15ml":         "peppermint-15ml",
+        "orange-15ml":             "orange-15ml",
+        "grapefruit-15ml":         "grapefruit-15ml",
+        "tea-tree-15ml":           "tea-tree-15ml",
+        "sacred-frankincense-5ml": "sacred-frankincense-5ml",
+        "panaway-5ml":             "panaway-5ml",
+        "idaho-blue-spruce-5ml":   "idaho-blue-spruce-5ml"
+      };
+
       var sel = document.getElementById('eoItem');
       var qty = document.getElementById('eoQty');
       var btn = document.getElementById('eoAdd');
@@ -349,14 +284,12 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
       function update(){
         var key   = sel.value;
         var opt   = sel.options[sel.selectedIndex];
-        var label = opt.textContent || key;
         var cents = Number(opt.dataset.cents || items[key] || 0);
         var n     = Math.max(1, parseInt(qty.value||'1',10));
+        var handle = HANDLE_MAP[key] || key; // must match Shopify EXACTLY
 
-        // eo-<short>-<size> required by your API for EO prices
-        btn.setAttribute('data-sku', "eo-" + key);
-        btn.setAttribute('data-name', label);
-        btn.setAttribute('data-price', String(cents));
+        // Set Shopify attributes for our POST
+        btn.setAttribute('data-handle', handle);
         btn.setAttribute('data-qty', String(n));
 
         priceEl.textContent = "$" + (cents/100).toFixed(2);
@@ -369,7 +302,50 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
         btn.setAttribute('data-qty', String(n));
       });
 
+      // Click → /api/cart-add (server resolves variant from handle)
+      document.addEventListener('click', async function (ev) {
+        var el = ev.target.closest && ev.target.closest('#eoAdd');
+        if (!el) return;
+        ev.preventDefault();
+
+        var handle = el.getAttribute('data-handle') || '';
+        var q = Math.max(1, parseInt(el.getAttribute('data-qty') || '1', 10));
+        if (!handle) { alert("Missing Shopify handle for this oil."); return; }
+
+        var original = el.textContent;
+        el.disabled = true;
+        try {
+          var res = await fetch('/api/cart-add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ handle: handle, quantity: q })
+          });
+          var json = await res.json();
+          if (!json.ok) throw new Error(json.error || 'Add to cart failed');
+
+          // Open your cart drawer like other pages
+          window.dispatchEvent(new CustomEvent('cart:open', {
+            detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
+          }));
+
+          el.textContent = 'Added!';
+          setTimeout(function(){ el.textContent = original; }, 1000);
+        } catch (e) {
+          console.error('[EO] Cart error:', e);
+          alert('Cart error: ' + (e && e.message ? e.message : e));
+        } finally {
+          el.disabled = false;
+        }
+      });
+
+      // Initial sync
       update();
+
+      // (Optional) quick console probe to catch bad handles during dev
+      // fetch('/api/resolve-handle?handle=' + encodeURIComponent(HANDLE_MAP[sel.value] || sel.value))
+      //   .then(r => r.json()).then(j => console.log('[EO] probe:', j)).catch(()=>{});
     })();
   </script>
+
+  <Fineprint />
 </BaseLayout>
