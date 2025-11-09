@@ -14,6 +14,9 @@ const IMG_CARD = '/images/products/oceancleansefinal.png';
 
 // ✅ Product video (no poster to avoid image flash)
 const VID_CARD = '/videos/oceancleanse1.mp4';
+
+// ✅ Exact Shopify product handle (same as Detox page)
+const SHOPIFY_HANDLE_OCEAN = 'ocean-cleanse-brown-seaweed-radiation-product';
 ---
 
 <BaseLayout>
@@ -58,16 +61,13 @@ const VID_CARD = '/videos/oceancleanse1.mp4';
           Great for anyone with high exposure to heavy metals, radiation, environmental toxins or vaccines.
         </p>
 
-        <!-- CTA -->
+        <!-- CTA (Shopify) -->
         <div class="product-cta">
           <button
             class="btn-cta add-to-cart"
             type="button"
-            data-sku="ocean-cleanse-single"
+            data-handle={SHOPIFY_HANDLE_OCEAN}
             data-qty="1"
-            data-name="Ocean Cleanse"
-            data-image="/images/products/ocean-cleanse-square.png"
-            data-price="3499"
             aria-label="Add Ocean Cleanse to cart"
           >
             Add to Cart
@@ -210,19 +210,57 @@ const VID_CARD = '/videos/oceancleanse1.mp4';
     }
   </style>
 
-  <!-- Reveal video only when the browser can play it -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const v = document.querySelector('.card-video');
-      if (!v) return;
+  <!-- Reveal video only when the browser can play it + wire Shopify cart -->
+  <script is:raw>
+    (function () {
+      document.addEventListener('DOMContentLoaded', () => {
+        // Reveal video when ready
+        const v = document.querySelector('.card-video');
+        if (v) {
+          const reveal = () => v.classList.add('is-ready');
+          v.addEventListener('canplay', reveal, { once: true });
+          if (v.readyState >= 3) reveal();
+        }
 
-      const reveal = () => v.classList.add('is-ready');
+        // Add-to-cart (Shopify via /api/cart-add)
+        async function addToCart(handle, qty) {
+          const res = await fetch('/api/cart-add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ handle, quantity: qty }),
+          });
+          const json = await res.json();
+          if (!json.ok) throw new Error(json.error || 'Add to cart failed');
 
-      // If the video can start, reveal it (prevents poster/fallback flash)
-      v.addEventListener('canplay', reveal, { once: true });
+          // Open drawer
+          window.dispatchEvent(new CustomEvent('cart:open', {
+            detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
+          }));
+          return json;
+        }
 
-      // If it’s already ready by the time this runs
-      if (v.readyState >= 3) reveal();
-    });
+        document.addEventListener('click', async (ev) => {
+          const btn = ev.target && ev.target.closest && ev.target.closest('.add-to-cart');
+          if (!btn) return;
+          ev.preventDefault();
+
+          const handle = (btn.getAttribute('data-handle') || '').trim();
+          const qty = Math.max(1, Number(btn.getAttribute('data-qty') || '1'));
+          if (!handle) return alert('Missing data-handle on button.');
+
+          const original = btn.textContent;
+          btn.setAttribute('disabled', 'true');
+          try {
+            await addToCart(handle, qty);
+            btn.textContent = 'Added!';
+            setTimeout(() => (btn.textContent = original), 1200);
+          } catch (e) {
+            alert('Cart error: ' + (e && e.message ? e.message : e));
+          } finally {
+            btn.removeAttribute('disabled');
+          }
+        });
+      });
+    })();
   </script>
 </BaseLayout>

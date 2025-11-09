@@ -65,21 +65,18 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
           <li>Video is a representation, not actual tea. It is dark and bitter like coffee. Best very cold.</li>
         </ul>
 
-        <!-- CTA -->
-        <div class="product-cta">
-          <button
-            class="btn-cta add-to-cart"
-            type="button"
-            data-sku={SKU}
-            data-qty="1"
-            data-name="Essiac Tea — Famous 8-Herb Recipe (Single)"
-            data-image={IMG_HERO}
-            data-price={String(PRICE_CENTS)}
-            aria-label="Add Essiac Tea to cart"
-          >
-            Add to Cart
-          </button>
-        </div>
+      <div class="product-cta">
+  <button
+    class="btn-cta add-to-cart"
+    type="button"
+    data-handle="essiac-tea"
+    data-qty="1"
+    aria-label="Add Essiac Tea to cart"
+  >
+    Add to Cart
+  </button>
+</div>
+
 
         <p class="fineprint">
           *Statements on this page have not been evaluated by the FDA. Products are not intended to diagnose, treat, cure, or prevent any disease.
@@ -89,7 +86,8 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
   </section>
 
   <!-- Additional content -->
-  <section class="content">
+  <section class="content content--card">
+
     <h2>About Essiac Tea</h2>
     <p>
       The early 4-herb version is widely circulated because it was Nurse Caisse’s first formula, but over time she worked with Dr. Brusch to develop a more refined 8-herb version. This is that 8-herb recipe. Taste is similar to cold coffee and is slightly bitter.
@@ -253,6 +251,28 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
       .image-pair{ grid-template-columns: 1fr 1fr; gap: 10px; }
       .image-pair img{ width: 100%; max-width: 160px; }
     }
+    /* Make CTA button auto-width, pill style, centered */
+.product-cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.product-cta .btn-cta {
+  width: auto;              /* was 100% */
+  min-width: 180px;         /* keep a nice baseline */
+  justify-content: center;
+  border-radius: 9999px;    /* pill */
+}
+
+/* White card treatment for the long text section */
+.content--card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  padding: 18px;
+}
+
   </style>
 
   <!-- Reveal video only when it can play -->
@@ -265,4 +285,45 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
       if (v.readyState >= 3) reveal();
     });
   </script>
+  <script is:raw>
+  (function () {
+    async function addToCart(handle, qty) {
+      const res = await fetch("/api/cart-add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ handle, quantity: qty }),
+      });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error || "Add to cart failed");
+
+      window.dispatchEvent(new CustomEvent("cart:open", {
+        detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
+      }));
+      return json;
+    }
+
+    document.addEventListener("click", async (ev) => {
+      const btn = ev.target?.closest?.(".add-to-cart");
+      if (!btn) return;
+      ev.preventDefault();
+
+      const handle = (btn.getAttribute("data-handle") || "").trim();
+      const qty = Number(btn.getAttribute("data-qty") || "1") || 1;
+      if (!handle) return alert("Missing data-handle on button.");
+
+      const original = btn.textContent;
+      btn.disabled = true;
+      try {
+        await addToCart(handle, qty);
+        btn.textContent = "Added!";
+        setTimeout(() => (btn.textContent = original), 1200);
+      } catch (e) {
+        alert("Cart error: " + (e?.message || e));
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  })();
+</script>
+
 </BaseLayout>
