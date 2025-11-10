@@ -1,8 +1,10 @@
 ---
 title: "How To Research For Your Health"
-date: 2025-09-02
-summary: "Researching in medical sites and reading studies without getting lost."
-cover: "/images/blog/research.png"
+description: "Blog Post on Finding Research to Support Your Supplement Choices."
+date: 2025-10-15
+seo: "research for health, research, health, natural health research"
+excerpt: "What websites to know to find the information you need."
+heroImage: "/images/blog/how2research.png"
 ---
 
 <section class="research-blog">

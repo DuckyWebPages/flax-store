@@ -1,10 +1,11 @@
 ---
 title: "Free Christmas Coloring Downloads"
-date: 2025-11-09
-summary: "Grab festive coloring pages you can print at home—fun for adults and littles!"
-cover: "/images/blog/free-xmas.png"
+description: "Free downloadable coloring pages for adults and children alike."
+date: 2025-11-01
+seo: "free coloring pages"
+excerpt: "Free holiday coloring pages for our customers."
+heroImage: "/images/xmas.jpg"
 ---
-
 <section class="xmas-card">
   <!-- Hero animation (top, centered, large) -->
   <div class="video-wrap" aria-label="Santa animation">
@@ -31,6 +32,9 @@ cover: "/images/blog/free-xmas.png"
     </a>
     <a class="dl" href="/downloads/coloringpagexmas.pdf" download>
       🎄 Merry Fishmas — Coloring Page (PDF)
+    </a>
+     <a class="dl" href="/downloads/xmasflax.pdf" download>
+      🎄 Christmas Flax — Coloring Page (PDF)
     </a>
     <!-- Add more downloads here as you upload them -->
     <!-- <a class="dl" href="/downloads/snowman.pdf" download>☃️ Snowman — Coloring Page (PDF)</a> -->
