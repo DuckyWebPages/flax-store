@@ -9,7 +9,7 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`; // $40.50
 const SKU = 'essiac-tea';
 
 // Light hero image (faded behind heading)
-const IMG_HERO = '/images/products/essiacgreen.png';
+const IMG_HERO = '/images/backgroundw.jpg';
 
 // Video for the product card
 const VID_CARD = '/videos/essiac.mp4';
@@ -30,26 +30,39 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
     </div>
   </section>
 
-  <!-- PRODUCT CARD -->
+    <!-- PRODUCT CARD -->
   <section id="buy" class="content">
     <div class="card">
-      <!-- Media: VIDEO replaces product picture (no poster; fade-in when ready) -->
-      <div class="card-media-wrap">
-        <video
-          class="card-media card-media--nudge"
-          src={VID_CARD}
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="auto"
-        ></video>
+      <!-- LEFT: media column (MP4 on top, YouTube below) -->
+      <div class="media-col">
+        <div class="media-box">
+          <video
+            class="card-media card-media--nudge"
+            src={VID_CARD}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+          ></video>
+          <noscript>
+            <img src={POSTER_CARD} alt="Essiac Tea" class="card-fallback" />
+          </noscript>
+        </div>
 
-        <noscript>
-          <img src={POSTER_CARD} alt="Essiac Tea" class="card-fallback" />
-        </noscript>
+        <div class="yt-box">
+          <iframe
+            class="yt-frame"
+            src="https://www.youtube-nocookie.com/embed/96a3JCcDb9k?modestbranding=1&rel=0"
+            title="Essiac Tea Instructions"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
       </div>
 
+      <!-- RIGHT: product info -->
       <div class="card-body">
         <h1 class="card-title">Essiac Tea (1 lb Single Bag)</h1>
         <p class="card-price">{PRICE_DISPLAY}</p>
@@ -65,25 +78,25 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
           <li>Video is a representation, not actual tea. It is dark and bitter like coffee. Best very cold.</li>
         </ul>
 
-      <div class="product-cta">
-  <button
-    class="btn-cta add-to-cart"
-    type="button"
-    data-handle="essiac-tea"
-    data-qty="1"
-    aria-label="Add Essiac Tea to cart"
-  >
-    Add to Cart
-  </button>
-</div>
-
+        <div class="product-cta">
+          <button
+            class="btn-cta add-to-cart"
+            type="button"
+            data-handle="essiac-tea"
+            data-qty="1"
+            aria-label="Add Essiac Tea to cart"
+          >
+            Add to Cart
+          </button>
+        </div>
 
         <p class="fineprint">
-          *Statements on this page have not been evaluated by the FDA. Products are not intended to diagnose, treat, cure, or prevent any disease.
+          *Statements on this page have not been evaluated by the FDA. Products are not intended to diagnose, treat, cure, or prevent any disease. *Top video is not of actual tea, just a representation.
         </p>
       </div>
     </div>
   </section>
+
 
   <!-- Additional content -->
   <section class="content content--card">
@@ -166,100 +179,120 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
     .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
     .prod-hero p{ margin:0; max-width:70ch; }
 
-    /* ---------- CONTENT + CARD ---------- */
-    .content{ max-width:1000px; margin:22px auto; padding:0 10px; }
-    .content h3{ margin:1rem 0 .25rem; font-size:1.1rem; }
-    .content ul{ margin:.25rem 0 .75rem; padding-left:1.2rem; }
+   /* ---------- CONTENT + CARD ---------- */
+.content{ max-width:1000px; margin:22px auto; padding:0 10px; }
+.content h3{ margin:1rem 0 .25rem; font-size:1.1rem; }
+.content ul{ margin:.25rem 0 .75rem; padding-left:1.2rem; }
 
-    .card{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:14px;
-      overflow:hidden;
-      box-shadow: 0 1px 2px rgba(0,0,0,.04);
-    }
-    @media (min-width: 720px){
-      .card{ grid-template-columns: 1fr 1fr; }
-    }
+.card{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+@media (min-width: 720px){
+  .card{ grid-template-columns: 1fr 1fr; } /* media left, content right */
+}
 
-    /* Video / media area */
-    .card-media-wrap{
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      overflow: hidden;
-    }
-    .card-media{
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      opacity: 0;
-      transition: opacity .2s ease;
-    }
-    .card-media.is-ready { opacity: 1; }
+/* MEDIA COLUMN: stack both videos inside the left column */
+.media-col{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:12px;   /* breathing room inside the white card */
+}
 
-    .card-fallback{ width:100%; height:auto; display:block; }
+/* 16:9 boxes for each media item */
+.media-box,
+.yt-box{
+  position:relative;
+  width:100%;
+  aspect-ratio:16 / 9;
+  background:#000;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+}
 
-    .card-media{ object-fit: cover; object-position: 50% 62%; }
-    @media (min-width: 720px){ .card-media-wrap{ aspect-ratio: 16 / 9; } }
-    @media (max-width: 719.98px){
-      .card-media-wrap{ aspect-ratio: 16 / 9; }
-      .card-media{ object-position: 50% 60%; }
-    }
+/* MP4 video fills its box and fades in when ready */
+.card-media{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.card-media.is-ready { opacity:1; }
 
-    .card-media--nudge { object-position: 50% 28%; }
-    @supports (-webkit-touch-callout: none) {
-      .card-media--nudge { object-position: 50% 36%; }
-    }
-    .card-media--nudge.is-fallback-shift { height:112%; top:-6%; }
+/* Optional crop nudge */
+.card-media--nudge { object-position:50% 28%; }
+@supports (-webkit-touch-callout: none) {
+  .card-media--nudge { object-position:50% 36%; }
+}
+.card-fallback{ width:100%; height:auto; display:block; }
 
-    .card-body{ padding:18px; }
-    .card-title{ margin:.25rem 0 .25rem; font-size:1.6rem; }
-    .card-price{ margin:0 0 .5rem; font-weight:700; }
-    .card-desc{ margin:0 0 .9rem; line-height:1.55; }
+/* YouTube iframe fills its box */
+.yt-frame{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  border:0; display:block;
+}
 
-    .product-cta .btn-cta { min-width: 220px; width: 100%; justify-content: center; }
-    .btn-cta.add-to-cart{ display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; height: var(--cart-btn-h, 44px); padding: 0 var(--cart-btn-px, 16px); line-height: 1; white-space: nowrap; }
+.card-body{ padding:18px; }
+.card-title{ margin:.25rem 0 .25rem; font-size:1.6rem; }
+.card-price{ margin:0 0 .5rem; font-weight:700; }
+.card-desc{ margin:0 0 .9rem; line-height:1.55; }
 
-    .fineprint { margin:.6rem 0 0; color:#6b7280; font-size:.8rem; }
+/* CTA */
+.product-cta .btn-cta { min-width: 220px; width: 100%; justify-content: center; }
+.btn-cta.add-to-cart{
+  display:inline-flex; align-items:center; justify-content:center;
+  box-sizing:border-box; height: var(--cart-btn-h, 44px);
+  padding: 0 var(--cart-btn-px, 16px); line-height: 1; white-space: nowrap;
+}
 
-    /* Bottom image pair */
-    .image-pair{
-      margin: 16px auto 8px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      align-items: center;
-      justify-items: center;
-      max-width: 800px;
-    }
-    .image-pair img{
-      width: min(100%, 360px);
-      height: auto;
-      display: block;
-      border-radius: 10px;
-      box-shadow: 0 3px 8px rgba(0,0,0,.06);
-      background: #fff;
-      padding: 6px;
-    }
-    @media (max-width: 560px){
-      .image-pair{ grid-template-columns: 1fr 1fr; gap: 10px; }
-      .image-pair img{ width: 100%; max-width: 160px; }
-    }
-    /* Make CTA button auto-width, pill style, centered */
+/* Fine print */
+.fineprint { margin:.6rem 0 0; color:#6b7280; font-size:.8rem; }
+
+/* Bottom image pair */
+.image-pair{
+  margin: 16px auto 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: center;
+  justify-items: center;
+  max-width: 800px;
+}
+.image-pair img{
+  width: min(100%, 360px);
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,.06);
+  background: #fff;
+  padding: 6px;
+}
+@media (max-width: 560px){
+  .image-pair{ grid-template-columns: 1fr 1fr; gap: 10px; }
+  .image-pair img{ width: 100%; max-width: 160px; }
+}
+
+
+/* Make CTA button auto-width, pill style, centered */
 .product-cta {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 .product-cta .btn-cta {
-  width: auto;              /* was 100% */
-  min-width: 180px;         /* keep a nice baseline */
+  width: auto;
+  min-width: 180px;
   justify-content: center;
   border-radius: 9999px;    /* pill */
 }
@@ -272,6 +305,51 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
   box-shadow: 0 1px 2px rgba(0,0,0,.04);
   padding: 18px;
 }
+
+
+.fineprint { margin:.6rem 0 0; color:#6b7280; font-size:.8rem; }
+
+/* Bottom image pair */
+.image-pair{
+  margin: 16px auto 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: center;
+  justify-items: center;
+  max-width: 800px;
+}
+.image-pair img{
+  width: min(100%, 360px);
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,.06);
+  background: #fff;
+  padding: 6px;
+}
+@media (max-width: 560px){
+  .image-pair{ grid-template-columns: 1fr 1fr; gap: 10px; }
+  .image-pair img{ width: 100%; max-width: 160px; }
+}
+
+/* Make CTA button auto-width, pill style, centered */
+.product-cta{
+  display:flex; align-items:center; gap:8px;
+}
+.product-cta .btn-cta{
+  width:auto; min-width:180px; justify-content:center; border-radius:9999px;
+}
+
+/* White card treatment for the long text section */
+.content--card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+  padding:18px;
+}
+
 
   </style>
 
@@ -286,44 +364,72 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
     });
   </script>
   <script is:raw>
-  (function () {
-    async function addToCart(handle, qty) {
-      const res = await fetch("/api/cart-add", {
+(function () {
+  async function addToCart(handle, qty) {
+    const payload = { handle, quantity: qty };
+    console.log("[cart-add] POST /api/cart-add", payload);
+
+    let res, text;
+    try {
+      res = await fetch("/api/cart-add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ handle, quantity: qty }),
+        body: JSON.stringify(payload),
       });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || "Add to cart failed");
-
-      window.dispatchEvent(new CustomEvent("cart:open", {
-        detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
-      }));
-      return json;
+      text = await res.text(); // read as text first in case server returned HTML error
+    } catch (netErr) {
+      console.error("[cart-add] network error:", netErr);
+      throw new Error("Network error contacting /api/cart-add");
     }
 
-    document.addEventListener("click", async (ev) => {
-      const btn = ev.target?.closest?.(".add-to-cart");
-      if (!btn) return;
-      ev.preventDefault();
+    let json;
+    try {
+      json = JSON.parse(text);
+    } catch {
+      console.error("[cart-add] non-JSON response:", text);
+      throw new Error("Server returned non-JSON. Check logs.");
+    }
 
-      const handle = (btn.getAttribute("data-handle") || "").trim();
-      const qty = Number(btn.getAttribute("data-qty") || "1") || 1;
-      if (!handle) return alert("Missing data-handle on button.");
+    if (!res.ok || !json.ok) {
+      console.error("[cart-add] server error:", { status: res.status, json });
+      throw new Error(json.error || ("HTTP " + res.status));
+    }
 
-      const original = btn.textContent;
-      btn.disabled = true;
-      try {
-        await addToCart(handle, qty);
-        btn.textContent = "Added!";
-        setTimeout(() => (btn.textContent = original), 1200);
-      } catch (e) {
-        alert("Cart error: " + (e?.message || e));
-      } finally {
-        btn.disabled = false;
-      }
-    });
-  })();
+    // Tell BaseLayout to open the drawer
+    window.dispatchEvent(new CustomEvent("cart:open", {
+      detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
+    }));
+
+    console.log("[cart-add] success:", json);
+    return json;
+  }
+
+  document.addEventListener("click", async (ev) => {
+    const btn = ev.target?.closest?.(".add-to-cart");
+    if (!btn) return;
+    ev.preventDefault();
+
+    const handle = (btn.getAttribute("data-handle") || "").trim();
+    const qty = Number(btn.getAttribute("data-qty") || "1") || 1;
+    if (!handle) return alert("Missing data-handle on button.");
+
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = "Adding…";
+
+    try {
+      await addToCart(handle, qty);
+      btn.innerHTML = "Added!";
+      setTimeout(() => (btn.innerHTML = originalHTML), 900);
+    } catch (e) {
+      alert("Cart error: " + (e?.message || e));
+      btn.innerHTML = originalHTML;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+})();
 </script>
+
 
 </BaseLayout>
