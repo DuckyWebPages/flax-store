@@ -2,19 +2,20 @@
 // FILE: src/pages/products/other.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-
 const pageTitle = 'Other Products — ';
 
-// cents = 0 => shows “Price shown at checkout” but still works via SKU.
+// Display prices still come from cents, but cart uses Shopify handle.
 const items = [
   {
+    handle: 'dandelion-tea',          // <-- Shopify product handle (replace if different)
     sku: 'dandelion-tea',
     name: 'Dandelion Root Tea for the Liver',
-    cents: 1300, // $13.00
+    cents: 1300,
     image: '/images/products/DandelionTea.png',
     desc: `LIVER SUPPORT! Earthy, roasted, and grounding — this organic loose-leaf dandelion root tea from Foster Farm Botanicals in Vermont is a time-honored herbal staple for daily wellness. Naturally caffeine-free, it supports healthy digestion, regular elimination, and normal liver function.* Dandelion root has long been used to help the body process fats and flush toxins gently through the liver and kidneys. Brew a cup after meals for a smooth, nutty flavor that soothes and restores—perfect for cleansing and balance in every season.*`
   },
   {
+    handle: 'hibiscus-tea',
     sku: 'hibiscus-tea',
     name: 'Hibiscus Tea for the Heart',
     cents: 699,
@@ -22,6 +23,7 @@ const items = [
     desc: `Bright, tart, ruby-red tea rich in anthocyanins—enjoyed for cardiovascular wellness and antioxidant support.* Multiple clinical studies show hibiscus tea can support healthy systolic and diastolic blood pressure naturally. Best results seen with 2–3 cups daily for several weeks. It also supports the body's ability to lower LDL cholesterol and triglycerides while raising HDL in some studies. The antioxidants help protect arterial walls too. Additionally hibiscus supports liver detoxification enzymes and can improve insulin sensitivity.`
   },
   {
+    handle: 'blm', // replace with exact Shopify handle
     sku: 'BLM',
     name: 'BLM (Bones, Ligaments, & Muscles) capsules - Young Living',
     cents: 6579,
@@ -29,13 +31,15 @@ const items = [
     desc: `Support joint mobility, flexibility, and overall comfort (relief) with Young Living’s BLM™ supplement. This advanced formula combines glucosamine sulfate, hydrolyzed collagen, MSM, and manganese citrate to nourish bones, ligaments, and muscles from within. BLM promotes healthy cartilage formation and supports elasticity in connective tissues. Each bottle contains 90 capsules, offering nutritional reinforcement for active lifestyles, athletes, or anyone seeking greater joint comfort and freedom of movement. Combine with Sulfurzyme for additional joint and inflammatory support.*.`
   },
   {
+    handle: 'sulfurzyme', // replace with exact Shopify handle
     sku: 'Sulfurzyme',
     name: 'Sulfurzyme Capsules - Young Living',
     cents: 8947,
     image: '/images/products/Sulfurzymesmaller.jpg',
     desc: `Young Living Sulfurzyme (300 capsules) with MSM and Ningxia wolfberry powder—supports joints, skin, hair, and overall wellness. Supports the body's normal inflammatory response. Is not the same as sulpha drugs. Many are sulfur deficient (because of current farming practices), and sulfur helps you regulate inflammation.  Joint Protocol includes taking 4 Sulfurzyme and 2 BLM a day for 6-8 weeks minimum to see joint improvement and relief.`
   },
-   {
+  {
+    handle: 'essiac-tea',
     sku: 'essiac-tea',
     name: 'Essiac TeaEssiac Tea — Famous 8-Herb Recipe (Single)',
     cents: 4050,
@@ -50,11 +54,9 @@ const items = [
   <Fragment slot="title">{pageTitle}</Fragment>
 
   <section class="prod-hero">
-   
     <div class="inner">
       <h1>Other Products</h1>
       <p>Products that may come or go depending on season or popularity. Grab them while you can!</p>
-     
     </div>
   </section>
 
@@ -92,11 +94,8 @@ const items = [
           <div class="cta">
             <button
               class="btn-cta add-to-cart"
-              data-sku={p.sku}
-              data-price={String(p.cents || 0)}
+              data-handle={p.handle}     /* <-- Shopify handle for /api/cart-add */
               data-qty="1"
-              data-name={p.name}
-              data-image={p.image}
               type="button"
               aria-label={`Add ${p.name} to cart`}
             >
@@ -112,116 +111,105 @@ const items = [
     </p>
   </section>
 
- 
+  <style>
+    :root{ --card-price-gap: 10px; }
 
-<style>
-  :root{
-    --card-price-gap: 10px;          /* space between price and button */
-  }
+    .prod-hero{
+      position:relative; isolation:isolate; overflow:hidden;
+      min-height:180px; border-radius:14px; background:#fff; margin-top:8px;
+    }
+    .inner{ padding:16px 16px 14px; max-width:900px; margin:0 auto; }
+    .inner h1{ margin:0 0 6px; font-size:clamp(1.7rem,2.3vw,2.1rem); }
+    .inner p{ margin:0 0 10px; max-width:60ch; }
 
-  /* HERO — reduced height + tighter padding */
-  .prod-hero{
-    position:relative; isolation:isolate; overflow:hidden;
-    min-height:180px;                 /* was 360px */
-    border-radius:14px; background:#fff; margin-top:8px;
-  }
-  .bg{position:absolute; inset:0; object-fit:cover; width:100%; height:100%; opacity:.18; z-index:-1}
-  .inner{
-    padding:16px 16px 14px;           /* was 36px 20px 28px */
-    max-width:900px; margin:0 auto;
-  }
-  .inner h1{
-    margin:0 0 6px;
-    font-size:clamp(1.7rem,2.3vw,2.1rem); /* slightly smaller for tighter hero */
-  }
-  .inner p{margin:0 0 10px; max-width:60ch}
-  .btn{
-    display:inline-flex; gap:.5rem; align-items:center; justify-content:center;
-    padding:10px 16px; border-radius:999px; background:#111827; color:#fff; text-decoration:none; font-weight:700
-  }
+    .content{ max-width:1100px; margin:22px auto; padding:0 12px; }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:18px;
+      margin-top:12px;
+      margin-bottom:24px;
+    }
 
-  .content{max-width:1100px; margin:22px auto; padding:0 12px}
-  .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:18px;
-  margin-top:12px;
-  margin-bottom:24px;   /* ⬅ add this */
-}
+    .card{
+      background:#fff; border:1px solid #e5e7eb; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,.06);
+      padding:12px; display:flex; flex-direction:column; gap:.5rem; height:100%;
+    }
+    .photo{ width:100%; aspect-ratio:1/1; overflow:hidden; border-radius:10px; background:#f7f7f7; box-shadow:0 3px 6px rgba(0,0,0,.04); }
+    .img{ width:100%; height:100%; object-fit:cover; display:block; }
 
+    .title{ margin:.25rem 0 0; font-weight:700; font-size:.95rem; line-height:1.25rem; }
+    .desc{ margin:.15rem 0 .25rem; color:#374151; font-size:.95rem; line-height:1.45; margin-bottom:auto; }
 
-  /* ⬇️ Make every card a flex column so we can pin price+button at the bottom */
-  .card{
-    background:#fff; border:1px solid #e5e7eb; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,.06);
-    padding:12px; display:flex; flex-direction:column; gap:.5rem; height:100%;
-  }
+    .price{ font-weight:800; font-size:.95rem; margin:0 0 var(--card-price-gap); }
 
-  .photo{width:100%; aspect-ratio:1/1; overflow:hidden; border-radius:10px; background:#f7f7f7; box-shadow:0 3px 6px rgba(0,0,0,.04)}
-  .img{width:100%; height:100%; object-fit:cover; display:block}
-  .title{margin:.25rem 0 0; font-weight:700; font-size:.95rem; line-height:1.25rem}
+    .cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:0; align-items:center; }
 
-  /* ⬇️ Let description eat free space so price+CTA drop to the bottom */
-  .desc{margin:.15rem 0 .25rem; color:#374151; font-size:.95rem; line-height:1.45; margin-bottom:auto}
+    .btn-cta.add-to-cart{
+      display:inline-flex; align-items:center; justify-content:center;
+      box-sizing:border-box; white-space:nowrap; line-height:1;
+      min-width:148px; height:var(--cart-btn-h,44px); padding:0 var(--cart-btn-px,16px);
+      font-size:var(--cart-btn-fs,16px); font-weight:var(--cart-btn-weight,400);
+      letter-spacing:.01em; background:var(--cart-btn-bg,#c7cdd6); color:var(--cart-btn-fg,#111);
+      border:0; border-radius:var(--cart-btn-radius,10px); cursor:pointer;
+      text-decoration:none; transition:background-color .15s ease, transform .05s ease;
+    }
+    .btn-cta.add-to-cart:hover{ background:var(--cart-btn-bg-hover,#aeb6c1); }
+    .btn-cta.add-to-cart:focus-visible{ outline:3px solid #60a5fa; outline-offset:2px; }
 
- /* ⬇️ Price sits just above the button with a consistent gap */
-.price{
-  font-weight:800;
-  font-size:.95rem;
-  margin:0 0 var(--card-price-gap);
-}
+    .fineprint{
+      display:block; clear:both; margin:24px 0 0; padding-top:8px;
+      color:#6b7280; font-size:.8rem; border-top:1px solid #e5e7eb;
+    }
+  </style>
 
-/* CTA row: keep buttons vertically centered with the price */
-.cta{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:0;
-  align-items:center;   /* ⬅ add this here */
-}
+  <!-- Same cart-add pattern you’re using elsewhere -->
+  <script is:raw>
+    (function () {
+      async function addToCart(handle, qty) {
+        const res = await fetch("/api/cart-add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ handle, quantity: Math.max(1, Number(qty || 1)) }),
+        });
 
-/* Keep global CTA look consistent; center label inside button */
-.btn-cta.add-to-cart{
-  display:inline-flex;
-  align-items:center;        /* vertical centering */
-  justify-content:center;    /* horizontal centering */
-  box-sizing:border-box;     /* include padding in height */
-  white-space:nowrap;        /* avoid wrapping */
-  line-height:1;             /* normalize */
-  min-width:148px;
-  height:var(--cart-btn-h,44px);
-  padding:0 var(--cart-btn-px,16px);
-  font-size:var(--cart-btn-fs,16px);
-  font-weight:var(--cart-btn-weight,400);
-  letter-spacing:.01em;
-  background:var(--cart-btn-bg,#c7cdd6);
-  color:var(--cart-btn-fg,#111);
-  border:0;
-  border-radius:var(--cart-btn-radius,10px);
-  cursor:pointer;
-  text-decoration:none;
-  transition:background-color .15s ease, transform .05s ease;
-}
+        const ct = res.headers.get("content-type") || "";
+        if (!ct.includes("application/json")) {
+          throw new Error("Server did not return JSON. Check /api/cart-add route.");
+        }
+        const json = await res.json();
+        if (!json.ok) throw new Error(json.error || "Add to cart failed");
 
-.btn-cta.add-to-cart:hover{
-  background:var(--cart-btn-bg-hover,#aeb6c1);
-}
-.btn-cta.add-to-cart:focus-visible{
-  outline:3px solid #60a5fa;
-  outline-offset:2px;
-}
+        // Open cart drawer in BaseLayout
+        window.dispatchEvent(new CustomEvent("cart:open", {
+          detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
+        }));
 
-.fineprint{
-  display:block;
-  clear:both;           /* ⬅ ensure it sits below the grid */
-  margin:24px 0 0;      /* ⬅ more space from cards */
-  padding-top:8px;      /* ⬅ optional breathing room */
-  color:#6b7280;
-  font-size:.8rem;
-  border-top:1px solid #e5e7eb; /* optional subtle divider */
-}
+        return json;
+      }
 
+      document.addEventListener("click", async (ev) => {
+        const btn = ev.target?.closest?.(".add-to-cart[data-handle]");
+        if (!btn) return;
+        ev.preventDefault();
 
-</style>
+        const handle = (btn.getAttribute("data-handle") || "").trim();
+        const qty = btn.getAttribute("data-qty") || "1";
+        if (!handle) return alert("Missing data-handle on button.");
 
-
+        const original = btn.textContent;
+        btn.disabled = true;
+        try {
+          await addToCart(handle, qty);
+          btn.textContent = "Added!";
+          setTimeout(() => (btn.textContent = original), 900);
+        } catch (e) {
+          console.error("[Other] Cart error:", e);
+          alert("Cart error: " + (e?.message || e));
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    })();
+  </script>
 </BaseLayout>

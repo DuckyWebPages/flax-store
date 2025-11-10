@@ -1,42 +1,56 @@
-﻿// FILE: src/pages/products/zeolite.astro
+﻿---
+// FILE: src/pages/products/zeolite.astro
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
-const pageTitle = 'AfterShot'
-const PRICE_CENTS = 1995
-const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
+const pageTitle = 'AfterShot Zeolite — Detox Support'
+
+// Prices (display only)
+const PRICE_AFTERSHOT = 1995
+const PRICE_AFTERSHOT_3PAK = 4999
+
+// Images
+const IMG_AFTERSHOT = "/images/products/aftershot-8oz.jpg"
+const IMG_AFTERSHOT_3PAK = "/images/products/aftershot3green.jpg"
+
+// Local videos
+const VIDEO_AFTERSHOT_SRC = "/videos/aftershotvideo.mp4"
+const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
+  <!-- Preload videos -->
+  <Fragment slot="head">
+    <link rel="preload" as="video" href={VIDEO_AFTERSHOT_SRC} type="video/mp4" />
+    <link rel="preload" as="video" href={VIDEO_AFTERSHOT_3PAK_SRC} type="video/mp4" />
+  </Fragment>
+
   <!-- HERO -->
   <section class="prod-hero">
-    <img class="bg" src="/images/products/aftershot-8oz.jpg" alt="" />
     <div class="inner">
       <h1>AfterShot Zeolite</h1>
       <p>
-        AfterShot Zeolite combines micronized, cleansed zeolite with humic/fulvic acids so it can
-        circulate beyond the gut, supporting whole-body detox and efficient elimination. Zeolite is
-        recommended by natural health practitioners for binding positively charged particles
-        (many toxins and heavy metals). This product is favored for very fine particle sizes.
+        Micronized, cleansed zeolite paired with humic/fulvic acids for gentle, daily detox support.
+        Designed to bind positively charged toxins (many heavy metals &amp; chemicals) and support
+        efficient elimination. Choose a single bottle or save with the 3-Pak.
       </p>
     </div>
   </section>
 
   <section class="prodpg">
     <div class="prodpg__container">
-      <h2 class="products-title sr-only">Products</h2>
+      <h2 class="products-title sr-only">AfterShot Zeolite Products</h2>
 
-      <div class="prodpg__grid">
-        <!-- Single bottle -->
+      <div class="prodpg__grid prodpg__grid--two">
+        <!-- Card: AfterShot (1 oz) -->
         <article class="prodpg__card">
-          <!-- VIDEO at top -->
-          <div class="vidbox" aria-label="AfterShot Zeolite product video">
+          <div class="card-photo">
             <video
-              class="prod-video"
-              src="/videos/aftershotvideo.mp4"
-              muted
+              class="card-media"
+              src={VIDEO_AFTERSHOT_SRC}
               autoplay
+              muted
               loop
               playsinline
               preload="auto"
@@ -44,58 +58,57 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           </div>
 
           <h3 class="prodpg__title">
-            AfterShot Zeolite Heavy Metal &amp; Toxin Removal
-            <span class="unit">(1 oz)</span>
+            AfterShot <span class="unit">(1 oz)</span>
           </h3>
 
-          <p class="prodpg__price">{PRICE_DISPLAY}</p>
+          <ul class="prodpg__bullets">
+            <li>Micronized zeolite + humic/fulvic acids</li>
+            <li>Gentle, everyday detox support</li>
+            <li>Targets positively charged toxins</li>
+            <li>Pairs well with Ocean Cleanse</li>
+            <li>My help normalize pH levels, supporting the body in it's ability to handle viruses and bacteria</li>
+          <li>There is emerging evidence that certain types of zeolite support markers of gut-barrier integrity (for example lowering zonulin in a 12-week trial). More research is needed. But this may indicate gut health support.</li>
+          </ul>
 
           <p class="prodpg__desc">
-            Micronized zeolite + humic/fulvic complex to support systemic detox. Cage-like structure
-            preferentially binds positively charged particles; humic/fulvic assists transport and elimination.
+            Zeolite’s honeycomb molecular structure attracts and binds positively charged particles
+            (e.g., mercury, lead, cadmium, some pesticides, heavy metals, possibly viral and bacterial particles), helping your body eliminate them
+            through normal pathways. Purified and activated for safety and efficacy.
           </p>
+          <p class=""prodpg_desc"> We do not know all the components of the current MRNA vaccines and make no claims regarding what AFTERSHOT™ can or can’t pull out. We do know it will go after positively charged particles -toxins in your bloodstream. We do know that spike proteins have positive cell receptor sites on them. Human receptor sites are negatively charged. Theoretically, zeolite could bind to the MRNA particles, but this is not proven. We do know that it will grab onto the particles of aluminum and other metals that are found in shots.
+      </p>
 
-          <ul class="prodpg__bullets">
-            <li>Gentle and non-systemic; eliminated within hours.</li>
-            <li>Targets metals like mercury, cadmium, lead, arsenic, aluminum, strontium, excess iron.</li>
-            <li>Includes Dihydroquercetin (taxifolin) for immune and antioxidant support.</li>
-          </ul>
+          <figure class="desc-photo">
+            <img
+              src={IMG_AFTERSHOT}
+              alt="AfterShot Zeolite 1 oz bottle"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+
+          <p class="prodpg__price">${(PRICE_AFTERSHOT / 100).toFixed(2)}</p>
 
           <div class="product-cta">
             <button
               class="btn-cta add-to-cart"
               type="button"
-              data-sku="aftershot-zeolite"
-              data-price={String(PRICE_CENTS)}
+              data-handle="aftershot-zeolite"
               data-qty="1"
-              data-name="AfterShot Zeolite (1 oz)"
-              data-image="/images/products/aftershot-8oz.jpg"
-              aria-label="Add AfterShot Zeolite (1 oz) to cart"
             >
               Add to Cart
             </button>
           </div>
-
-          <!-- PHOTO moved to bottom -->
-          <figure class="photoline">
-            <img
-              src="/images/products/aftershot-8oz.jpg"
-              alt="AfterShot Zeolite (1 oz) product photo"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
         </article>
 
-        <!-- 3-bottle bundle -->
+        <!-- Card: AfterShot 3-Pak -->
         <article class="prodpg__card">
-          <!-- VIDEO at top -->
-          <div class="vidbox" aria-label="AfterShot Zeolite 3-Bottle Bundle video">
+          <div class="card-photo">
             <video
-              class="prod-video"
-              src="/videos/aftershot3video.mp4"
-              muted
+              class="card-media"
+              src={VIDEO_AFTERSHOT_3PAK_SRC}
               autoplay
+              muted
               loop
               playsinline
               preload="auto"
@@ -103,45 +116,42 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
           </div>
 
           <h3 class="prodpg__title">
-            AfterShot Zeolite
-            <span class="unit">3-Bottle Bundle</span>
+            AfterShot 3-Pak <span class="unit">(3 × 1 oz)</span>
           </h3>
 
-          <p class="prodpg__price">$49.99</p>
+          <ul class="prodpg__bullets">
+            <li>Three-bottle value bundle</li>
+            <li>Same zeolite + humic/fulvic pairing</li>
+            <li>Designed for whole-body circulation and detoxification</li>
+          </ul>
 
           <p class="prodpg__desc">
-            Stock up and save on three bottles of AfterShot Zeolite at a discounted bundle price.
+            Same great formula as the single bottle, bundled for savings. Extremely safe and
+            non-toxic; typical elimination in ~5–7 hours. A practical option if multiple family
+            members are detoxing or you prefer fewer reorders.
           </p>
 
-          <ul class="prodpg__bullets">
-            <li>Best value for families or longer protocols.</li>
-            <li>Same gentle, effective detox support.</li>
-          </ul>
+          <figure class="desc-photo">
+            <img
+              src={IMG_AFTERSHOT_3PAK}
+              alt="AfterShot Zeolite 3-Pak bottles"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+
+          <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK / 100).toFixed(2)}</p>
 
           <div class="product-cta">
             <button
               class="btn-cta add-to-cart"
               type="button"
-              data-sku="aftershot-3pack"
-              data-price="4999"
+              data-handle="aftershot-zeolite-special"
               data-qty="1"
-              data-name="AfterShot Zeolite – 3-Bottle Bundle"
-              data-image="/images/products/aftershot3green.jpg"
-              aria-label="Add AfterShot Zeolite 3-Bottle Bundle to cart"
             >
               Add to Cart
             </button>
           </div>
-
-          <!-- PHOTO moved to bottom -->
-          <figure class="photoline">
-            <img
-              src="/images/products/aftershot3green.jpg"
-              alt="AfterShot Zeolite 3-Bottle Bundle product photo"
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
         </article>
       </div>
     </div>
@@ -149,80 +159,130 @@ const PRICE_DISPLAY = `$${(PRICE_CENTS / 100).toFixed(2)}`
 
   <style>
     /* ---------- HERO ---------- */
-    .prod-hero{
-      position:relative; isolation:isolate; overflow:hidden;
-      min-height:180px; border-radius:14px; background:#fff; margin:8px 0 18px;
+    .prod-hero {
+      position: relative; isolation: isolate; overflow: hidden;
+      min-height: 150px; border-radius: 14px; background: #fff;
+      margin: 8px auto 18px; max-width: 950px;
     }
-    .prod-hero .bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.18; z-index:-1; }
-    .prod-hero .inner{ padding:20px 16px 18px; max-width:1100px; margin:0 auto; }
-    .prod-hero h1{ margin:0 0 8px; font-size:clamp(2rem,3vw,2.4rem); }
-    .prod-hero p{ margin:0; max-width:70ch; }
+    .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
+    .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
+    .prod-hero p { margin: 0; max-width: 60ch; }
 
     /* ---------- PRODUCT GRID ---------- */
-    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
-    .prodpg { padding: 0 0 48px; }
-    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-    .prodpg__grid { display:grid; grid-template-columns:1fr; gap:16px 32px; margin:10px 0 24px; }
-    @media (min-width:800px){ .prodpg__grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    .prodpg { padding: 0 0 36px; }
+    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
+    .prodpg__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px; justify-content: center;
+    }
+    /* Force two equal columns on wide screens for this page */
+    @media (min-width: 900px) {
+      .prodpg__grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    :root { --card-price-gap: 10px; --card-row-gap: .35rem; }
 
     .prodpg__card{
-      background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px;
-      box-shadow:0 8px 18px rgba(0,0,0,.06); display:grid; gap:.65rem; justify-items:start;
-      width:100%;
+      display: flex; flex-direction: column; gap: var(--card-row-gap); height: 100%;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.05); margin: 0; transition: transform .15s ease;
     }
+    .prodpg__card:hover { transform: translateY(-2px); }
 
-    /* ---------- VIDEO BOX ---------- */
-    .vidbox { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background:#0b0b0b; }
-    .vidbox .prod-video {
+    .card-photo {
+      width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
+      border-radius: 8px; background: #000; box-shadow: 0 3px 6px rgba(0,0,0,.04);
+      position: relative;
+    }
+    .card-media {
       position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; border-radius: 10px;
-
-      /* anti-flash */
-      opacity: 0;
-      transition: opacity .2s ease;
+      object-fit: cover; display: block; border-radius: 8px;
     }
-    .vidbox .prod-video.is-ready { opacity: 1; }
 
-    /* ---------- TEXT ---------- */
-    .prodpg__title{ margin:.25rem 0 0; line-height:1.2; }
-    .prodpg__title .unit{ display:block; font-weight:600; }
-    .prodpg__price{ font-weight:700; font-size:1.05rem; }
-    .prodpg__desc{ line-height:1.5; color:#374151; font-size:.98rem; margin:.25rem 0 .5rem; }
-    .prodpg__bullets{ margin:0 0 .5rem; padding-left:1.1rem; }
-    .prodpg__bullets li{ margin:.25rem 0; }
-
-    /* ---------- CTA ---------- */
-    .product-cta{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-    .product-cta .btn-cta{
-      display:inline-flex; width:auto; min-width:160px;
-      align-items:center; justify-content:center; white-space:nowrap; align-self:start;
-      height: var(--cart-btn-h, 44px);
-      padding: 0 var(--cart-btn-px, 16px);
-      border-radius: var(--cart-btn-radius, 10px);
-      background: var(--cart-btn-bg, #c7cdd6);
-      color: var(--cart-btn-fg, #111);
-      border: 0; cursor: pointer; font-weight: var(--cart-btn-weight, 400);
-      transition: background-color .15s ease;
+    .desc-photo{ margin: .2rem 0 .2rem; align-self: center; width: 100%; }
+    .desc-photo img{
+      display: block; width: 100%; max-width: 360px; max-height: 320px;
+      aspect-ratio: 1 / 1; object-fit: contain; height: auto; margin: 0 auto;
+      border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,.06);
     }
-    .product-cta .btn-cta:hover { background: var(--cart-btn-bg-hover, #aeb6c1); }
+    @media (min-width: 900px){ .desc-photo img{ max-width: 320px; max-height: 300px; } }
 
-    /* ---------- PHOTO AT BOTTOM ---------- */
-    .photoline { margin: 10px 0 0 0; }
-    .photoline img{
-      display:block; width:100%; height:auto; border-radius:10px;
-      box-shadow:0 3px 8px rgba(0,0,0,.06);
-      background:#f7f7f7;
+    .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
+    .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
+
+    .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
+    .prodpg__bullets li { margin: .08rem 0; }
+    .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
+    .prodpg__price{ font-weight: 800; font-size: .9rem; margin: 0 0 var(--card-price-gap) 0; }
+
+    /* CTA: gray look to match Detox */
+    .product-cta{ display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .product-cta .add-to-cart{ width: auto; max-width: none; }
+
+    .prodpg .btn-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 44px; padding: 0 16px; border: 0; border-radius: 10px;
+      background: #c7cdd6 !important; color: #111 !important;
+      font-size: 16px; font-weight: 600; cursor: pointer;
+      transition: background-color .15s ease, transform .05s ease;
     }
+    .prodpg .btn-cta:hover { background: #aeb6c1 !important; }
   </style>
 
-  <!-- Reveal all videos only when they can play -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.vidbox .prod-video').forEach(v => {
-        const reveal = () => v.classList.add('is-ready');
-        v.addEventListener('canplay', reveal, { once: true });
-        if (v.readyState >= 3) reveal();
+  <script is:raw>
+    (function () {
+      async function addToCart(handle, qty) {
+        const res = await fetch("/api/cart-add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ handle, quantity: Math.max(1, Number(qty || 1)) }),
+        });
+        const ct = res.headers.get("content-type") || "";
+        if (!ct.includes("application/json")) {
+          throw new Error("Server did not return JSON. Check /api/cart-add route.");
+        }
+        const json = await res.json();
+        if (!json.ok) throw new Error(json.error || "Add to cart failed");
+        window.dispatchEvent(new CustomEvent("cart:open", {
+          detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
+        }));
+        return json;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".add-to-cart[data-handle]").forEach((el, i) => {
+          console.log("[Zeolite] BTN", i, "handle:", el.getAttribute("data-handle"));
+        });
       });
-    });
+
+      document.addEventListener("click", async (ev) => {
+        const btn = ev.target?.closest?.(".add-to-cart[data-handle]");
+        if (!btn) return;
+        ev.preventDefault();
+
+        const handle = (btn.getAttribute("data-handle") || "").trim();
+        const qty = btn.getAttribute("data-qty") || "1";
+        if (!handle) return alert("Missing data-handle on button.");
+
+        const original = btn.textContent;
+        btn.disabled = true;
+
+        try {
+          await addToCart(handle, qty);
+          btn.textContent = "Added!";
+          setTimeout(() => (btn.textContent = original), 1000);
+        } catch (e) {
+          console.error("[Zeolite] Cart error:", e);
+          alert("Cart error: " + (e?.message || e));
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    })();
   </script>
+  <p class="fineprint">
+  These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. The information provided here is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult your physician or other qualified health provider before using any dietary supplement, especially if you are pregnant, nursing, have a medical condition, or are taking medications. Discontinue use and consult a healthcare professional if you experience any adverse reaction. Keep out of reach of children.
+</p>
+
 </BaseLayout>
