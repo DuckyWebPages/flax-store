@@ -1,13 +1,20 @@
-// FILE: src/lib/shopify.ts
-const DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;            // e.g. "1b2nqi-hb.myshopify.com"
-const TOKEN  = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN;        // length ~32
-const API_URL = `https://${DOMAIN}/api/2024-10/graphql.json`;
+/* FILE: src/lib/shopify.ts */
+const DOMAIN =
+  import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN ||
+  import.meta.env.PUBLIC_SHOPIFY_DOMAIN; // fallback for older name
 
-if (!DOMAIN) throw new Error("Missing PUBLIC_SHOPIFY_STORE_DOMAIN");
-if (!TOKEN)  throw new Error("Missing PUBLIC_SHOPIFY_STOREFRONT_TOKEN");
+const TOKEN =
+  import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN ||
+  import.meta.env.PUBLIC_SHOPIFY_TOKEN; // fallback for older name
 
-export async function shopifyQuery<T = any>(query: string, variables: Record<string, any> = {}) {
-  const res = await fetch(API_URL, {
+if (!DOMAIN || !TOKEN) {
+  throw new Error(
+    "Shopify env missing: set PUBLIC_SHOPIFY_STORE_DOMAIN and PUBLIC_SHOPIFY_STOREFRONT_TOKEN in Production."
+  );
+}
+
+export async function shopifyQuery(query: string, variables: Record<string, any> = {}) {
+  const res = await fetch(`https://${DOMAIN}/api/2024-10/graphql.json`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -15,24 +22,9 @@ export async function shopifyQuery<T = any>(query: string, variables: Record<str
     },
     body: JSON.stringify({ query, variables }),
   });
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Shopify fetch failed: ${res.status} ${res.statusText} ${text}`);
-  }
-
   const json = await res.json();
-  if (json.errors) {
-    const msg = json.errors.map((e: any) => e.message).join("; ");
-    throw new Error(`Shopify GraphQL error: ${msg}`);
+  if (!res.ok || json.errors) {
+    throw new Error(json?.errors?.[0]?.message || `Shopify query failed (${res.status})`);
   }
-  return json.data as T;
+  return json.data;
 }
-// tiny helper (server-side) to get first sellable variant by handle
-const PRODUCT_QUERY = `
-  query ($handle: String!) {
-    product(handle: $handle) {
-      variants(first: 1) { nodes { id title availableForSale } }
-    }
-  }
-`;
