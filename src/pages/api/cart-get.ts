@@ -1,28 +1,47 @@
 // FILE: src/pages/api/cart-get.ts
 import type { APIRoute } from "astro";
-import { readCartIdFromCookie, getCartById } from "@/lib/shopify.server";
+import {
+  readCartIdFromCookie,
+  getCartById,
+} from "@/lib/shopify.server";
 
-// Return the user's Shopify cart (if any) using the HttpOnly cookie.
-// No body is needed. Just call with GET.
 export const GET: APIRoute = async ({ request }) => {
   try {
-    const cartId = readCartIdFromCookie(request.headers.get("cookie"));
+    const cookie = request.headers.get("cookie");
+    const cartId = readCartIdFromCookie(cookie);
+
+    // 🛑 No cart yet — return empty cart instead of calling Shopify with null
     if (!cartId) {
-      // No cart yet is not an error; return ok:true, cart:null
-      return new Response(JSON.stringify({ ok: true, cart: null }), {
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ ok: true, cart: null }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store",
+          },
+        },
+      );
     }
 
     const cart = await getCartById(cartId);
-    // cart will already have `lines.nodes[...]` shape from our helper's query
-    return new Response(JSON.stringify({ ok: true, cart }), {
-      headers: { "Content-Type": "application/json" },
-    });
+
+    return new Response(
+      JSON.stringify({ ok: true, cart }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-store",
+        },
+      },
+    );
   } catch (e: any) {
+    console.error("[api/cart-get] error", e);
     return new Response(
       JSON.stringify({ ok: false, error: String(e?.message || e) }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
     );
   }
 };

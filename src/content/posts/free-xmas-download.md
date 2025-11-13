@@ -37,7 +37,7 @@ heroImage: "/images/xmas.jpg"
       🎄 Christmas Flax — Coloring Page (PDF)
     </a>
     <!-- Add more downloads here as you upload them -->
-    <!-- <a class="dl" href="/downloads/snowman.pdf" download>☃️ Snowman — Coloring Page (PDF)</a> -->
+    <!-- <a class="dl" href="/downloads/snowman.pdf" download>☃️ Snowman — Coloring Page (PDF)</a> -->D
   </div>
 </section>
 

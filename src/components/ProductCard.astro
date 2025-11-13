@@ -3,12 +3,91 @@ const { title, image, priceText, handle } = Astro.props as {
   title: string;
   image: string;     // public path like /images/products/...
   priceText?: string;
-  handle: string;    // Shopify product handle
+  handle: string;    // Shopify product handle (e.g., "solprezyme")
 };
 ---
-<article class="product-card" style="border:1px solid #e5e7eb; border-radius:12px; padding:14px; display:grid; gap:10px;">
+<article
+  class="product-card"
+  data-product
+  data-handle={handle}
+  style="border:1px solid #e5e7eb; border-radius:12px; padding:14px; display:grid; gap:10px;"
+>
   <img src={image} alt={title} style="width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px;" loading="lazy" decoding="async" />
+
   <div style="font-weight:700">{title}</div>
+
+  <!-- Live stock badge (populated on load) -->
+  <div data-stock-badge style="font-size:.9rem; color:#0a0a0a; opacity:.8;"></div>
+
   {priceText && <div style="opacity:.7">{priceText}</div>}
+
   <button class="btn-cta add-to-cart" data-handle={handle} data-qty="1">Add to Cart</button>
 </article>
+
+<script client:load>
+  import { getVariantInventoryByHandle } from '@/lib/shopify-inventory';
+
+  // helper to render a friendly badge from stock data
+  function stockLabel(availableForSale, quantityAvailable) {
+    if (!availableForSale) return { text: 'Out of stock', emph: true };
+    if (quantityAvailable == null) return { text: 'In stock', emph: false }; // tracking off or backorders allowed
+    if (quantityAvailable <= 0) return { text: 'Out of stock', emph: true };
+    if (quantityAvailable === 1) return { text: 'Only 1 left', emph: true };
+    if (quantityAvailable <= 5) return { text: `Only ${quantityAvailable} left`, emph: true };
+    return { text: 'In stock', emph: false };
+  }
+
+  async function initCard(card) {
+    const handle = card.getAttribute('data-handle');
+    if (!handle) return;
+
+    let variant;
+    try {
+      const variants = await getVariantInventoryByHandle(handle);
+      // If single-variant products, variants[0] is the one we want
+      variant = variants?.[0];
+    } catch (e) {
+      // swallow errors; don't block add-to-cart if inventory fetch fails
+      return;
+    }
+
+    // Update badge
+    const badge = card.querySelector('[data-stock-badge]');
+    if (badge && variant) {
+      const lbl = stockLabel(variant.availableForSale, variant.quantityAvailable);
+      badge.textContent = lbl.text;
+      if (lbl.emph) badge.setAttribute('style', (badge.getAttribute('style') || '') + ' font-weight:600;');
+    }
+
+    // Intercept add-to-cart to explain constraints BEFORE checkout caps it
+    const btn = card.querySelector('.add-to-cart');
+    if (!btn) return;
+    btn.addEventListener('click', (ev) => {
+      if (!variant) return; // no data, let normal flow proceed
+
+      const available = !!variant.availableForSale;
+      const stock = variant.quantityAvailable ?? 9999; // null => unknown (don’t block)
+
+      const requested = parseInt((btn.getAttribute('data-qty') || '1'), 10) || 1;
+
+      if (!available || stock <= 0) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        alert('Sorry, this item is currently out of stock.');
+        return;
+      }
+
+      if (stock !== 9999 && requested > stock) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        // If you later add a quantity input, you could set its value here.
+        alert(`We only have ${stock} in stock right now. Your quantity was adjusted to ${stock}.`);
+        // Optionally, you could re-trigger your site’s add-to-cart here with qty=stock.
+      }
+      // else: allow your site’s existing add-to-cart logic to run
+    }, { capture: true });
+  }
+
+  // Initialize all product cards on the page (works for lists/grids)
+  document.querySelectorAll('[data-product]').forEach(initCard);
+</script>

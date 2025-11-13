@@ -5,11 +5,11 @@
 // - Persists a Cart ID in an HttpOnly cookie from the API route.
 
 const DOMAIN = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN; // e.g. "flax-lignan-health.myshopify.com"
-const TOKEN  = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN; // Storefront access token
+const TOKEN = import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN; // Storefront access token
 
 if (!DOMAIN || !TOKEN) {
   throw new Error(
-    "Missing Shopify env. Set PUBLIC_SHOPIFY_STORE_DOMAIN and PUBLIC_SHOPIFY_STOREFRONT_TOKEN."
+    "Missing Shopify env. Set PUBLIC_SHOPIFY_STORE_DOMAIN and PUBLIC_SHOPIFY_STOREFRONT_TOKEN.",
   );
 }
 
@@ -18,7 +18,10 @@ const GQL_ENDPOINT = `https://${DOMAIN}/api/${API}/graphql.json`;
 
 type GqlResp<T> = { data?: T; errors?: any };
 
-async function shopifyGraphQL<T>(query: string, variables?: Record<string, any>): Promise<T> {
+async function shopifyGraphQL<T>(
+  query: string,
+  variables?: Record<string, any>,
+): Promise<T> {
   const res = await fetch(GQL_ENDPOINT, {
     method: "POST",
     headers: {
@@ -43,6 +46,8 @@ async function shopifyGraphQL<T>(query: string, variables?: Record<string, any>)
   return json.data;
 }
 
+// --- Product / variant helpers ---
+
 const PRODUCT_BY_HANDLE = /* GraphQL */ `
   query ProductByHandle($handle: String!) {
     product(handle: $handle) {
@@ -60,7 +65,9 @@ const PRODUCT_BY_HANDLE = /* GraphQL */ `
   }
 `;
 
-export async function resolveVariantIdByHandle(handle: string): Promise<string> {
+export async function resolveVariantIdByHandle(
+  handle: string,
+): Promise<string> {
   const data = await shopifyGraphQL<{
     product: {
       id: string;
@@ -71,10 +78,15 @@ export async function resolveVariantIdByHandle(handle: string): Promise<string> 
 
   const product = data.product;
   if (!product) throw new Error(`Product not found for handle "${handle}"`);
-  const edge = product.variants?.edges?.find(e => e.node.availableForSale) || product.variants?.edges?.[0];
-  if (!edge?.node?.id) throw new Error(`No variant found for "${handle}"`);
-  return edge.node.id; // this is merchandiseId (gid://shopify/ProductVariant/...)
+  const edge =
+    product.variants?.edges?.find((e) => e.node.availableForSale) ??
+    product.variants?.edges?.[0];
+  if (!edge?.node?.id)
+    throw new Error(`No variant found for "${handle}"`);
+  return edge.node.id; // merchandiseId (gid://shopify/ProductVariant/...)
 }
+
+// --- Cart create / add ---
 
 const CART_CREATE = /* GraphQL */ `
   mutation CartCreate($input: CartInput) {
@@ -82,9 +94,19 @@ const CART_CREATE = /* GraphQL */ `
       cart {
         id
         checkoutUrl
-        lines(first: 10) { edges { node { id quantity } } }
+        lines(first: 10) {
+          edges {
+            node {
+              id
+              quantity
+            }
+          }
+        }
       }
-      userErrors { field message }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
@@ -95,14 +117,27 @@ const CART_LINES_ADD = /* GraphQL */ `
       cart {
         id
         checkoutUrl
-        lines(first: 10) { edges { node { id quantity } } }
+        lines(first: 10) {
+          edges {
+            node {
+              id
+              quantity
+            }
+          }
+        }
       }
-      userErrors { field message }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
 
-export async function createCart(): Promise<{ cartId: string; checkoutUrl: string }> {
+export async function createCart(): Promise<{
+  cartId: string;
+  checkoutUrl: string;
+}> {
   const data = await shopifyGraphQL<{
     cartCreate: {
       cart: { id: string; checkoutUrl: string } | null;
@@ -111,7 +146,10 @@ export async function createCart(): Promise<{ cartId: string; checkoutUrl: strin
   }>(CART_CREATE, { input: {} });
 
   const cart = data.cartCreate.cart;
-  if (!cart) throw new Error(`cartCreate failed: ${JSON.stringify(data.cartCreate.userErrors)}`);
+  if (!cart)
+    throw new Error(
+      `cartCreate failed: ${JSON.stringify(data.cartCreate.userErrors)}`,
+    );
   return { cartId: cart.id, checkoutUrl: cart.checkoutUrl };
 }
 
@@ -135,16 +173,25 @@ export async function addLineToCart(params: {
   });
 
   const result = data.cartLinesAdd;
-  if (!result.cart) throw new Error(`cartLinesAdd failed: ${JSON.stringify(result.userErrors)}`);
+  if (!result.cart)
+    throw new Error(
+      `cartLinesAdd failed: ${JSON.stringify(result.userErrors)}`,
+    );
 
   const linesCount = result.cart.lines?.edges?.length ?? 0;
-  return { cartId: result.cart.id, checkoutUrl: result.cart.checkoutUrl, linesCount };
+  return {
+    cartId: result.cart.id,
+    checkoutUrl: result.cart.checkoutUrl,
+    linesCount,
+  };
 }
 
 /**
  * Cookie utilities (HttpOnly) for saving cartId on the server.
  */
-export function readCartIdFromCookie(cookieHeader: string | null | undefined): string | null {
+export function readCartIdFromCookie(
+  cookieHeader: string | null | undefined,
+): string | null {
   if (!cookieHeader) return null;
   const match = cookieHeader.match(/(?:^|;\s*)shop_cart_id=([^;]+)/);
   return match ? decodeURIComponent(match[1]) : null;
@@ -153,31 +200,57 @@ export function readCartIdFromCookie(cookieHeader: string | null | undefined): s
 export function setCartIdCookie(cartId: string): string {
   // 30 days, strict
   const maxAge = 60 * 60 * 24 * 30;
-  return `shop_cart_id=${encodeURIComponent(cartId)}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}`;
+  return `shop_cart_id=${encodeURIComponent(
+    cartId,
+  )}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}`;
 }
-// === Add after existing exports in src/lib/shopify.server.ts ===
+
+// === Cart query + helpers ===
 
 const CART_QUERY = /* GraphQL */ `
-  query Cart($id: ID!) {
-    cart(id: $id) {
+  query Cart($cartId: ID!) {
+    cart(id: $cartId) {
       id
       checkoutUrl
       totalQuantity
       cost {
-        subtotalAmount { amount currencyCode }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalAmount {
+          amount
+          currencyCode
+        }
       }
       lines(first: 50) {
         nodes {
           id
           quantity
-          cost { totalAmount { amount currencyCode } }
+          cost {
+            totalAmount {
+              amount
+              currencyCode
+            }
+          }
           merchandise {
             ... on ProductVariant {
               id
               title
-              price { amount currencyCode }
-              image { url altText }
-              product { title handle }
+              price {
+                amount
+                currencyCode
+              }
+              quantityAvailable
+              availableForSale
+              product {
+                title
+                handle
+                featuredImage {
+                  url
+                  altText
+                }
+              }
             }
           }
         }
@@ -186,79 +259,126 @@ const CART_QUERY = /* GraphQL */ `
   }
 `;
 
-export async function getCartById(cartId: string) {
-  const data = await (async function shopifyGraphQLLocal<T>(query: string, variables?: Record<string, any>): Promise<T> {
-    const res = await fetch(GQL_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token": TOKEN,
-      },
-      body: JSON.stringify({ query, variables }),
-    });
-    if (!res.ok) throw new Error(`Shopify HTTP ${res.status}`);
-    const json = (await res.json()) as GqlResp<T>;
-    if ((json as any).errors) throw new Error(JSON.stringify((json as any).errors));
-    return json.data as T;
-  })(CART_QUERY, { id: cartId });
+export async function getCartById(cartId: string | null | undefined) {
+  // 🛑 If we don't have a cart ID, don't call Shopify at all
+  if (!cartId) return null;
 
-  return (data as any).cart ?? null;
+  const data = await shopifyGraphQL<{ cart: any }>(CART_QUERY, { cartId });
+  return data?.cart ?? null;
 }
 
 const CART_LINES_UPDATE = /* GraphQL */ `
   mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
     cartLinesUpdate(cartId: $cartId, lines: $lines) {
-      cart { id checkoutUrl totalQuantity }
-      userErrors { field message }
+      cart {
+        id
+        checkoutUrl
+        totalQuantity
+        cost {
+          subtotalAmount {
+            amount
+            currencyCode
+          }
+          totalAmount {
+            amount
+            currencyCode
+          }
+        }
+        lines(first: 50) {
+          nodes {
+            id
+            quantity
+            cost {
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+            merchandise {
+              ... on ProductVariant {
+                id
+                title
+                price {
+                  amount
+                  currencyCode
+                }
+                quantityAvailable
+                availableForSale
+                product {
+                  title
+                  handle
+                  featuredImage {
+                    url
+                    altText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
 
-export async function updateLineQuantity(cartId: string, lineId: string, quantity: number) {
-  const res = await fetch(GQL_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token": TOKEN,
+export async function updateLineQuantity(
+  cartId: string,
+  lineId: string,
+  quantity: number,
+) {
+  const data = await shopifyGraphQL<{ cartLinesUpdate: any }>(
+    CART_LINES_UPDATE,
+    {
+      cartId,
+      lines: [{ id: lineId, quantity }],
     },
-    body: JSON.stringify({
-      query: CART_LINES_UPDATE,
-      variables: { cartId, lines: [{ id: lineId, quantity }] },
-    }),
-  });
-  if (!res.ok) throw new Error(`Shopify HTTP ${res.status}`);
-  const json = await res.json();
-  if (json.errors) throw new Error(JSON.stringify(json.errors));
-  const er = json.data?.cartLinesUpdate?.userErrors;
-  if (er?.length) throw new Error(er.map((e: any) => e.message).join("; "));
-  return json.data?.cartLinesUpdate?.cart;
+  );
+
+  const result = data.cartLinesUpdate;
+  if (!result.cart) {
+    throw new Error(
+      `cartLinesUpdate failed: ${JSON.stringify(result.userErrors)}`,
+    );
+  }
+
+  return result.cart;
 }
 
 const CART_LINES_REMOVE = /* GraphQL */ `
   mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
-      cart { id checkoutUrl totalQuantity }
-      userErrors { field message }
+      cart {
+        id
+        checkoutUrl
+        totalQuantity
+      }
+      userErrors {
+        field
+        message
+      }
     }
   }
 `;
 
 export async function removeCartLine(cartId: string, lineId: string) {
-  const res = await fetch(GQL_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token": TOKEN,
+  const data = await shopifyGraphQL<{ cartLinesRemove: any }>(
+    CART_LINES_REMOVE,
+    {
+      cartId,
+      lineIds: [lineId],
     },
-    body: JSON.stringify({
-      query: CART_LINES_REMOVE,
-      variables: { cartId, lineIds: [lineId] },
-    }),
-  });
-  if (!res.ok) throw new Error(`Shopify HTTP ${res.status}`);
-  const json = await res.json();
-  if (json.errors) throw new Error(JSON.stringify(json.errors));
-  const er = json.data?.cartLinesRemove?.userErrors;
-  if (er?.length) throw new Error(er.map((e: any) => e.message).join("; "));
-  return json.data?.cartLinesRemove?.cart;
+  );
+
+  const result = data.cartLinesRemove;
+  if (!result.cart) {
+    throw new Error(
+      `cartLinesRemove failed: ${JSON.stringify(result.userErrors)}`,
+    );
+  }
+
+  return result.cart;
 }
