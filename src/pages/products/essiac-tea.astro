@@ -363,73 +363,7 @@ const POSTER_CARD = '/images/products/essiacgreen.png'; // used only in <noscrip
       if (v.readyState >= 3) reveal();
     });
   </script>
-  <script is:raw>
-(function () {
-  async function addToCart(handle, qty) {
-    const payload = { handle, quantity: qty };
-    console.log("[cart-add] POST /api/cart-add", payload);
-
-    let res, text;
-    try {
-      res = await fetch("/api/cart-add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      text = await res.text(); // read as text first in case server returned HTML error
-    } catch (netErr) {
-      console.error("[cart-add] network error:", netErr);
-      throw new Error("Network error contacting /api/cart-add");
-    }
-
-    let json;
-    try {
-      json = JSON.parse(text);
-    } catch {
-      console.error("[cart-add] non-JSON response:", text);
-      throw new Error("Server returned non-JSON. Check logs.");
-    }
-
-    if (!res.ok || !json.ok) {
-      console.error("[cart-add] server error:", { status: res.status, json });
-      throw new Error(json.error || ("HTTP " + res.status));
-    }
-
-    // Tell BaseLayout to open the drawer
-    window.dispatchEvent(new CustomEvent("cart:open", {
-      detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
-    }));
-
-    console.log("[cart-add] success:", json);
-    return json;
-  }
-
-  document.addEventListener("click", async (ev) => {
-    const btn = ev.target?.closest?.(".add-to-cart");
-    if (!btn) return;
-    ev.preventDefault();
-
-    const handle = (btn.getAttribute("data-handle") || "").trim();
-    const qty = Number(btn.getAttribute("data-qty") || "1") || 1;
-    if (!handle) return alert("Missing data-handle on button.");
-
-    const originalHTML = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = "Adding…";
-
-    try {
-      await addToCart(handle, qty);
-      btn.innerHTML = "Added!";
-      setTimeout(() => (btn.innerHTML = originalHTML), 900);
-    } catch (e) {
-      alert("Cart error: " + (e?.message || e));
-      btn.innerHTML = originalHTML;
-    } finally {
-      btn.disabled = false;
-    }
-  });
-})();
-</script>
+ 
 
 
 </BaseLayout>

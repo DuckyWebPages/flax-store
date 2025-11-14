@@ -230,57 +230,7 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
     .prodpg .btn-cta:hover { background: #aeb6c1 !important; }
   </style>
 
-  <script is:raw>
-    (function () {
-      async function addToCart(handle, qty) {
-        const res = await fetch("/api/cart-add", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ handle, quantity: Math.max(1, Number(qty || 1)) }),
-        });
-        const ct = res.headers.get("content-type") || "";
-        if (!ct.includes("application/json")) {
-          throw new Error("Server did not return JSON. Check /api/cart-add route.");
-        }
-        const json = await res.json();
-        if (!json.ok) throw new Error(json.error || "Add to cart failed");
-        window.dispatchEvent(new CustomEvent("cart:open", {
-          detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
-        }));
-        return json;
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".add-to-cart[data-handle]").forEach((el, i) => {
-          console.log("[Zeolite] BTN", i, "handle:", el.getAttribute("data-handle"));
-        });
-      });
-
-      document.addEventListener("click", async (ev) => {
-        const btn = ev.target?.closest?.(".add-to-cart[data-handle]");
-        if (!btn) return;
-        ev.preventDefault();
-
-        const handle = (btn.getAttribute("data-handle") || "").trim();
-        const qty = btn.getAttribute("data-qty") || "1";
-        if (!handle) return alert("Missing data-handle on button.");
-
-        const original = btn.textContent;
-        btn.disabled = true;
-
-        try {
-          await addToCart(handle, qty);
-          btn.textContent = "Added!";
-          setTimeout(() => (btn.textContent = original), 1000);
-        } catch (e) {
-          console.error("[Zeolite] Cart error:", e);
-          alert("Cart error: " + (e?.message || e));
-        } finally {
-          btn.disabled = false;
-        }
-      });
-    })();
-  </script>
+  
   <p class="fineprint">
   These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. The information provided here is for educational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always consult your physician or other qualified health provider before using any dietary supplement, especially if you are pregnant, nursing, have a medical condition, or are taking medications. Discontinue use and consult a healthcare professional if you experience any adverse reaction. Keep out of reach of children.
 </p>

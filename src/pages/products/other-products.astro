@@ -163,53 +163,5 @@ const items = [
     }
   </style>
 
-  <!-- Same cart-add pattern you’re using elsewhere -->
-  <script is:raw>
-    (function () {
-      async function addToCart(handle, qty) {
-        const res = await fetch("/api/cart-add", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ handle, quantity: Math.max(1, Number(qty || 1)) }),
-        });
-
-        const ct = res.headers.get("content-type") || "";
-        if (!ct.includes("application/json")) {
-          throw new Error("Server did not return JSON. Check /api/cart-add route.");
-        }
-        const json = await res.json();
-        if (!json.ok) throw new Error(json.error || "Add to cart failed");
-
-        // Open cart drawer in BaseLayout
-        window.dispatchEvent(new CustomEvent("cart:open", {
-          detail: { checkoutUrl: json.checkoutUrl, linesCount: json.linesCount }
-        }));
-
-        return json;
-      }
-
-      document.addEventListener("click", async (ev) => {
-        const btn = ev.target?.closest?.(".add-to-cart[data-handle]");
-        if (!btn) return;
-        ev.preventDefault();
-
-        const handle = (btn.getAttribute("data-handle") || "").trim();
-        const qty = btn.getAttribute("data-qty") || "1";
-        if (!handle) return alert("Missing data-handle on button.");
-
-        const original = btn.textContent;
-        btn.disabled = true;
-        try {
-          await addToCart(handle, qty);
-          btn.textContent = "Added!";
-          setTimeout(() => (btn.textContent = original), 900);
-        } catch (e) {
-          console.error("[Other] Cart error:", e);
-          alert("Cart error: " + (e?.message || e));
-        } finally {
-          btn.disabled = false;
-        }
-      });
-    })();
-  </script>
+  
 </BaseLayout>
