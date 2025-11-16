@@ -358,44 +358,6 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
       .prodpg .card-photo { aspect-ratio: 4 / 3; max-height: 360px; }
     }
   </style>
-  <!-- Page-local fallback: wire .add-to-cart to Shopify cart -->
-<script is:inline>
-  (function () {
-    function onClick(e) {
-      const btn = e.target?.closest?.(".add-to-cart");
-      if (!btn) return;
-      e.preventDefault();
-
-      const handle = btn.getAttribute("data-handle");
-      const qty = parseInt(btn.getAttribute("data-qty") || "1", 10);
-
-      // Prefer the global cart API from BaseLayout if present
-      if (window.shopCart?.addByHandle) {
-        window.shopCart.addByHandle(handle, qty);
-        return;
-      }
-
-      // Fallback: hit API directly, then nudge the drawer open
-      fetch("/api/cart-add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ handle, quantity: qty })
-      })
-        .then(r => r.json())
-        .then(json => {
-          if (!json.ok) throw new Error(json.error || "add failed");
-          // Ask BaseLayout to refresh & open
-          window.dispatchEvent(new CustomEvent("cart:open", { detail: { checkoutUrl: json.checkoutUrl } }));
-        })
-        .catch(err => {
-          alert("Cart error: " + (err?.message || err));
-          console.error(err);
-        });
-    }
-
-    // Capture = true so this runs even if something stops propagation later
-    document.addEventListener("click", onClick, { capture: true });
-  })();
-</script>
+ 
 
 </BaseLayout>

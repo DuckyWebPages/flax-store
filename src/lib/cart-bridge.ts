@@ -39,18 +39,27 @@ export function initCartBridge() {
   console.log("[cart-bridge] init");
 
   // Capture-phase listener so we run BEFORE any legacy bubbling handlers
-  document.addEventListener(
-    "click",
-    async (e) => {
-      // 🚫 Ignore clicks inside the React cart drawer
-      if ((e.target as HTMLElement)?.closest("[data-cartdrawer='astro-react']")) return;
+ document.addEventListener(
+  "click",
+  async (e) => {
+    // 🚫 Ignore clicks inside the React cart drawer
+    if ((e.target as HTMLElement)?.closest("[data-cartdrawer='astro-react']")) return;
 
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
 
-      const btn = target.closest(
-        ".add-to-cart-react, .add-to-cart, [data-handle]",
-      ) as HTMLElement | null;
+    const btn = target.closest(
+      ".add-to-cart-react, .add-to-cart, [data-handle]",
+    ) as HTMLElement | null;
+
+    if (!btn) return;
+
+    console.log("[cart-bridge] click detected on add-to-cart btn:", {
+      handle: btn.getAttribute("data-handle"),
+      sku: btn.getAttribute("data-sku"),
+      qty: btn.getAttribute("data-qty"),
+    });
+
       if (!btn) return;
 
       const handle = btn.getAttribute("data-handle") || undefined;

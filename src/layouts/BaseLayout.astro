@@ -1,6 +1,5 @@
 ﻿---
 import CartDrawer from "@/components/CartDrawer";
-import CartBridge from "@/components/CartBridge";
 const { title } = Astro.props;
 
 import "../styles/global.css";
@@ -20,9 +19,7 @@ import "@/styles/store.css";
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Source+Sans+3:wght@600;700&display=swap" rel="stylesheet" />
 
-    <!-- Public CSS (remove these two lines if you don't have the files under /public/styles) -->
-    <link rel="stylesheet" href="/styles/global.css" />
-    <link rel="stylesheet" href="/styles/store.css" />
+ 
 
     <style>
       :root {
@@ -188,8 +185,16 @@ import "@/styles/store.css";
 
     <CartDrawer client:only="react" />
 
-    <!-- Bundled cart bridge entry -->
-    <script type="module" src="/src/scripts/cart-entry.ts"></script>
+           <!-- Wire cart bridge on every page (client-only) -->
+    <script type="module" is:inline>
+      import { initCartBridge } from "/src/lib/cart-bridge.ts";
+
+      if (typeof window !== "undefined") {
+        initCartBridge();
+      }
+    </script>
+
   </body>
 </html>
+
 
