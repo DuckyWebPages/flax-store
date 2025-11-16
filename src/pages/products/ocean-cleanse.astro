@@ -182,32 +182,33 @@ const SHOPIFY_HANDLE_OCEAN = 'ocean-cleanse-brown-seaweed-radiation-product';
     .card-price{margin:0 0 .5rem;font-weight:700}
     .card-desc{margin:0 0 .9rem;line-height:1.55}
 
-    .product-cta .btn-cta {
-      min-width: 220px;
-      width: 100%;
-      justify-content: center;
-    }
-    .btn-cta.add-to-cart{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-      height: var(--cart-btn-h, 44px);
-      padding: 0 var(--cart-btn-px, 16px);
-      line-height: 1;
-      white-space: nowrap;
-    }
+    .product-cta {
+  margin-top: 0.75rem;
+}
+
+.product-cta .btn-cta {
+  /* Use global .btn-cta size so it matches other pages */
+  width: auto;
+  min-width: 0;
+  justify-content: center;
+}
+
     button.btn:focus { outline: 2px solid #11182722; outline-offset: 2px; }
 
-    .bottom-photo-wrap { margin-top: 12px; }
-    .bottom-photo{
-      display:block;
-      width:100%;
-      max-width:900px;
-      margin: 0 auto;
-      border-radius:12px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.08);
-    }
+    .bottom-photo-wrap {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.bottom-photo {
+  display: inline-block;
+  width: 100%;
+  max-width: 420px;            /* ⬅ smaller image */
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+}
+
   </style>
 
   <!-- Reveal video only when the browser can play it + wire Shopify cart -->
