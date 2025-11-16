@@ -67,6 +67,8 @@ export function initCartBridge() {
       const qty = Number(btn.getAttribute("data-qty") || "1") || 1;
       if (!handle && !sku) return;
 
+      console.log("[cart-bridge] click", { handle, sku, qty });
+      
       e.preventDefault();
       e.stopPropagation();
 

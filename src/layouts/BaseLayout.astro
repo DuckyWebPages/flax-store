@@ -1,10 +1,12 @@
 ﻿---
 import CartDrawer from "@/components/CartDrawer";
+import CartBridge from "@/components/CartBridge";
 const { title } = Astro.props;
 
 import "../styles/global.css";
 import "@/styles/store.css";
 ---
+
 
 
 <!doctype html>
@@ -181,20 +183,12 @@ import "@/styles/store.css";
         <footer>© {new Date().getFullYear()} Flax Lignan Health</footer>
 
               <!-- === CART REACT MOUNT === -->
-    <div id="cart-overlay" class="cart-overlay"></div>
+        <div id="cart-overlay" class="cart-overlay"></div>
 
     <CartDrawer client:only="react" />
-
-           <!-- Wire cart bridge on every page (client-only) -->
-    <script type="module" is:inline>
-      import { initCartBridge } from "/src/lib/cart-bridge.ts";
-
-      if (typeof window !== "undefined") {
-        initCartBridge();
-      }
-    </script>
-
+    <CartBridge client:only="react" />
   </body>
 </html>
+
 
 
