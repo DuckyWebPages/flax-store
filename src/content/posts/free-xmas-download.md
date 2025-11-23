@@ -4,7 +4,7 @@ description: "Free downloadable coloring pages for adults and children alike."
 date: 2025-11-01
 seo: "free coloring pages"
 excerpt: "Free holiday coloring pages for our customers."
-heroImage: "/images/xmas.jpg"
+heroImage: "/images/xmas1.jpg"
 hideHero: true
 ---
 
