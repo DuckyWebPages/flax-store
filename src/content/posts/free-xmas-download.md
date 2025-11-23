@@ -5,7 +5,9 @@ date: 2025-11-01
 seo: "free coloring pages"
 excerpt: "Free holiday coloring pages for our customers."
 heroImage: "/images/xmas.jpg"
+hideHero: true
 ---
+
 <section class="xmas-card">
   <!-- Hero animation (top, centered, large) -->
   <div class="video-wrap" aria-label="Santa animation">
@@ -37,7 +39,7 @@ heroImage: "/images/xmas.jpg"
       🎄 Christmas Flax — Coloring Page (PDF)
     </a>
     <!-- Add more downloads here as you upload them -->
-    <!-- <a class="dl" href="/downloads/snowman.pdf" download>☃️ Snowman — Coloring Page (PDF)</a> -->D
+    <!-- <a class="dl" href="/downloads/snowman.pdf" download>☃️ Snowman — Coloring Page (PDF)</a> -->
   </div>
 </section>
 

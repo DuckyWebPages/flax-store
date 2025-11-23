@@ -1,7 +1,8 @@
 ﻿---
-const { title, date, cover } = Astro.props;
+const { title, date, cover, hideHero } = Astro.props;
 const pageTitle = title ? `${title} | Flax Lignan Health` : "Blog | Flax Lignan Health";
 ---
+
 
 <html lang="en">
   <head>
@@ -30,16 +31,26 @@ const pageTitle = title ? `${title} | Flax Lignan Health` : "Blog | Flax Lignan 
     </header>
 
     <!-- POST BODY -->
-    <main style="max-width:800px;margin:2rem auto;padding:0 1rem;">
-      {cover && (
-        <img src={cover} alt={title} style="width:100%;height:auto;border-radius:12px;display:block;margin-bottom:1rem;" />
-      )}
-      {title && <h1 class="products-title" style="margin-bottom:.25rem">{title}</h1>}
-      {date && (
-        <p style="margin:0 0 1.25rem 0;opacity:.7;">
-          {new Date(date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'2-digit' })}
-        </p>
-      )}
+  <main style="max-width:800px;margin:2rem auto;padding:0 1rem;">
+  {cover && !hideHero && (
+    <img
+      src={cover}
+      alt={title}
+      style="width:100%;height:auto;border-radius:12px;display:block;margin-bottom:1rem;"
+    />
+  )}
+  {title && <h1 class="products-title" style="margin-bottom:.25rem">{title}</h1>}
+  {date && (
+    <p style="margin:0 0 1.25rem 0;opacity:.7;">
+      {new Date(date).toLocaleDateString('en-US', { year:'numeric', month:'short', day:'2-digit' })}
+    </p>
+  )}
+
+  <article class="blog-content">
+    <slot />
+  </article>
+</main>
+
 
       <article class="blog-content">
         <slot />
