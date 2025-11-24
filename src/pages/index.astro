@@ -186,61 +186,63 @@ const pageTitle = 'Welcome — ';
 }
 
 .bf-box{
-  border: 2px solid #dc2626;
-  border-radius: 14px;
-  background: #fef2f2;
-  padding: 10px 14px;
-  display: grid;
-  grid-template-columns: auto 1fr;  /* video on left, text on right */
-  align-items: center;
-  column-gap: 14px;
-  row-gap: 0;
-  box-shadow: 0 6px 14px rgba(0,0,0,.06);
+  /* match the white card look of the trust strip */
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+
+  padding:10px 14px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:12px;
+  flex-wrap:nowrap;        /* keep video beside text on desktop */
 }
 
 .bf-icon{
+  flex-shrink:0;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
 .bf-video{
-  width: 120px;          /* bigger */
-  height: 120px;
-  border-radius: 999px;
-  object-fit: cover;
-  display: block;
-  box-shadow: 0 3px 8px rgba(0,0,0,.18);
+  width:120px;             /* larger video */
+  height:120px;
+  border-radius:999px;
+  object-fit:cover;
+  display:block;
+  box-shadow:0 3px 8px rgba(0,0,0,.18);
 }
 
 .bf-text{
-  margin: 0;
-  font-size: .98rem;
-  line-height: 1.4;
-  color: #7f1d1d;
+  margin:0;
+  font-size:.98rem;
+  line-height:1.45;
+  color:#1f2937;
+  flex:1;                  /* text fills remaining space */
 }
 
 .bf-text code{
-  font-family: inherit;
-  font-size: .96em;
-  background: #fee2e2;
-  padding: 0 4px;
-  border-radius: 4px;
+  font-family:inherit;
+  font-size:.96em;
+  background:#f3f4f6;
+  padding:0 4px;
+  border-radius:4px;
 }
 
 @media (max-width: 600px){
   .bf-box{
-    grid-template-columns: 1fr;   /* stack on very small screens */
-    row-gap: 8px;
-    padding: 10px 10px;
-  }
-  .bf-icon{
-    justify-content: flex-start;
+    flex-direction:column;
+    align-items:flex-start;
+    padding:10px 10px;
   }
   .bf-text{
-    font-size: .95rem;
+    font-size:.95rem;
   }
 }
+
 
 
        /* ===== TRUST STRIP (compact, horizontal) ===== */
