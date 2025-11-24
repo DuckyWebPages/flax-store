@@ -84,7 +84,7 @@ const POSTER_ANCIENT = "/images/products/Ancientseedswood.jpg";
       <h2 class="products-title sr-only">Products</h2>
 
       <div class="prodpg__grid">
-        <!-- Card: Flax Hull Lignans (Single Jar) -->
+                <!-- Card: Flax Hull Lignans (Single Jar) -->
         <article class="prodpg__card">
           <div class="card-photo">
             <div class="card-media">
@@ -113,15 +113,13 @@ const POSTER_ANCIENT = "/images/products/Ancientseedswood.jpg";
             {productFHL?.title || "Flax Hull Lignans"} <span class="unit">(single jar)</span>
           </h3>
 
-        {variantFHL ? (
-  <p class="prodpg__price">
-    {fmt(variantFHL.priceV2.amount, variantFHL.priceV2.currencyCode)}
-  </p>
-) : (
-  <p class="prodpg__price">$39.00</p>
-)}
-
-
+          {variantFHL ? (
+            <p class="prodpg__price">
+              {fmt(variantFHL.priceV2.amount, variantFHL.priceV2.currencyCode)}
+            </p>
+          ) : (
+            <p class="prodpg__price">$39.00</p>
+          )}
 
           <ul class="prodpg__bullets">
             <li>Very high in antioxidants</li>
@@ -137,19 +135,28 @@ const POSTER_ANCIENT = "/images/products/Ancientseedswood.jpg";
             wellness and immune support. Farmer still uses strict sourcing standards, but depending on what is available, cannot guarantee non-GMO.
           </p>
 
-          <div class="product-cta">
-  <button
-    class="btn-cta add-to-cart"
-    type="button"
-    data-handle="fhl-flax-hull-lignans-single-jar"
-    data-qty="1"
-    aria-label="Add Flax Hull Lignans (single jar) to cart"
-  >
-    Add to Cart
-  </button>
-</div>
+          <!-- Black Friday card under Flax Lignans only -->
+          <p class="bf-text">
+            <strong>Black Friday Special:</strong>
+            Add <strong>3</strong> or <strong>6</strong> jars of <strong>Flax Hull Lignans</strong> to your cart
+            (this offer does <em>not</em> apply to Ancient Seeds &amp; Grains), then enter the code
+            <code>BlackFriday</code> at checkout. Buying 3 gets you <strong>1 free</strong>, and buying 6 gets you
+            <strong>2 free</strong> (limit: 2 free jars per customer).
+          </p>
 
+          <div class="product-cta">
+            <button
+              class="btn-cta add-to-cart"
+              type="button"
+              data-handle="fhl-flax-hull-lignans-single-jar"
+              data-qty="1"
+              aria-label="Add Flax Hull Lignans (single jar) to cart"
+            >
+              Add to Cart
+            </button>
+          </div>
         </article>
+
 
         <!-- Card: Ancient Seeds & Grains (Single Jar) -->
         <article class="prodpg__card">
