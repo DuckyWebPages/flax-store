@@ -65,16 +65,25 @@ const pageTitle = 'Welcome — ';
           decoding="async"
         />
         <div class="trust-text">
-          <h1 class="trust-title">Welcome to Our New Website! Our Company Has Provided 25 Years of Trusted Lignan Health</h1>
-          <p class="trust-line">
-            <strong>Original U.S.–made Flax Hull Lignans.</strong>
-            Only trust the <strong>FHL logo which means the MCP Process is used</strong>. No chemical solvents used in extraction.
-          </p>
-          <p class="trust-line">
-            Beware imitators: <span class="warn">many use animal-grade with much lower SDG</span> or
-            <span class="warn">chemically extracted</span> or single-lignan ≠ the
-            <strong>original 17 lignans like ours has</strong>.
-          </p>
+  <h1 class="trust-title">Welcome to Our New Website!</h1>
+  <p class="trust-subtitle">
+    Our company has provided 25 years of trusted lignan health.
+  </p>
+
+  <p class="trust-line">
+    <strong>We carry only original U.S.–made Flax Hull Lignans.</strong>
+    Only trust the <strong>FHL logo</strong>, which means the <strong>MCP Process</strong> is used.
+    No chemical solvents are used in extraction. Safe and clean for the whole family.
+  </p>
+
+  <p class="trust-line trust-warning">
+    <span class="warn">Beware imitators:</span>
+    many use animal-grade flax with much lower SDG, are
+    <span class="warn">chemically extracted</span>, or offer only a single lignan — not the
+    <strong>original 17 lignans like ours</strong>.
+  </p>
+</div>
+
         </div>
       </div>
     </div>
@@ -234,7 +243,7 @@ const pageTitle = 'Welcome — ';
       }
     }
 
-    /* ===== TRUST STRIP (compact, horizontal) ===== */
+       /* ===== TRUST STRIP (compact, horizontal) ===== */
     .trust-strip{ margin:12px 0 12px; }
     .trust-row{
       background:#fff; border:1px solid #e5e7eb; border-radius:12px;
@@ -244,18 +253,40 @@ const pageTitle = 'Welcome — ';
     }
     .trust-logo{ width:150px; height:auto; display:block; }
     .trust-text{ display:flex; flex-direction:column; gap:4px; }
+
     .trust-title{
-      margin:0; font-family:var(--font-head); font-weight:800; letter-spacing:-.01em;
-      font-size:clamp(1.1rem, .8rem + 1vw, 1.6rem); color:var(--ink); line-height:1.15;
+      margin:0;
+      font-family:var(--font-head);
+      font-weight:800;
+      letter-spacing:-.01em;
+      font-size:clamp(1.1rem, .8rem + 1vw, 1.6rem);
+      color:var(--ink);
+      line-height:1.15;
     }
+
+    .trust-subtitle{
+      margin:0;
+      font-size:0.95rem;
+      color:#374151;
+    }
+
     .trust-line{
-      margin:0; font-size:.98rem; line-height:1.35; color:#1f2937;
+      margin:0;
+      font-size:0.95rem;
+      line-height:1.45;
+      color:#1f2937;
     }
-    .warn{ color:#dc2626; font-weight:800; }
-    @media (max-width: 720px){
-      .trust-row{ flex-wrap:wrap; }
-      .trust-logo{ width:130px; }
+
+    .trust-warning{
+      font-size:0.9rem;  /* slightly smaller, softer warning */
+      color:#111827;
     }
+
+    .warn{
+      color:#dc2626;
+      font-weight:800;
+    }
+
 
     /* ===== BEST SELLING ===== */
     .best-selling { margin:12px 0 20px; }
