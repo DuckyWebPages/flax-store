@@ -137,12 +137,13 @@ const POSTER_ANCIENT = "/images/products/Ancientseedswood.jpg";
 
           <!-- Black Friday card under Flax Lignans only -->
           <p class="bf-text">
-            <strong>Black Friday Special:</strong>
-            Add <strong>3</strong> or <strong>6</strong> jars of <strong>Flax Hull Lignans</strong> to your cart
-            (this offer does <em>not</em> apply to Ancient Seeds &amp; Grains), then enter the code
-            <code>BlackFriday</code> at checkout. Buying 3 gets you <strong>1 free</strong>, and buying 6 gets you
-            <strong>2 free</strong> (limit: 2 free jars per customer).
-          </p>
+  <span class="bf-highlight">Black Friday Special:</span>
+  Add 3 or 6 jars of Flax Hull Lignans to your cart
+  (this offer does not apply to Ancient Seeds &amp; Grains), then enter the coupon code
+  <span class="bf-highlight"><code>BlackFriday</code></span>
+  at checkout to receive our buy 2 get 1 free offer (limit 2 free jars per customer).
+</p>
+
 
           <div class="product-cta">
             <button
@@ -330,6 +331,22 @@ const POSTER_ANCIENT = "/images/products/Ancientseedswood.jpg";
       background:#c7cdd6; color:#111; font-size:16px; transition: background-color .15s ease, transform .05s ease;
     }
     .btn-cta:hover { background:#aeb6c1; }
+        .bf-text {
+      margin: 0.35rem 0 0.5rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .bf-text .bf-highlight {
+      font-weight: 700;
+      color: #b91c1c; /* red */
+    }
+
+    .bf-text .bf-highlight code {
+      color: inherit;
+      font-weight: inherit;
+    }
+
   </style>
 
   <script>
