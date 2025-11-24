@@ -10,41 +10,25 @@ const pageTitle = 'Welcome — ';
   <Fragment slot="title">{pageTitle}</Fragment>
 
   <!-- BLACK FRIDAY BANNER (temporary) -->
-  <section class="bf-banner">
-    <div class="container">
-      <div class="bf-box">
         <span class="bf-icon" aria-hidden="true">
-          <!-- Simple holly graphic (inline SVG) -->
-          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img">
-            <title>Holly</title>
-            <path
-              d="M10 30l4-2 2 4 4-2 2 4 4-2 2 4 4-2"
-              fill="none"
-              stroke="#15803d"
-              stroke-width="2.4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M16 16c3-4 7-6 12-6"
-              fill="none"
-              stroke="#15803d"
-              stroke-width="2.4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <circle cx="20" cy="22" r="2.4" fill="#b91c1c" />
-            <circle cx="25" cy="18" r="2.4" fill="#b91c1c" />
-            <circle cx="28" cy="23" r="2.4" fill="#b91c1c" />
-          </svg>
-        </span>
+        <video
+          class="bf-video"
+          src="/videos/FlaxLignanVideowave.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
+      </span>
+
         <p class="bf-text">
   <strong>Black Friday Special:</strong>
   Click on <strong>Flax Products</strong> below, then choose <strong>Flax Hull Lignans</strong> 
   (this offer does <em>not</em> apply to Ancient Seeds &amp; Grains). 
   Add <strong>3</strong> or <strong>6</strong> jars to your cart, and enter the code 
   <code>BlackFriday</code> at checkout. Buying 3 gets you <strong>1 free</strong>, 
-  and buying 6 gets you <strong>2 free</strong> (limit: 2 free jars per customer).
+  and buying 6 gets you <strong>2 free</strong> (limit: 2 free jars per transaction).
 </p>
 
       </div>
@@ -234,6 +218,15 @@ const pageTitle = 'Welcome — ';
       padding: 0 4px;
       border-radius: 4px;
     }
+        .bf-video {
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 3px 8px rgba(0,0,0,.18);
+    }
+
     @media (max-width: 600px){
       .bf-box{
         padding: 10px 10px;
