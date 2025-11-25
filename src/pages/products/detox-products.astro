@@ -1,4 +1,5 @@
-﻿// FILE: src/pages/products/detox.astro
+﻿---
+// FILE: src/pages/products/detox.astro
 import BaseLayout from "@/layouts/BaseLayout.astro"
 
 const pageTitle = "Detox Products — "
@@ -7,13 +8,11 @@ const pageTitle = "Detox Products — "
 const PRICE_OCEAN_CLEANSE = 3495
 const PRICE_AFTERSHOT = 1995
 const PRICE_AFTERSHOT_3PAK = 4999
-const PRICE_ESSIAC = 4050
 
 // Images
 const IMG_OCEAN_CARD = "/images/products/oceancleanse-web.jpg"
 const IMG_AFTERSHOT = "/images/products/aftershot-8oz.jpg"
 const IMG_AFTERSHOT_3PAK = "/images/products/aftershot3green.jpg"
-const IMG_ESSIAC = "/images/products/essiacgreen.png"
 
 // Local videos (case-sensitive)
 const VIDEO_OCEAN_SRC = "/videos/oceancleansevideo3.mp4"
@@ -77,6 +76,7 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
           <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE / 100).toFixed(2)}</p>
 
           <div class="product-cta">
+            <!-- REPLACE with the exact Shopify handle -->
             <button
               class="btn-cta add-to-cart"
               type="button"
@@ -122,6 +122,7 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
           <p class="prodpg__price">${(PRICE_AFTERSHOT / 100).toFixed(2)}</p>
 
           <div class="product-cta">
+            <!-- REPLACE with the exact Shopify handle (no ™) -->
             <button
               class="btn-cta add-to-cart"
               type="button"
@@ -134,93 +135,54 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
         </article>
 
         <!-- Card: AfterShot 3-Pak -->
-        <article class="prodpg__card">
-          <div class="card-photo">
-            <video class="card-media" src={VIDEO_AFTERSHOT_3PAK_SRC} autoplay muted loop playsinline preload="auto"></video>
-          </div>
+<!-- Card: AfterShot 3-Pak -->
+<article class="prodpg__card">
+  <div class="card-photo">
+    <video class="card-media" src={VIDEO_AFTERSHOT_3PAK_SRC} autoplay muted loop playsinline preload="auto"></video>
+  </div>
 
-          <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 × 1 oz)</span></h3>
+  <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 × 1 oz)</span></h3>
 
-          <ul class="prodpg__bullets">
-            <li>Three-bottle value bundle</li>
-            <li>Same zeolite + humic/fulvic pairing</li>
-            <li>Designed for whole-body circulation</li>
-          </ul>
+  <ul class="prodpg__bullets">
+  <li>Three-bottle value bundle</li>
+  <li>Same zeolite + humic/fulvic pairing</li>
+  <li>Designed for whole-body circulation</li>
+</ul>
 
-          <p class="prodpg__desc">
-            <strong>See single product description as well — it’s the same product, just bundled for savings. Extremely safe and non-toxic.</strong>
-            Purified, activated liquid zeolite is non-toxic and is eliminated in ~5–7 hours. It helps remove heavy metals (including radioactive isotopes) such as mercury, cadmium, lead, arsenic, aluminum, strontium, and excess iron.
-          </p>
+<p class="prodpg__desc">
+  <strong>See single product description as well — it’s the same product, just bundled for savings. Extremely safe and non-toxic.</strong>
+  Purified, activated liquid zeolite is non-toxic and is eliminated in ~5–7 hours. It helps remove heavy metals (including radioactive isotopes) such as mercury, cadmium, lead, arsenic, aluminum, strontium, and excess iron.
+</p>
 
-          <p class="prodpg__desc">
-            AfterShot Zeolite may also help normalize pH levels, support the body’s ability to address viruses and bacteria, and improve overall well-being and energy levels. If you’re taking a non-traditional approach to any health problem—or simply trying to improve your health—detoxification of toxins &amp; heavy metals is vital to your success.
-          </p>
+<p class="prodpg__desc">
+  AfterShot Zeolite may also help normalize pH levels, support the body’s ability to address viruses and bacteria, and improve overall well-being and energy levels. If you’re taking a non-traditional approach to any health problem—or simply trying to improve your health—detoxification of toxins &amp; heavy metals is vital to your success.
+</p>
 
-          <p class="prodpg__desc">
-            Contains dihydroquercetin (taxifolin), a bioflavonoid studied for decades. Flavonoids help strengthen immune responses and act as powerful antioxidants.
-          </p>
+<p class="prodpg__desc">
+  Contains dihydroquercetin (taxifolin), a bioflavonoid studied for decades. Flavonoids help strengthen immune responses and act as powerful antioxidants.
+</p>
 
-          <figure class="desc-photo">
-            <img src={IMG_AFTERSHOT_3PAK} alt="AfterShot 3-Pak bottles" loading="lazy" decoding="async" />
-          </figure>
 
-          <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
+  <figure class="desc-photo">
+    <img src={IMG_AFTERSHOT_3PAK} alt="AfterShot 3-Pak bottles" loading="lazy" decoding="async" />
+  </figure>
 
-          <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              type="button"
-              data-handle="aftershot-zeolite-special"
-              data-qty="1"
-            >
-              Add to Cart
-            </button>
-          </div>
-        </article>
+  <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
 
-        <!-- Card: Essiac Tea (full width on its own row) -->
-        <article class="prodpg__card prodpg__card--full">
-          <div class="card-photo">
-            <img
-              src={IMG_ESSIAC}
-              alt="Essiac Tea (Single)"
-              loading="lazy"
-              decoding="async"
-              class="card-photo-img"
-            />
-          </div>
+  <div class="product-cta">
+    <!-- EXACT Shopify handle confirmed -->
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-handle="aftershot-zeolite-special"
+      data-qty="1"
+    >
+      Add to Cart
+    </button>
+  </div>
+</article>
 
-          <h3 class="prodpg__title">Essiac Tea <span class="unit">(Single)</span></h3>
-          <p class="prodpg__price">${(PRICE_ESSIAC / 100).toFixed(2)}</p>
 
-          <ul class="prodpg__bullets">
-            <li>Classic <strong>8-herb</strong> formulation (not the early 4-herb).</li>
-            <li>Carefully blended for purity and consistency.</li>
-            <li>Simple taste (coffee-like); brew and refrigerate.</li>
-          </ul>
-
-          <p class="prodpg__desc">
-            Later 8-herb formula associated with Nurse René Caisse and Dr. Charles Brusch. We recommend you looking up the history of Nurse Caisse and this incredible blend of herbs. She was known for treating people with very scary diagnoses and DNA-damaged cells in Canada with this recipe. We are not making any claims and not treating or diagnosing, just mentioning the history of Nurse Caisse and her herbal formula that was developed over time.<br />
-            <strong>Ingredients (USA):</strong> Blessed Thistle, Burdock Root, Kelp, Red Clover, Sheep Sorrel,
-            Slippery Elm Bark, Turkish Rhubarb Root, Watercress.
-          </p>
-
-          <div class="product-cta">
-            <button
-              class="btn-cta add-to-cart"
-              type="button"
-              data-handle="essiac-tea"
-              data-qty="1"
-              aria-label="Add Essiac Tea to cart"
-            >
-              Add to Cart
-            </button>
-          </div>
-
-          <p class="fineprint">
-            *Statements on this page have not been evaluated by the FDA. Products are not intended to diagnose, treat, cure, or prevent any disease.
-          </p>
-        </article>
       </div>
     </div>
   </section>
@@ -252,7 +214,7 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
 
   <style>
     .prodpg__desc { font-size: .85rem; line-height: 1.4; margin: .15rem 0 .25rem; color: #374151; }
-    .prodpg__desc strong { font-weight: 700; }
+.prodpg__desc strong { font-weight: 700; } /* weight only; no size bump */
 
     /* ---------- HERO ---------- */
     .prod-hero { position: relative; isolation: isolate; overflow: hidden; min-height: 150px; border-radius: 14px; background: #fff; margin: 8px auto 18px; max-width: 950px; }
@@ -273,18 +235,10 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
       background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,.05); margin: 0; transition: transform .15s ease;
     }
-    .prodpg__card--full {
-      grid-column: 1 / -1;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
     .prodpg__card:hover { transform: translateY(-2px); }
 
     .card-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; background: #000; box-shadow: 0 3px 6px rgba(0,0,0,.04); position: relative; }
     .card-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
-    .card-photo img,
-    .card-photo-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .desc-photo{ margin: .2rem 0 .2rem; align-self: center; width: 100%; }
     .desc-photo img{ display: block; width: 100%; max-width: 360px; max-height: 320px; aspect-ratio: 1 / 1; object-fit: contain; height: auto; margin: 0 auto; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,.06); }
@@ -294,94 +248,21 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
     .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
     .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
     .prodpg__bullets li { margin: .08rem 0; }
+    .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
     .prodpg__price{ font-weight: 800; font-size: .9rem; margin: 0 0 var(--card-price-gap) 0; }
 
+    /* CTA: rely on global .btn-cta; only layout here */
     .product-cta{ display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
     .product-cta .add-to-cart{ width: auto; max-width: none; }
-
-    .prodpg .btn-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 44px;
-      padding: 0 16px;
-      border: 0;
-      border-radius: 10px;
-      background: #c7cdd6 !important;
-      color: #111 !important;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color .15s ease, transform .05s ease;
-    }
-    .prodpg .btn-cta:hover { background: #aeb6c1 !important; }
-
-    .fineprint { margin:.6rem 0 0; color:#6b7280; font-size:.8rem; }
-
-  </style>
-
-  <style>
-  /* ---------- TESTIMONIAL CARDS (white panels on gray band) ---------- */
-  .tbox.tbox--bleed {
-    width: 100vw;
-    margin-left: 50%;
-    transform: translateX(-50%);
-    background: #fafafa;
-    border-top: 1px solid #ececec;
-    border-bottom: 1px solid #ececec;
-    padding: 28px 0 40px;
-  }
-
-  .tbox.tbox--bleed .tbox__container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 12px;
-  }
-
-  .tbox.tbox--bleed h2 {
-    margin: 0 0 6px;
-    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
-  }
-
-  .tbox.tbox--bleed .tbox__lead {
-    margin: 0 0 14px;
-    color: #475569;
-    font-size: .95rem;
-  }
-
-  .tbox.tbox--bleed .tlist {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  @media (min-width: 820px) {
-    .tbox.tbox--bleed .tlist { grid-template-columns: 1fr 1fr; }
-  }
-
-  .tbox.tbox--bleed .tquote {
-    background: #fff !important;
-    border: 1px solid #e5e7eb !important;
-    border-radius: 12px !important;
-    padding: 14px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,.05);
-  }
-
-  .tbox.tbox--bleed .tquote blockquote {
-    margin: 0 0 8px;
-    position: relative;
-    padding-left: 12px;
-    color: #0f172a;
-    line-height: 1.5;
-  }
-  .tbox.tbox--bleed .tquote blockquote::before {
-    content: "“";
-    position: absolute;
-    left: -4px; top: -6px;
-    font-size: 2rem; line-height: 1; opacity: .2;
-  }
-  .tbox.tbox--bleed .tquote figcaption {
-    font-size: .9rem;
-    color: #475569;
-  }
-  </style>
-</BaseLayout>
+    /* --- Detox page CTA look (force gray to match site) --- */
+.prodpg .btn-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #c7cdd6 !important;  /* override global black */
+  color: #111 !important;
+  font-size: 16px;
