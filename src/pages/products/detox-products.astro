@@ -8,6 +8,7 @@ const pageTitle = "Detox Products — "
 const PRICE_OCEAN_CLEANSE = 3495
 const PRICE_AFTERSHOT = 1995
 const PRICE_AFTERSHOT_3PAK = 4999
+const PRICE_ESSIAC = 4050
 
 // Images
 const IMG_OCEAN_CARD = "/images/products/oceancleanse-web.jpg"
@@ -18,6 +19,7 @@ const IMG_AFTERSHOT_3PAK = "/images/products/aftershot3green.jpg"
 const VIDEO_OCEAN_SRC = "/videos/oceancleansevideo3.mp4"
 const VIDEO_AFTERSHOT_SRC = "/videos/aftershotvideo.mp4"
 const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
+const VIDEO_ESSIAC_SRC = "/videos/essiac.mp4"
 ---
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
@@ -27,13 +29,17 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
     <link rel="preload" as="video" href={VIDEO_OCEAN_SRC} type="video/mp4" />
     <link rel="preload" as="video" href={VIDEO_AFTERSHOT_SRC} type="video/mp4" />
     <link rel="preload" as="video" href={VIDEO_AFTERSHOT_3PAK_SRC} type="video/mp4" />
+    <link rel="preload" as="video" href={VIDEO_ESSIAC_SRC} type="video/mp4" />
   </Fragment>
 
   <!-- HERO -->
   <section class="prod-hero">
     <div class="inner">
       <h1>Detox Products</h1>
-      <p>Targeted support for both heavy detox and gentle cleansing. These products are natural and not hard on your system, yet effective at removing toxins.</p>
+      <p>
+        Targeted support for both heavy detox and gentle cleansing. These products are natural and not hard on your
+        system, yet effective at removing toxins.
+      </p>
     </div>
   </section>
 
@@ -45,10 +51,20 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
         <!-- Card: Ocean Cleanse -->
         <article class="prodpg__card">
           <div class="card-photo">
-            <video class="card-media" src={VIDEO_OCEAN_SRC} autoplay muted loop playsinline preload="auto"></video>
+            <video
+              class="card-media"
+              src={VIDEO_OCEAN_SRC}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            ></video>
           </div>
 
-          <h3 class="prodpg__title">Ocean Cleanse <span class="unit">(90 capsules/500 mg)</span></h3>
+          <h3 class="prodpg__title">
+            Ocean Cleanse <span class="unit">(90 capsules/500 mg)</span>
+          </h3>
 
           <ul class="prodpg__bullets">
             <li>Concentrated brown-seaweed extract</li>
@@ -58,7 +74,9 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
           </ul>
 
           <p class="prodpg__desc">
-            A focused seaweed (Laminaria japonica) used traditionally to support detox of heavy metals and radioactive elements, while supporting thyroid balance and everyday vitality. Originally developed to help Chernobyl victims. 90 capsules per bottle.
+            A focused seaweed (Laminaria japonica) used traditionally to support detox of heavy metals and radioactive
+            elements, while supporting thyroid balance and everyday vitality. Originally developed to help Chernobyl
+            victims. 90 capsules per bottle.
           </p>
 
           <ul class="prodpg__bullets">
@@ -70,7 +88,12 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
           </ul>
 
           <figure class="desc-photo">
-            <img src={IMG_OCEAN_CARD} alt="Ocean Cleanse bottle photo" loading="lazy" decoding="async" />
+            <img
+              src={IMG_OCEAN_CARD}
+              alt="Ocean Cleanse bottle photo"
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
 
           <p class="prodpg__price">${(PRICE_OCEAN_CLEANSE / 100).toFixed(2)}</p>
@@ -91,10 +114,20 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
         <!-- Card: AfterShot (1 oz) -->
         <article class="prodpg__card">
           <div class="card-photo">
-            <video class="card-media" src={VIDEO_AFTERSHOT_SRC} autoplay muted loop playsinline preload="auto"></video>
+            <video
+              class="card-media"
+              src={VIDEO_AFTERSHOT_SRC}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            ></video>
           </div>
 
-          <h3 class="prodpg__title">AfterShot <span class="unit">(1 oz)</span></h3>
+          <h3 class="prodpg__title">
+            AfterShot <span class="unit">(1 oz)</span>
+          </h3>
 
           <ul class="prodpg__bullets">
             <li>Micronized zeolite + humic/fulvic acid</li>
@@ -104,19 +137,30 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
           </ul>
 
           <p class="prodpg__desc">
-            Zeolite is a natural mineral from volcanic lava. Its honeycomb structure attracts positively charged toxic metals and chemicals (e.g., mercury, lead, cadmium, some pesticides), flushing them via normal elimination. Historically used for spill cleanup and water purification, zeolite is recognized as a safe detox supplement for daily support. Take 1–2 droppers daily.
+            Zeolite is a natural mineral from volcanic lava. Its honeycomb structure attracts positively charged toxic
+            metals and chemicals (e.g., mercury, lead, cadmium, some pesticides), flushing them via normal elimination.
+            Historically used for spill cleanup and water purification, zeolite is recognized as a safe detox supplement
+            for daily support. Take 1–2 droppers daily.
           </p>
 
           <p class="prodpg__desc">
-            <strong>Extremely safe and non-toxic.</strong> Purified, activated liquid zeolite is non-toxic and is eliminated in ~5–7 hours. It helps remove heavy metals (including radioactive isotopes) such as mercury, cadmium, lead, arsenic, aluminum, strontium, and excess iron.
+            <strong>Extremely safe and non-toxic.</strong> Purified, activated liquid zeolite is non-toxic and is
+            eliminated in ~5–7 hours. It helps remove heavy metals (including radioactive isotopes) such as mercury,
+            cadmium, lead, arsenic, aluminum, strontium, and excess iron.
           </p>
 
           <p class="prodpg__desc">
-            Contains dihydroquercetin (taxifolin), a bioflavonoid studied for decades. Flavonoids help strengthen immune responses and act as powerful antioxidants.
+            Contains dihydroquercetin (taxifolin), a bioflavonoid studied for decades. Flavonoids help strengthen immune
+            responses and act as powerful antioxidants.
           </p>
 
           <figure class="desc-photo">
-            <img src={IMG_AFTERSHOT} alt="AfterShot bottle photo" loading="lazy" decoding="async" />
+            <img
+              src={IMG_AFTERSHOT}
+              alt="AfterShot bottle photo"
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
 
           <p class="prodpg__price">${(PRICE_AFTERSHOT / 100).toFixed(2)}</p>
@@ -135,54 +179,133 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
         </article>
 
         <!-- Card: AfterShot 3-Pak -->
-<!-- Card: AfterShot 3-Pak -->
-<article class="prodpg__card">
-  <div class="card-photo">
-    <video class="card-media" src={VIDEO_AFTERSHOT_3PAK_SRC} autoplay muted loop playsinline preload="auto"></video>
-  </div>
+        <article class="prodpg__card">
+          <div class="card-photo">
+            <video
+              class="card-media"
+              src={VIDEO_AFTERSHOT_3PAK_SRC}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            ></video>
+          </div>
 
-  <h3 class="prodpg__title">AfterShot 3-Pak <span class="unit">(3 × 1 oz)</span></h3>
+          <h3 class="prodpg__title">
+            AfterShot 3-Pak <span class="unit">(3 × 1 oz)</span>
+          </h3>
 
-  <ul class="prodpg__bullets">
-  <li>Three-bottle value bundle</li>
-  <li>Same zeolite + humic/fulvic pairing</li>
-  <li>Designed for whole-body circulation</li>
-</ul>
+          <ul class="prodpg__bullets">
+            <li>Three-bottle value bundle</li>
+            <li>Same zeolite + humic/fulvic pairing</li>
+            <li>Designed for whole-body circulation</li>
+          </ul>
 
-<p class="prodpg__desc">
-  <strong>See single product description as well — it’s the same product, just bundled for savings. Extremely safe and non-toxic.</strong>
-  Purified, activated liquid zeolite is non-toxic and is eliminated in ~5–7 hours. It helps remove heavy metals (including radioactive isotopes) such as mercury, cadmium, lead, arsenic, aluminum, strontium, and excess iron.
-</p>
+          <p class="prodpg__desc">
+            <strong
+              >See single product description as well — it’s the same product, just bundled for savings. Extremely safe
+              and non-toxic.</strong
+            >
+            Purified, activated liquid zeolite is non-toxic and is eliminated in ~5–7 hours. It helps remove heavy
+            metals (including radioactive isotopes) such as mercury, cadmium, lead, arsenic, aluminum, strontium, and
+            excess iron.
+          </p>
 
-<p class="prodpg__desc">
-  AfterShot Zeolite may also help normalize pH levels, support the body’s ability to address viruses and bacteria, and improve overall well-being and energy levels. If you’re taking a non-traditional approach to any health problem—or simply trying to improve your health—detoxification of toxins &amp; heavy metals is vital to your success.
-</p>
+          <p class="prodpg__desc">
+            AfterShot Zeolite may also help normalize pH levels, support the body’s ability to address viruses and
+            bacteria, and improve overall well-being and energy levels. If you’re taking a non-traditional approach to
+            any health problem—or simply trying to improve your health—detoxification of toxins &amp; heavy metals is
+            vital to your success.
+          </p>
 
-<p class="prodpg__desc">
-  Contains dihydroquercetin (taxifolin), a bioflavonoid studied for decades. Flavonoids help strengthen immune responses and act as powerful antioxidants.
-</p>
+          <p class="prodpg__desc">
+            Contains dihydroquercetin (taxifolin), a bioflavonoid studied for decades. Flavonoids help strengthen immune
+            responses and act as powerful antioxidants.
+          </p>
 
+          <figure class="desc-photo">
+            <img
+              src={IMG_AFTERSHOT_3PAK}
+              alt="AfterShot 3-Pak bottles"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
 
-  <figure class="desc-photo">
-    <img src={IMG_AFTERSHOT_3PAK} alt="AfterShot 3-Pak bottles" loading="lazy" decoding="async" />
-  </figure>
+          <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK / 100).toFixed(2)}</p>
 
-  <p class="prodpg__price">${(PRICE_AFTERSHOT_3PAK/100).toFixed(2)}</p>
+          <div class="product-cta">
+            <!-- EXACT Shopify handle confirmed -->
+            <button
+              class="btn-cta add-to-cart"
+              type="button"
+              data-handle="aftershot-zeolite-special"
+              data-qty="1"
+            >
+              Add to Cart
+            </button>
+          </div>
+        </article>
 
-  <div class="product-cta">
-    <!-- EXACT Shopify handle confirmed -->
-    <button
-      class="btn-cta add-to-cart"
-      type="button"
-      data-handle="aftershot-zeolite-special"
-      data-qty="1"
-    >
-      Add to Cart
-    </button>
-  </div>
-</article>
+        <!-- WIDE Card: Essiac Tea -->
+        <article class="prodpg__card prodpg__card--wide">
+          <div class="card-photo card-photo--wide">
+            <video
+              class="card-media"
+              src={VIDEO_ESSIAC_SRC}
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            ></video>
 
+            <div class="yt-embed">
+              <iframe
+                src="https://www.youtube.com/embed/96a3JCcDb9k?start=1"
+                title="Essiac Tea video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
 
+          <div class="wide-body">
+            <h3 class="prodpg__title">
+              Essiac Tea <span class="unit">(1 lb single bag)</span>
+            </h3>
+
+            <p class="prodpg__price">${(PRICE_ESSIAC / 100).toFixed(2)}</p>
+
+            <p class="prodpg__desc">
+              Later 8-herb formulation associated with Nurse René Caisse and Dr. Charles Brusch. Simple taste
+              (coffee-like); brew and refrigerate. See bag for brewing instructions. This is a famous recipe used in
+              history for over 100 years. We cannot make medical claims; we encourage you to research its history and
+              usage.
+            </p>
+
+            <ul class="prodpg__bullets">
+              <li>Classic <strong>8-herb</strong> formulation (not the early 4-herb)</li>
+              <li>Carefully blended for purity and consistency — grown in the USA</li>
+              <li>Brew ahead and keep chilled in the refrigerator</li>
+              <li>Video is a representation, not actual tea. It is dark and bitter like coffee, best very cold.</li>
+            </ul>
+
+            <div class="product-cta">
+              <!-- REPLACE with the exact Shopify handle for Essiac Tea -->
+              <button
+                class="btn-cta add-to-cart"
+                type="button"
+                data-handle="essiac-tea-1lb"
+                data-qty="1"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -191,21 +314,40 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
   <section class="tbox tbox--bleed" aria-labelledby="detox-testimonials-heading">
     <div class="tbox__container">
       <h2 id="detox-testimonials-heading">Customer Testimonials</h2>
-      <p class="tbox__lead">Real experiences with Ocean Cleanse &amp; AfterShot. Email your testimonial to: Wendy@flaxlignanhealth.com.</p>
+      <p class="tbox__lead">
+        Real experiences with Ocean Cleanse &amp; AfterShot. Email your testimonial to:
+        Wendy@flaxlignanhealth.com.
+      </p>
 
       <div class="tlist">
         <figure class="tquote">
-          <blockquote><p>“After having all the metal removed from my teeth… I had incredible joint pain… My natural dentist said I needed to chelate. I took two Ocean Cleanse 3×/day and by day three I was back to normal.”</p></blockquote>
+          <blockquote>
+            <p>
+              “After having all the metal removed from my teeth… I had incredible joint pain… My natural dentist said I
+              needed to chelate. I took two Ocean Cleanse 3×/day and by day three I was back to normal.”
+            </p>
+          </blockquote>
           <figcaption>— W.S., Colorado</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>“I am in the military and was forced to take the C shot to keep my job… I felt crummy right away and stayed feeling that way. A friend gave me Aftershot and Ocean Cleanse. I took 4 capsules Ocean Cleanse twice a day and 2 dropper fulls of Aftershot 3x a day. That had me feeling better within a few days.”</p></blockquote>
+          <blockquote>
+            <p>
+              “I am in the military and was forced to take the C shot to keep my job… I felt crummy right away and
+              stayed feeling that way. A friend gave me Aftershot and Ocean Cleanse. I took 4 capsules Ocean Cleanse
+              twice a day and 2 dropper fulls of Aftershot 3x a day. That had me feeling better within a few days.”
+            </p>
+          </blockquote>
           <figcaption>— T.E., Colorado</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>Manufacturer: “This product is a winner when detoxing… four to six capsules a day for an average-size body will clean up the bloodstream.”</p></blockquote>
+          <blockquote>
+            <p>
+              Manufacturer: “This product is a winner when detoxing… four to six capsules a day for an average-size
+              body will clean up the bloodstream.”
+            </p>
+          </blockquote>
           <figcaption>— S.Z., California</figcaption>
         </figure>
       </div>
@@ -213,56 +355,297 @@ const VIDEO_AFTERSHOT_3PAK_SRC = "/videos/aftershot3video.mp4"
   </section>
 
   <style>
-    .prodpg__desc { font-size: .85rem; line-height: 1.4; margin: .15rem 0 .25rem; color: #374151; }
-.prodpg__desc strong { font-weight: 700; } /* weight only; no size bump */
+    .prodpg__desc {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin: 0.15rem 0 0.25rem;
+      color: #374151;
+    }
+    .prodpg__desc strong {
+      font-weight: 700;
+    } /* weight only; no size bump */
 
     /* ---------- HERO ---------- */
-    .prod-hero { position: relative; isolation: isolate; overflow: hidden; min-height: 150px; border-radius: 14px; background: #fff; margin: 8px auto 18px; max-width: 950px; }
-    .prod-hero .inner { padding: 16px; max-width: 850px; margin: 0 auto; }
-    .prod-hero h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 2.3vw, 2rem); }
-    .prod-hero p { margin: 0; max-width: 60ch; }
+    .prod-hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 150px;
+      border-radius: 14px;
+      background: #fff;
+      margin: 8px auto 18px;
+      max-width: 950px;
+    }
+    .prod-hero .inner {
+      padding: 16px;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+    .prod-hero h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.7rem, 2.3vw, 2rem);
+    }
+    .prod-hero p {
+      margin: 0;
+      max-width: 60ch;
+    }
 
     /* ---------- PRODUCT GRID ---------- */
-    .prodpg { padding: 0 0 36px; }
-    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 12px; }
-    .prodpg__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; justify-content: center; }
-    @media (min-width: 900px) { .prodpg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-    :root { --card-price-gap: 10px; --card-row-gap: .35rem; }
-
-    .prodpg__card{
-      display: flex; flex-direction: column; gap: var(--card-row-gap); height: 100%;
-      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,.05); margin: 0; transition: transform .15s ease;
+    .prodpg {
+      padding: 0 0 36px;
     }
-    .prodpg__card:hover { transform: translateY(-2px); }
+    .prodpg__container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 12px;
+    }
+    .prodpg__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+    @media (min-width: 900px) {
+      .prodpg__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
 
-    .card-photo { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; background: #000; box-shadow: 0 3px 6px rgba(0,0,0,.04); position: relative; }
-    .card-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px; }
+    :root {
+      --card-price-gap: 10px;
+      --card-row-gap: 0.35rem;
+    }
 
-    .desc-photo{ margin: .2rem 0 .2rem; align-self: center; width: 100%; }
-    .desc-photo img{ display: block; width: 100%; max-width: 360px; max-height: 320px; aspect-ratio: 1 / 1; object-fit: contain; height: auto; margin: 0 auto; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,.06); }
-    @media (min-width: 900px){ .desc-photo img{ max-width: 320px; max-height: 300px; } }
+    .prodpg__card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--card-row-gap);
+      height: 100%;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin: 0;
+      transition: transform 0.15s ease;
+    }
+    .prodpg__card:hover {
+      transform: translateY(-2px);
+    }
 
-    .prodpg__title { margin: .25rem 0 0; line-height: 1.1; font-weight: 700; font-size: .95rem; }
-    .prodpg__title .unit { display: block; font-weight: 600; font-size: .85rem; }
-    .prodpg__bullets { margin: .05rem 0 .3rem; padding-left: 1rem; font-size: .85rem; }
-    .prodpg__bullets li { margin: .08rem 0; }
-    .prodpg__desc { line-height: 1.4; color: #374151; font-size: .85rem; margin: .15rem 0 .25rem; }
-    .prodpg__price{ font-weight: 800; font-size: .9rem; margin: 0 0 var(--card-price-gap) 0; }
+    .card-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #000;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+      position: relative;
+    }
+    .card-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .desc-photo {
+      margin: 0.2rem 0 0.2rem;
+      align-self: center;
+      width: 100%;
+    }
+    .desc-photo img {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      max-height: 320px;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+    }
+    @media (min-width: 900px) {
+      .desc-photo img {
+        max-width: 320px;
+        max-height: 300px;
+      }
+    }
+
+    .prodpg__title {
+      margin: 0.25rem 0 0;
+      line-height: 1.1;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .prodpg__title .unit {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .prodpg__bullets {
+      margin: 0.05rem 0 0.3rem;
+      padding-left: 1rem;
+      font-size: 0.85rem;
+    }
+    .prodpg__bullets li {
+      margin: 0.08rem 0;
+    }
+    .prodpg__price {
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin: 0 0 var(--card-price-gap) 0;
+    }
 
     /* CTA: rely on global .btn-cta; only layout here */
-    .product-cta{ display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
-    .product-cta .add-to-cart{ width: auto; max-width: none; }
+    .product-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .product-cta .add-to-cart {
+      width: auto;
+      max-width: none;
+    }
+
     /* --- Detox page CTA look (force gray to match site) --- */
-.prodpg .btn-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  padding: 0 16px;
-  border: 0;
-  border-radius: 10px;
-  background: #c7cdd6 !important;  /* override global black */
-  color: #111 !important;
-  font-size: 16px;
+    .prodpg .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 10px;
+      background: #c7cdd6 !important; /* override global black */
+      color: #111 !important;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease, transform 0.05s ease;
+    }
+    .prodpg .btn-cta:hover {
+      background: #aeb6c1 !important;
+    }
+
+    /* WIDE ESSIAC CARD */
+    .prodpg__card--wide {
+      grid-column: 1 / -1;
+    }
+    @media (min-width: 900px) {
+      .prodpg__card--wide {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+        gap: 16px;
+        align-items: flex-start;
+      }
+    }
+    .card-photo--wide {
+      aspect-ratio: auto;
+      background: #000;
+    }
+    .card-photo--wide .card-media {
+      position: relative;
+      height: auto;
+      max-height: 260px;
+      border-radius: 8px;
+    }
+    .yt-embed {
+      margin-top: 8px;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    }
+    .yt-embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .wide-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    /* ---------- TESTIMONIAL CARDS (white panels on gray band) ---------- */
+    .tbox.tbox--bleed {
+      width: 100vw;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      background: #fafafa;
+      border-top: 1px solid #ececec;
+      border-bottom: 1px solid #ececec;
+      padding: 28px 0 40px;
+    }
+
+    .tbox.tbox--bleed .tbox__container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 12px;
+    }
+
+    .tbox.tbox--bleed h2 {
+      margin: 0 0 6px;
+      font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+    }
+
+    .tbox.tbox--bleed .tbox__lead {
+      margin: 0 0 14px;
+      color: #475569;
+      font-size: 0.95rem;
+    }
+
+    /* Grid of individual white cards */
+    .tbox.tbox--bleed .tlist {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 820px) {
+      .tbox.tbox--bleed .tlist {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* The white card */
+    .tbox.tbox--bleed .tquote {
+      background: #fff !important;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 12px !important;
+      padding: 14px !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Typography inside cards */
+    .tbox.tbox--bleed .tquote blockquote {
+      margin: 0 0 8px;
+      position: relative;
+      padding-left: 12px;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+    .tbox.tbox--bleed .tquote blockquote::before {
+      content: "“";
+      position: absolute;
+      left: -4px;
+      top: -6px;
+      font-size: 2rem;
+      line-height: 1;
+      opacity: 0.2;
+    }
+    .tbox.tbox--bleed .tquote figcaption {
+      font-size: 0.9rem;
+      color: #475569;
+    }
+  </style>
+</BaseLayout>
