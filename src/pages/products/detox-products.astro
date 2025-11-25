@@ -248,64 +248,53 @@ const VIDEO_ESSIAC_SRC = "/videos/essiac.mp4"
           </div>
         </article>
 
-        <!-- WIDE Card: Essiac Tea -->
-        <article class="prodpg__card prodpg__card--wide">
-          <div class="card-photo card-photo--wide">
-            <video
-              class="card-media"
-              src={VIDEO_ESSIAC_SRC}
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-            ></video>
+        <!-- Card: Essiac Tea (Full-width, below the 3-card grid) -->
+<article class="prodpg__card prodpg__card--full">
+  <div class="card-photo">
+    <video class="card-media" src="/videos/essiac.mp4" autoplay muted loop playsinline preload="auto"></video>
+  </div>
 
-            <div class="yt-embed">
-              <iframe
-                src="https://www.youtube.com/embed/96a3JCcDb9k?start=1"
-                title="Essiac Tea video"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
-            </div>
-          </div>
+  <h3 class="prodpg__title">Essiac Tea <span class="unit">(1 lb Single Bag)</span></h3>
 
-          <div class="wide-body">
-            <h3 class="prodpg__title">
-              Essiac Tea <span class="unit">(1 lb single bag)</span>
-            </h3>
+  <p class="prodpg__price">$40.50</p>
 
-            <p class="prodpg__price">${(PRICE_ESSIAC / 100).toFixed(2)}</p>
+  <ul class="prodpg__bullets">
+    <li>Classic <strong>8-herb</strong> formulation (not the early 4-herb)</li>
+    <li>Carefully blended for purity and consistency — grown in the USA</li>
+    <li>Brew ahead and keep chilled in the refrigerator</li>
+    <li>Video is a representation, not actual tea. It is dark and bitter like coffee. Best very cold.</li>
+  </ul>
 
-            <p class="prodpg__desc">
-              Later 8-herb formulation associated with Nurse René Caisse and Dr. Charles Brusch. Simple taste
-              (coffee-like); brew and refrigerate. See bag for brewing instructions. This is a famous recipe used in
-              history for over 100 years. We cannot make medical claims; we encourage you to research its history and
-              usage.
-            </p>
+  <p class="prodpg__desc">
+    Later 8-herb formulation associated with Nurse René Caisse and Dr. Charles Brusch. Simple taste (coffee-like);
+    brew and refrigerate. This famous recipe has been used in history for over 100 years.
+    We cannot make medical claims; we encourage you to research its history and usage.
+  </p>
 
-            <ul class="prodpg__bullets">
-              <li>Classic <strong>8-herb</strong> formulation (not the early 4-herb)</li>
-              <li>Carefully blended for purity and consistency — grown in the USA</li>
-              <li>Brew ahead and keep chilled in the refrigerator</li>
-              <li>Video is a representation, not actual tea. It is dark and bitter like coffee, best very cold.</li>
-            </ul>
+  <!-- Responsive YouTube embed -->
+  <div class="yt-wrapper">
+    <iframe
+      src="https://www.youtube.com/embed/96a3JCcDb9k?start=1"
+      title="Essiac Tea Video"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
+  </div>
 
-            <div class="product-cta">
-              <!-- REPLACE with the exact Shopify handle for Essiac Tea -->
-              <button
-                class="btn-cta add-to-cart"
-                type="button"
-                data-handle="essiac-tea-1lb"
-                data-qty="1"
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        </article>
+  <div class="product-cta">
+    <button
+      class="btn-cta add-to-cart"
+      type="button"
+      data-handle="essiac-tea"
+      data-qty="1"
+    >
+      Add to Cart
+    </button>
+  </div>
+</article>
+
       </div>
     </div>
   </section>
@@ -647,5 +636,28 @@ const VIDEO_ESSIAC_SRC = "/videos/essiac.mp4"
       font-size: 0.9rem;
       color: #475569;
     }
+    /* Make Essiac Tea card full-width under the 3-card row */
+.prodpg__card--full {
+  grid-column: 1 / -1;
+}
+
+/* Responsive YouTube embed */
+.yt-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 ratio */
+  margin: 10px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0,0,0,.06);
+}
+
+.yt-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
   </style>
 </BaseLayout>
