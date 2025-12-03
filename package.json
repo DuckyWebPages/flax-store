@@ -28,8 +28,8 @@
     "@astrojs/vercel": "^8.2.10",
     "dotenv": "^17.2.3",
     "i": "^0.3.7",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "overrides": {
     "postcss": "8.4.47",
