@@ -22,9 +22,9 @@ const pageTitle = 'Welcome — ';
           decoding="async"
         />
         <div class="trust-text">
-          <h1 class="trust-title">Welcome to Our New Website!</h1>
+          <h1 class="trust-title">Welcome to Our Website!</h1>
           <p class="trust-subtitle">
-            Our company has provided 25 years of trusted lignan health.
+            Our company has provided 25+ years of trusted lignan health.
           </p>
 
           <p class="trust-line">
@@ -43,6 +43,19 @@ const pageTitle = 'Welcome — ';
       </div>
     </div>
   </section>
+
+<!-- NEW PRODUCT ANNOUNCEMENT -->
+<section class="new-products-banner">
+  <div class="container">
+    <a class="new-products-card" href="/products/other-products">
+      <span class="new-badge">NEW</span>
+      <span class="new-text">
+        Hot Springs Mineral Bath Soaks are now available under Other Products.
+      </span>
+      <span class="new-link">Shop Soaks →</span>
+    </a>
+  </div>
+</section>
 
   <!-- BEST SELLING PRODUCTS (top) -->
   <section class="best-selling">
@@ -368,12 +381,64 @@ const pageTitle = 'Welcome — ';
     }
 
     @media (max-width: 380px) {
-      .circle {
-        max-width: 172px !important;
-        max-height: 172px !important;
-      }
-    }
+  .circle {
+    max-width: 172px !important;
+    max-height: 172px !important;
+  }
+}
 
-  </style>
+/* ===== NEW PRODUCTS BANNER ===== */
+.new-products-banner {
+  margin: 10px 0 16px;
+}
+
+.new-products-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #111827;
+  color: #fff;
+  border-radius: 14px;
+  padding: 12px 16px;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0,0,0,.12);
+  font-weight: 700;
+  text-align: center;
+}
+
+.new-products-card:hover {
+  background: #1f2937;
+}
+
+.new-badge {
+  background: #fff;
+  color: #111827;
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+.new-text {
+  font-size: .98rem;
+}
+
+.new-link {
+  font-size: .95rem;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+  .new-products-card {
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 12px;
+  }
+}
+
+</style>
 
 </BaseLayout>
