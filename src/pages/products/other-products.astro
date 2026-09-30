@@ -6,6 +6,18 @@ const pageTitle = 'Other Products — ';
 
 // Display prices still come from cents, but cart uses Shopify handle.
 const items = [
+
+{
+  handle: 'hot-springs-blend',
+  sku: 'hot-springs-blend',
+  name: 'Hot Springs Blend Mineral Bath Soak',
+  cents: 1200,
+  image: '/images/products/HotSpringsBlend4OZ.png',
+  desc: `Bring the Colorado hot springs home. Inspired by the mineral-rich geothermal springs of the Colorado Rocky Mountains, our Hot Springs Blend brings together a balanced spectrum of minerals found across some of Colorado's natural hot springs. We began with the beautifully balanced mineral profile of the Buena Vista area, then incorporated select minerals characteristic of other Colorado hot springs, including silica and manganese, to create our signature Colorado blend. Silica contributes to the smooth, silky feel associated with mineral-rich spring water. One 4 oz package is designed for one full mineral bath.`
+},
+
+
+
   {
   handle: 'glenwood-springs-mineral-bath-soak-alkaline-detox-skin-softening-colorado-hot-springs-inspired-16-oz',
   sku: 'Glenwood-Soak',
@@ -33,21 +45,14 @@ const items = [
     image: '/images/products/DandelionTea.png',
     desc: `LIVER SUPPORT! Earthy, roasted, and grounding — this organic loose-leaf dandelion root tea from Foster Farm Botanicals in Vermont is a time-honored herbal staple for daily wellness. Naturally caffeine-free, it supports healthy digestion, regular elimination, and normal liver function.* Dandelion root has long been used to help the body process fats and flush toxins gently through the liver and kidneys. Brew a cup after meals for a smooth, nutty flavor that soothes and restores—perfect for cleansing and balance in every season.*`
   },
-  {
-    handle: 'hibiscus-tea',
-    sku: 'hibiscus-tea',
-    name: 'Hibiscus Tea for the Heart',
-    cents: 699,
-    image: '/images/products/Hibiscustea.jpg',
-    desc: `Bright, tart, ruby-red tea rich in anthocyanins—enjoyed for cardiovascular wellness and antioxidant support.* Multiple clinical studies show hibiscus tea can support healthy systolic and diastolic blood pressure naturally. Best results seen with 2–3 cups daily for several weeks. It also supports the body's ability to lower LDL cholesterol and triglycerides while raising HDL in some studies. The antioxidants help protect arterial walls too. Additionally hibiscus supports liver detoxification enzymes and can improve insulin sensitivity.`
-  },
+ 
   {
     handle: 'blm', // replace with exact Shopify handle
     sku: 'BLM',
     name: 'BLM (Bones, Ligaments, & Muscles) capsules - Young Living',
     cents: 6579,
     image: '/images/products/BLMgymsmall.jpg',
-    desc: `Support joint mobility, flexibility, and overall comfort (relief) with Young Living’s BLM™ supplement. This advanced formula combines glucosamine sulfate, hydrolyzed collagen, MSM, and manganese citrate to nourish bones, ligaments, and muscles from within. BLM promotes healthy cartilage formation and supports elasticity in connective tissues. Each bottle contains 90 capsules, offering nutritional reinforcement for active lifestyles, athletes, or anyone seeking greater joint comfort and freedom of movement. Combine with Sulfurzyme for additional joint and inflammatory support.*.`
+    desc: `Support joint mobility, flexibility, and overall comfort (relief) with Young Living’s BLM™ supplement. This advanced formula combines glucosamine sulfate, hydrolyzed collagen, MSM, and manganese citrate to nourish bones, ligaments, and muscles from within. BLM promotes healthy cartilage formation and supports elasticity in connective tissues. Each bottle contains 90 capsules, offering nutritional reinforcement for active lifestyles, athletes, or anyone seeking greater joint comfort and freedom of movement. Combine with Sulfurzyme for additional joint and inflammatory support.`
   },
   {
     handle: 'sulfurzyme', // replace with exact Shopify handle
@@ -55,16 +60,16 @@ const items = [
     name: 'Sulfurzyme Capsules - Young Living',
     cents: 8947,
     image: '/images/products/Sulfurzymesmaller.jpg',
-    desc: `Young Living Sulfurzyme (300 capsules) with MSM and Ningxia wolfberry powder—supports joints, skin, hair, and overall wellness. Supports the body's normal inflammatory response. Is not the same as sulpha drugs. Many are sulfur deficient (because of current farming practices), and sulfur helps you regulate inflammation.  Joint Protocol includes taking 4 Sulfurzyme and 2 BLM a day for 6-8 weeks minimum to see joint improvement and relief.`
+    desc: `Young Living Sulfurzyme (300 capsules) with MSM and Ningxia wolfberry powder—supports joints, skin, hair, and overall wellness. Supports the body's normal inflammatory response. Is not the same as sulpha drugs. Many are sulfur deficient (because of current farming practices), and sulfur helps your body support healthy inflammation processes.  Joint Protocol includes taking 4 Sulfurzyme and 2 BLM a day for 6-8 weeks minimum to see joint improvement and relief.`
   },
   {
     handle: 'essiac-tea',
     sku: 'essiac-tea',
-    name: 'Essiac TeaEssiac Tea — Famous 8-Herb Recipe (Single)',
+    name: 'Essiac Tea — Famous 8-Herb Recipe (Single)',
     cents: 4050,
     image: '/images/ESSIAC34.png',
     desc: ` This is THE traditional 8-herb blend - the finalized recipe from the famous nurse Caisse that comes with a long history of wellness use and stories of supporting the body’s
-        natural resilience. It will help you detox and support healthy replication of your DNA. Brewing instructions are on the package. Brew, chill, and drink cold daily.`
+        natural resilience. It will help you detox and support healthy DNA. Brewing instructions are on the package. Brew, chill, and drink cold daily.`
   },
 ];
 ---
@@ -75,7 +80,7 @@ const items = [
   <section class="prod-hero">
     <div class="inner">
       <h1>Other Products</h1>
-      <p>Products that may come or go depending on season or popularity. Grab them while you can!</p>
+      <p><p>Explore additional wellness products we trust and use, including seasonal favorites, supplements, teas, and handcrafted mineral bath products.</p></p>
     </div>
   </section>
 
