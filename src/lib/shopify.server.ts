@@ -92,7 +92,7 @@ export async function resolveVariantIdByHandle(
 
   return edge.node.id;
 }
-}
+
 
 // --- Cart create / add ---
 
