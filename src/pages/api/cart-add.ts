@@ -12,7 +12,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   try {
     const body = await request.json().catch(() => ({}));
     const handle = String(body.handle || "").trim();
-    const quantity = Math.max(1, Number(body.quantity || 1));
+const variantTitle = String(body.variantTitle || "").trim();
+const quantity = Math.max(1, Number(body.quantity || 1));
 
     if (!handle) {
       return new Response(JSON.stringify({ ok: false, error: "Missing 'handle'." }), {
@@ -22,7 +23,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     }
 
     // Resolve variant from handle
-    const merchandiseId = await resolveVariantIdByHandle(handle);
+    const merchandiseId = await resolveVariantIdByHandle(
+  handle,
+  variantTitle || undefined
+);
 
     // Ensure cart
     let cartId = readCartIdFromCookie(request.headers.get("cookie"));

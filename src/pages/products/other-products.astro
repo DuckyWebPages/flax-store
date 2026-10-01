@@ -114,6 +114,20 @@ const items = [
             <p class="desc" set:html={p.desc}></p>
           )}
 
+{p.handle === 'bath-oil-shots' && (
+  <div class="variant-picker">
+    <label for="bath-oil-shots-variant">Choose Blend:</label>
+    <select id="bath-oil-shots-variant" class="variant-select">
+      <option value="Colorado Blend (Blue Spruce & Pine)">
+        Colorado Blend (Blue Spruce & Pine)
+      </option>
+      <option value="Relax Blend (Lavender)">
+        Relax Blend (Lavender)
+      </option>
+    </select>
+  </div>
+)}
+
           {p.cents > 0 ? (
             <p class="price">
               {(p.cents/100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}

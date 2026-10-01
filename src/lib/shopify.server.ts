@@ -57,6 +57,7 @@ const PRODUCT_BY_HANDLE = /* GraphQL */ `
         edges {
           node {
             id
+            title
             availableForSale
           }
         }
@@ -67,12 +68,21 @@ const PRODUCT_BY_HANDLE = /* GraphQL */ `
 
 export async function resolveVariantIdByHandle(
   handle: string,
+  variantTitle?: string,
 ): Promise<string> {
   const data = await shopifyGraphQL<{
     product: {
       id: string;
       title: string;
-      variants: { edges: { node: { id: string; availableForSale: boolean } }[] };
+      variants: {
+        edges: {
+          node: {
+            id: string;
+            title: string;
+            availableForSale: boolean;
+          };
+        }[];
+      };
     } | null;
   }>(PRODUCT_BY_HANDLE, { handle });
 
@@ -82,11 +92,23 @@ export async function resolveVariantIdByHandle(
     throw new Error(`Product not found for handle "${handle}"`);
   }
 
-  const edge = product.variants?.edges?.find(
-    (e) => e.node.availableForSale
-  );
+  const edge = variantTitle
+    ? product.variants?.edges?.find(
+        (e) =>
+          e.node.title === variantTitle &&
+          e.node.availableForSale
+      )
+    : product.variants?.edges?.find(
+        (e) => e.node.availableForSale
+      );
 
   if (!edge?.node?.id) {
+    if (variantTitle) {
+      throw new Error(
+        `"${variantTitle}" is currently out of stock or unavailable.`
+      );
+    }
+
     throw new Error(`This product is currently out of stock.`);
   }
 

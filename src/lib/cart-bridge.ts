@@ -45,7 +45,7 @@ function updateCartBadge(cart: any) {
   }
 }
 
-async function addThenGetCart(opts: { handle?: string; sku?: string; quantity: number }) {
+async function addThenGetCart(opts: { handle?: string; sku?: string; quantity: number; variantTitle?: string }) {
   await jfetch("/api/cart-add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -103,7 +103,16 @@ export function initCartBridge() {
       btn.classList.add("adding");
 
       try {
-        const rawCart = await addThenGetCart({ handle, sku, quantity: qty });
+        const card = btn.closest('.card');
+const variantSelect = card?.querySelector('.variant-select') as HTMLSelectElement | null;
+const variantTitle = variantSelect?.value || undefined;
+
+const rawCart = await addThenGetCart({
+  handle,
+  sku,
+  quantity: qty,
+  variantTitle
+});
         const cart = normalizeCartForDrawer(rawCart);
         console.log("[cart-bridge] opening drawer with cart:", cart);
         (window as any).__lastCartEvent = cart;
