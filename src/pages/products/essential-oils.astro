@@ -7,6 +7,7 @@ const pageTitle = 'Essential Oils — ';
 
 const items = [
   { key: 'lavender-15ml',           label: 'Lavender (15 ml)',           cents: 3651 },
+  { key: 'cedarwood-15ml',          label: 'Cedarwood (15 ml)',          cents: 1743 },
   { key: 'thieves-15ml',            label: 'Thieves (15 ml)',            cents: 5230 },
   { key: 'peppermint-15ml',         label: 'Peppermint (15 ml)',         cents: 3322 },
   { key: 'orange-15ml',             label: 'Orange (15 ml)',             cents: 1678 },
@@ -27,6 +28,7 @@ const IMG_ORANGE_PROTOCOL = '/images/products/ocean-cleanse-square2.png';
  */
 const HANDLE_MAP: Record<string,string> = {
   'lavender-15ml':           'lavender-15ml',
+  'cedarwood-15ml':          'cedarwood-15ml',
   'thieves-15ml':            'thieves-15ml',
   'peppermint-15ml':         'peppermint-15ml',
   'orange-15ml':             'orange-15ml',
@@ -76,6 +78,7 @@ const HANDLE_MAP: Record<string,string> = {
 
           <p class="prodpg__desc">
             <strong>Lavender:</strong> Calming, relaxing, skin repair; relieves the discomfort of minor burns and sun irritation.<br>
+            <strong>Cedarwood:</strong> Grounding, centering, uplifting. Apply to neck and shoulders to help relieve tension.<br>
             <strong>Thieves:</strong> Immune support, cleansing, purifying, mold prevention. Apply to bottoms of feet every hour at the first sign of illness; diffuse to purify air.<br>
             <strong>Peppermint:</strong> Energizing, cooling; relieves occasional stomach upset; helps with head discomfort—apply around the hairline and rest in a cool, dark room when experiencing head tension.<br>
             <strong>Orange:</strong> Uplifting, energizing, cleansing, purifying. Mix a few drops in water for a refreshing drink. Full of d-limonene, a powerful antioxidant.<br>
@@ -253,6 +256,7 @@ const HANDLE_MAP: Record<string,string> = {
     (function () {
       var priceMap = {
         "lavender-15ml":           3651,
+        "cedarwood-15ml":          1743,
         "thieves-15ml":            5230,
         "peppermint-15ml":         3322,
         "orange-15ml":             1678,
@@ -265,6 +269,7 @@ const HANDLE_MAP: Record<string,string> = {
 
       var HANDLE_MAP = {
         "lavender-15ml":           "lavender-15ml",
+        "cedarwood-15ml":          "cedarwood-15ml",
         "thieves-15ml":            "thieves-15ml",
         "peppermint-15ml":         "peppermint-15ml",
         "orange-15ml":             "orange-15ml",
