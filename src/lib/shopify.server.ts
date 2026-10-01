@@ -77,13 +77,21 @@ export async function resolveVariantIdByHandle(
   }>(PRODUCT_BY_HANDLE, { handle });
 
   const product = data.product;
-  if (!product) throw new Error(`Product not found for handle "${handle}"`);
-  const edge =
-    product.variants?.edges?.find((e) => e.node.availableForSale) ??
-    product.variants?.edges?.[0];
-  if (!edge?.node?.id)
-    throw new Error(`No variant found for "${handle}"`);
-  return edge.node.id; // merchandiseId (gid://shopify/ProductVariant/...)
+
+  if (!product) {
+    throw new Error(`Product not found for handle "${handle}"`);
+  }
+
+  const edge = product.variants?.edges?.find(
+    (e) => e.node.availableForSale
+  );
+
+  if (!edge?.node?.id) {
+    throw new Error(`This product is currently out of stock.`);
+  }
+
+  return edge.node.id;
+}
 }
 
 // --- Cart create / add ---

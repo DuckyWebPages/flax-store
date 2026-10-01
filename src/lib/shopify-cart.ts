@@ -117,29 +117,17 @@ export async function addByHandle(handle: string, quantity = 1) {
     throw new Error(`Product not found for handle '${handle}'. Check the product URL handle in Shopify.`);
   }
 
-  // Try to pick the first sellable variant
-  const sellable = product.variants?.nodes?.find(v => v.availableForSale) ?? null;
+  // // Find the first variant that is currently available for sale
+const sellable = product.variants?.nodes?.find(
+  v => v.availableForSale
+) ?? null;
 
-  // If none are "sellable", fall back to the first variant but explain why
-  const chosen = sellable ?? product.variants?.nodes?.[0] ?? null;
-  if (!chosen) {
-    const why = [
-      !product.publishedOnCurrentPublication ? "• Not published to Online Store" : null,
-      "• No variants found or none availableForSale",
-      "• Check 'Track quantity' and set a positive stock number",
-      "• Or enable 'Continue selling when out of stock'"
-    ].filter(Boolean).join("\n");
-    throw new Error(
-      `No sellable variant for handle '${handle}'.\n\nTroubleshooting:\n${why}`
-    );
-  }
+// Product exists, but none of its variants are currently available
+if (!sellable) {
+  throw new Error(`This product is currently out of stock.`);
+}
 
-  // If we had to fall back, still warn the user in console (non-blocking)
-  if (!sellable && chosen) {
-    console.warn(`[Shopify] '${product.title}' has no sellable variants. Using first variant anyway:`, chosen);
-  }
-
-  return addVariant(chosen.id, quantity);
+return addVariant(sellable.id, quantity);
 }
 
 
