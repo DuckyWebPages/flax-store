@@ -1,38 +1,76 @@
 ﻿---
-// FILE: src/pages/products/brain-health.astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const pageTitle = "Brain Products — ";
 
 // Prices (display only)
-const PRICE_NITRO_CENTS = 4999; // $49.99
-const PRICE_FHL_CENTS   = 3900; // $39.00
-const PRICE_MBLUE_CENTS = 3495; // $34.95
+const PRICE_NITRO_CENTS = 4999;
+const PRICE_FHL_CENTS = 3900;
+const PRICE_MBLUE_CENTS = 3495;
 
-// Images (served from /public)
-const IMG_NITRO  = "/images/products/NingxiaNitro.jpg";
-const IMG_MBLUE  = "/images/products/MethBlueonwood.jpg";
-const IMG_FHL    = "/images/products/fhlsinglegreen.png";
+// Existing product images
+const IMG_NITRO = "/images/products/NingxiaNitro.jpg";
+const IMG_MBLUE = "/images/products/MethBlueonwood.jpg";
+const IMG_FHL = "/images/products/fhlsinglegreen.png";
 
-// Local videos in /public/videos
+// Additional Nitro photos in public/images
+const NITRO_PHOTOS = [
+  {
+    file: "NITRO2.jpg",
+    alt: "NingXia Nitro product information",
+  },
+  {
+    file: "NITRO2A.jpg",
+    alt: "NingXia Nitro benefits and caffeine information",
+  },
+  {
+    file: "Nitro3.jpg",
+    alt: "NingXia Nitro plant-powered fuel",
+  },
+  {
+    file: "NItro4.jpg",
+    alt: "NingXia Nitro suggested occasions for use",
+  },
+  {
+    file: "Nitro5.jpg",
+    alt: "NingXia Nitro blend ingredients",
+  },
+];
+
+// Existing videos in public/videos
 const VIDEO_NITRO_SRC = "/videos/ninjanitro.mp4";
 const VIDEO_MBLUE_SRC = "/videos/methbluestir.mp4";
-const VIDEO_FHL_SRC   = "/videos/FlaxLignanVideowave.mp4";
+const VIDEO_FHL_SRC = "/videos/FlaxLignanVideowave.mp4";
 
-// SHOPIFY HANDLES — exact from Admin
-const HANDLE_NITRO = "ningxia-nitro-for-mental-focus-natural-ingredients-for-energy-and-focus";
+// Shopify handles
+const HANDLE_NITRO =
+  "ningxia-nitro-for-mental-focus-natural-ingredients-for-energy-and-focus";
 const HANDLE_MBLUE = "methylene-blue";
-const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
+const HANDLE_FHL = "fhl-flax-hull-lignans-single-jar";
 ---
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
 
-  <!-- Preload videos to avoid poster flash -->
   <Fragment slot="head">
-    <link rel="preload" as="video" href={VIDEO_NITRO_SRC} type="video/mp4" />
-    <link rel="preload" as="video" href={VIDEO_MBLUE_SRC} type="video/mp4" />
-    <link rel="preload" as="video" href={VIDEO_FHL_SRC} type="video/mp4" />
+    <link
+      rel="preload"
+      as="video"
+      href={VIDEO_NITRO_SRC}
+      type="video/mp4"
+    />
+    <link
+      rel="preload"
+      as="video"
+      href={VIDEO_MBLUE_SRC}
+      type="video/mp4"
+    />
+    <link
+      rel="preload"
+      as="video"
+      href={VIDEO_FHL_SRC}
+      type="video/mp4"
+    />
   </Fragment>
 
   <section class="prodpg">
@@ -41,44 +79,103 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
       <p class="prodpg__lead">Focus, clarity, and cognitive support.</p>
 
       <div class="prodpg__grid">
-        <!-- Card: NingXia Nitro -->
+        <!-- NingXia Nitro -->
         <article class="prodpg__card">
           <div class="card-photo">
-            {VIDEO_NITRO_SRC ? (
-              <video
-                class="card-media"
-                src={VIDEO_NITRO_SRC}
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="auto"
-              />
-            ) : (
-              <img
-                src={IMG_NITRO}
-                alt="NingXia Nitro"
-                class="card-photo-img"
-                loading="eager"
-                decoding="async"
-              />
-            )}
+            {
+              VIDEO_NITRO_SRC ? (
+                <video
+                  class="card-media"
+                  src={VIDEO_NITRO_SRC}
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                />
+              ) : (
+                <img
+                  src={IMG_NITRO}
+                  alt="NingXia Nitro"
+                  class="card-photo-img"
+                  loading="eager"
+                  decoding="async"
+                />
+              )
+            }
           </div>
 
           <h3 class="prodpg__title">NingXia Nitro</h3>
+
           <p class="prodpg__price">
-            {(PRICE_NITRO_CENTS/100).toLocaleString('en-US',{style:'currency',currency:'USD'})}
+            {
+              (PRICE_NITRO_CENTS / 100).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })
+            }
           </p>
 
           <p class="prodpg__desc">
-            Clean MENTAL FOCUS + natural energy support. Enjoy straight or mix with NingXia Red. These little tubes pack a punch for your brain! They are not "energy drinks" in the traditional sense, but they do provide a natural boost to focus and clarity without the jitters or crash. Perfect for busy days, public speaking, focused projects like cleaning the garage, long meetings, or when you need to be "on" for extended periods.
+            Support for alertness, energy, and focus in a convenient,
+            ready-to-drink tube. Enjoy NingXia Nitro on its own or mix it
+            with NingXia Red.
           </p>
-          <p class="prodpg__desc"><strong>Energizing Wolfberry Blend:</strong> wolfberry, D-ribose, Korean ginseng, green tea extract. Light caffeine (the focus boost is not from caffeine).</p>
-          <p class="prodpg__desc"><strong>Cognitive Support:</strong> essential oils + botanicals to enhance clarity and focus.</p>
-          <p class="prodpg__desc"><strong>Physical Performance:</strong> supports endurance for active days. <strong>Easy to Use:</strong> chill, shake, and enjoy. 14 tubes per box.</p>
+
+          <p class="prodpg__desc">
+            <strong>Botanical blend:</strong> Includes D-ribose, Korean
+            ginseng, green tea extract, and essential oils.
+          </p>
+
+          <p class="prodpg__desc">
+            <strong>Caffeine:</strong> Contains 40 mg of naturally
+            occurring caffeine per tube.
+          </p>
+
+          <p class="prodpg__desc">
+            <strong>Easy to use:</strong> Chill, shake, and enjoy.
+            14 tubes per box.
+          </p>
+
+          <p class="prodpg__desc nitro-note">
+            <strong>Why we carry it:</strong> NingXia Nitro has been
+            life-changing for some of us on staff personally, in terms of energy and focus.
+            In our experience, it helps us feel more energized and focused
+            for several hours. We especially appreciate it before projects
+            that require sustained concentration, like organizing a garage
+            or preparing for public speaking. This is our personal
+            experience; individual results may vary.
+          </p>
+
+          <div
+            class="nitro-gallery"
+            aria-label="NingXia Nitro photo gallery"
+          >
+            {
+              NITRO_PHOTOS.map((photo) => (
+                <a
+                  class="nitro-thumb"
+                  href={`/images/${photo.file}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Enlarge: ${photo.alt} (opens in a new tab)`}
+                >
+                  <img
+                    src={`/images/${photo.file}`}
+                    alt={photo.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              ))
+            }
+          </div>
+
+          <p class="nitro-gallery-hint">
+            Select a photo to view it larger.
+          </p>
 
           <div class="product-cta">
-            <!-- SHOPIFY ADD-TO-CART -->
             <button
               class="btn-cta add-to-cart"
               type="button"
@@ -91,47 +188,84 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
           </div>
         </article>
 
-        <!-- Card: Methylene Blue -->
+        <!-- Methylene Blue -->
         <article class="prodpg__card">
           <div class="card-photo">
-            {VIDEO_MBLUE_SRC ? (
-              <video
-                class="card-media"
-                src={VIDEO_MBLUE_SRC}
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="auto"
-              />
-            ) : (
-              <img
-                src={IMG_MBLUE}
-                alt="Methylene Blue"
-                class="card-photo-img"
-                loading="eager"
-                decoding="async"
-              />
-            )}
+            {
+              VIDEO_MBLUE_SRC ? (
+                <video
+                  class="card-media"
+                  src={VIDEO_MBLUE_SRC}
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                />
+              ) : (
+                <img
+                  src={IMG_MBLUE}
+                  alt="Methylene Blue"
+                  class="card-photo-img"
+                  loading="eager"
+                  decoding="async"
+                />
+              )
+            }
           </div>
 
           <h3 class="prodpg__title">Methylene Blue</h3>
+
           <p class="prodpg__price">
-            {(PRICE_MBLUE_CENTS/100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+            {
+              (PRICE_MBLUE_CENTS / 100).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })
+            }
           </p>
 
           <p class="prodpg__desc">
-            Methylene Blue is an FDA approved drug, however not specifically approved for Alzheimer's or dementia. If you research the latest articles (check out our blog tab), you'll see that scientists are studying its effects on people with Alzheimer's. It appears to strengthen the supporting structures of memory paths. Earth Harmony Methylene Blue 1% Pharmaceutical Grade Supplement with Dropper, Includes Nano Liquid Gold, Methylene Blue USP Grade, No Formaldehyde (2 Oz).
+            Methylene Blue is an FDA approved drug, however not specifically
+            approved for Alzheimer's or dementia. If you research the
+            latest articles (check out our blog tab), you'll see that
+            scientists are studying its effects on people with Alzheimer's.
+            It appears to strengthen the supporting structures of memory
+            paths. Earth Harmony Methylene Blue 1% Pharmaceutical Grade
+            Supplement with Dropper, Includes Nano Liquid Gold, Methylene
+            Blue USP Grade, No Formaldehyde (2 Oz).
           </p>
+
           <p class="prodpg__desc">
-            Ingredients include USP Grade Methylene Blue, Nano Liquid Gold, Organic Vegetable Glycerin, and Ormus Supercharged Minerals. 1% USP Grade, Formaldehyde Free. <strong>WARNINGS:</strong> MB has important health risks for people with Serotonin Syndrome/serotonin toxicity. The US FDA issued a safety communication recommending that MB not be given to patients taking serotonergic psychiatric medications because of this risk. If someone is on antidepressants (especially SSRIs, SNRIs) talk to your doctor first. Methylene Blue is used to treat methemoglobinemia because it helps reduce methemoglobin back to hemoglobin. Individuals with G6PD deficiency have risks in taking MB. Please consult your doctor before taking and do not take if you are pregnant.
+            Ingredients include USP Grade Methylene Blue, Nano Liquid Gold,
+            Organic Vegetable Glycerin, and Ormus Supercharged Minerals.
+            1% USP Grade, Formaldehyde Free.
+            <strong>WARNINGS:</strong> MB has important health risks for
+            people with Serotonin Syndrome/serotonin toxicity. The US FDA
+            issued a safety communication recommending that MB not be
+            given to patients taking serotonergic psychiatric medications
+            because of this risk. If someone is on antidepressants
+            (especially SSRIs, SNRIs) talk to your doctor first. Methylene
+            Blue is used to treat methemoglobinemia because it helps reduce
+            methemoglobin back to hemoglobin. Individuals with G6PD
+            deficiency have risks in taking MB. Please consult your doctor
+            before taking and do not take if you are pregnant.
           </p>
+
           <p class="prodpg__desc">
-            Our methylene blue is 99.99% pure pharmaceutical grade. Comes in a miron glass bottle with a dropper. We pride ourselves on the quality of our ingredients! The research is exciting and promising. One of our former staff members (Ms. Carrie who is now 89 years old) has Alzheimer's Disease and has used this for almost a year. Her memory has improved dramatically. Her quality of life has improved dramatically. She still has memory issues, but is not having trouble recognizing family members like she used to and is not having negative moods like she used to.
+            Our methylene blue is 99.99% pure pharmaceutical grade. Comes
+            in a miron glass bottle with a dropper. We pride ourselves on
+            the quality of our ingredients! The research is exciting and
+            promising. One of our former staff members (Ms. Carrie who is
+            now 89 years old) has Alzheimer's Disease and has used this
+            for almost a year. Her memory has improved dramatically. Her
+            quality of life has improved dramatically. She still has
+            memory issues, but is not having trouble recognizing family
+            members like she used to and is not having negative moods
+            like she used to.
           </p>
 
           <div class="product-cta">
-            <!-- SHOPIFY ADD-TO-CART -->
             <button
               class="btn-cta add-to-cart"
               type="button"
@@ -144,47 +278,78 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
           </div>
         </article>
 
-        <!-- Card: Flax Hull Lignans (Single Jar) -->
+        <!-- Flax Hull Lignans -->
         <article class="prodpg__card">
           <div class="card-photo">
-            {VIDEO_FHL_SRC ? (
-              <video
-                class="card-media"
-                src={VIDEO_FHL_SRC}
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="auto"
-              />
-            ) : (
-              <img
-                src={IMG_FHL}
-                alt="Flax Hull Lignans (Single Jar)"
-                class="card-photo-img"
-                loading="eager"
-                decoding="async"
-              />
-            )}
+            {
+              VIDEO_FHL_SRC ? (
+                <video
+                  class="card-media"
+                  src={VIDEO_FHL_SRC}
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                />
+              ) : (
+                <img
+                  src={IMG_FHL}
+                  alt="Flax Hull Lignans (Single Jar)"
+                  class="card-photo-img"
+                  loading="eager"
+                  decoding="async"
+                />
+              )
+            }
           </div>
 
-          <h3 class="prodpg__title">Flax Hull Lignans <span class="unit">(Single Jar)</span></h3>
+          <h3 class="prodpg__title">
+            Flax Hull Lignans
+            <span class="unit">(Single Jar)</span>
+          </h3>
+
           <p class="prodpg__price">
-            {(PRICE_FHL_CENTS/100).toLocaleString('en-US',{style:'currency',currency:'USD'})}
+            {
+              (PRICE_FHL_CENTS / 100).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })
+            }
           </p>
+
           <p class="prodpg__desc">
-            Concentrated SDG lignans from flax hulls to support healthy brain function. We’ve seen strong testimonials
-            for cognitive resilience—give your brain the building blocks and let it do the repairing. These are the “Original” Flax Hull Lignans used in trials worldwide and especially to help immune system challenged children in 3rd world countries.
+            Concentrated SDG lignans from flax hulls to support healthy
+            brain function. We’ve seen strong testimonials for cognitive
+            resilience—give your brain the building blocks and let it do
+            the repairing. These are the “Original” Flax Hull Lignans used
+            in trials worldwide and especially to help immune system
+            challenged children in 3rd world countries.
           </p>
+
           <p class="prodpg__desc">
-            Lignans are extracted through the “MCP Process” which guarantees no chemicals used during the extraction process. Flax Hull Lignans support multiple body systems, especially brain, prostate, digestive and breast tissue. They are very high in antioxidants (ORAC ~19,600). They are tiny particles found in the shell of flax seed, extracted and concentrated. FHL is ~8% oil and fat, and ~55% of that fat is ALA (alpha-linolenic acid). If a person consumes 2.5 g (3/4 tsp) daily of FHL, that’s ~110 mg ALA (about the daily recommended amount for women). There is ~2.1 g of dietary fiber and ~1.4 g of protein in each scoop. No chemicals are used in extraction, therefore no chemicals in our FHL. Liquid forms of “flax lignans” generally use chemical extraction and should be avoided.
+            Lignans are extracted through the “MCP Process” which
+            guarantees no chemicals used during the extraction process.
+            Flax Hull Lignans support multiple body systems, especially
+            brain, prostate, digestive and breast tissue. They are very
+            high in antioxidants (ORAC ~19,600). They are tiny particles
+            found in the shell of flax seed, extracted and concentrated.
+            FHL is ~8% oil and fat, and ~55% of that fat is ALA
+            (alpha-linolenic acid). If a person consumes 2.5 g (3/4 tsp)
+            daily of FHL, that’s ~110 mg ALA (about the daily recommended
+            amount for women). There is ~2.1 g of dietary fiber and ~1.4 g
+            of protein in each scoop. No chemicals are used in extraction,
+            therefore no chemicals in our FHL. Liquid forms of “flax
+            lignans” generally use chemical extraction and should be
+            avoided.
           </p>
+
           <p class="prodpg__desc">
-            One 5.3 oz jar is a one month supply for adults, two month supply for children.
+            One 5.3 oz jar is a one month supply for adults, two month
+            supply for children.
           </p>
 
           <div class="product-cta">
-            <!-- SHOPIFY ADD-TO-CART -->
             <button
               class="btn-cta add-to-cart"
               type="button"
@@ -200,40 +365,73 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
     </div>
   </section>
 
-  <!-- Full-width Testimonials band -->
-  <section class="tbox tbox--bleed" aria-labelledby="testimonials-heading">
+  <!-- Testimonials -->
+  <section
+    class="tbox tbox--bleed"
+    aria-labelledby="testimonials-heading"
+  >
     <div class="tbox__container">
       <h2 id="testimonials-heading">Customer Testimonials</h2>
       <p class="tbox__lead">Real experiences from our community.</p>
 
       <div class="tlist">
         <figure class="tquote">
-          <blockquote><p>“Nitro kept me focused for hours—no jitters.”</p></blockquote>
+          <blockquote>
+            <p>“Nitro kept me focused for hours—no jitters.”</p>
+          </blockquote>
           <figcaption>— M.M., Colorado</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>“I use Ningxia Nitros for public speaking. I drink one before I speak to make sure everything is firing!”</p></blockquote>
+          <blockquote>
+            <p>
+              “I use Ningxia Nitros for public speaking. I drink one before
+              I speak to make sure everything is firing!”
+            </p>
+          </blockquote>
           <figcaption>— R.S., Colorado</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>“My neighbor had a stage 4 brain tumor. He was sent home to die. We gave him FHL flax hull lignans and in 8 weeks it was miraculously gone! What a true miracle!”</p></blockquote>
+          <blockquote>
+            <p>
+              “My neighbor had a stage 4 brain tumor. He was sent home to
+              die. We gave him FHL flax hull lignans and in 8 weeks it was
+              miraculously gone! What a true miracle!”
+            </p>
+          </blockquote>
           <figcaption>— C.R., North Dakota</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>“One of the FHL customer testimonials that came across my desk was that her stage 3 brain tumor decreased to stage 1 within 6 weeks of taking flax hull lignans daily.”</p></blockquote>
+          <blockquote>
+            <p>
+              “One of the FHL customer testimonials that came across my
+              desk was that her stage 3 brain tumor decreased to stage 1
+              within 6 weeks of taking flax hull lignans daily.”
+            </p>
+          </blockquote>
           <figcaption>— T.D., FLH Staff Member</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>“I have ordered two boxes of Ningxia Nitro a month for over a year now... The Nitros really help.”</p></blockquote>
+          <blockquote>
+            <p>
+              “I have ordered two boxes of Ningxia Nitro a month for over
+              a year now... The Nitros really help.”
+            </p>
+          </blockquote>
           <figcaption>— E.S., Maine</figcaption>
         </figure>
 
         <figure class="tquote">
-          <blockquote><p>“One of our previous employees, C.D. has Alzheimer's... She started on one dropper full of Methylene Blue daily. In 6 months she had stopped having hallucinations…”</p></blockquote>
+          <blockquote>
+            <p>
+              “One of our previous employees, C.D. has Alzheimer's...
+              She started on one dropper full of Methylene Blue daily.
+              In 6 months she had stopped having hallucinations…”
+            </p>
+          </blockquote>
           <figcaption>— W.S. • FLH Staff</figcaption>
         </figure>
       </div>
@@ -241,11 +439,21 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
   </section>
 
   <style>
-    .prodpg { padding: 0 0 48px; }
-    .prodpg__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-    .prodpg__lead { color:#334155; margin:.25rem 0 1rem; }
+    .prodpg {
+      padding: 0 0 48px;
+    }
 
-    /* 3-up grid on desktop */
+    .prodpg__container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .prodpg__lead {
+      color: #334155;
+      margin: .25rem 0 1rem;
+    }
+
     .prodpg__grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -253,58 +461,124 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
       margin: 1rem 0 2rem;
       align-items: start;
     }
+
     @media (min-width: 900px) {
-      .prodpg__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .prodpg__grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
 
     .prodpg__card {
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:12px;
-      padding:12px;
-      box-shadow:0 4px 10px rgba(0,0,0,.06);
-      display:flex;
-      flex-direction:column;
-      gap:.45rem;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .06);
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
       transition: transform .15s ease;
     }
-    .prodpg__card:hover { transform: translateY(-2px); }
 
-    /* Square media header (video or image) */
+    .prodpg__card:hover {
+      transform: translateY(-2px);
+    }
+
     .card-photo {
       position: relative;
-      width:100%;
+      width: 100%;
       aspect-ratio: 1 / 1;
-      overflow:hidden;
-      border-radius:10px;
-      background:#000;
-      box-shadow: 0 3px 6px rgba(0,0,0,.04);
+      overflow: hidden;
+      border-radius: 10px;
+      background: #000;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, .04);
     }
-    .card-media {
-      position: absolute;
-      inset: 0;
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      border-radius:10px;
-      display:block;
-    }
+
+    .card-media,
     .card-photo-img {
       position: absolute;
       inset: 0;
-      width:100%;
-      height:100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-radius:10px;
-      display:block;
+      border-radius: 10px;
+      display: block;
     }
 
-    .prodpg__title { margin:.25rem 0 0; font-weight:700; font-size:.95rem; line-height:1.25rem; }
-    .prodpg__title .unit { display:block; font-weight:600; font-size:.85rem; }
-    .prodpg__price { font-weight:800; font-size:.95rem; margin:.1rem 0 .2rem; }
-    .prodpg__desc { line-height:1.45; color:#374151; font-size:.9rem; margin:.15rem 0 .25rem; }
+    .prodpg__title {
+      margin: .25rem 0 0;
+      font-weight: 700;
+      font-size: .95rem;
+      line-height: 1.25rem;
+    }
 
-    .product-cta { display:flex; gap:10px; flex-wrap:wrap; margin-top:.15rem; }
+    .prodpg__title .unit {
+      display: block;
+      font-weight: 600;
+      font-size: .85rem;
+    }
+
+    .prodpg__price {
+      font-weight: 800;
+      font-size: .95rem;
+      margin: .1rem 0 .2rem;
+    }
+
+    .prodpg__desc {
+      line-height: 1.45;
+      color: #374151;
+      font-size: .9rem;
+      margin: .15rem 0 .25rem;
+    }
+
+    .nitro-note {
+      padding: 12px;
+      background: #fff7f7;
+      border-left: 3px solid #a80826;
+      border-radius: 6px;
+    }
+
+    .nitro-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .nitro-thumb {
+      display: block;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .nitro-thumb img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: contain;
+    }
+
+    .nitro-thumb:focus-visible {
+      outline: 3px solid #a80826;
+      outline-offset: 3px;
+    }
+
+    .nitro-gallery-hint {
+      margin: 0;
+      font-size: .8rem;
+      color: #475569;
+    }
+
+    .product-cta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: .15rem;
+    }
+
     .product-cta .add-to-cart {
       display: inline-flex;
       padding: 10px 16px;
@@ -318,10 +592,16 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
       cursor: pointer;
       transition: background-color .15s ease;
     }
-    .product-cta .add-to-cart:hover { background: #222; }
-    .product-cta .add-to-cart:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
 
-    /* ===== Testimonials (full-bleed band) ===== */
+    .product-cta .add-to-cart:hover {
+      background: #222;
+    }
+
+    .product-cta .add-to-cart:focus-visible {
+      outline: 3px solid #60a5fa;
+      outline-offset: 2px;
+    }
+
     .tbox--bleed {
       width: 100vw;
       margin-left: 50%;
@@ -331,33 +611,98 @@ const HANDLE_FHL   = "fhl-flax-hull-lignans-single-jar";
       border-bottom: 1px solid #ececec;
       padding: 28px 0 40px;
     }
-    .tbox__container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-    .tbox h2 { margin: 0 0 6px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
-    .tbox__lead { margin: 0 0 14px; color: #475569; font-size: .95rem; }
-    .tlist { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 820px) { .tlist { grid-template-columns: 1fr 1fr; } }
-    .tquote { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; box-shadow: 0 4px 10px rgba(0,0,0,.05); }
-    .tquote blockquote { margin: 0 0 8px; position: relative; padding-left: 12px; color: #0f172a; line-height: 1.5; }
-    .tquote blockquote::before { content: "“"; position: absolute; left: -4px; top: -6px; font-size: 2rem; line-height: 1; opacity: .2; }
-    .tquote figcaption { font-size: .9rem; color: #475569; }
+
+    .tbox__container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .tbox h2 {
+      margin: 0 0 6px;
+      font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+    }
+
+    .tbox__lead {
+      margin: 0 0 14px;
+      color: #475569;
+      font-size: .95rem;
+    }
+
+    .tlist {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 820px) {
+      .tlist {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .tquote {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .05);
+    }
+
+    .tquote blockquote {
+      margin: 0 0 8px;
+      position: relative;
+      padding-left: 12px;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    .tquote blockquote::before {
+      content: "“";
+      position: absolute;
+      left: -4px;
+      top: -6px;
+      font-size: 2rem;
+      line-height: 1;
+      opacity: .2;
+    }
+
+    .tquote figcaption {
+      font-size: .9rem;
+      color: #475569;
+    }
   </style>
 
-  <!-- Page-local visual fixes (kept last to win specificity) -->
+  <!-- Page-local visual fixes -->
   <style>
     .prodpg .prodpg__card {
       background: #fff !important;
       border: 1px solid #e5e7eb !important;
       border-radius: 12px !important;
-      box-shadow: 0 4px 10px rgba(0,0,0,.06) !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .06) !important;
     }
-    .prodpg .card-photo { aspect-ratio: 1 / 1; max-height: 420px; }
+
+    .prodpg .card-photo {
+      aspect-ratio: 1 / 1;
+      max-height: 420px;
+    }
+
     .prodpg .card-media,
-    .prodpg .card-photo-img { width: 100%; height: 100%; object-fit: cover; }
-    .prodpg .prodpg__grid { gap: 16px; }
+    .prodpg .card-photo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .prodpg .prodpg__grid {
+      gap: 16px;
+    }
+
     @media (max-width: 920px) {
-      .prodpg .card-photo { aspect-ratio: 4 / 3; max-height: 360px; }
+      .prodpg .card-photo {
+        aspect-ratio: 4 / 3;
+        max-height: 360px;
+      }
     }
   </style>
- 
-
 </BaseLayout>
