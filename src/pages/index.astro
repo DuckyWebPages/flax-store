@@ -7,6 +7,35 @@ const pageTitle = 'Welcome — ';
 
 <BaseLayout>
   <Fragment slot="title">{pageTitle}</Fragment>
+  
+<aside
+  id="black-friday-banner"
+  hidden
+  style="background: #792531 linear-gradient(90deg, transparent, #792531 30%, #792531 70%, transparent) center / cover no-repeat; background-image: linear-gradient(90deg, transparent, #792531 30%, #792531 70%, transparent), url('/images/black-friday-santa.png'); background-position: center, center 30%; color: #fff7e7; text-align: center; padding: 24px 20px;"
+>
+  <strong>Black Friday Specials &amp; Stocking Stuffers</strong>
+  <p style="margin: 4px 0 12px;">November 25–27 · Ends Friday at midnight Central Time</p>
+  <a href="/holiday/" style="display: inline-block; background: #fff7e7; color: #792531; padding: 8px 16px; border-radius: 4px; font-weight: bold;">
+    Shop All Black Friday Specials →
+  </a>
+</aside>
+
+<script is:inline>
+  (() => {
+    const banner = document.getElementById('black-friday-banner');
+    const cutoff = Date.parse('2026-11-28T00:00:00-06:00');
+
+    function updateBanner() {
+      const remaining = cutoff - Date.now();
+      banner.hidden = remaining <= 0;
+      if (remaining > 0) {
+        setTimeout(updateBanner, Math.min(remaining, 2147483647));
+      }
+    }
+
+    updateBanner();
+  })();
+</script>
 
   <!-- TRUST STRIP (compact, horizontal; sits above products) -->
   <section class="trust-strip">
@@ -35,7 +64,7 @@ const pageTitle = 'Welcome — ';
 
           <p class="trust-line trust-warning">
             <span class="warn">Beware imitators:</span>
-            many use animal-grade flax with much lower SDG, are
+            some use animal-grade flax with much lower SDG (and come in the same white containers), are
             <span class="warn">chemically extracted</span>, or offer only a single lignan — not the
             <strong>original 17 lignans like ours</strong>.
           </p>
@@ -205,7 +234,7 @@ const pageTitle = 'Welcome — ';
     }
 
     .warn{
-      color:#dc2626;
+      color:#792531;
       font-weight:800;
     }
 
@@ -468,6 +497,49 @@ const pageTitle = 'Welcome — ';
     gap: 6px;
     padding: 14px 12px;
   }
+}
+/* Floral welcome banner */
+.trust-strip .trust-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 34px clamp(24px, 14vw, 200px);
+  background: #fff url('/images/periwinkle.png') left center / 100% auto no-repeat;
+  text-align: center;
+}
+
+.trust-strip .trust-logo {
+  width: min(230px, 75%);
+  height: auto;
+}
+
+.trust-strip .trust-text {
+  gap: 10px;
+  max-width: 680px;
+}
+
+.trust-strip .trust-title {
+  color: #0b254a;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 500;
+  letter-spacing: .01em;
+}
+
+@media (max-width: 600px) {
+  .trust-strip .trust-row {
+    padding: 105px 20px 24px;
+    background-position: center top;
+    background-size: auto 100px;
+  }
+}
+.trust-strip .trust-text {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.sub-inner .products-title,
+.sub-inner .subcopy {
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 </style>
